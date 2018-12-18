@@ -1,5 +1,8 @@
 package de.rub.nds.x509attacker.asn1.model;
 
+import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
+import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
+
 import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
@@ -42,5 +45,34 @@ public class Asn1Sequence extends Asn1Field {
 
     public void setSequenceFields(List<Asn1RawField> sequenceFields) {
         this.sequenceFields = sequenceFields;
+    }
+
+    @Override
+    protected void encodeForParentLayer() {
+        byte[] content = this.createContentBytes();
+        super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
+        super.setAsn1IsConstructed(false);
+        super.setAsn1TagNumber(Asn1TagNumber.SEQUENCE.getIntValue());
+        super.setAsn1Content(content);
+        super.encodeForParentLayer();
+    }
+
+    private byte[] createContentBytes() {
+        byte[] content;
+        byte[][] containedFieldContents = new byte[this.sequenceFields.size()][];
+        int totalSize = 0;
+        int contentPos = 0;
+        for (int i = 0; i < this.sequenceFields.size(); i++) {
+            containedFieldContents[i] = this.sequenceFields.get(i).encode();
+            totalSize += containedFieldContents[i].length;
+        }
+        content = new byte[totalSize];
+        for (int i = 0; i < containedFieldContents.length; i++) {
+            for (int j = 0; j < containedFieldContents[i].length; i++) {
+                content[contentPos] = containedFieldContents[i][j];
+                contentPos++;
+            }
+        }
+        return content;
     }
 }

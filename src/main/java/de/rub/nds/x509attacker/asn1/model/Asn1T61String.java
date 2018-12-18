@@ -31,7 +31,7 @@ public class Asn1T61String extends Asn1Field {
         byte[] content = this.createContentBytes();
         super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
         super.setAsn1IsConstructed(false);
-        super.setAsn1TagNumber(Asn1TagNumber.IA5STRING.getIntValue());
+        super.setAsn1TagNumber(Asn1TagNumber.T61STRING.getIntValue());
         super.setAsn1Content(content);
         super.encodeForParentLayer();
     }

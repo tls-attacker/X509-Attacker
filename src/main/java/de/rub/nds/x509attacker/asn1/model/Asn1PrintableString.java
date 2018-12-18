@@ -31,7 +31,7 @@ public class Asn1PrintableString extends Asn1Field {
         byte[] content = this.createContentBytes();
         super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
         super.setAsn1IsConstructed(false);
-        super.setAsn1TagNumber(Asn1TagNumber.IA5STRING.getIntValue());
+        super.setAsn1TagNumber(Asn1TagNumber.PRINTABLESTRING.getIntValue());
         super.setAsn1Content(content);
         super.encodeForParentLayer();
     }
