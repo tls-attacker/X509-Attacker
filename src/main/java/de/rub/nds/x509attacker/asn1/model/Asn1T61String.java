@@ -7,6 +7,7 @@ import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
 
 import javax.xml.bind.annotation.*;
 
+// Todo: Implement conversion of characters to t.61 character set
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Asn1T61String extends Asn1Field {
