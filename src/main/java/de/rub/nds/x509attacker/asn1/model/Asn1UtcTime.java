@@ -1,5 +1,6 @@
 package de.rub.nds.x509attacker.asn1.model;
 
+import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.string.ModifiableString;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
@@ -12,19 +13,23 @@ import java.util.List;
 public class Asn1UtcTime extends Asn1Field {
 
     @XmlElement
-    private ModifiableString asn1UtcTimeValues;
+    private ModifiableString asn1UtcTimeValue;
 
     public Asn1UtcTime() {
         super();
-        this.asn1UtcTimeValues = new ModifiableString();
+        this.asn1UtcTimeValue = new ModifiableString();
     }
 
     public ModifiableString getAsn1UtcTimeValues() {
-        return asn1UtcTimeValues;
+        return asn1UtcTimeValue;
     }
 
-    public void setAsn1UtcTimeValues(ModifiableString asn1UtcTimeValues) {
-        this.asn1UtcTimeValues = asn1UtcTimeValues;
+    public void setAsn1UtcTimeValue(ModifiableString asn1UtcTimeValue) {
+        this.asn1UtcTimeValue = asn1UtcTimeValue;
+    }
+
+    public void setAsn1UtcTimeValue(String asn1UtcTimeValue) {
+        this.asn1UtcTimeValue = ModifiableVariableFactory.safelySetValue(this.asn1UtcTimeValue, asn1UtcTimeValue);
     }
 
     @Override
@@ -39,8 +44,8 @@ public class Asn1UtcTime extends Asn1Field {
 
     private byte[] createContentBytes() {
         byte[] contentBytes = null;
-        if (this.asn1UtcTimeValues != null) {
-            contentBytes = this.asn1UtcTimeValues.getValue().getBytes();
+        if (this.asn1UtcTimeValue != null) {
+            contentBytes = this.asn1UtcTimeValue.getValue().getBytes();
         }
         return contentBytes;
     }

@@ -1,5 +1,6 @@
 package de.rub.nds.x509attacker.asn1.model;
 
+import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.string.ModifiableString;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
@@ -30,6 +31,10 @@ public class Asn1ObjectIdentifier extends Asn1Field {
         this.asn1ObjectIdentifierValue = asn1ObjectIdentifierValue;
     }
 
+    public void setAsn1ObjectIdentifierValue(String asn1ObjectIdentifierValue) {
+        this.asn1ObjectIdentifierValue = ModifiableVariableFactory.safelySetValue(this.asn1ObjectIdentifierValue, asn1ObjectIdentifierValue);
+    }
+
     @Override
     protected void encodeForParentLayer() {
         byte[] content = this.createContentBytes();
@@ -43,7 +48,7 @@ public class Asn1ObjectIdentifier extends Asn1Field {
     private byte[] createContentBytes() {
         byte[] content = null;
         String fullIdentifierString = this.asn1ObjectIdentifierValue.getValue().trim();
-        String[] identifierStrings = fullIdentifierString.split(".");
+        String[] identifierStrings = fullIdentifierString.split("\\.");
         if (identifierStrings.length >= 2) {
             byte[][] encodedIdentifiers = this.encodeIdentifierStrings(identifierStrings);
             int totalLength = 0;
@@ -60,6 +65,7 @@ public class Asn1ObjectIdentifier extends Asn1Field {
             }
         } else {
             // todo: log warning that object identifier defaults to an empty value
+            content = new byte[0];
         }
         return content;
     }
@@ -83,9 +89,11 @@ public class Asn1ObjectIdentifier extends Asn1Field {
     private byte[] encodeSingleIdentifier(int identifierValue) {
         int numberOfIdentifierValueBytes = this.computeNumberOfIdentifierValueBytes(identifierValue);
         byte[] encodedIdentifier = new byte[numberOfIdentifierValueBytes];
+        byte moreFlag = 0x00;
         for (int i = numberOfIdentifierValueBytes - 1; i >= 0; i--) {
-            encodedIdentifier[i] = (byte) (0x80 | (identifierValue & 0x7F));
+            encodedIdentifier[i] = (byte) (moreFlag | (identifierValue & 0x7F));
             identifierValue = identifierValue >> 7;
+            moreFlag = (byte) 0x80;
         }
         return encodedIdentifier;
     }

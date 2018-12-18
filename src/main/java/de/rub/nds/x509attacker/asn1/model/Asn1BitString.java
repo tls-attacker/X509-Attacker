@@ -1,5 +1,6 @@
 package de.rub.nds.x509attacker.asn1.model;
 
+import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
@@ -33,12 +34,20 @@ public class Asn1BitString extends Asn1Field {
         this.asn1NumberOfUnusedBits = asn1NumberOfUnusedBits;
     }
 
+    public void setAsn1NumberOfUnusedBits(int numberOfUnusedBits) {
+        this.asn1NumberOfUnusedBits = ModifiableVariableFactory.safelySetValue(this.asn1NumberOfUnusedBits, (byte) numberOfUnusedBits);
+    }
+
     public ModifiableByteArray getAsn1BitStringValue() {
         return asn1BitStringValue;
     }
 
     public void setAsn1BitStringValue(ModifiableByteArray asn1BitStringValue) {
         this.asn1BitStringValue = asn1BitStringValue;
+    }
+
+    public void setAsn1BitStringValue(byte[] bitStringValue) {
+        this.asn1BitStringValue = ModifiableVariableFactory.safelySetValue(this.asn1BitStringValue, bitStringValue);
     }
 
     @Override

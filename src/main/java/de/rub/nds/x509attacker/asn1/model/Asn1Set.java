@@ -39,6 +39,10 @@ public class Asn1Set extends Asn1Field {
         this.setFields = setFields;
     }
 
+    public void addField(Asn1RawField field) {
+        this.setFields.add(field);
+    }
+
     @Override
     protected void encodeForParentLayer() {
         byte[] content = this.createContentBytes();
@@ -60,7 +64,7 @@ public class Asn1Set extends Asn1Field {
         }
         content = new byte[totalSize];
         for (int i = 0; i < containedFieldContents.length; i++) {
-            for (int j = 0; j < containedFieldContents[i].length; i++) {
+            for (int j = 0; j < containedFieldContents[i].length; j++) {
                 content[contentPos] = containedFieldContents[i][j];
                 contentPos++;
             }

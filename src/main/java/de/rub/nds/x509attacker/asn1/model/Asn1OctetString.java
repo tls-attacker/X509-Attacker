@@ -1,5 +1,6 @@
 package de.rub.nds.x509attacker.asn1.model;
 
+import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
@@ -27,6 +28,10 @@ public class Asn1OctetString extends Asn1Field {
 
     public void setAsn1OctetStringValue(ModifiableByteArray asn1OctetStringValue) {
         this.asn1OctetStringValue = asn1OctetStringValue;
+    }
+
+    public void setAsn1OctetStringValue(byte[] asn1OctetStringValue) {
+        this.asn1OctetStringValue = ModifiableVariableFactory.safelySetValue(this.asn1OctetStringValue, asn1OctetStringValue);
     }
 
     @Override

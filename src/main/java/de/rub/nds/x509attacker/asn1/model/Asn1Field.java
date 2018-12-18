@@ -105,8 +105,8 @@ public abstract class Asn1Field extends Asn1AbstractField {
     @Override
     protected void encodeForParentLayer() {
         byte[] rawIdentifier = this.createRawIdentifierBytes();
-        byte[] rawLength = this.createRawLengthBytes();
         byte[] rawContent = this.createRawContentBytes();
+        byte[] rawLength = this.createRawLengthBytes(rawContent);
         super.setAsn1RawIdentifier(rawIdentifier);
         super.setAsn1RawLength(rawLength);
         super.setAsn1RawContent(rawContent);
@@ -161,9 +161,8 @@ public abstract class Asn1Field extends Asn1AbstractField {
         return rawIdentifierBytes;
     }
 
-    private byte[] createRawLengthBytes() {
+    private byte[] createRawLengthBytes(byte[] rawContentBytes) {
         byte[] rawLengthBytes = null;
-        byte[] rawContentBytes = this.asn1Content.getValue();
         this.asn1Length.setOriginalValue(rawContentBytes.length);
         int length = this.asn1Length.getValue();
         if (length < 0) {

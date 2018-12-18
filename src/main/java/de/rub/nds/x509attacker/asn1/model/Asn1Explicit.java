@@ -43,7 +43,9 @@ public class Asn1Explicit extends Asn1Field {
     public Asn1Explicit() {
         super();
         this.asn1ExplicitTagClass = new ModifiableString();
+        this.asn1ExplicitTagClass.setOriginalValue(Asn1TagClass.UNIVERSAL.toString());
         this.asn1ExplicitTagNumber = new ModifiableInteger();
+        this.asn1ExplicitTagNumber.setOriginalValue(0);
     }
 
     public ModifiableString getAsn1ExplicitTagClass() {

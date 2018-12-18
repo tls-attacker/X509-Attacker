@@ -1,5 +1,6 @@
 package de.rub.nds.x509attacker.asn1.model;
 
+import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.string.ModifiableString;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
@@ -24,6 +25,10 @@ public class Asn1T61String extends Asn1Field {
 
     public void setAsn1T61StringValue(ModifiableString asn1T61StringValue) {
         this.asn1T61StringValue = asn1T61StringValue;
+    }
+
+    public void setAsn1T61StringValue(String asn1T61StringValue) {
+        this.asn1T61StringValue = ModifiableVariableFactory.safelySetValue(this.asn1T61StringValue, asn1T61StringValue);
     }
 
     @Override
