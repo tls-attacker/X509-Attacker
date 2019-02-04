@@ -1,6 +1,6 @@
 package de.rub.nds.x509attacker.x509.model.meta;
 
-import de.rub.nds.x509attacker.x509.model.types.basiccertificatetypes.TbsCertificate;
+import de.rub.nds.x509attacker.x509.model.types.basiccertificate.TbsCertificate;
 
 import javax.xml.bind.annotation.*;
 

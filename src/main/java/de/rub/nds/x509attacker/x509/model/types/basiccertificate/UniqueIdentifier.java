@@ -1,4 +1,4 @@
-package de.rub.nds.x509attacker.x509.model.types.basiccertificatetypes;
+package de.rub.nds.x509attacker.x509.model.types.basiccertificate;
 
 import de.rub.nds.x509attacker.x509.model.asn1types.Asn1BitStringValueHolder;
 
