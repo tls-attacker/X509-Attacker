@@ -2,10 +2,13 @@ package de.rub.nds.x509attacker.asn1.model;
 
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
+import de.rub.nds.modifiablevariable.util.ByteArrayAdapter;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
+import org.bouncycastle.math.raw.Mod;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.List;
 
 @XmlRootElement
@@ -17,30 +20,41 @@ public class Asn1OctetString extends Asn1FieldContainer {
 
     @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static final class Asn1OctetStringValue extends Asn1Field {
+    public static final class Asn1OctetStringItem extends Asn1Field {
+
+        private static final byte[] DEFAULT_OCTET_STRING_VALUE = new byte[0];
 
         @XmlElement
-        private ModifiableByteArray asn1OctetStringValue;
+        @XmlJavaTypeAdapter(ByteArrayAdapter.class)
+        private byte[] asn1OctetStringValue = DEFAULT_OCTET_STRING_VALUE;
 
-        public Asn1OctetStringValue() {
+        @XmlElement
+        private ModifiableByteArray asn1OctetStringValueModification;
+
+        public Asn1OctetStringItem() {
             super();
-            this.asn1OctetStringValue = new ModifiableByteArray();
+            this.asn1OctetStringValueModification = new ModifiableByteArray();
         }
 
-        public ModifiableByteArray getAsn1OctetStringValue() {
+        public byte[] getAsn1OctetStringValue() {
             return asn1OctetStringValue;
         }
 
-        public void setAsn1OctetStringValue(ModifiableByteArray asn1OctetStringValue) {
+        public void setAsn1OctetStringValue(byte[] asn1OctetStringValue) {
             this.asn1OctetStringValue = asn1OctetStringValue;
         }
 
-        public void setAsn1OctetStringValue(byte[] asn1OctetStringValue) {
-            this.asn1OctetStringValue = ModifiableVariableFactory.safelySetValue(this.asn1OctetStringValue, asn1OctetStringValue);
+        public ModifiableByteArray getAsn1OctetStringValueModification() {
+            return asn1OctetStringValueModification;
+        }
+
+        public void setAsn1OctetStringValueModification(ModifiableByteArray asn1OctetStringValueModification) {
+            this.asn1OctetStringValueModification = asn1OctetStringValueModification;
         }
 
         @Override
         protected void encodeForParentLayer() {
+            this.updateDefaultValues();
             byte[] content = this.createContentBytes();
             super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
             super.setAsn1IsConstructed(false);
@@ -49,8 +63,14 @@ public class Asn1OctetString extends Asn1FieldContainer {
             super.encodeForParentLayer();
         }
 
+        private void updateDefaultValues() {
+            if (this.asn1OctetStringValueModification.getOriginalValue() == null) {
+                this.asn1OctetStringValueModification = ModifiableVariableFactory.safelySetValue(this.asn1OctetStringValueModification, this.asn1OctetStringValue);
+            }
+        }
+
         private byte[] createContentBytes() {
-            return this.asn1OctetStringValue.getValue();
+            return this.asn1OctetStringValueModification.getValue();
         }
     }
 
@@ -75,15 +95,17 @@ public class Asn1OctetString extends Asn1FieldContainer {
      */
     @Override
     public byte[] encode() {
-        List<Asn1RawField> fields = super.getAsn1ChildElements();
+        List<Asn1RawField> fields = null;
+        this.encodeForParentLayer();
+        fields = super.getAsn1ChildElements();
         byte[] result = null;
         if (fields.size() > 1 || this.preferConstructedEncoding == true) {
             result = super.encode();
         } else {
-            if (fields.size() == 1 && fields.get(0) instanceof Asn1OctetStringValue) {
+            if (fields.size() == 1 && fields.get(0) instanceof Asn1OctetStringItem) {
                 result = fields.get(0).encode();
             } else {
-                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.OCTET_STRING.toString() + " must only contain exactly one child of type Asn1OctetStringValue!");
+                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.OCTET_STRING.toString() + " must only contain exactly one child of type Asn1OctetStringItem!");
             }
         }
         return result;

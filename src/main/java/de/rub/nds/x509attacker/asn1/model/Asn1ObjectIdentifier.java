@@ -14,28 +14,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Asn1ObjectIdentifier extends Asn1Field {
 
+    private static final String DEFAULT_OBJECT_IDENTIFIER_VALUE = "";
+
     @XmlElement
-    private ModifiableString asn1ObjectIdentifierValue;
+    private String asn1ObjectIdentifierValue = DEFAULT_OBJECT_IDENTIFIER_VALUE;
+
+    @XmlElement
+    private ModifiableString asn1ObjectIdentifierValueModification;
 
     public Asn1ObjectIdentifier() {
         super();
-        this.asn1ObjectIdentifierValue = new ModifiableString();
+        this.asn1ObjectIdentifierValueModification = new ModifiableString();
     }
 
-    public ModifiableString getAsn1ObjectIdentifierValue() {
+    public String getAsn1ObjectIdentifierValue() {
         return asn1ObjectIdentifierValue;
     }
 
-    public void setAsn1ObjectIdentifierValue(ModifiableString asn1ObjectIdentifierValue) {
+    public void setAsn1ObjectIdentifierValue(String asn1ObjectIdentifierValue) {
         this.asn1ObjectIdentifierValue = asn1ObjectIdentifierValue;
     }
 
-    public void setAsn1ObjectIdentifierValue(String asn1ObjectIdentifierValue) {
-        this.asn1ObjectIdentifierValue = ModifiableVariableFactory.safelySetValue(this.asn1ObjectIdentifierValue, asn1ObjectIdentifierValue);
+    public ModifiableString getAsn1ObjectIdentifierValueModification() {
+        return asn1ObjectIdentifierValueModification;
+    }
+
+    public void setAsn1ObjectIdentifierValueModification(ModifiableString asn1ObjectIdentifierValueModification) {
+        this.asn1ObjectIdentifierValueModification = asn1ObjectIdentifierValueModification;
     }
 
     @Override
     protected void encodeForParentLayer() {
+        this.updateDefaultValues();
         byte[] content = this.createContentBytes();
         super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
         super.setAsn1IsConstructed(false);
@@ -44,9 +54,15 @@ public class Asn1ObjectIdentifier extends Asn1Field {
         super.encodeForParentLayer();
     }
 
+    private void updateDefaultValues() {
+        if (this.asn1ObjectIdentifierValueModification.getOriginalValue() == null) {
+            this.asn1ObjectIdentifierValueModification = ModifiableVariableFactory.safelySetValue(this.asn1ObjectIdentifierValueModification, this.asn1ObjectIdentifierValue);
+        }
+    }
+
     private byte[] createContentBytes() {
         byte[] content = null;
-        String fullIdentifierString = this.asn1ObjectIdentifierValue.getValue().trim();
+        String fullIdentifierString = this.asn1ObjectIdentifierValueModification.getValue().trim();
         String[] identifierStrings = fullIdentifierString.split("\\.");
         if (identifierStrings.length >= 2) {
             byte[][] encodedIdentifiers = this.encodeIdentifierStrings(identifierStrings);

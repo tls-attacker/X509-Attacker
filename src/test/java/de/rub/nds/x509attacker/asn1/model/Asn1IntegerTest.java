@@ -11,27 +11,27 @@ public class Asn1IntegerTest {
         Asn1Integer asn1Integer = new Asn1Integer();
         byte[] encoded;
 
-        asn1Integer.getAsn1IntegerValue().setOriginalValue(0);
+        asn1Integer.getAsn1IntegerValueModification().setOriginalValue(0);
         encoded = asn1Integer.encode();
         assertArrayEquals(new byte[]{0x02, 0x01, 0x00}, encoded);
 
-        asn1Integer.getAsn1IntegerValue().setOriginalValue(127);
+        asn1Integer.getAsn1IntegerValueModification().setOriginalValue(127);
         encoded = asn1Integer.encode();
         assertArrayEquals(new byte[]{0x02, 0x01, 0x7F}, encoded);
 
-        asn1Integer.getAsn1IntegerValue().setOriginalValue(128);
+        asn1Integer.getAsn1IntegerValueModification().setOriginalValue(128);
         encoded = asn1Integer.encode();
         assertArrayEquals(new byte[]{0x02, 0x02, 0x00, (byte) 0x80}, encoded);
 
-        asn1Integer.getAsn1IntegerValue().setOriginalValue(256);
+        asn1Integer.getAsn1IntegerValueModification().setOriginalValue(256);
         encoded = asn1Integer.encode();
         assertArrayEquals(new byte[]{0x02, 0x02, 0x01, 0x00}, encoded);
 
-        asn1Integer.getAsn1IntegerValue().setOriginalValue(-128);
+        asn1Integer.getAsn1IntegerValueModification().setOriginalValue(-128);
         encoded = asn1Integer.encode();
         assertArrayEquals(new byte[]{0x02, 0x01, (byte) 0x80}, encoded);
 
-        asn1Integer.getAsn1IntegerValue().setOriginalValue(-129);
+        asn1Integer.getAsn1IntegerValueModification().setOriginalValue(-129);
         encoded = asn1Integer.encode();
         assertArrayEquals(new byte[]{0x02, 0x02, (byte) 0xFF, 0x7F}, encoded);
     }

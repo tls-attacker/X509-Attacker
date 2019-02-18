@@ -16,4 +16,16 @@ public class X509CertificateList {
     public X509CertificateList() {
         this.certificates = new LinkedList<>();
     }
+
+    public List<X509Certificate> getCertificates() {
+        return certificates;
+    }
+
+    public void setCertificates(List<X509Certificate> certificates) {
+        this.certificates = certificates;
+    }
+
+    public X509Certificate getCertificate(int index) {
+        return this.certificates.get(index);
+    }
 }

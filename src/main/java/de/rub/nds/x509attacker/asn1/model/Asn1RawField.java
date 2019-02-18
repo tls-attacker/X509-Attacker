@@ -41,8 +41,10 @@ public abstract class Asn1RawField {
      * @return The encoded data as a byte array.
      */
     public byte[] encode() {
-        this.encodeForParentLayer();
         byte[] encodedValue;
+        if (this.isEncodeForParentLayerCalled == false) {
+            this.encodeForParentLayer();
+        }
         if (this.isEncodeForParentLayerCalled) {
             encodedValue = this.asn1RawFieldContent.getValue();
         } else {

@@ -17,30 +17,40 @@ public class Asn1PrintableString extends Asn1FieldContainer {
 
     @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static final class Asn1PrintableStringValue extends Asn1Field {
+    public static final class Asn1PrintableStringItem extends Asn1Field {
+
+        private static final String DEFAULT_PRINTABLE_STRING_VALUE = "";
 
         @XmlElement
-        private ModifiableString asn1PrintableStringValue;
+        private String asn1PrintableStringValue = DEFAULT_PRINTABLE_STRING_VALUE;
 
-        public Asn1PrintableStringValue() {
+        @XmlElement
+        private ModifiableString asn1PrintableStringValueModification;
+
+        public Asn1PrintableStringItem() {
             super();
-            this.asn1PrintableStringValue = new ModifiableString();
+            this.asn1PrintableStringValueModification = new ModifiableString();
         }
 
-        public ModifiableString getAsn1PrintableStringValue() {
+        public String getAsn1PrintableStringValue() {
             return asn1PrintableStringValue;
         }
 
-        public void setAsn1PrintableStringValue(ModifiableString asn1PrintableStringValue) {
+        public void setAsn1PrintableStringValue(String asn1PrintableStringValue) {
             this.asn1PrintableStringValue = asn1PrintableStringValue;
         }
 
-        public void setAsn1PrintableStringValue(String asn1PrintableStringValue) {
-            this.asn1PrintableStringValue = ModifiableVariableFactory.safelySetValue(this.asn1PrintableStringValue, asn1PrintableStringValue);
+        public ModifiableString getAsn1PrintableStringValueModification() {
+            return asn1PrintableStringValueModification;
+        }
+
+        public void setAsn1PrintableStringValueModification(ModifiableString asn1PrintableStringValueModification) {
+            this.asn1PrintableStringValueModification = asn1PrintableStringValueModification;
         }
 
         @Override
         protected void encodeForParentLayer() {
+            this.updateDefaultValues();
             byte[] content = this.createContentBytes();
             super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
             super.setAsn1IsConstructed(false);
@@ -49,10 +59,16 @@ public class Asn1PrintableString extends Asn1FieldContainer {
             super.encodeForParentLayer();
         }
 
+        private void updateDefaultValues() {
+            if (this.asn1PrintableStringValueModification.getOriginalValue() == null) {
+                this.asn1PrintableStringValueModification = ModifiableVariableFactory.safelySetValue(this.asn1PrintableStringValueModification, this.asn1PrintableStringValue);
+            }
+        }
+
         private byte[] createContentBytes() {
             byte[] contentBytes = null;
-            if (this.asn1PrintableStringValue != null) {
-                contentBytes = this.asn1PrintableStringValue.getValue().getBytes();
+            if (this.asn1PrintableStringValueModification != null) {
+                contentBytes = this.asn1PrintableStringValueModification.getValue().getBytes();
             }
             return contentBytes;
         }
@@ -79,15 +95,17 @@ public class Asn1PrintableString extends Asn1FieldContainer {
      */
     @Override
     public byte[] encode() {
-        List<Asn1RawField> fields = super.getAsn1ChildElements();
+        List<Asn1RawField> fields = null;
+        this.encodeForParentLayer();
+        fields = super.getAsn1ChildElements();
         byte[] result = null;
         if (fields.size() > 1 || this.preferConstructedEncoding == true) {
             result = super.encode();
         } else {
-            if (fields.size() == 1 && fields.get(0) instanceof Asn1PrintableStringValue) {
+            if (fields.size() == 1 && fields.get(0) instanceof Asn1PrintableStringItem) {
                 result = fields.get(0).encode();
             } else {
-                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.PRINTABLESTRING.toString() + " must only contain exactly one child of type Asn1PrintableStringValue!");
+                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.PRINTABLESTRING.toString() + " must only contain exactly one child of type Asn1PrintableStringItem!");
             }
         }
         return result;

@@ -14,28 +14,38 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Asn1Integer extends Asn1Field {
 
+    private static final int DEFAULT_INTEGER_VALUE = 0;
+
     @XmlElement
-    private ModifiableInteger asn1IntegerValue;
+    private int asn1IntegerValue = DEFAULT_INTEGER_VALUE;
+
+    @XmlElement
+    private ModifiableInteger asn1IntegerValueModification;
 
     public Asn1Integer() {
         super();
-        this.asn1IntegerValue = new ModifiableInteger();
+        this.asn1IntegerValueModification = new ModifiableInteger();
     }
 
-    public ModifiableInteger getAsn1IntegerValue() {
+    public int getAsn1IntegerValue() {
         return asn1IntegerValue;
     }
 
-    public void setAsn1IntegerValue(ModifiableInteger asn1IntegerValue) {
+    public void setAsn1IntegerValue(int asn1IntegerValue) {
         this.asn1IntegerValue = asn1IntegerValue;
     }
 
-    public void setAsn1IntegerValue(int asn1IntegerValue) {
-        this.asn1IntegerValue = ModifiableVariableFactory.safelySetValue(this.asn1IntegerValue, asn1IntegerValue);
+    public ModifiableInteger getAsn1IntegerValueModification() {
+        return asn1IntegerValueModification;
+    }
+
+    public void setAsn1IntegerValueModification(ModifiableInteger asn1IntegerValueModification) {
+        this.asn1IntegerValueModification = asn1IntegerValueModification;
     }
 
     @Override
     protected void encodeForParentLayer() {
+        this.updateDefaultValues();
         byte[] content = this.createContentBytes();
         super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
         super.setAsn1IsConstructed(false);
@@ -44,9 +54,15 @@ public class Asn1Integer extends Asn1Field {
         super.encodeForParentLayer();
     }
 
+    private void updateDefaultValues() {
+        if (this.asn1IntegerValueModification.getOriginalValue() == null) {
+            this.asn1IntegerValueModification = ModifiableVariableFactory.safelySetValue(this.asn1IntegerValueModification, this.asn1IntegerValue);
+        }
+    }
+
     private byte[] createContentBytes() {
         byte[] content;
-        int intValue = this.asn1IntegerValue.getValue();
+        int intValue = this.asn1IntegerValueModification.getValue();
         int numberOfIntegerBytes = this.computeNumberOfIntegerBytes(intValue);
         if (numberOfIntegerBytes >= 1) {
             content = new byte[numberOfIntegerBytes];

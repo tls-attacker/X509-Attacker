@@ -9,7 +9,7 @@ import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Asn1SetValueHolder extends Asn1Set {
+public class Asn1PrintableStringValueHolder extends Asn1PrintableString {
 
     @XmlAttribute
     private boolean excludeFromSignature = false;
@@ -33,7 +33,7 @@ public class Asn1SetValueHolder extends Asn1Set {
             @XmlElement(name = "asn1OctetString", type = Asn1OctetString.class),
             @XmlElement(name = "asn1OctetStringValue", type = Asn1OctetString.Asn1OctetStringItem.class),
             @XmlElement(name = "asn1PrintableString", type = Asn1PrintableString.class),
-            @XmlElement(name = "asn1PrintableStringValue", type = Asn1PrintableString.Asn1PrintableStringItem.class),
+            @XmlElement(name = "asn1PrintableStringValue", type = Asn1PrintableStringItem.class),
             @XmlElement(name = "asn1RawField", type = Asn1RawField.class),
             @XmlElement(name = "asn1Sequence", type = Asn1Sequence.class),
             @XmlElement(name = "asn1Set", type = Asn1Set.class),
@@ -72,11 +72,11 @@ public class Asn1SetValueHolder extends Asn1Set {
 
             // Todo: More X.509 fields
     })
-    private List<Asn1RawField> fields;
+    private List<Asn1RawField> values;
 
-    public Asn1SetValueHolder() {
+    public Asn1PrintableStringValueHolder() {
         super();
-        this.fields = new LinkedList<>();
+        this.values = new LinkedList<>();
     }
 
     public boolean isExcludeFromSignature() {
@@ -95,22 +95,22 @@ public class Asn1SetValueHolder extends Asn1Set {
         this.excludeFromCertificate = excludeFromCertificate;
     }
 
-    public List<Asn1RawField> getFields() {
-        return fields;
+    public List<Asn1RawField> getValues() {
+        return values;
     }
 
-    public void setFields(List<Asn1RawField> fields) {
-        this.fields = fields;
+    public void setValues(List<Asn1RawField> values) {
+        this.values = values;
     }
 
     @Override
     protected void encodeForParentLayer() {
-        this.addFieldsToAsn1Sequence();
+        this.addFieldsToAsn1PrintableString();
         super.encodeForParentLayer();
     }
 
-    private void addFieldsToAsn1Sequence() {
-        for (Asn1RawField field : this.fields) {
+    private void addFieldsToAsn1PrintableString() {
+        for (Asn1RawField field : this.values) {
             super.addField(field);
         }
     }

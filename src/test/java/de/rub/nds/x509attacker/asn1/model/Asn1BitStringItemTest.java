@@ -4,12 +4,12 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class Asn1BitStringValueTest {
+public class Asn1BitStringItemTest {
 
     @Test
     public void testAsn1BitStringEncoding() {
         Asn1BitString asn1BitString = new Asn1BitString();
-        Asn1BitString.Asn1BitStringValue asn1BitStringValue = new Asn1BitString.Asn1BitStringValue();
+        Asn1BitString.Asn1BitStringItem asn1BitStringValue = new Asn1BitString.Asn1BitStringItem();
         byte[] encoded;
 
         // bit string is 0110 1110 0101 1101 11
@@ -23,8 +23,8 @@ public class Asn1BitStringValueTest {
     @Test
     public void testAsn1BitStringEncoding2() {
         Asn1BitString asn1BitString = new Asn1BitString();
-        Asn1BitString.Asn1BitStringValue asn1BitStringValue1 = new Asn1BitString.Asn1BitStringValue();
-        Asn1BitString.Asn1BitStringValue asn1BitStringValue2 = new Asn1BitString.Asn1BitStringValue();
+        Asn1BitString.Asn1BitStringItem asn1BitStringValue1 = new Asn1BitString.Asn1BitStringItem();
+        Asn1BitString.Asn1BitStringItem asn1BitStringValue2 = new Asn1BitString.Asn1BitStringItem();
         byte[] encoded;
 
         // bit string is 0110 1110 0101 1101

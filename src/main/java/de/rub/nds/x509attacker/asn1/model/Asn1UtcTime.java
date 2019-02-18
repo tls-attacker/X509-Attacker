@@ -15,30 +15,40 @@ public class Asn1UtcTime extends Asn1FieldContainer {
     @XmlAttribute
     private boolean preferConstructedEncoding = false;
 
-    public static final class Asn1UtcTimeValue extends Asn1Field {
+    public static final class Asn1UtcTimeItem extends Asn1Field {
+
+        private static final String DEFAULT_UTC_TIME_VALUE = "99991231235959Z";
 
         @XmlElement
-        private ModifiableString asn1UtcTimeValue;
+        private String asn1UtcTimeValue = DEFAULT_UTC_TIME_VALUE;
 
-        public Asn1UtcTimeValue() {
+        @XmlElement
+        private ModifiableString asn1UtcTimeValueModification;
+
+        public Asn1UtcTimeItem() {
             super();
-            this.asn1UtcTimeValue = new ModifiableString();
+            this.asn1UtcTimeValueModification = new ModifiableString();
         }
 
-        public ModifiableString getAsn1UtcTimeValues() {
+        public String getAsn1UtcTimeValue() {
             return asn1UtcTimeValue;
         }
 
-        public void setAsn1UtcTimeValue(ModifiableString asn1UtcTimeValue) {
+        public void setAsn1UtcTimeValue(String asn1UtcTimeValue) {
             this.asn1UtcTimeValue = asn1UtcTimeValue;
         }
 
-        public void setAsn1UtcTimeValue(String asn1UtcTimeValue) {
-            this.asn1UtcTimeValue = ModifiableVariableFactory.safelySetValue(this.asn1UtcTimeValue, asn1UtcTimeValue);
+        public ModifiableString getAsn1UtcTimeValueModification() {
+            return asn1UtcTimeValueModification;
+        }
+
+        public void setAsn1UtcTimeValueModification(ModifiableString asn1UtcTimeValueModification) {
+            this.asn1UtcTimeValueModification = asn1UtcTimeValueModification;
         }
 
         @Override
         protected void encodeForParentLayer() {
+            this.updateDefaultValues();
             byte[] content = this.createContentBytes();
             super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
             super.setAsn1IsConstructed(false);
@@ -47,10 +57,16 @@ public class Asn1UtcTime extends Asn1FieldContainer {
             super.encodeForParentLayer();
         }
 
+        private void updateDefaultValues() {
+            if (this.asn1UtcTimeValueModification.getOriginalValue() == null) {
+                this.asn1UtcTimeValueModification = ModifiableVariableFactory.safelySetValue(this.asn1UtcTimeValueModification, this.asn1UtcTimeValue);
+            }
+        }
+
         private byte[] createContentBytes() {
             byte[] contentBytes = null;
-            if (this.asn1UtcTimeValue != null) {
-                contentBytes = this.asn1UtcTimeValue.getValue().getBytes();
+            if (this.asn1UtcTimeValueModification != null) {
+                contentBytes = this.asn1UtcTimeValueModification.getValue().getBytes();
             }
             return contentBytes;
         }
@@ -70,22 +86,24 @@ public class Asn1UtcTime extends Asn1FieldContainer {
 
     /**
      * Overriding encode() to switch between primitive and constructed encoding. For primitive encoding, the return
-     * value is the first child's encode() result. For constructed encoding, the default encode() method is called and
+     * asn1UtcTimeValueModification is the first child's encode() result. For constructed encoding, the default encode() method is called and
      * hence the encoding is performed in encodeForParentLayer().
      *
      * @return
      */
     @Override
     public byte[] encode() {
-        List<Asn1RawField> fields = super.getAsn1ChildElements();
+        List<Asn1RawField> fields = null;
         byte[] result = null;
+        this.encodeForParentLayer();
+        fields = super.getAsn1ChildElements();
         if (fields.size() > 1 || this.preferConstructedEncoding == true) {
             result = super.encode();
         } else {
-            if (fields.size() == 1 && fields.get(0) instanceof Asn1UtcTimeValue) {
+            if (fields.size() == 1 && fields.get(0) instanceof Asn1UtcTimeItem) {
                 result = fields.get(0).encode();
             } else {
-                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.UTCTIME.toString() + " must only contain exactly one child of type Asn1UtcTimeValue!");
+                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.UTCTIME.toString() + " must only contain exactly one child of type Asn1UtcTimeItem!");
             }
         }
         return result;

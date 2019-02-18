@@ -3,10 +3,12 @@ package de.rub.nds.x509attacker.asn1.model;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
+import de.rub.nds.modifiablevariable.util.ByteArrayAdapter;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
 
 import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.util.List;
 
 @XmlRootElement
@@ -18,46 +20,69 @@ public class Asn1BitString extends Asn1FieldContainer {
 
     @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static final class Asn1BitStringValue extends Asn1Field {
+    public static final class Asn1BitStringItem extends Asn1Field {
+
+        private static final byte DEFAULT_NUMBER_OF_UNUSED_BITS = 0;
+        private static final byte[] DEFAULT_HEX_STRING = new byte[0];
 
         @XmlElement
-        private ModifiableByte asn1NumberOfUnusedBits;
+        private byte asn1NumberOfUnusedBits = DEFAULT_NUMBER_OF_UNUSED_BITS;
 
         @XmlElement
-        private ModifiableByteArray asn1BitStringValue;
+        @XmlJavaTypeAdapter(ByteArrayAdapter.class)
+        private byte[] asn1BitStringValue = DEFAULT_HEX_STRING;
 
-        public Asn1BitStringValue() {
+        @XmlElement
+        private ModifiableByte asn1NumberOfUnusedBitsModification;
+
+        @XmlElement
+        private ModifiableByteArray asn1BitStringValueModification;
+
+        public Asn1BitStringItem() {
             super();
-            this.asn1NumberOfUnusedBits = new ModifiableByte();
-            this.asn1BitStringValue = new ModifiableByteArray();
+            this.asn1NumberOfUnusedBitsModification = new ModifiableByte();
+            this.asn1BitStringValueModification = new ModifiableByteArray();
         }
 
-        public ModifiableByte getAsn1NumberOfUnusedBits() {
+        public byte getAsn1NumberOfUnusedBits() {
             return asn1NumberOfUnusedBits;
         }
 
-        public void setAsn1NumberOfUnusedBits(ModifiableByte asn1NumberOfUnusedBits) {
+        public void setAsn1NumberOfUnusedBits(byte asn1NumberOfUnusedBits) {
             this.asn1NumberOfUnusedBits = asn1NumberOfUnusedBits;
         }
 
-        public void setAsn1NumberOfUnusedBits(int numberOfUnusedBits) {
-            this.asn1NumberOfUnusedBits = ModifiableVariableFactory.safelySetValue(this.asn1NumberOfUnusedBits, (byte) numberOfUnusedBits);
+        public void setAsn1NumberOfUnusedBits(int asn1NumberOfUnusedBits) {
+            this.asn1NumberOfUnusedBits = (byte) asn1NumberOfUnusedBits;
         }
 
-        public ModifiableByteArray getAsn1BitStringValue() {
+        public byte[] getAsn1BitStringValue() {
             return asn1BitStringValue;
         }
 
-        public void setAsn1BitStringValue(ModifiableByteArray asn1BitStringValue) {
+        public void setAsn1BitStringValue(byte[] asn1BitStringValue) {
             this.asn1BitStringValue = asn1BitStringValue;
         }
 
-        public void setAsn1BitStringValue(byte[] bitStringValue) {
-            this.asn1BitStringValue = ModifiableVariableFactory.safelySetValue(this.asn1BitStringValue, bitStringValue);
+        public ModifiableByte getAsn1NumberOfUnusedBitsModification() {
+            return asn1NumberOfUnusedBitsModification;
+        }
+
+        public void setAsn1NumberOfUnusedBitsModification(ModifiableByte asn1NumberOfUnusedBitsModification) {
+            this.asn1NumberOfUnusedBitsModification = asn1NumberOfUnusedBitsModification;
+        }
+
+        public ModifiableByteArray getAsn1BitStringValueModification() {
+            return asn1BitStringValueModification;
+        }
+
+        public void setAsn1BitStringValueModification(ModifiableByteArray asn1BitStringValueModification) {
+            this.asn1BitStringValueModification = asn1BitStringValueModification;
         }
 
         @Override
         protected void encodeForParentLayer() {
+            this.updateDefaultValues();
             byte[] content = this.createContentBytes();
             super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
             super.setAsn1IsConstructed(false);
@@ -67,14 +92,23 @@ public class Asn1BitString extends Asn1FieldContainer {
         }
 
         private byte[] createContentBytes() {
-            byte[] contentBytes;
-            byte[] bitString = this.asn1BitStringValue.getValue();
+            byte[] contentBytes = null;
+            byte[] bitString = this.asn1BitStringValueModification.getValue();
             contentBytes = new byte[bitString.length + 1];
-            contentBytes[0] = this.asn1NumberOfUnusedBits.getValue();
+            contentBytes[0] = this.asn1NumberOfUnusedBitsModification.getValue();
             for (int i = 0; i < bitString.length; i++) {
                 contentBytes[i + 1] = bitString[i];
             }
             return contentBytes;
+        }
+
+        private void updateDefaultValues() {
+            if (this.asn1NumberOfUnusedBitsModification.getOriginalValue() == null) {
+                this.asn1NumberOfUnusedBitsModification = ModifiableVariableFactory.safelySetValue(this.asn1NumberOfUnusedBitsModification, this.asn1NumberOfUnusedBits);
+            }
+            if (this.asn1BitStringValueModification.getOriginalValue() == null) {
+                this.asn1BitStringValueModification = ModifiableVariableFactory.safelySetValue(this.asn1BitStringValueModification, this.asn1BitStringValue);
+            }
         }
     }
 
@@ -99,15 +133,17 @@ public class Asn1BitString extends Asn1FieldContainer {
      */
     @Override
     public byte[] encode() {
-        List<Asn1RawField> fields = super.getAsn1ChildElements();
+        List<Asn1RawField> fields = null;
+        this.encodeForParentLayer();
+        fields = super.getAsn1ChildElements();
         byte[] result = null;
         if (fields.size() > 1 || this.preferConstructedEncoding == true) {
             result = super.encode();
         } else {
-            if (fields.size() == 1 && fields.get(0) instanceof Asn1BitStringValue) {
+            if (fields.size() == 1 && fields.get(0) instanceof Asn1BitStringItem) {
                 result = fields.get(0).encode();
             } else {
-                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.BIT_STRING.toString() + " must only contain exactly one child of type Asn1BitStringValue!");
+                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.BIT_STRING.toString() + " must only contain exactly one child of type Asn1BitStringItem!");
             }
         }
         return result;

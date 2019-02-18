@@ -9,7 +9,7 @@ import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Asn1SetValueHolder extends Asn1Set {
+public class Asn1T61StringValueHolder extends Asn1T61String {
 
     @XmlAttribute
     private boolean excludeFromSignature = false;
@@ -38,7 +38,7 @@ public class Asn1SetValueHolder extends Asn1Set {
             @XmlElement(name = "asn1Sequence", type = Asn1Sequence.class),
             @XmlElement(name = "asn1Set", type = Asn1Set.class),
             @XmlElement(name = "asn1T61String", type = Asn1T61String.class),
-            @XmlElement(name = "asn1T61StringValue", type = Asn1T61String.Asn1T61StringItem.class),
+            @XmlElement(name = "asn1T61StringValue", type = Asn1T61StringItem.class),
             @XmlElement(name = "asn1UtcTime", type = Asn1UtcTime.class),
             @XmlElement(name = "asn1UtcTimeValue", type = Asn1UtcTime.Asn1UtcTimeItem.class),
 
@@ -72,11 +72,11 @@ public class Asn1SetValueHolder extends Asn1Set {
 
             // Todo: More X.509 fields
     })
-    private List<Asn1RawField> fields;
+    private List<Asn1RawField> values;
 
-    public Asn1SetValueHolder() {
+    public Asn1T61StringValueHolder() {
         super();
-        this.fields = new LinkedList<>();
+        this.values = new LinkedList<>();
     }
 
     public boolean isExcludeFromSignature() {
@@ -95,22 +95,22 @@ public class Asn1SetValueHolder extends Asn1Set {
         this.excludeFromCertificate = excludeFromCertificate;
     }
 
-    public List<Asn1RawField> getFields() {
-        return fields;
+    public List<Asn1RawField> getValues() {
+        return values;
     }
 
-    public void setFields(List<Asn1RawField> fields) {
-        this.fields = fields;
+    public void setValues(List<Asn1RawField> values) {
+        this.values = values;
     }
 
     @Override
     protected void encodeForParentLayer() {
-        this.addFieldsToAsn1Sequence();
+        this.addFieldsToAsn1T61String();
         super.encodeForParentLayer();
     }
 
-    private void addFieldsToAsn1Sequence() {
-        for (Asn1RawField field : this.fields) {
+    private void addFieldsToAsn1T61String() {
+        for (Asn1RawField field : this.values) {
             super.addField(field);
         }
     }
