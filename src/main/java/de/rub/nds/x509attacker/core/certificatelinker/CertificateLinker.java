@@ -1,6 +1,7 @@
 package de.rub.nds.x509attacker.core.certificatelinker;
 
 import de.rub.nds.x509attacker.asn1.model.Asn1RawField;
+import de.rub.nds.x509attacker.x509.fieldmeta.LinkingException;
 import de.rub.nds.x509attacker.x509.fieldmeta.ReferenceHolder;
 import de.rub.nds.x509attacker.x509.fieldmeta.Referenceable;
 import de.rub.nds.x509attacker.x509.model.meta.*;
@@ -62,7 +63,7 @@ public class CertificateLinker {
             try {
                 referenceHolder.setReferencedObject(referenceable);
                 this.updatedReferenceHolders.add(referenceHolder);
-            } catch (ClassCastException e) {
+            } catch (LinkingException e) {
                 throw new CertificateLinkerException(e);
             }
         }

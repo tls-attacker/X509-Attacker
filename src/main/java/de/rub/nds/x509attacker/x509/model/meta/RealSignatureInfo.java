@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.*;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RealSignatureInfo implements ReferenceHolder {
+public class RealSignatureInfo implements Referenceable, ReferenceHolder {
 
     @XmlAttribute
     private int id = 0;
