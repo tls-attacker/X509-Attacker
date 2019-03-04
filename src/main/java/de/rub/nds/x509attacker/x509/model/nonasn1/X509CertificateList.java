@@ -1,4 +1,6 @@
-package de.rub.nds.x509attacker.x509.model.meta;
+package de.rub.nds.x509attacker.x509.model.nonasn1;
+
+import de.rub.nds.x509attacker.x509.model.types.basiccertificate.X509Certificate;
 
 import javax.xml.bind.annotation.*;
 import java.util.LinkedList;

@@ -1,8 +1,8 @@
 package de.rub.nds.x509attacker.core.certificatelinker;
 
 import de.rub.nds.x509attacker.asn1.model.Asn1RawField;
-import de.rub.nds.x509attacker.x509.fieldmeta.X509Asn1FieldHolder;
-import de.rub.nds.x509attacker.x509.fieldmeta.X509Asn1ValueHolder;
+import de.rub.nds.x509attacker.x509.meta.X509Asn1FieldHolder;
+import de.rub.nds.x509attacker.x509.meta.X509Asn1ValueHolder;
 
 import java.util.LinkedList;
 import java.util.List;

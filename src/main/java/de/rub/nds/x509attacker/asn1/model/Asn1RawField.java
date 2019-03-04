@@ -47,6 +47,7 @@ public abstract class Asn1RawField {
         }
         if (this.isEncodeForParentLayerCalled) {
             encoded = this.asn1RawFieldContent.getValue();
+            this.isEncodeForParentLayerCalled = false;
         } else {
             throw new RuntimeException("Asn1RawFieldEncoder.encodeForParentLayer() not executed! Did you call super.encodeForParentLayer() in all overriding methods?");
         }

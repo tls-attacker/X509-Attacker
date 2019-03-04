@@ -1,7 +1,9 @@
 package de.rub.nds.x509attacker.core.xmlparser;
 
 import de.rub.nds.x509attacker.asn1.model.*;
-import de.rub.nds.x509attacker.x509.model.meta.*;
+import de.rub.nds.x509attacker.x509.model.nonasn1.KeyInfo;
+import de.rub.nds.x509attacker.x509.model.nonasn1.RealSignatureInfo;
+import de.rub.nds.x509attacker.x509.model.nonasn1.X509CertificateList;
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.*;
 import de.rub.nds.x509attacker.x509.model.x509asn1types.*;
 

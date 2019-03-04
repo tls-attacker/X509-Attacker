@@ -1,4 +1,4 @@
-package de.rub.nds.x509attacker.x509.fieldmeta;
+package de.rub.nds.x509attacker.x509.meta;
 
 public class LinkingException extends Exception {
 

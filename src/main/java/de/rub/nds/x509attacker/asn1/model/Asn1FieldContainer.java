@@ -29,6 +29,10 @@ public abstract class Asn1FieldContainer extends Asn1Field {
         this.asn1ChildElements.add(field);
     }
 
+    public void clearFields() {
+        this.asn1ChildElements.clear();
+    }
+
     @Override
     protected void encodeForParentLayer() {
         byte[] content = this.createContentBytes();

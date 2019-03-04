@@ -6,7 +6,9 @@ import de.rub.nds.x509attacker.core.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.core.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.core.xmlparser.X509AttackerXmlParser;
 import de.rub.nds.x509attacker.core.xmlparser.X509AttackerXmlParserException;
-import de.rub.nds.x509attacker.x509.model.meta.X509CertificateList;
+import de.rub.nds.x509attacker.x509.encoder.EncodeMode;
+import de.rub.nds.x509attacker.x509.encoder.X509Encoder;
+import de.rub.nds.x509attacker.x509.model.nonasn1.X509CertificateList;
 
 public class X509Attacker {
 
@@ -46,7 +48,12 @@ public class X509Attacker {
             // Todo: Sign certificates
             // CertificateSigner.sign(certificateList);
 
-            byte[] tbsCertContent = certificateList.getCertificate(0).getTbsCertificate().encode();
+            // Just some test stuff
+            X509Encoder x509Encoder = X509Encoder.getReference();
+            x509Encoder.setEncodeMode(EncodeMode.CERTIFICATE);
+            byte[] encoded = x509Encoder.encode(certificateList.getCertificate(0));
+            x509Encoder.setEncodeMode(EncodeMode.SIGNATURE);
+            encoded = x509Encoder.encode(certificateList.getCertificate(0));
             int i = 0;
         } catch (KeyFileManagerException e) {
             throw new X509AttackerException(e);

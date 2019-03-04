@@ -3,7 +3,6 @@ package de.rub.nds.x509attacker.asn1.model;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.bool.ModifiableBoolean;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
-import de.rub.nds.modifiablevariable.filter.ModificationFilterFactory;
 import de.rub.nds.modifiablevariable.integer.ModifiableInteger;
 import de.rub.nds.modifiablevariable.string.ModifiableString;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
@@ -12,7 +11,6 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
-import java.util.logging.Logger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -166,7 +164,6 @@ public abstract class Asn1Field extends Asn1AbstractField {
         this.asn1Length.setOriginalValue(rawContentBytes.length);
         int length = this.asn1Length.getValue();
         if (length < 0) {
-            // Todo log that length defaults to zero
             length = 0;
         }
         if (length >= 0 && length <= 127) {

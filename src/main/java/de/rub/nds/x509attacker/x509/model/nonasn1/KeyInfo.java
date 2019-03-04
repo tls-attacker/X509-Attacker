@@ -1,8 +1,9 @@
-package de.rub.nds.x509attacker.x509.model.meta;
+package de.rub.nds.x509attacker.x509.model.nonasn1;
 
-import de.rub.nds.x509attacker.x509.fieldmeta.LinkingException;
-import de.rub.nds.x509attacker.x509.fieldmeta.ReferenceHolder;
-import de.rub.nds.x509attacker.x509.fieldmeta.Referenceable;
+import de.rub.nds.x509attacker.x509.meta.LinkingException;
+import de.rub.nds.x509attacker.x509.meta.ReferenceHolder;
+import de.rub.nds.x509attacker.x509.meta.Referenceable;
+import de.rub.nds.x509attacker.x509.model.types.basiccertificate.X509Certificate;
 
 import javax.xml.bind.annotation.*;
 
@@ -11,10 +12,10 @@ import javax.xml.bind.annotation.*;
 public class KeyInfo implements ReferenceHolder {
 
     @XmlAttribute
-    private int fromId;
+    private String fromId = null;
 
     @XmlAttribute
-    private String keyFile;
+    private String keyFile = null;
 
     @XmlTransient
     private int keyFileId = 0;
@@ -23,15 +24,14 @@ public class KeyInfo implements ReferenceHolder {
     private X509Certificate certificate = null;
 
     public KeyInfo() {
-        this.fromId = 0;
-        this.keyFile = null;
+
     }
 
-    public int getFromId() {
+    public String getFromId() {
         return fromId;
     }
 
-    public void setFromId(int fromId) {
+    public void setFromId(String fromId) {
         this.fromId = fromId;
     }
 

@@ -1,11 +1,13 @@
 package de.rub.nds.x509attacker.core.certificatelinker;
 
 import de.rub.nds.x509attacker.asn1.model.Asn1RawField;
-import de.rub.nds.x509attacker.x509.fieldmeta.LinkingException;
-import de.rub.nds.x509attacker.x509.fieldmeta.ReferenceHolder;
-import de.rub.nds.x509attacker.x509.fieldmeta.Referenceable;
-import de.rub.nds.x509attacker.x509.model.meta.*;
-import de.rub.nds.x509attacker.x509.model.types.basiccertificate.TbsCertificate;
+import de.rub.nds.x509attacker.x509.meta.LinkingException;
+import de.rub.nds.x509attacker.x509.meta.ReferenceHolder;
+import de.rub.nds.x509attacker.x509.meta.Referenceable;
+import de.rub.nds.x509attacker.x509.model.nonasn1.KeyInfo;
+import de.rub.nds.x509attacker.x509.model.nonasn1.RealSignatureInfo;
+import de.rub.nds.x509attacker.x509.model.nonasn1.X509CertificateList;
+import de.rub.nds.x509attacker.x509.model.types.basiccertificate.X509Certificate;
 
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -15,7 +17,7 @@ public class CertificateLinker {
 
     private final X509CertificateList certificateList;
 
-    private final HashMap<Integer, Referenceable> index = new HashMap<>();
+    private final HashMap<String, Referenceable> index = new HashMap<>();
 
     private final List<ReferenceHolder> updatedReferenceHolders = new LinkedList<>();
 
@@ -27,15 +29,24 @@ public class CertificateLinker {
 
     private void runIndexing() throws CertificateLinkerException {
         for (X509Certificate x509Certificate : this.certificateList.getCertificates()) {
+            this.crawlToIndex(x509Certificate);
             RealSignatureInfo realSignatureInfo = x509Certificate.getRealSignatureInfo();
-            this.addReferenceableToIndex(x509Certificate);
             this.addReferenceableToIndex(realSignatureInfo);
-            // So far, only X509Certificate and RealSignatureInfo are referenceable. Hence, no further crawling is required to create the index.
         }
     }
 
-    private void addReferenceableToIndex(Referenceable referenceable) throws CertificateLinkerException {
-        if (referenceable.getId() != 0) {
+    private void crawlToIndex(final Asn1RawField rawField) throws CertificateLinkerException {
+        CertificateCrawler certificateCrawler = new CertificateCrawler() {
+            @Override
+            public void handleField(Asn1RawField field) throws CertificateLinkerException {
+                CertificateLinker.this.tryToBuildReference(field);
+            }
+        };
+        certificateCrawler.crawl(rawField);
+    }
+
+    private void addReferenceableToIndex(final Referenceable referenceable) throws CertificateLinkerException {
+        if (referenceable.getId() != null && !referenceable.getId().isEmpty()) {
             if (this.index.containsKey(referenceable.getId())) {
                 throw new CertificateLinkerException("ID " + referenceable.getId() + " already indexed! Make sure that each element with an id != 0 has a unique id!");
             }
@@ -45,17 +56,21 @@ public class CertificateLinker {
 
     private void buildReferences() throws CertificateLinkerException {
         for (X509Certificate x509Certificate : this.certificateList.getCertificates()) {
-            TbsCertificate tbsCertificate = x509Certificate.getTbsCertificate();
-            Signature signature = x509Certificate.getSignature();
-            KeyInfo realSignatureKeyInfo = x509Certificate.getRealSignatureInfo().getKeyInfo();
-            this.buildReference(realSignatureKeyInfo);
-            this.buildReference(signature);
-            this.crawlToBuildReferences(tbsCertificate);
+            this.crawlToBuildReferences(x509Certificate);
+            RealSignatureInfo realSignatureInfo = x509Certificate.getRealSignatureInfo();
+            KeyInfo realSignatureKeyInfo = null;
+            if (realSignatureInfo != null) {
+                this.buildReference(realSignatureInfo);
+                realSignatureKeyInfo = realSignatureInfo.getKeyInfo();
+                if (realSignatureKeyInfo != null) {
+                    this.buildReference(realSignatureKeyInfo);
+                }
+            }
         }
     }
 
     private void buildReference(final ReferenceHolder referenceHolder) throws CertificateLinkerException {
-        if (referenceHolder.getFromId() != 0) {
+        if (referenceHolder.getFromId() != null && !referenceHolder.getFromId().isEmpty()) {
             Referenceable referenceable = this.index.get(referenceHolder.getFromId());
             if (referenceable == null) {
                 throw new CertificateLinkerException("Referenced object with id " + referenceHolder.getFromId() + " is not indexed!");

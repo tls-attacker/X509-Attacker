@@ -79,7 +79,6 @@ public class Asn1ObjectIdentifier extends Asn1Field {
                 }
             }
         } else {
-            // todo: log warning that object identifier defaults to an empty value
             content = new byte[0];
         }
         return content;

@@ -72,7 +72,6 @@ public class Asn1Integer extends Asn1Field {
             }
         } else {
             content = new byte[0];
-            // todo: log warning that we default to empty byte array
         }
         return content;
     }

@@ -1,9 +1,10 @@
-package de.rub.nds.x509attacker.x509.model.meta;
+package de.rub.nds.x509attacker.x509.model.nonasn1;
 
-import de.rub.nds.x509attacker.x509.fieldmeta.LinkingException;
-import de.rub.nds.x509attacker.x509.fieldmeta.ReferenceHolder;
-import de.rub.nds.x509attacker.x509.fieldmeta.Referenceable;
+import de.rub.nds.x509attacker.x509.meta.LinkingException;
+import de.rub.nds.x509attacker.x509.meta.ReferenceHolder;
+import de.rub.nds.x509attacker.x509.meta.Referenceable;
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.AlgorithmIdentifier;
+import de.rub.nds.x509attacker.x509.model.types.basiccertificate.X509Certificate;
 
 import javax.xml.bind.annotation.*;
 
@@ -12,13 +13,13 @@ import javax.xml.bind.annotation.*;
 public class RealSignatureInfo implements Referenceable, ReferenceHolder {
 
     @XmlAttribute
-    private int id = 0;
+    private String id = null;
 
     @XmlAttribute
-    private int fromId = 0;
+    private String fromId = null;
 
     @XmlElement
-    private AlgorithmIdentifier signatureAlgorithm = null; // Todo: Change type to SignatureAlgorithm
+    private AlgorithmIdentifier signatureAlgorithm = null;
 
     @XmlElement
     private KeyInfo keyInfo = null;
@@ -30,20 +31,20 @@ public class RealSignatureInfo implements Referenceable, ReferenceHolder {
 
     }
 
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
     @Override
-    public int getFromId() {
+    public String getFromId() {
         return fromId;
     }
 
-    public void setFromId(int fromId) {
+    public void setFromId(String fromId) {
         this.fromId = fromId;
     }
 

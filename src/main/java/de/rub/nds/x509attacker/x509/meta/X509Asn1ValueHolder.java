@@ -1,4 +1,4 @@
-package de.rub.nds.x509attacker.x509.fieldmeta;
+package de.rub.nds.x509attacker.x509.meta;
 
 import de.rub.nds.x509attacker.asn1.model.Asn1RawField;
 

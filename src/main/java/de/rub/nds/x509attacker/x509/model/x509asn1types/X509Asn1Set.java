@@ -2,9 +2,10 @@ package de.rub.nds.x509attacker.x509.model.x509asn1types;
 
 import de.rub.nds.x509attacker.asn1.model.Asn1RawField;
 import de.rub.nds.x509attacker.asn1.model.Asn1Set;
-import de.rub.nds.x509attacker.x509.fieldmeta.Referenceable;
-import de.rub.nds.x509attacker.x509.fieldmeta.X509Asn1FieldHolder;
-import de.rub.nds.x509attacker.x509.fieldmeta.X509Field;
+import de.rub.nds.x509attacker.x509.encoder.X509Encoder;
+import de.rub.nds.x509attacker.x509.meta.Referenceable;
+import de.rub.nds.x509attacker.x509.meta.X509Asn1FieldHolder;
+import de.rub.nds.x509attacker.x509.meta.X509Field;
 
 import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
@@ -15,7 +16,7 @@ import java.util.List;
 public class X509Asn1Set extends Asn1Set implements X509Field, X509Asn1FieldHolder {
 
     @XmlAttribute
-    private int id = 0;
+    private String id = null;
 
     @XmlAttribute
     private boolean excludeFromSignature = false;
@@ -24,7 +25,7 @@ public class X509Asn1Set extends Asn1Set implements X509Field, X509Asn1FieldHold
     private boolean excludeFromCertificate = false;
 
     @XmlAttribute
-    private int fromId = 0;
+    private String fromId = null;
 
     @XmlAnyElement(lax = true)
     private List<Asn1RawField> fields;
@@ -35,11 +36,11 @@ public class X509Asn1Set extends Asn1Set implements X509Field, X509Asn1FieldHold
     }
 
     @Override
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -68,11 +69,11 @@ public class X509Asn1Set extends Asn1Set implements X509Field, X509Asn1FieldHold
     }
 
     @Override
-    public int getFromId() {
+    public String getFromId() {
         return fromId;
     }
 
-    public void setFromId(int fromId) {
+    public void setFromId(String fromId) {
         this.fromId = fromId;
     }
 
@@ -93,30 +94,84 @@ public class X509Asn1Set extends Asn1Set implements X509Field, X509Asn1FieldHold
     }
 
     private void addFieldsToAsn1Sequence() {
+        super.clearFields();
         for (Asn1RawField field : this.fields) {
             super.addField(field);
         }
     }
 
     @Override
-    public byte[] encodeForCertificate() {
+    public byte[] encode() {
+        byte[] encoded = null;
+        X509Encoder x509Encoder = X509Encoder.getReference();
+        switch (x509Encoder.getEncodeMode()) {
+            case CERTIFICATE:
+                encoded = this.encodeForCertificate();
+                break;
+
+            case SIGNATURE:
+                encoded = this.encodeForSignature();
+                break;
+
+            case ALL:
+            default:
+                encoded = super.encode();
+                break;
+        }
+        return encoded;
+    }
+
+    private byte[] encodeForCertificate() {
         byte[] encoded = null;
         if (this.excludeFromCertificate == true) {
             encoded = new byte[0];
         } else {
-            encoded = this.encode();
+            encoded = super.encode();
+        }
+        return encoded;
+    }
+
+    private byte[] encodeForSignature() {
+        byte[] encoded = null;
+        if (this.excludeFromSignature == true) {
+            encoded = new byte[0];
+        } else {
+            encoded = super.encode();
         }
         return encoded;
     }
 
     @Override
-    public byte[] encodeForSignature() {
-        byte[] encoded = null;
-        if (this.excludeFromSignature == true) {
-            encoded = new byte[0];
-        } else {
-            encoded = this.encode();
+    public <T extends Asn1RawField> T findField(final Class<T> type) {
+        return this.findField(0, type);
+    }
+
+    @Override
+    public <T extends Asn1RawField> T findField(final int pos, final Class<T> type) {
+        T result = null;
+        List<Asn1RawField> children = this.getFields();
+        int occurrences = 0;
+        for (Asn1RawField currentChild : children) {
+            if (type.isInstance(currentChild)) {
+                if (pos == occurrences) {
+                    result = (T) currentChild;
+                    break;
+                }
+                occurrences++;
+            }
         }
-        return encoded;
+        return result;
+    }
+
+    @Override
+    public <T extends Asn1RawField> int countFieldOccurrences(final Class<T> type) {
+        List<Asn1RawField> children = this.getFields();
+        int occurrences = 0;
+        for (Asn1RawField currentChild : children) {
+            if (type.isInstance(currentChild)) {
+                occurrences++;
+            }
+        }
+        return occurrences;
     }
 }

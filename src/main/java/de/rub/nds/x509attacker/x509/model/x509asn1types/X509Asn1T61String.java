@@ -2,9 +2,10 @@ package de.rub.nds.x509attacker.x509.model.x509asn1types;
 
 import de.rub.nds.x509attacker.asn1.model.Asn1RawField;
 import de.rub.nds.x509attacker.asn1.model.Asn1T61String;
-import de.rub.nds.x509attacker.x509.fieldmeta.Referenceable;
-import de.rub.nds.x509attacker.x509.fieldmeta.X509Asn1ValueHolder;
-import de.rub.nds.x509attacker.x509.fieldmeta.X509Field;
+import de.rub.nds.x509attacker.x509.encoder.X509Encoder;
+import de.rub.nds.x509attacker.x509.meta.Referenceable;
+import de.rub.nds.x509attacker.x509.meta.X509Asn1ValueHolder;
+import de.rub.nds.x509attacker.x509.meta.X509Field;
 
 import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
@@ -15,7 +16,7 @@ import java.util.List;
 public class X509Asn1T61String extends Asn1T61String implements X509Field, X509Asn1ValueHolder {
 
     @XmlAttribute
-    private int id = 0;
+    private String id = null;
 
     @XmlAttribute
     private boolean excludeFromSignature = false;
@@ -24,7 +25,7 @@ public class X509Asn1T61String extends Asn1T61String implements X509Field, X509A
     private boolean excludeFromCertificate = false;
 
     @XmlAttribute
-    private int fromId = 0;
+    private String fromId = null;
 
     @XmlAnyElement(lax = true)
     private List<Asn1RawField> values;
@@ -35,11 +36,11 @@ public class X509Asn1T61String extends Asn1T61String implements X509Field, X509A
     }
 
     @Override
-    public int getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(int id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -68,11 +69,11 @@ public class X509Asn1T61String extends Asn1T61String implements X509Field, X509A
     }
 
     @Override
-    public int getFromId() {
+    public String getFromId() {
         return fromId;
     }
 
-    public void setFromId(int fromId) {
+    public void setFromId(String fromId) {
         this.fromId = fromId;
     }
 
@@ -93,29 +94,49 @@ public class X509Asn1T61String extends Asn1T61String implements X509Field, X509A
     }
 
     private void addFieldsToAsn1T61String() {
+        super.clearFields();
         for (Asn1RawField field : this.values) {
             super.addField(field);
         }
     }
 
     @Override
-    public byte[] encodeForCertificate() {
+    public byte[] encode() {
         byte[] encoded = null;
-        if (this.excludeFromCertificate == true) {
-            encoded = new byte[0];
-        } else {
-            encoded = this.encode();
+        X509Encoder x509Encoder = X509Encoder.getReference();
+        switch (x509Encoder.getEncodeMode()) {
+            case CERTIFICATE:
+                encoded = this.encodeForCertificate();
+                break;
+
+            case SIGNATURE:
+                encoded = this.encodeForSignature();
+                break;
+
+            case ALL:
+            default:
+                encoded = super.encode();
+                break;
         }
         return encoded;
     }
 
-    @Override
-    public byte[] encodeForSignature() {
+    private byte[] encodeForCertificate() {
+        byte[] encoded = null;
+        if (this.excludeFromCertificate == true) {
+            encoded = new byte[0];
+        } else {
+            encoded = super.encode();
+        }
+        return encoded;
+    }
+
+    private byte[] encodeForSignature() {
         byte[] encoded = null;
         if (this.excludeFromSignature == true) {
             encoded = new byte[0];
         } else {
-            encoded = this.encode();
+            encoded = super.encode();
         }
         return encoded;
     }

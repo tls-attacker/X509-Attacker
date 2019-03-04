@@ -1,9 +1,9 @@
 package de.rub.nds.x509attacker.core.keyfilemanager;
 
-import de.rub.nds.x509attacker.x509.model.meta.KeyInfo;
-import de.rub.nds.x509attacker.x509.model.meta.RealSignatureInfo;
-import de.rub.nds.x509attacker.x509.model.meta.X509Certificate;
-import de.rub.nds.x509attacker.x509.model.meta.X509CertificateList;
+import de.rub.nds.x509attacker.x509.model.nonasn1.KeyInfo;
+import de.rub.nds.x509attacker.x509.model.nonasn1.RealSignatureInfo;
+import de.rub.nds.x509attacker.x509.model.nonasn1.X509CertificateList;
+import de.rub.nds.x509attacker.x509.model.types.basiccertificate.X509Certificate;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -16,7 +16,7 @@ public class KeyFileManager {
 
     private static KeyFileManager reference = null;
 
-    private Map<Integer, KeyFileContent> keyFileMap;
+    private final Map<Integer, KeyFileContent> keyFileMap = new HashMap<>();
 
     private KeyFileManager() {
 
@@ -91,8 +91,10 @@ public class KeyFileManager {
             content = new byte[(int) file.length()];
             while (bytesRead != -1) {
                 bytesRead = fileInputStream.read(buffer);
-                System.arraycopy(buffer, 0, content, totalBytesRead, bytesRead);
-                totalBytesRead += bytesRead;
+                if (bytesRead != -1) {
+                    System.arraycopy(buffer, 0, content, totalBytesRead, bytesRead);
+                    totalBytesRead += bytesRead;
+                }
             }
             return content;
         } catch (FileNotFoundException e) {
@@ -102,8 +104,7 @@ public class KeyFileManager {
         }
     }
 
-    public void addKeyFile(KeyFileContent... keyFileContents) throws KeyFileManagerException {
-        this.keyFileMap = new HashMap<>();
+    public void addKeyFiles(KeyFileContent... keyFileContents) throws KeyFileManagerException {
         if (keyFileContents != null) {
             for (KeyFileContent keyFileContent : keyFileContents) {
                 this.addKeyFile(keyFileContent);
