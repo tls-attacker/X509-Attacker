@@ -1,9 +1,9 @@
 package de.rub.nds.x509attacker.core.xmlparser;
 
 import de.rub.nds.x509attacker.asn1.model.*;
-import de.rub.nds.x509attacker.x509.model.asn1types.*;
 import de.rub.nds.x509attacker.x509.model.meta.*;
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.*;
+import de.rub.nds.x509attacker.x509.model.x509asn1types.*;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBException;
@@ -52,17 +52,17 @@ public class X509AttackerXmlParser {
                     Asn1UtcTime.Asn1UtcTimeItem.class,
 
                     // X.509 model classes
-                    Asn1BitStringValueHolder.class,
-                    Asn1Ia5StringValueHolder.class,
-                    Asn1IntegerValueHolder.class,
-                    Asn1NullValueHolder.class,
-                    Asn1ObjectIdentifierValueHolder.class,
-                    Asn1OctetStringValueHolder.class,
-                    Asn1PrintableStringValueHolder.class,
-                    Asn1SequenceValueHolder.class,
-                    Asn1SetValueHolder.class,
-                    Asn1T61StringValueHolder.class,
-                    Asn1UtcTimeValueHolder.class,
+                    X509Asn1BitString.class,
+                    X509Asn1Ia5String.class,
+                    X509Asn1Integer.class,
+                    X509Asn1Null.class,
+                    X509Asn1ObjectIdentifier.class,
+                    X509Asn1OctetString.class,
+                    X509Asn1PrintableString.class,
+                    X509Asn1Sequence.class,
+                    X509Asn1Set.class,
+                    X509Asn1T61String.class,
+                    X509Asn1UtcTime.class,
 
                     KeyInfo.class,
                     RealSignatureInfo.class,

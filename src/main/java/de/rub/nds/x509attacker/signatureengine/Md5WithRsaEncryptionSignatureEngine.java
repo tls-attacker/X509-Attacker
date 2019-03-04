@@ -1,6 +1,6 @@
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.RsaPkcs1KeyParser;
+import de.rub.nds.x509attacker.signatureengine.keyparsers.DefaultKeyParser;
 
 public class Md5WithRsaEncryptionSignatureEngine extends JavaSignatureEngine {
 
@@ -9,6 +9,6 @@ public class Md5WithRsaEncryptionSignatureEngine extends JavaSignatureEngine {
     private static final String signatureAlgorithm = "MD5withRSAEncryption";
 
     public Md5WithRsaEncryptionSignatureEngine() throws SignatureEngineException {
-        super(signatureAlgorithm, new RsaPkcs1KeyParser());
+        super(signatureAlgorithm, new DefaultKeyParser());
     }
 }

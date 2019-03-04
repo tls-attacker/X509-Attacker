@@ -15,6 +15,8 @@ public class Asn1UtcTime extends Asn1FieldContainer {
     @XmlAttribute
     private boolean preferConstructedEncoding = false;
 
+    @XmlRootElement
+    @XmlAccessorType(XmlAccessType.FIELD)
     public static final class Asn1UtcTimeItem extends Asn1Field {
 
         private static final String DEFAULT_UTC_TIME_VALUE = "99991231235959Z";

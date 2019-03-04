@@ -1,6 +1,6 @@
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.DsaOpenSSLKeyParser;
+import de.rub.nds.x509attacker.signatureengine.keyparsers.DefaultKeyParser;
 
 public class DsaWithSha1SignatureEngine extends JavaSignatureEngine {
 
@@ -9,6 +9,6 @@ public class DsaWithSha1SignatureEngine extends JavaSignatureEngine {
     private static final String signatureAlgorithm = "DSAwithSHA1";
 
     public DsaWithSha1SignatureEngine() throws SignatureEngineException {
-        super(signatureAlgorithm, new DsaOpenSSLKeyParser());
+        super(signatureAlgorithm, new DefaultKeyParser());
     }
 }

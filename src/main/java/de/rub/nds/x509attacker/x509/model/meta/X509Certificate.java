@@ -1,43 +1,51 @@
 package de.rub.nds.x509attacker.x509.model.meta;
 
+import de.rub.nds.x509attacker.x509.fieldmeta.Referenceable;
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.TbsCertificate;
+import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1Sequence;
 
 import javax.xml.bind.annotation.*;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public final class X509Certificate {
+public final class X509Certificate implements Referenceable {
 
     @XmlAttribute
-    private int id;
+    private int id = 0;
 
     @XmlAttribute
-    private String keyFile;
+    private String keyFile = null;
 
     @XmlAttribute
-    private String outputFile;
+    private String generateKeyForAlgorithm = null;
 
     @XmlAttribute
-    private boolean attachToCertificateList;
+    private String outputFile = null;
+
+    @XmlAttribute
+    private boolean attachToCertificateList = true;
 
     @XmlElement
-    private TbsCertificate tbsCertificate;
+    private TbsCertificate tbsCertificate = null;
 
     @XmlElement
-    private Signature signature;
+    private Signature signature = null;
 
     @XmlElement
-    private RealSignatureInfo realSignatureInfo;
+    private RealSignatureInfo realSignatureInfo = null;
+
+    @XmlTransient
+    private X509Certificate issuer = null;
+
+    @XmlTransient
+    private int keyFileId = 0;
 
     public X509Certificate() {
-        super();
-        this.id = 0;
-        this.keyFile = null;
-        this.outputFile = null;
-        this.attachToCertificateList = true;
-        this.tbsCertificate = null;
-        this.signature = null;
-        this.realSignatureInfo = null;
+
+    }
+
+    public String getGenerateKeyForAlgorithm() {
+        return generateKeyForAlgorithm;
     }
 
     public int getId() {
@@ -54,6 +62,14 @@ public final class X509Certificate {
 
     public void setKeyFile(String keyFile) {
         this.keyFile = keyFile;
+    }
+
+    public void setGenerateKeyForAlgorithm(String generateKeyForAlgorithm) {
+        this.generateKeyForAlgorithm = generateKeyForAlgorithm;
+    }
+
+    public X509Certificate getIssuer() {
+        return issuer;
     }
 
     public String getOutputFile() {
@@ -106,5 +122,31 @@ public final class X509Certificate {
 
     public boolean hasSignature() {
         return this.signature != null;
+    }
+
+    public void setIssuer(X509Certificate issuer) {
+        this.issuer = issuer;
+    }
+
+    public int getKeyFileId() {
+        return keyFileId;
+    }
+
+    public void setKeyFileId(int keyFileId) {
+        this.keyFileId = keyFileId;
+    }
+
+    public byte[] assembleCertificate() {
+        X509CertificateSequence certificateSequence = new X509CertificateSequence();
+        certificateSequence.addField(this.tbsCertificate);
+        if (this.signature != null) {
+            certificateSequence.addField(this.signature.getAlgorithmIdentifier());
+            certificateSequence.addField(this.signature.getSignature());
+        }
+        return certificateSequence.encode();
+    }
+
+    protected class X509CertificateSequence extends X509Asn1Sequence {
+
     }
 }

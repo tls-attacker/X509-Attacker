@@ -1,8 +1,8 @@
 package de.rub.nds.x509attacker.x509.model.types.subjectinformationaccess;
 
-import de.rub.nds.x509attacker.x509.model.asn1types.Asn1SequenceValueHolder;
+import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1Sequence;
 
-public class AccessDescription extends Asn1SequenceValueHolder {
+public class AccessDescription extends X509Asn1Sequence {
 
     public AccessDescription() {
         super();

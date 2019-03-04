@@ -16,37 +16,7 @@ public class Asn1Explicit extends Asn1Field {
     @XmlElement
     private ModifiableInteger asn1ExplicitTagNumber;
 
-    @XmlElements(value = {
-            @XmlElement(name = "asn1AbstractField", type = Asn1AbstractField.class),
-            @XmlElement(name = "asn1BitString", type = Asn1BitString.class),
-            @XmlElement(name = "asn1BitStringValue", type = Asn1BitString.Asn1BitStringItem.class),
-            @XmlElement(name = "asn1Explicit", type = Asn1Explicit.class),
-            @XmlElement(name = "asn1Field", type = Asn1Field.class),
-            @XmlElement(name = "asn1FieldContainer", type = Asn1FieldContainer.class),
-            @XmlElement(name = "asn1Ia5String", type = Asn1Ia5String.class),
-            @XmlElement(name = "asn1Ia5StringValue", type = Asn1Ia5String.Asn1Ia5StringItem.class),
-            @XmlElement(name = "asn1Integer", type = Asn1Integer.class),
-            @XmlElement(name = "asn1Null", type = Asn1Null.class),
-            @XmlElement(name = "asn1ObjectIdentifier", type = Asn1ObjectIdentifier.class),
-            @XmlElement(name = "asn1OctetString", type = Asn1OctetString.class),
-            @XmlElement(name = "asn1OctetStringValue", type = Asn1OctetString.Asn1OctetStringItem.class),
-            @XmlElement(name = "asn1PrintableString", type = Asn1PrintableString.class),
-            @XmlElement(name = "asn1PrintableStringValue", type = Asn1PrintableString.Asn1PrintableStringItem.class),
-            @XmlElement(name = "asn1RawField", type = Asn1RawField.class),
-            @XmlElement(name = "asn1Sequence", type = Asn1Sequence.class),
-            @XmlElement(name = "asn1Set", type = Asn1Set.class),
-            @XmlElement(name = "asn1T61String", type = Asn1T61String.class),
-            @XmlElement(name = "asn1T61StringValue", type = Asn1T61String.Asn1T61StringItem.class),
-            @XmlElement(name = "asn1UtcTime", type = Asn1UtcTime.class),
-            @XmlElement(name = "asn1UtcTimeValue", type = Asn1UtcTime.Asn1UtcTimeItem.class),
-            // Todo: GeneralizedTime
-            // Todo: TeletexString
-            // Todo: UniversalString
-            // Todo: UTF8String
-            // Todo: BMPString
-            // Todo: ORAddress (maybe)
-
-    })
+    @XmlAnyElement
     private Asn1RawField explicitField = null;
 
     public Asn1Explicit() {

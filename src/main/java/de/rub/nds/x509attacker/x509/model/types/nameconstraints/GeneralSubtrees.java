@@ -1,6 +1,6 @@
 package de.rub.nds.x509attacker.x509.model.types.nameconstraints;
 
-import de.rub.nds.x509attacker.x509.model.asn1types.Asn1SequenceValueHolder;
+import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1Sequence;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GeneralSubtrees extends Asn1SequenceValueHolder {
+public class GeneralSubtrees extends X509Asn1Sequence {
 
     public GeneralSubtrees() {
         super();

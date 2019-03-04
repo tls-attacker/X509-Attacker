@@ -41,16 +41,16 @@ public abstract class Asn1RawField {
      * @return The encoded data as a byte array.
      */
     public byte[] encode() {
-        byte[] encodedValue;
+        byte[] encoded;
         if (this.isEncodeForParentLayerCalled == false) {
             this.encodeForParentLayer();
         }
         if (this.isEncodeForParentLayerCalled) {
-            encodedValue = this.asn1RawFieldContent.getValue();
+            encoded = this.asn1RawFieldContent.getValue();
         } else {
             throw new RuntimeException("Asn1RawFieldEncoder.encodeForParentLayer() not executed! Did you call super.encodeForParentLayer() in all overriding methods?");
         }
-        return encodedValue;
+        return encoded;
     }
 
     /**
