@@ -27,13 +27,15 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
         }
     }
 
+    // Todo: Handle parameters argument.
     /**
      * Initializes the signature engine with the corresponding key material.
      *
      * @param keyBytes Bytes of the key material.
      * @param keyType  Indicates how the key bytes shall be parsed. Supported key types: DER_ENCODED, PEM_ENCODED.
      */
-    public void init(final byte[] keyBytes, final SignatureEngine.KeyType keyType) throws SignatureEngineException {
+    @Override
+    public void init(final byte[] keyBytes, final SignatureEngine.KeyType keyType, final byte[] parameters) throws SignatureEngineException {
         try {
             this.privateKey = this.keyParser.parse(keyBytes, keyType);
             this.isInitialized = true;
@@ -48,6 +50,7 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
      * @param toBeSigned The data to be signed.
      * @return The signature value.
      */
+    @Override
     public byte[] sign(final byte[] toBeSigned) throws SignatureEngineException {
         byte[] signature = null;
         if (this.isInitialized == false) {

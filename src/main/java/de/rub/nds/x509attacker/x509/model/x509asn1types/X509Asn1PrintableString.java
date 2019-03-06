@@ -68,6 +68,10 @@ public class X509Asn1PrintableString extends Asn1PrintableString implements X509
         this.values = values;
     }
 
+    public void addValue(Asn1RawField value) {
+        this.values.add(value);
+    }
+
     @Override
     public String getFromId() {
         return fromId;

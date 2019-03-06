@@ -2,12 +2,12 @@ package de.rub.nds.x509attacker.core;
 
 import de.rub.nds.x509attacker.core.certificatelinker.CertificateLinker;
 import de.rub.nds.x509attacker.core.certificatelinker.CertificateLinkerException;
+import de.rub.nds.x509attacker.core.certificatesigner.CertificateSigner;
+import de.rub.nds.x509attacker.core.certificatesigner.CertificateSignerException;
 import de.rub.nds.x509attacker.core.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.core.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.core.xmlparser.X509AttackerXmlParser;
 import de.rub.nds.x509attacker.core.xmlparser.X509AttackerXmlParserException;
-import de.rub.nds.x509attacker.x509.encoder.EncodeMode;
-import de.rub.nds.x509attacker.x509.encoder.X509Encoder;
 import de.rub.nds.x509attacker.x509.model.nonasn1.X509CertificateList;
 
 public class X509Attacker {
@@ -45,21 +45,16 @@ public class X509Attacker {
             CertificateLinker certificateLinker = new CertificateLinker(certificateList);
             certificateLinker.updateReferencedFields();
 
-            // Todo: Sign certificates
-            // CertificateSigner.sign(certificateList);
-
-            // Just some test stuff
-            X509Encoder x509Encoder = X509Encoder.getReference();
-            x509Encoder.setEncodeMode(EncodeMode.CERTIFICATE);
-            byte[] encoded = x509Encoder.encode(certificateList.getCertificate(0));
-            x509Encoder.setEncodeMode(EncodeMode.SIGNATURE);
-            encoded = x509Encoder.encode(certificateList.getCertificate(0));
+            // Sign certificates
+            CertificateSigner.signAllCertificates(certificateList);
             int i = 0;
         } catch (KeyFileManagerException e) {
             throw new X509AttackerException(e);
         } catch (X509AttackerXmlParserException e) {
             throw new X509AttackerException(e);
         } catch (CertificateLinkerException e) {
+            throw new X509AttackerException(e);
+        } catch (CertificateSignerException e) {
             throw new X509AttackerException(e);
         }
     }

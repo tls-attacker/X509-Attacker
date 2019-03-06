@@ -68,6 +68,10 @@ public class X509Asn1UtcTime extends Asn1UtcTime implements X509Field, X509Asn1V
         this.values = values;
     }
 
+    public void addValue(Asn1RawField value) {
+        this.values.add(value);
+    }
+
     @Override
     public String getFromId() {
         return fromId;

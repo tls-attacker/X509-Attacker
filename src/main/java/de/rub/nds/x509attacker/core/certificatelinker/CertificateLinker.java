@@ -30,7 +30,13 @@ public class CertificateLinker {
     private void runIndexing() throws CertificateLinkerException {
         for (X509Certificate x509Certificate : this.certificateList.getCertificates()) {
             this.crawlToIndex(x509Certificate);
-            RealSignatureInfo realSignatureInfo = x509Certificate.getRealSignatureInfo();
+            this.indexRealSignatureInfos(x509Certificate);
+        }
+    }
+
+    private void indexRealSignatureInfos(final X509Certificate certificate) throws CertificateLinkerException {
+        List<RealSignatureInfo> realSignatureInfos = certificate.getRealSignatureInfos();
+        for (RealSignatureInfo realSignatureInfo : realSignatureInfos) {
             this.addReferenceableToIndex(realSignatureInfo);
         }
     }
@@ -39,7 +45,9 @@ public class CertificateLinker {
         CertificateCrawler certificateCrawler = new CertificateCrawler() {
             @Override
             public void handleField(Asn1RawField field) throws CertificateLinkerException {
-                CertificateLinker.this.tryToBuildReference(field);
+                if (field instanceof Referenceable) {
+                    CertificateLinker.this.addReferenceableToIndex((Referenceable) field);
+                }
             }
         };
         certificateCrawler.crawl(rawField);
@@ -57,7 +65,13 @@ public class CertificateLinker {
     private void buildReferences() throws CertificateLinkerException {
         for (X509Certificate x509Certificate : this.certificateList.getCertificates()) {
             this.crawlToBuildReferences(x509Certificate);
-            RealSignatureInfo realSignatureInfo = x509Certificate.getRealSignatureInfo();
+            this.buildReferencesForRealSignatureInfos(x509Certificate);
+        }
+    }
+
+    private void buildReferencesForRealSignatureInfos(final X509Certificate certificate) throws CertificateLinkerException {
+        List<RealSignatureInfo> realSignatureInfos = certificate.getRealSignatureInfos();
+        for (RealSignatureInfo realSignatureInfo : realSignatureInfos) {
             KeyInfo realSignatureKeyInfo = null;
             if (realSignatureInfo != null) {
                 this.buildReference(realSignatureInfo);
@@ -88,16 +102,16 @@ public class CertificateLinker {
         CertificateCrawler certificateCrawler = new CertificateCrawler() {
             @Override
             public void handleField(Asn1RawField field) throws CertificateLinkerException {
-                CertificateLinker.this.tryToBuildReference(field);
+                if (field instanceof ReferenceHolder) {
+                    CertificateLinker.this.tryToBuildReference((ReferenceHolder) field);
+                }
             }
         };
         certificateCrawler.crawl(rawField);
     }
 
-    private void tryToBuildReference(final Asn1RawField field) throws CertificateLinkerException {
-        if (field instanceof ReferenceHolder) {
-            this.buildReference((ReferenceHolder) field);
-        }
+    private void tryToBuildReference(final ReferenceHolder referenceHolder) throws CertificateLinkerException {
+        this.buildReference((ReferenceHolder) referenceHolder);
     }
 
     public void updateReferencedFields() {

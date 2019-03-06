@@ -68,6 +68,10 @@ public class X509Asn1Ia5String extends Asn1Ia5String implements X509Field, X509A
         this.values = values;
     }
 
+    public void addValue(Asn1RawField value) {
+        this.values.add(value);
+    }
+
     @Override
     public String getFromId() {
         return fromId;

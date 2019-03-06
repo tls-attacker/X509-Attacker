@@ -10,6 +10,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class KeyFileManager {
@@ -58,11 +59,13 @@ public class KeyFileManager {
 
     public void loadAllKeyInfoKeyFiles(X509CertificateList certificateList) throws KeyFileManagerException {
         for (X509Certificate certificate : certificateList.getCertificates()) {
-            RealSignatureInfo realSignatureInfo = certificate.getRealSignatureInfo();
-            if (realSignatureInfo != null) {
-                KeyInfo keyInfo = realSignatureInfo.getKeyInfo();
-                if (keyInfo != null) {
-                    this.loadKeyInfoKeyFile(keyInfo);
+            List<RealSignatureInfo> realSignatureInfos = certificate.getRealSignatureInfos();
+            for (RealSignatureInfo realSignatureInfo : realSignatureInfos) {
+                if (realSignatureInfo != null) {
+                    KeyInfo keyInfo = realSignatureInfo.getKeyInfo();
+                    if (keyInfo != null && (keyInfo.getFromId() == null || keyInfo.getFromId().isEmpty())) {
+                        this.loadKeyInfoKeyFile(keyInfo);
+                    }
                 }
             }
         }

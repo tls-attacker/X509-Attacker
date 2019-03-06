@@ -77,12 +77,30 @@ public abstract class SignatureEngine {
     }
 
     /**
+     * @return Returns the object identifier associated with the instantiated signature scheme.
+     */
+    public String retrieveObjectIdentifier() throws SignatureEngineException {
+        String result = null;
+        for (EngineTupel engineTupel : engines) {
+            if (engineTupel.signatureEngine.isInstance(this)) {
+                result = engineTupel.objectIdentifierString;
+                break;
+            }
+        }
+        if (result == null) {
+            throw new SignatureEngineException("Object identifier is not available in SignatureEngine's engine list!");
+        }
+        return result;
+    }
+
+    /**
      * Initializes the signature engine with the corresponding key material.
      *
-     * @param keyBytes Bytes of the key material.
-     * @param keyType  Indicates how the key bytes shall be parsed.
+     * @param keyBytes   Bytes of the key material.
+     * @param keyType    Indicates how the key bytes shall be parsed.
+     * @param parameters Binary ASN.1 data according to RFC 5280.
      */
-    public abstract void init(byte[] keyBytes, KeyType keyType) throws SignatureEngineException;
+    public abstract void init(final byte[] keyBytes, final KeyType keyType, final byte[] parameters) throws SignatureEngineException;
 
     /**
      * Signs the given data and returns the signature value. Cannot be called before the signature engine is initialized.
@@ -90,5 +108,5 @@ public abstract class SignatureEngine {
      * @param toBeSigned The data to be signed.
      * @return The signature value.
      */
-    public abstract byte[] sign(byte[] toBeSigned) throws SignatureEngineException;
+    public abstract byte[] sign(final byte[] toBeSigned) throws SignatureEngineException;
 }

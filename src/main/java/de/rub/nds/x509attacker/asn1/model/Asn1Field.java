@@ -171,7 +171,7 @@ public abstract class Asn1Field extends Asn1AbstractField {
         } else {
             int numberOfLengthBytes = this.computeNumberOfLengthBytes(length);
             rawLengthBytes = new byte[1 + numberOfLengthBytes];
-            rawContentBytes[0] = (byte) 0x80;
+            rawLengthBytes[0] = (byte) (0x80 | (numberOfLengthBytes & 0x7F));
             for (int i = numberOfLengthBytes; i > 0; i--) {
                 rawLengthBytes[i] = (byte) (length & 0xFF);
                 length = length >> 8;

@@ -52,7 +52,7 @@ public class DsaWithSha1SignatureEngineTest {
             e.printStackTrace();
         }
         try {
-            signatureEngine.init(pemFileContent.getBytes(), SignatureEngine.KeyType.PEM_ENCODED);
+            signatureEngine.init(pemFileContent.getBytes(), SignatureEngine.KeyType.PEM_ENCODED, null);
             success = true;
         } catch (SignatureEngineException e) {
             e.printStackTrace();
@@ -84,7 +84,7 @@ public class DsaWithSha1SignatureEngineTest {
             e.printStackTrace();
         }
         try {
-            signatureEngine.init(pemFileContent.getBytes(), SignatureEngine.KeyType.PEM_ENCODED);
+            signatureEngine.init(pemFileContent.getBytes(), SignatureEngine.KeyType.PEM_ENCODED, null);
         } catch (SignatureEngineException e) {
             e.printStackTrace();
         }

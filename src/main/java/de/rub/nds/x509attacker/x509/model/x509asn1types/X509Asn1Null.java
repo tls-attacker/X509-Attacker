@@ -2,6 +2,7 @@ package de.rub.nds.x509attacker.x509.model.x509asn1types;
 
 import de.rub.nds.x509attacker.asn1.model.Asn1Null;
 import de.rub.nds.x509attacker.x509.encoder.X509Encoder;
+import de.rub.nds.x509attacker.x509.meta.LinkingException;
 import de.rub.nds.x509attacker.x509.meta.Referenceable;
 import de.rub.nds.x509attacker.x509.meta.X509Field;
 
@@ -65,7 +66,7 @@ public class X509Asn1Null extends Asn1Null implements X509Field {
     }
 
     @Override
-    public void setReferencedObject(Referenceable referenceable) {
+    public void setReferencedObject(Referenceable referenceable) throws LinkingException {
         // Default implementation: Do nothing
     }
 

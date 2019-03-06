@@ -6,4 +6,6 @@ import java.util.List;
 
 public interface X509Asn1ValueHolder {
     List<Asn1RawField> getValues();
+
+    void addValue(Asn1RawField value);
 }

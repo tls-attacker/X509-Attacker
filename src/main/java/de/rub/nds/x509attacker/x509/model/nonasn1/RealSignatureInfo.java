@@ -18,7 +18,10 @@ public class RealSignatureInfo implements Referenceable, ReferenceHolder {
     @XmlAttribute
     private String fromId = null;
 
-    @XmlElement
+    @XmlElements(value = {
+            @XmlElement(name = "signatureAlgorithm", type = AlgorithmIdentifier.class),
+            @XmlElement(name = "algorithmIdentifier", type = AlgorithmIdentifier.class)
+    })
     private AlgorithmIdentifier signatureAlgorithm = null;
 
     @XmlElement

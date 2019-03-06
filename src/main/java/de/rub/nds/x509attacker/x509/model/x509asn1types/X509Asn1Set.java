@@ -68,6 +68,10 @@ public class X509Asn1Set extends Asn1Set implements X509Field, X509Asn1FieldHold
         this.fields = fields;
     }
 
+    public void clearFields() {
+        this.fields.clear();
+    }
+
     @Override
     public String getFromId() {
         return fromId;
@@ -159,6 +163,29 @@ public class X509Asn1Set extends Asn1Set implements X509Field, X509Asn1FieldHold
                 }
                 occurrences++;
             }
+        }
+        return result;
+    }
+
+    @Override
+    public <T extends Asn1RawField> List<T> findAllFields(final Class<T> type) {
+        List<T> resultList = new LinkedList<>();
+        List<Asn1RawField> children = this.getFields();
+        int occurrences = 0;
+        for (Asn1RawField currentChild : children) {
+            if (type.isInstance(currentChild)) {
+                resultList.add((T) currentChild);
+            }
+        }
+        return resultList;
+    }
+
+    @Override
+    public Asn1RawField getFieldAtPos(final int pos) {
+        Asn1RawField result = null;
+        List<Asn1RawField> children = this.getFields();
+        if (children.size() > pos) {
+            result = children.get(pos);
         }
         return result;
     }

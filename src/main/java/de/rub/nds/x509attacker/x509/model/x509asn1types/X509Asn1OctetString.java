@@ -68,6 +68,10 @@ public class X509Asn1OctetString extends Asn1OctetString implements X509Field, X
         this.values = values;
     }
 
+    public void addValue(Asn1RawField value) {
+        this.values.add(value);
+    }
+
     @Override
     public String getFromId() {
         return fromId;

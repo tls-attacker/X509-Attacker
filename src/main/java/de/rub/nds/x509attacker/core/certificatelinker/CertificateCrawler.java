@@ -21,7 +21,7 @@ public abstract class CertificateCrawler {
         fieldList.add(rawField);
         while (fieldList.isEmpty() == false) {
             if (fieldList.peek() instanceof Asn1RawField == false) {
-                throw new CertificateLinkerException("The given certificate structure contains an element unknown to X.509-Attacker!");
+                throw new CertificateLinkerException("The given certificate structure contains an element unknown to X.509-Attacker: " + fieldList.peek().getClass() + " [" + fieldList.peek().toString() + "]!");
             }
             field = fieldList.poll();
             this.handleField(field);
