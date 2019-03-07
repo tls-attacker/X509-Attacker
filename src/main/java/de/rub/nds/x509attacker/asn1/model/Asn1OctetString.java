@@ -5,7 +5,6 @@ import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.modifiablevariable.util.ByteArrayAdapter;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
 import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
-import org.bouncycastle.math.raw.Mod;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -17,6 +16,9 @@ public class Asn1OctetString extends Asn1FieldContainer {
 
     @XmlAttribute
     private boolean preferConstructedEncoding = false;
+
+    @XmlAttribute
+    private boolean encapsulate = false;
 
     @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
@@ -86,6 +88,14 @@ public class Asn1OctetString extends Asn1FieldContainer {
         this.preferConstructedEncoding = preferConstructedEncoding;
     }
 
+    public boolean isEncapsulate() {
+        return encapsulate;
+    }
+
+    public void setEncapsulate(boolean encapsulate) {
+        this.encapsulate = encapsulate;
+    }
+
     /**
      * Overriding encode() to switch between primitive and constructed encoding. For primitive encoding, the return
      * value is the first child's encode() result. For constructed encoding, the default encode() method is called and
@@ -99,13 +109,20 @@ public class Asn1OctetString extends Asn1FieldContainer {
         this.encodeForParentLayer();
         fields = super.getAsn1ChildElements();
         byte[] result = null;
-        if (fields.size() > 1 || this.preferConstructedEncoding == true) {
-            result = super.encode();
+        if (this.encapsulate == true) {
+            byte[] encodedChildren = super.createContentBytes();
+            Asn1OctetStringItem octetStringItem = new Asn1OctetStringItem();
+            octetStringItem.setAsn1OctetStringValue(encodedChildren);
+            result = octetStringItem.encode(); // Todo: Since this Asn1OctetStringItem is generated as a helper, no modifications of its fields are possible. Maybe find a way to change that
         } else {
-            if (fields.size() == 1 && fields.get(0) instanceof Asn1OctetStringItem) {
-                result = fields.get(0).encode();
+            if (fields.size() > 1 || this.preferConstructedEncoding == true) {
+                result = super.encode();
             } else {
-                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.OCTET_STRING.toString() + " must only contain exactly one child of type Asn1OctetStringItem!");
+                if (fields.size() == 1 && fields.get(0) instanceof Asn1OctetStringItem) {
+                    result = fields.get(0).encode();
+                } else {
+                    throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.OCTET_STRING.toString() + " must only contain exactly one child of type Asn1OctetStringItem!");
+                }
             }
         }
         return result;

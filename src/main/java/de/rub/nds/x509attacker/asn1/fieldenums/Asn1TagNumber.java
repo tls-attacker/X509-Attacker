@@ -1,11 +1,13 @@
 package de.rub.nds.x509attacker.asn1.fieldenums;
 
 public enum Asn1TagNumber {
+    BOOLEAN(1, "BOOLEAN"),
     INTEGER(2, "INTEGER"),
     BIT_STRING(3, "BIT STRING"),
     OCTET_STRING(4, "OCTET STRING"),
     NULL(5, "NULL"),
     OBJECT_IDENTIFIER(6, "OBJECT IDENTIFIER"),
+    UTF8STRING(12, "UTF8String"),
     SEQUENCE(16, "SEQUENCE"),
     SET(17, "SET"),
     PRINTABLESTRING(19, "PrintableString"),

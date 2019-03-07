@@ -14,6 +14,7 @@ import de.rub.nds.x509attacker.x509.model.types.basiccertificate.AlgorithmIdenti
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.Signature;
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.X509Certificate;
 import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1BitString;
+import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1Null;
 import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1ObjectIdentifier;
 
 import java.util.List;
@@ -102,14 +103,16 @@ public class CertificateSigner {
     }
 
     private static void updateSignature(final Signature signature, final String algorithmIdentifier, final byte[] signatureValue) {
-        X509Asn1ObjectIdentifier asn1AlgorithmIdentifier = new X509Asn1ObjectIdentifier();
-        asn1AlgorithmIdentifier.setAsn1ObjectIdentifierValue(algorithmIdentifier);
+        AlgorithmIdentifier xmlAlgorithmIdentifier = new AlgorithmIdentifier();
+        X509Asn1ObjectIdentifier objectIdentifier = new X509Asn1ObjectIdentifier();
+        objectIdentifier.setAsn1ObjectIdentifierValue(algorithmIdentifier);
+        xmlAlgorithmIdentifier.addField(objectIdentifier);
+        xmlAlgorithmIdentifier.addField(new X509Asn1Null());
         X509Asn1BitString asn1BitString = new X509Asn1BitString();
         X509Asn1BitString.Asn1BitStringItem asn1BitStringItem = new X509Asn1BitString.Asn1BitStringItem();
-        asn1BitStringItem.setAsn1NumberOfUnusedBits(0);
         asn1BitStringItem.setAsn1BitStringValue(signatureValue);
         asn1BitString.addValue(asn1BitStringItem);
-        signature.setAlgorithmIdentifier(asn1AlgorithmIdentifier);
+        signature.setAlgorithmIdentifier(xmlAlgorithmIdentifier);
         signature.setSignatureValue(asn1BitString);
     }
 

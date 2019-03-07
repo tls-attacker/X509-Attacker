@@ -1,5 +1,17 @@
 package de.rub.nds.x509attacker.core.xmlparser;
 
+import de.rub.nds.modifiablevariable.biginteger.*;
+import de.rub.nds.modifiablevariable.bool.BooleanExplicitValueModification;
+import de.rub.nds.modifiablevariable.bool.BooleanToogleModification;
+import de.rub.nds.modifiablevariable.bool.ModifiableBoolean;
+import de.rub.nds.modifiablevariable.bytearray.*;
+import de.rub.nds.modifiablevariable.integer.*;
+import de.rub.nds.modifiablevariable.mlong.*;
+import de.rub.nds.modifiablevariable.singlebyte.*;
+import de.rub.nds.modifiablevariable.string.ModifiableString;
+import de.rub.nds.modifiablevariable.string.StringExplicitValueModification;
+import de.rub.nds.modifiablevariable.util.ByteArrayAdapter;
+import de.rub.nds.x509attacker.asn1.adapters.BigIntegerAdapter;
 import de.rub.nds.x509attacker.asn1.model.*;
 import de.rub.nds.x509attacker.x509.model.nonasn1.KeyInfo;
 import de.rub.nds.x509attacker.x509.model.nonasn1.RealSignatureInfo;
@@ -30,10 +42,57 @@ public class X509AttackerXmlParser {
     private void createJaxbContext() throws X509AttackerXmlParserException {
         try {
             this.jaxbContext = JAXBContext.newInstance(
+                    // ModifiableVariables
+                    ModifiableBigInteger.class,
+                    BigIntegerAddModification.class,
+                    BigIntegerExplicitValueModification.class,
+                    BigIntegerInteractiveModification.class,
+                    BigIntegerShiftLeftModification.class,
+                    BigIntegerShiftRightModification.class,
+                    BigIntegerSubtractModification.class,
+                    BigIntegerXorModification.class,
+
+                    ModifiableBoolean.class,
+                    BooleanExplicitValueModification.class,
+                    BooleanToogleModification.class,
+
+                    ModifiableByteArray.class,
+                    ByteArrayDeleteModification.class,
+                    ByteArrayDuplicateModification.class,
+                    ByteArrayExplicitValueModification.class,
+                    ByteArrayInsertModification.class,
+                    ByteArrayPayloadModification.class,
+                    ByteArrayShuffleModification.class,
+                    ByteArrayXorModification.class,
+
+                    ModifiableInteger.class,
+                    IntegerAddModification.class,
+                    IntegerExplicitValueModification.class,
+                    IntegerShiftLeftModification.class,
+                    IntegerShiftRightModification.class,
+                    IntegerSubtractModification.class,
+                    IntegerXorModification.class,
+
+                    ModifiableLong.class,
+                    LongAddModification.class,
+                    LongExplicitValueModification.class,
+                    LongSubtractModification.class,
+                    LongXorModification.class,
+
+                    ModifiableByte.class,
+                    ByteAddModification.class,
+                    ByteExplicitValueModification.class,
+                    ByteSubtractModification.class,
+                    ByteXorModification.class,
+
+                    ModifiableString.class,
+                    StringExplicitValueModification.class,
+
                     // ASN.1 model classes
                     Asn1AbstractField.class,
                     Asn1BitString.class,
                     Asn1BitString.Asn1BitStringItem.class,
+                    Asn1Boolean.class,
                     Asn1Explicit.class,
                     Asn1Field.class,
                     Asn1Ia5String.class,
@@ -52,9 +111,13 @@ public class X509AttackerXmlParser {
                     Asn1T61String.Asn1T61StringItem.class,
                     Asn1UtcTime.class,
                     Asn1UtcTime.Asn1UtcTimeItem.class,
+                    Asn1Utf8String.class,
+                    Asn1Utf8String.Asn1Utf8StringItem.class,
 
                     // X.509 model classes
                     X509Asn1BitString.class,
+                    X509Asn1Boolean.class,
+                    X509Asn1Explicit.class,
                     X509Asn1Ia5String.class,
                     X509Asn1Integer.class,
                     X509Asn1Null.class,
@@ -65,6 +128,7 @@ public class X509AttackerXmlParser {
                     X509Asn1Set.class,
                     X509Asn1T61String.class,
                     X509Asn1UtcTime.class,
+                    X509Asn1Utf8String.class,
 
                     KeyInfo.class,
                     RealSignatureInfo.class,
@@ -99,6 +163,8 @@ public class X509AttackerXmlParser {
         try {
             StringReader stringReader = new StringReader(xmlString);
             Unmarshaller unmarshaller = this.jaxbContext.createUnmarshaller();
+            unmarshaller.setAdapter(new ByteArrayAdapter());
+            unmarshaller.setAdapter(new BigIntegerAdapter());
             Object unmarshalledObject = unmarshaller.unmarshal(stringReader);
             this.x509CertificateList = (X509CertificateList) unmarshalledObject;
         } catch (JAXBException e) {

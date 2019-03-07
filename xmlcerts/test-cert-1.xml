@@ -64,7 +64,7 @@
             </subjectPublicKeyInfo>
         </tbsCertificate>
         <signature fromId="cert1RealSignatureInfo">
-            <!-- todo -->
+            <!-- Potentially AlgorithmIdentifier and Bit String -->
         </signature>
         <realSignatureInfo id="cert1RealSignatureInfo">
             <algorithmIdentifier>

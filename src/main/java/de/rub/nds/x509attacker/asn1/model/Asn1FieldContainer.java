@@ -40,7 +40,7 @@ public abstract class Asn1FieldContainer extends Asn1Field {
         super.encodeForParentLayer();
     }
 
-    private byte[] createContentBytes() {
+    protected byte[] createContentBytes() {
         byte[] content;
         byte[][] containedFieldContents = new byte[this.asn1ChildElements.size()][];
         int totalSize = 0;

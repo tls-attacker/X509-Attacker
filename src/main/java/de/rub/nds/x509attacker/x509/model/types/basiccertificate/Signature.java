@@ -7,7 +7,6 @@ import de.rub.nds.x509attacker.x509.meta.Referenceable;
 import de.rub.nds.x509attacker.x509.model.nonasn1.RealSignatureInfo;
 import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1BitString;
 import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1Null;
-import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1ObjectIdentifier;
 
 import javax.xml.bind.annotation.*;
 
@@ -16,7 +15,7 @@ import javax.xml.bind.annotation.*;
 public class Signature extends X509Asn1Null {
 
     @XmlElement
-    private X509Asn1ObjectIdentifier algorithmIdentifier = null; // Todo: Change type to SignatureAlgorithm once implemented
+    private AlgorithmIdentifier algorithmIdentifier = null; // Todo: Change type to SignatureAlgorithm once implemented
 
     @XmlElement
     private X509Asn1BitString signatureValue = null; // Todo: Change type to SignatureValue once implemented
@@ -28,11 +27,11 @@ public class Signature extends X509Asn1Null {
 
     }
 
-    public X509Asn1ObjectIdentifier getAlgorithmIdentifier() {
+    public AlgorithmIdentifier getAlgorithmIdentifier() {
         return algorithmIdentifier;
     }
 
-    public void setAlgorithmIdentifier(X509Asn1ObjectIdentifier algorithmIdentifier) {
+    public void setAlgorithmIdentifier(AlgorithmIdentifier algorithmIdentifier) {
         this.algorithmIdentifier = algorithmIdentifier;
     }
 

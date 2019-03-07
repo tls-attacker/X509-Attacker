@@ -10,7 +10,7 @@ public class Main {
     public static void main(String[] args) {
         X509Attacker x509Attacker = X509Attacker.getInstance();
         try {
-            File file = new File("C:\\Users\\Nils\\Documents\\Uni\\Masterarbeit\\X509-Attacker\\xmlcerts\\test-cert-1.xml");
+            File file = new File("C:\\Users\\Nils\\Documents\\Uni\\Masterarbeit\\X509-Attacker\\xmlcerts\\1-reconstructed.xml");
             FileInputStream fileInputStream = new FileInputStream(file);
             int fileLength = (int) file.length();
             byte[] buffer = new byte[fileLength];

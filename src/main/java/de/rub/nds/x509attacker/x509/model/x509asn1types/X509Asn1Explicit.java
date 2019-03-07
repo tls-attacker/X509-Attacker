@@ -1,19 +1,22 @@
 package de.rub.nds.x509attacker.x509.model.x509asn1types;
 
+import de.rub.nds.x509attacker.asn1.model.Asn1Explicit;
 import de.rub.nds.x509attacker.asn1.model.Asn1RawField;
-import de.rub.nds.x509attacker.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.x509.encoder.X509Encoder;
 import de.rub.nds.x509attacker.x509.meta.Referenceable;
 import de.rub.nds.x509attacker.x509.meta.X509Asn1FieldHolder;
 import de.rub.nds.x509attacker.x509.meta.X509Field;
 
-import javax.xml.bind.annotation.*;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509Asn1Sequence extends Asn1Sequence implements X509Field, X509Asn1FieldHolder {
+public class X509Asn1Explicit extends Asn1Explicit implements X509Field, X509Asn1FieldHolder {
 
     @XmlAttribute
     private String id = null;
@@ -27,12 +30,8 @@ public class X509Asn1Sequence extends Asn1Sequence implements X509Field, X509Asn
     @XmlAttribute
     private String fromId = null;
 
-    @XmlAnyElement(lax = true)
-    private List<Asn1RawField> fields;
-
-    public X509Asn1Sequence() {
+    public X509Asn1Explicit() {
         super();
-        this.fields = new LinkedList<>();
     }
 
     @Override
@@ -60,22 +59,6 @@ public class X509Asn1Sequence extends Asn1Sequence implements X509Field, X509Asn
         this.excludeFromCertificate = excludeFromCertificate;
     }
 
-    public List<Asn1RawField> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<Asn1RawField> fields) {
-        this.fields = fields;
-    }
-
-    public void addField(Asn1RawField field) {
-        this.fields.add(field);
-    }
-
-    public void clearFields() {
-        this.fields.clear();
-    }
-
     @Override
     public String getFromId() {
         return fromId;
@@ -96,16 +79,22 @@ public class X509Asn1Sequence extends Asn1Sequence implements X509Field, X509Asn
     }
 
     @Override
-    protected void encodeForParentLayer() {
-        this.addFieldsToAsn1Sequence();
-        super.encodeForParentLayer();
+    public List<Asn1RawField> getFields() {
+        List<Asn1RawField> fields = new LinkedList<>();
+        if (this.getExplicitField() != null) {
+            fields.add(this.getExplicitField());
+        }
+        return fields;
     }
 
-    private void addFieldsToAsn1Sequence() {
-        super.clearFields();
-        for (Asn1RawField field : this.fields) {
-            super.addField(field);
-        }
+    @Override
+    public void clearFields() {
+        this.setExplicitField(null);
+    }
+
+    @Override
+    protected void encodeForParentLayer() {
+        super.encodeForParentLayer();
     }
 
     @Override
@@ -157,16 +146,8 @@ public class X509Asn1Sequence extends Asn1Sequence implements X509Field, X509Asn
     @Override
     public <T extends Asn1RawField> T findField(final int pos, final Class<T> type) {
         T result = null;
-        List<Asn1RawField> children = this.getFields();
-        int occurrences = 0;
-        for (Asn1RawField currentChild : children) {
-            if (type.isInstance(currentChild)) {
-                if (pos == occurrences) {
-                    result = (T) currentChild;
-                    break;
-                }
-                occurrences++;
-            }
+        if (pos == 0 && type.isInstance(this.getExplicitField())) {
+            result = (T) this.getExplicitField();
         }
         return result;
     }
@@ -174,34 +155,23 @@ public class X509Asn1Sequence extends Asn1Sequence implements X509Field, X509Asn
     @Override
     public <T extends Asn1RawField> List<T> findAllFields(final Class<T> type) {
         List<T> resultList = new LinkedList<>();
-        List<Asn1RawField> children = this.getFields();
-        int occurrences = 0;
-        for (Asn1RawField currentChild : children) {
-            if (type.isInstance(currentChild)) {
-                resultList.add((T) currentChild);
-            }
+        T field = this.findField(type);
+        if (field != null) {
+            resultList.add(field);
         }
         return resultList;
     }
 
     @Override
     public Asn1RawField getFieldAtPos(final int pos) {
-        Asn1RawField result = null;
-        List<Asn1RawField> children = this.getFields();
-        if (children.size() > pos) {
-            result = children.get(pos);
-        }
-        return result;
+        return this.getExplicitField();
     }
 
     @Override
     public <T extends Asn1RawField> int countFieldOccurrences(final Class<T> type) {
-        List<Asn1RawField> children = this.getFields();
         int occurrences = 0;
-        for (Asn1RawField currentChild : children) {
-            if (type.isInstance(currentChild)) {
-                occurrences++;
-            }
+        if (this.getExplicitField() != null) {
+            occurrences = 1;
         }
         return occurrences;
     }

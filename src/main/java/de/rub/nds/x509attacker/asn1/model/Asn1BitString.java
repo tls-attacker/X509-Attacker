@@ -18,6 +18,9 @@ public class Asn1BitString extends Asn1FieldContainer {
     @XmlAttribute
     private boolean preferConstructedEncoding = false;
 
+    @XmlAttribute
+    private boolean encapsulate = false;
+
     @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
     public static final class Asn1BitStringItem extends Asn1Field {
@@ -124,6 +127,14 @@ public class Asn1BitString extends Asn1FieldContainer {
         this.preferConstructedEncoding = preferConstructedEncoding;
     }
 
+    public boolean isEncapsulate() {
+        return encapsulate;
+    }
+
+    public void setEncapsulate(boolean encapsulate) {
+        this.encapsulate = encapsulate;
+    }
+
     /**
      * Overriding encode() to switch between primitive and constructed encoding. For primitive encoding, the return
      * value is the first child's encode() result. For constructed encoding, the default encode() method is called and
@@ -137,13 +148,20 @@ public class Asn1BitString extends Asn1FieldContainer {
         this.encodeForParentLayer();
         fields = super.getAsn1ChildElements();
         byte[] result = null;
-        if (fields.size() > 1 || this.preferConstructedEncoding == true) {
-            result = super.encode();
+        if (this.encapsulate == true) {
+            byte[] encodedChildren = super.createContentBytes();
+            Asn1BitStringItem bitStringItem = new Asn1BitStringItem();
+            bitStringItem.setAsn1BitStringValue(encodedChildren);
+            result = bitStringItem.encode(); // Todo: Since this Asn1BitStringItem is generated as a helper, no modifications of its fields are possible. Maybe find a way to change that
         } else {
-            if (fields.size() == 1 && fields.get(0) instanceof Asn1BitStringItem) {
-                result = fields.get(0).encode();
+            if (fields.size() > 1 || this.preferConstructedEncoding == true) {
+                result = super.encode();
             } else {
-                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.BIT_STRING.toString() + " must only contain exactly one child of type Asn1BitStringItem!");
+                if (fields.size() == 1 && fields.get(0) instanceof Asn1BitStringItem) {
+                    result = fields.get(0).encode();
+                } else {
+                    throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.BIT_STRING.toString() + " must only contain exactly one child of type Asn1BitStringItem!");
+                }
             }
         }
         return result;

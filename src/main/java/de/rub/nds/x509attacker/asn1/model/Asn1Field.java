@@ -112,7 +112,8 @@ public abstract class Asn1Field extends Asn1AbstractField {
     }
 
     private byte[] createRawIdentifierBytes() {
-        int tagClass = Asn1TagClass.fromString(this.asn1TagClass.getValue()).getIntValue();
+        String tagClassString = this.asn1TagClass.getValue();
+        int tagClass = (tagClassString != null) ? Asn1TagClass.fromString(tagClassString).getIntValue() : Asn1TagClass.UNIVERSAL.getIntValue();
         boolean isConstructed = this.asn1IsConstructed.getValue();
         int tagNumber = this.asn1TagNumber.getValue();
         byte[] tagNumberBytes = this.createTagNumberBytes(tagNumber);
