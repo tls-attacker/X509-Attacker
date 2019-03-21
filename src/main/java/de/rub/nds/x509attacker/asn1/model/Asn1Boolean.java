@@ -2,8 +2,8 @@ package de.rub.nds.x509attacker.asn1.model;
 
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.bool.ModifiableBoolean;
-import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
-import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
+import de.rub.nds.x509attacker.asn1.Asn1TagClass;
+import de.rub.nds.x509attacker.asn1.Asn1TagNumber;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;

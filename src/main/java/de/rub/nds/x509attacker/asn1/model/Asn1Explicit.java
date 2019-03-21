@@ -3,7 +3,7 @@ package de.rub.nds.x509attacker.asn1.model;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.integer.ModifiableInteger;
 import de.rub.nds.modifiablevariable.string.ModifiableString;
-import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
+import de.rub.nds.x509attacker.asn1.Asn1TagClass;
 
 import javax.xml.bind.annotation.*;
 

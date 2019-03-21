@@ -1,4 +1,4 @@
-package de.rub.nds.x509attacker.asn1.fieldenums;
+package de.rub.nds.x509attacker.asn1;
 
 public enum Asn1TagNumber {
     BOOLEAN(1, "BOOLEAN"),

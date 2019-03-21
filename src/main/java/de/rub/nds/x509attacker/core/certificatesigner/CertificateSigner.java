@@ -12,6 +12,7 @@ import de.rub.nds.x509attacker.x509.model.nonasn1.RealSignatureInfo;
 import de.rub.nds.x509attacker.x509.model.nonasn1.X509CertificateList;
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.AlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.Signature;
+import de.rub.nds.x509attacker.x509.model.types.basiccertificate.TbsCertificate;
 import de.rub.nds.x509attacker.x509.model.types.basiccertificate.X509Certificate;
 import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1BitString;
 import de.rub.nds.x509attacker.x509.model.x509asn1types.X509Asn1Null;
@@ -42,9 +43,16 @@ public class CertificateSigner {
     }
 
     private static byte[] encodeCertificateForSignature(final X509Certificate certificate) {
+        byte[] toBeSigned = null;
         X509Encoder x509Encoder = X509Encoder.getReference();
         x509Encoder.setEncodeMode(EncodeMode.SIGNATURE);
-        return x509Encoder.encode(certificate);
+        TbsCertificate tbsCertificate = certificate.findField(TbsCertificate.class);
+        if (tbsCertificate != null) {
+            toBeSigned = x509Encoder.encode(tbsCertificate);
+        } else {
+            toBeSigned = new byte[0];
+        }
+        return toBeSigned;
     }
 
     private static void computeSingleSignatureValue(final byte[] toBeSigned, final Signature signature) throws CertificateSignerException {

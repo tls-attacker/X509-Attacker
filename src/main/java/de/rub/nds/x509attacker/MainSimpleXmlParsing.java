@@ -6,7 +6,7 @@ import de.rub.nds.x509attacker.core.X509AttackerException;
 import java.io.File;
 import java.io.FileInputStream;
 
-public class Main {
+public class MainSimpleXmlParsing {
     public static void main(String[] args) {
         X509Attacker x509Attacker = X509Attacker.getInstance();
         try {

@@ -39,8 +39,6 @@ public class X509Attacker {
             KeyFileManager keyFileManager = KeyFileManager.getReference();
             keyFileManager.loadAllKeyFiles(certificateList);
 
-            // Todo: Generate missing key files?
-
             // Link certificate fields
             CertificateLinker certificateLinker = new CertificateLinker(certificateList);
             certificateLinker.updateReferencedFields();

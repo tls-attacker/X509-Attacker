@@ -4,8 +4,8 @@ import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.modifiablevariable.util.ByteArrayAdapter;
-import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
-import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagNumber;
+import de.rub.nds.x509attacker.asn1.Asn1TagClass;
+import de.rub.nds.x509attacker.asn1.Asn1TagNumber;
 
 import javax.xml.bind.annotation.*;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -15,15 +15,65 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Asn1BitString extends Asn1FieldContainer {
 
+    public static final Asn1TagClass TYPE_TAG_CLASS = Asn1TagClass.UNIVERSAL;
+    public static final boolean TYPE_IS_CONSTRUCTED = true;
+    public static final Asn1TagNumber TYPE_TAG_NUMBER = Asn1TagNumber.BIT_STRING;
+
     @XmlAttribute
     private boolean preferConstructedEncoding = false;
 
-    @XmlAttribute
-    private boolean encapsulate = false;
+    /**
+     * Overriding encode() to switch between primitive and constructed encoding. For primitive encoding, the return
+     * value is the first child's encode() result. For constructed encoding, the default encode() method is called and
+     * hence the encoding is performed in encodeForParentLayer().
+     *
+     * @return
+     */
+    @Override
+    public byte[] encode() {
+        List<Asn1RawField> fields = null;
+        this.encodeForParentLayer();
+        fields = super.getAsn1ChildElements();
+        byte[] result = null;
+        if (fields.size() > 1 || this.preferConstructedEncoding == true) {
+            result = super.encode();
+        } else {
+            if (fields.size() == 1 && fields.get(0) instanceof Asn1BitStringItem) {
+                result = fields.get(0).encode();
+            } else {
+                throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.BIT_STRING.toString() + " must only contain exactly one child of type Asn1BitStringItem or of type Asn1EncapsulatingBitStringItem!");
+            }
+        }
+        return result;
+    }
+
+    @Override
+    protected void encodeForParentLayer() {
+        super.setAsn1TagClass(TYPE_TAG_CLASS.toString());
+        super.setAsn1IsConstructed(TYPE_IS_CONSTRUCTED);
+        super.setAsn1TagNumber(TYPE_TAG_NUMBER.getIntValue());
+        super.encodeForParentLayer();
+    }
+
+    public Asn1BitString() {
+        super();
+    }
+
+    public boolean isPreferConstructedEncoding() {
+        return preferConstructedEncoding;
+    }
+
+    public void setPreferConstructedEncoding(boolean preferConstructedEncoding) {
+        this.preferConstructedEncoding = preferConstructedEncoding;
+    }
 
     @XmlRootElement
     @XmlAccessorType(XmlAccessType.FIELD)
-    public static final class Asn1BitStringItem extends Asn1Field {
+    public static class Asn1BitStringItem extends Asn1Field {
+
+        public static final Asn1TagClass TYPE_TAG_CLASS = Asn1TagClass.UNIVERSAL;
+        public static final boolean TYPE_IS_CONSTRUCTED = false;
+        public static final Asn1TagNumber TYPE_TAG_NUMBER = Asn1TagNumber.BIT_STRING;
 
         private static final byte DEFAULT_NUMBER_OF_UNUSED_BITS = 0;
         private static final byte[] DEFAULT_HEX_STRING = new byte[0];
@@ -87,9 +137,9 @@ public class Asn1BitString extends Asn1FieldContainer {
         protected void encodeForParentLayer() {
             this.updateDefaultValues();
             byte[] content = this.createContentBytes();
-            super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
-            super.setAsn1IsConstructed(false);
-            super.setAsn1TagNumber(Asn1TagNumber.BIT_STRING.getIntValue());
+            super.setAsn1TagClass(TYPE_TAG_CLASS.toString());
+            super.setAsn1IsConstructed(TYPE_IS_CONSTRUCTED);
+            super.setAsn1TagNumber(TYPE_TAG_NUMBER.getIntValue());
             super.setAsn1Content(content);
             super.encodeForParentLayer();
         }
@@ -115,63 +165,49 @@ public class Asn1BitString extends Asn1FieldContainer {
         }
     }
 
-    public Asn1BitString() {
-        super();
-    }
+    @XmlRootElement
+    @XmlAccessorType(XmlAccessType.FIELD)
+    public static final class Asn1EncapsulatingBitStringItem extends Asn1BitStringItem {
 
-    public boolean isPreferConstructedEncoding() {
-        return preferConstructedEncoding;
-    }
+        @XmlAnyElement(lax = true)
+        private List<Asn1RawField> asn1ChildElements;
 
-    public void setPreferConstructedEncoding(boolean preferConstructedEncoding) {
-        this.preferConstructedEncoding = preferConstructedEncoding;
-    }
+        public List<Asn1RawField> getAsn1ChildElements() {
+            return asn1ChildElements;
+        }
 
-    public boolean isEncapsulate() {
-        return encapsulate;
-    }
+        public void setAsn1ChildElements(List<Asn1RawField> asn1ChildElements) {
+            this.asn1ChildElements = asn1ChildElements;
+        }
 
-    public void setEncapsulate(boolean encapsulate) {
-        this.encapsulate = encapsulate;
-    }
+        public void addField(Asn1RawField field) {
+            this.asn1ChildElements.add(field);
+        }
 
-    /**
-     * Overriding encode() to switch between primitive and constructed encoding. For primitive encoding, the return
-     * value is the first child's encode() result. For constructed encoding, the default encode() method is called and
-     * hence the encoding is performed in encodeForParentLayer().
-     *
-     * @return
-     */
-    @Override
-    public byte[] encode() {
-        List<Asn1RawField> fields = null;
-        this.encodeForParentLayer();
-        fields = super.getAsn1ChildElements();
-        byte[] result = null;
-        if (this.encapsulate == true) {
-            byte[] encodedChildren = super.createContentBytes();
-            Asn1BitStringItem bitStringItem = new Asn1BitStringItem();
-            bitStringItem.setAsn1BitStringValue(encodedChildren);
-            result = bitStringItem.encode(); // Todo: Since this Asn1BitStringItem is generated as a helper, no modifications of its fields are possible. Maybe find a way to change that
-        } else {
-            if (fields.size() > 1 || this.preferConstructedEncoding == true) {
-                result = super.encode();
-            } else {
-                if (fields.size() == 1 && fields.get(0) instanceof Asn1BitStringItem) {
-                    result = fields.get(0).encode();
-                } else {
-                    throw new RuntimeException("Primitive encoding of " + Asn1TagNumber.BIT_STRING.toString() + " must only contain exactly one child of type Asn1BitStringItem!");
+        @Override
+        protected void encodeForParentLayer() {
+            byte[] content = this.createContentBytes();
+            super.setAsn1BitStringValue(content);
+            super.encodeForParentLayer();
+        }
+
+        private byte[] createContentBytes() {
+            byte[] content;
+            byte[][] containedFieldContents = new byte[this.asn1ChildElements.size()][];
+            int totalSize = 0;
+            int contentPos = 0;
+            for (int i = 0; i < this.asn1ChildElements.size(); i++) {
+                containedFieldContents[i] = this.asn1ChildElements.get(i).encode();
+                totalSize += containedFieldContents[i].length;
+            }
+            content = new byte[totalSize];
+            for (int i = 0; i < containedFieldContents.length; i++) {
+                for (int j = 0; j < containedFieldContents[i].length; j++) {
+                    content[contentPos] = containedFieldContents[i][j];
+                    contentPos++;
                 }
             }
+            return content;
         }
-        return result;
-    }
-
-    @Override
-    protected void encodeForParentLayer() {
-        super.setAsn1TagClass(Asn1TagClass.UNIVERSAL.toString());
-        super.setAsn1IsConstructed(true);
-        super.setAsn1TagNumber(Asn1TagNumber.BIT_STRING.getIntValue());
-        super.encodeForParentLayer();
     }
 }

@@ -89,9 +89,9 @@ public class X509AttackerXmlParser {
                     StringExplicitValueModification.class,
 
                     // ASN.1 model classes
-                    Asn1AbstractField.class,
                     Asn1BitString.class,
                     Asn1BitString.Asn1BitStringItem.class,
+                    Asn1BitString.Asn1EncapsulatingBitStringItem.class,
                     Asn1Boolean.class,
                     Asn1Explicit.class,
                     Asn1Field.class,
@@ -102,6 +102,7 @@ public class X509AttackerXmlParser {
                     Asn1ObjectIdentifier.class,
                     Asn1OctetString.class,
                     Asn1OctetString.Asn1OctetStringItem.class,
+                    Asn1OctetString.Asn1EncapsulatingOctetStringItem.class,
                     Asn1PrintableString.class,
                     Asn1PrintableString.Asn1PrintableStringItem.class,
                     Asn1RawField.class,

@@ -1,4 +1,4 @@
-package de.rub.nds.x509attacker.asn1.fieldenums;
+package de.rub.nds.x509attacker.asn1;
 
 public enum Asn1TagClass {
     UNIVERSAL(0, "Universal"),
@@ -23,6 +23,19 @@ public enum Asn1TagClass {
         }
         if (result == null) {
             throw new RuntimeException("Tag class is \"" + stringValue + "\", but should be one of: universal, application, context-specific, private.");
+        }
+        return result;
+    }
+
+    public static Asn1TagClass fromByte(byte byteVal) {
+        Asn1TagClass result = null;
+        for (Asn1TagClass currentAsn1TagClass : Asn1TagClass.values()) {
+            if (byteVal == currentAsn1TagClass.getIntValue()) {
+                result = currentAsn1TagClass;
+            }
+        }
+        if (result == null) {
+            throw new RuntimeException("Tag class is \"" + byteVal + "\", but should be one of: 0, 1, 2, 3.");
         }
         return result;
     }

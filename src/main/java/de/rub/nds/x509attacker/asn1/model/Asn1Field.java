@@ -5,7 +5,7 @@ import de.rub.nds.modifiablevariable.bool.ModifiableBoolean;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.modifiablevariable.integer.ModifiableInteger;
 import de.rub.nds.modifiablevariable.string.ModifiableString;
-import de.rub.nds.x509attacker.asn1.fieldenums.Asn1TagClass;
+import de.rub.nds.x509attacker.asn1.Asn1TagClass;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -14,7 +14,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class Asn1Field extends Asn1AbstractField {
+public abstract class Asn1Field extends Asn1RawField {
 
     @XmlElement
     private ModifiableString asn1TagClass;
@@ -102,12 +102,11 @@ public abstract class Asn1Field extends Asn1AbstractField {
 
     @Override
     protected void encodeForParentLayer() {
-        byte[] rawIdentifier = this.createRawIdentifierBytes();
-        byte[] rawContent = this.createRawContentBytes();
-        byte[] rawLength = this.createRawLengthBytes(rawContent);
-        super.setAsn1RawIdentifier(rawIdentifier);
-        super.setAsn1RawLength(rawLength);
-        super.setAsn1RawContent(rawContent);
+        byte[] identifierBytes = this.createRawIdentifierBytes();
+        byte[] contentBytes = this.createRawContentBytes();
+        byte[] lengthBytes = this.createRawLengthBytes(contentBytes);
+        byte[] rawContent = this.mergeContents(identifierBytes, lengthBytes, contentBytes);
+        super.setAsn1RawFieldContent(rawContent);
         super.encodeForParentLayer();
     }
 
@@ -192,5 +191,13 @@ public abstract class Asn1Field extends Asn1AbstractField {
 
     private byte[] createRawContentBytes() {
         return this.asn1Content.getValue();
+    }
+
+    private byte[] mergeContents(byte[] identifierBytes, byte[] lengthBytes, byte[] contentBytes) {
+        byte[] result = new byte[identifierBytes.length + lengthBytes.length + contentBytes.length];
+        System.arraycopy(identifierBytes, 0, result, 0, identifierBytes.length);
+        System.arraycopy(lengthBytes, 0, result, identifierBytes.length, lengthBytes.length);
+        System.arraycopy(contentBytes, 0, result, identifierBytes.length + lengthBytes.length, contentBytes.length);
+        return result;
     }
 }

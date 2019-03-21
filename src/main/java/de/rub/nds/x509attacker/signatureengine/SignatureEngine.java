@@ -98,7 +98,7 @@ public abstract class SignatureEngine {
      *
      * @param keyBytes   Bytes of the key material.
      * @param keyType    Indicates how the key bytes shall be parsed.
-     * @param parameters Binary ASN.1 data according to RFC 5280.
+     * @param parameters Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
      */
     public abstract void init(final byte[] keyBytes, final KeyType keyType, final byte[] parameters) throws SignatureEngineException;
 
