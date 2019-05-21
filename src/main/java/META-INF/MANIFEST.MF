@@ -1,4 +1,0 @@
-Manifest-Version: 1.0
-Main-Class: de.rub.nds.x509attacker.executables.makecert.MakeCertifica
- tes
-
