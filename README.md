@@ -1,0 +1,2 @@
+# X.509-Attacker
+X.509-Attacker is a tool based on ASN.1 Tool for creating arbitrary certificates; including especially         invalid and malformed certificates. Since X.509 certificates encode their contents in ASN.1, this tool extends         the features of ASN.1 Tool in terms of certificate signing. Also, X.509-Attacker introduces a feature of         referencing XML elements in order to avoid redundancies when defining certificates in XML.
