@@ -160,3 +160,5 @@
 /target/classes/de/rub/nds/x509attacker/keyfilemanager/KeyFileManagerException.class
 /target/classes/de/rub/nds/x509attacker/xmlparser/X509AttackerXmlParser.class
 /target/classes/de/rub/nds/x509attacker/xmlparser/X509AttackerXmlParserException.class
+
+target/

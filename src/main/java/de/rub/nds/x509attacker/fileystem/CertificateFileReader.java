@@ -19,7 +19,7 @@ public class CertificateFileReader extends TextFileReader  {
         byte[] bytes = null;
         String certificateFileContent = super.read();
         if(certificateFileContent.contains(CERTIFICATE_PEM_PREFIX) && certificateFileContent.contains(CERTIFICATE_PEM_SUFFIX)) {
-            String base64Str = certificateFileContent.replace(CERTIFICATE_PEM_PREFIX, "").replace(CERTIFICATE_PEM_SUFFIX, "").trim();
+            String base64Str = certificateFileContent.replace("\\n", "").replace("\n", "").replace("\r", "").replace(CERTIFICATE_PEM_PREFIX, "").replace(CERTIFICATE_PEM_SUFFIX, "").trim();
             bytes = Base64.getDecoder().decode(base64Str);
         }
         if(bytes == null) {
