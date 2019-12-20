@@ -156,7 +156,7 @@ public class X509Attacker {
         }
     }
 
-    private static void registerXmlClasses() {
+    public static void registerXmlClasses() {
         JaxbClassList jaxbClassList = JaxbClassList.getInstance();
         jaxbClassList.addClasses(Asn1Tool.getAsn1ToolJaxbClasses());
         jaxbClassList.addClasses(
@@ -166,26 +166,26 @@ public class X509Attacker {
         );
     }
 
-    private static void registerTypes() {
+    public static void registerTypes() {
         Asn1TypeRegister asn1TypeRegister = Asn1TypeRegister.getInstance();
         asn1TypeRegister.setDefaultTypeProcessorClass(DefaultX509TypeProcessor.class);
         asn1TypeRegister.register("SubjectPublicKeyInfo", SubjectPublicKeyInfoTypeProcessor.class);
     }
 
-    private static void registerContexts() {
+    public static void registerContexts() {
         ContextRegister contextRegister = ContextRegister.getInstance();
         contextRegister.registerContext(ParseNativeTypesContext.NAME, ParseNativeTypesContext.class);
 
         // Todo: Implement X.509 contexts according to RFC 5280
     }
 
-    private static void registerContentUnpackers() {
+    public static void registerContentUnpackers() {
         ContentUnpackerRegister contentUnpackerRegister = ContentUnpackerRegister.getInstance();
         contentUnpackerRegister.registerContentUnpacker(new DefaultContentUnpacker());
         contentUnpackerRegister.registerContentUnpacker(new PrimitiveBitStringUnpacker());
     }
 
-    private static void writeCertificates(final String certificateOutputDirectory, final List<Asn1Encodable> certificates, final byte[][] encodedCertificates) throws IOException {
+    public static void writeCertificates(final String certificateOutputDirectory, final List<Asn1Encodable> certificates, final byte[][] encodedCertificates) throws IOException {
         CertificateFileWriter certificateChainFileWriter = new CertificateFileWriter(certificateOutputDirectory, "certificate_chain.pem");
         for(int i = 0; i < certificates.size(); i++) {
             Asn1Encodable certificate = certificates.get(i);
