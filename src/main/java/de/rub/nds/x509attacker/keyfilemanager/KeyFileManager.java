@@ -30,8 +30,10 @@ public class KeyFileManager {
     }
 
     public void init(String keyFileDirectory) throws KeyFileManagerException {
-        this.keyFileDirectory = new File(keyFileDirectory);
-        this.readAllKeyFiles();
+        if (this.keyFileMap.isEmpty()) {
+            this.keyFileDirectory = new File(keyFileDirectory);
+            this.readAllKeyFiles();
+        }
     }
 
     private void readAllKeyFiles() throws KeyFileManagerException {
