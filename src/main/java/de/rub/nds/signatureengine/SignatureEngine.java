@@ -26,6 +26,10 @@ public abstract class SignatureEngine {
             new EngineTupel(
                     DsaWithSha1SignatureEngine.objectIdentifierString,
                     DsaWithSha1SignatureEngine.class
+            ),
+            new EngineTupel(
+                    EcDsaWithSha1SignatureEngine.objectIdentifierString,
+                    EcDsaWithSha1SignatureEngine.class
             )
     };
 

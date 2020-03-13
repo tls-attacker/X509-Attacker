@@ -12,6 +12,9 @@ public class KeyInfo extends Asn1PseudoType {
     @XmlElement(name = "keyFile")
     private String keyFile = "";
 
+    @XmlElement(name = "pubKeyFile")
+    private String pubKeyFile = "";
+
     public KeyInfo() {
 
     }
@@ -23,4 +26,17 @@ public class KeyInfo extends Asn1PseudoType {
     public void setKeyFile(String keyFile) {
         this.keyFile = keyFile;
     }
+
+    public String getPubKeyFile() {
+        // Fallback to keyFile if pubKeyFile is empty.
+        if (pubKeyFile.isEmpty()) {
+            return keyFile;
+        }
+        return pubKeyFile;
+    }
+
+    public void setPubKeyFile(String pubKeyFile) {
+        this.pubKeyFile = pubKeyFile;
+    }
+
 }
