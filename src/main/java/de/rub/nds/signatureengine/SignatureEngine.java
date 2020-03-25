@@ -1,5 +1,7 @@
 package de.rub.nds.signatureengine;
 
+import com.sun.xml.internal.ws.api.pipe.Engine;
+
 public abstract class SignatureEngine {
 
     private static EngineTupel[] engines = new EngineTupel[]{
@@ -30,6 +32,10 @@ public abstract class SignatureEngine {
             new EngineTupel(
                     EcDsaWithSha1SignatureEngine.objectIdentifierString,
                     EcDsaWithSha1SignatureEngine.class
+            ),
+            new EngineTupel(
+                    DsaWithSha256SignatureEngine.objectIdentifierString,
+                    DsaWithSha256SignatureEngine.class
             )
     };
 
