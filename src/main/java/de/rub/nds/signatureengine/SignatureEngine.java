@@ -1,6 +1,5 @@
 package de.rub.nds.signatureengine;
 
-import com.sun.xml.internal.ws.api.pipe.Engine;
 
 public abstract class SignatureEngine {
 
