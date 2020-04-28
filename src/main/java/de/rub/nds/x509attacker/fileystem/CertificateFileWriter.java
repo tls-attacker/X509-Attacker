@@ -8,9 +8,9 @@ import java.util.Base64;
 
 public class CertificateFileWriter {
 
-    public static final String CERTIFICATE_PEM_PREFIX = "-----BEGIN CERTIFICATE-----\n";
+    public static final String CERTIFICATE_PEM_PREFIX = "-----BEGIN CERTIFICATE-----\r\n";
 
-    public static final String CERTIFICATE_PEM_SUFFIX = "\n-----END CERTIFICATE-----\n";
+    public static final String CERTIFICATE_PEM_SUFFIX = "\r\n-----END CERTIFICATE-----\r\n";
 
     private final BinaryFileWriter binaryFileWriter;
 
@@ -23,7 +23,7 @@ public class CertificateFileWriter {
     }
 
     public void writeCertificate(final byte[] certificateBytes) throws IOException {
-        this.writeCertificate(new String(Base64.getEncoder().encode(certificateBytes), StandardCharsets.UTF_8));
+        this.writeCertificate(new String(Base64.getMimeEncoder(64, "\r\n".getBytes()).encode(certificateBytes), StandardCharsets.UTF_8));
     }
 
     public void writeCertificate(final String certificateBase64String) throws IOException {

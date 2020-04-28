@@ -33,13 +33,13 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
      * Initializes the signature engine with the corresponding key material.
      *
      * @param keyBytes   Bytes of the key material.
-     * @param keyType    Indicates how the key bytes shall be parsed. Supported key types: PEM_ENCODED.
+     * @param keyFormat    Indicates how the key bytes shall be parsed. Supported key types: PEM_ENCODED.
      * @param parameters Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
      */
     @Override
-    public void init(final byte[] keyBytes, final SignatureEngine.KeyType keyType, final byte[] parameters) throws SignatureEngineException {
+    public void init(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat, final byte[] parameters) throws SignatureEngineException {
         try {
-            this.privateKey = this.keyParser.parse(keyBytes, keyType);
+            this.privateKey = this.keyParser.parse(keyBytes, keyFormat);
             this.isInitialized = true;
         } catch (KeyParserException e) {
             throw new SignatureEngineException(e);

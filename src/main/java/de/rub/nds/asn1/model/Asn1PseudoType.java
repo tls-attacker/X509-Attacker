@@ -3,7 +3,6 @@ package de.rub.nds.asn1.model;
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.serializer.Asn1PseudoTypeSerializer;
 import de.rub.nds.asn1.serializer.Asn1Serializer;
-
 import javax.xml.bind.annotation.*;
 import javax.xml.namespace.QName;
 import java.util.HashMap;
@@ -65,5 +64,10 @@ public abstract class Asn1PseudoType implements Asn1Encodable {
 
     public Asn1Serializer getSerializer() {
         return new Asn1PseudoTypeSerializer(this);
+    }
+    
+    @Override
+    public Asn1Encodable getCopy() {
+        return null;
     }
 }

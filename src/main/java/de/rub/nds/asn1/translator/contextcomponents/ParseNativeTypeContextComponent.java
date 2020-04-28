@@ -32,7 +32,8 @@ public class ParseNativeTypeContextComponent extends ContextComponent {
             new Asn1PrimitiveUtcTimeCCO(),
             new Asn1PrimitiveUtf8StringCCO(),
             new Asn1SequenceCCO(ParseNativeTypesContext.NAME),
-            new Asn1SetCCO(ParseNativeTypesContext.NAME)
+            new Asn1SetCCO(ParseNativeTypesContext.NAME),
+            new Asn1ExplicitCCO(ParseNativeTypesContext.NAME)
     };
 
     public ParseNativeTypeContextComponent() {

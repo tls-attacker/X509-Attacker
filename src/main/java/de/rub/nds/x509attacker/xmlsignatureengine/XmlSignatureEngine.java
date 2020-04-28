@@ -40,27 +40,45 @@ public final class XmlSignatureEngine {
         }
     }
 
-    public void computeSignatures() {
+    public void computeSignatures() throws XmlSignatureEngineException {
         for (SignatureInfo signatureInfo : this.signatureInfoList) {
             this.computeSignature(signatureInfo);
         }
     }
+    
+    public void computeSignature(KeyInfo keyInfo) throws XmlSignatureEngineException {
+        if(signatureInfoList.size() == 1) {
+            this.computeSignature(signatureInfoList.get(0), keyInfo);
+        }
+        else {
+            throw new XmlSignatureEngineException("computeSignature(KeyInfo) only works with one SignatureInfoObject");
+        }
+    }
 
-    private void computeSignature(final SignatureInfo signatureInfo) {
+    private void computeSignature(final SignatureInfo signatureInfo) throws XmlSignatureEngineException {
+        byte[] keyBytes = this.getKey(signatureInfo);
+        this.computeSignature(signatureInfo, keyBytes);
+    }
+    
+    private void computeSignature(final SignatureInfo signatureInfo, KeyInfo keyInfo) throws XmlSignatureEngineException{        
+        byte[] keyBytes = this.getKey(keyInfo);
+        this.computeSignature(signatureInfo, keyBytes);
+    }    
+    
+    private void computeSignature(final SignatureInfo signatureInfo, byte[] keyBytes) throws XmlSignatureEngineException {
         try {
             byte[] toBeSigned = this.prepareForSigning(signatureInfo);
-            byte[] keyBytes = this.getKey(signatureInfo);
             String objectIdentifierValue = this.getSignatureAlgorithmObjectIdentifierValue(signatureInfo);
             byte[] signatureAlgorithmParameters = this.getSignatureAlgorithmParameters(signatureInfo);
             SignatureEngine signatureEngine = SignatureEngine.getInstance(objectIdentifierValue);
-            signatureEngine.init(keyBytes, SignatureEngine.KeyType.PEM_ENCODED, signatureAlgorithmParameters);
+            signatureEngine.init(keyBytes, SignatureEngine.KeyFormat.PEM_ENCODED, signatureAlgorithmParameters);
             byte[] signatureValue = signatureEngine.sign(toBeSigned);
             this.writeSignatureValueToTarget(signatureInfo, signatureValue);
         } catch(SignatureEngineException e) {
             throw new XmlSignatureEngineException(e);
         }
     }
-
+    
     private byte[] prepareForSigning(final SignatureInfo signatureInfo) {
         byte[] toBeSigned = new byte[0];
         try {
@@ -76,26 +94,41 @@ public final class XmlSignatureEngine {
         }
         return toBeSigned;
     }
-
+    
+    
+    /* gets KeyBytes from KeyInfo Object described in the signatureInfo*/
     private byte[] getKey(final SignatureInfo signatureInfo) {
         byte[] key = null;
         Asn1Encodable linkedKeyInfo = this.identifierMap.get(signatureInfo.getKeyInfoIdentifier().trim());
         if (linkedKeyInfo != null && linkedKeyInfo instanceof KeyInfo) {
             KeyInfo keyInfo = (KeyInfo) linkedKeyInfo;
-            try {
-                String keyFile = this.getKeyFileName(keyInfo);
-                key = KeyFileManager.getReference().getKeyFileContent(keyFile);
-            } catch (KeyFileManagerException e) {
-                throw new XmlSignatureEngineException(e);
-            }
+            
+            key = getKey(keyInfo);
+            
         } else {
             throw new XmlSignatureEngineException("SignatureInfo does not contain the mandatory KeyInfoIdentifier element or KeyInfoIdentifier links to an element of type other than KeyInfo!");
         }
         return key;
     }
+    
+    /* gets KeyBytes from KeyInfo Object */
+    private byte[] getKey(final KeyInfo keyInfo) {
+        byte[] keyBytes = null;        
+        try {
+            keyBytes = keyInfo.getKeyBytes();
+            if(keyBytes == null)
+            {
+                String keyFile = this.getKeyFileName(keyInfo);
+                keyBytes = KeyFileManager.getReference().getKeyFileContent(keyFile);
+            }            
+        } catch (KeyFileManagerException e) {
+            throw new XmlSignatureEngineException(e);
+        }        
+        return keyBytes;
+    }
 
     private String getKeyFileName(final KeyInfo keyInfo) {
-        String keyFile = keyInfo.getKeyFile();
+        String keyFile = keyInfo.getKeyFileName();
         if (keyFile == null || keyFile.isEmpty()) {
             String identifier = AttributeParser.parseStringAttributeOrDefault(keyInfo, X509Attributes.FROM_IDENTIFIER, null);
             Asn1Encodable asn1Encodable = this.identifierMap.get(identifier);
@@ -117,7 +150,7 @@ public final class XmlSignatureEngine {
                 objectIdentifierValue = asn1ObjectIdentifier.getValue();
             }
             catch(Throwable e) {
-                throw new RuntimeException("SignatureInfo must contain either signatureAlgorithmOidValue or signatureAlgorithmOidIdentifier whereas signatureAlgorithmOidIdentifier needs to contain an identifier pointing to Asn1ObjectIdentifier!");
+                throw new XmlSignatureEngineException("SignatureInfo must contain either signatureAlgorithmOidValue or signatureAlgorithmOidIdentifier whereas signatureAlgorithmOidIdentifier needs to contain an identifier pointing to Asn1ObjectIdentifier!");
             }
         }
         return objectIdentifierValue.trim();

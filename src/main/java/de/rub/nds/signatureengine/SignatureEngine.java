@@ -1,31 +1,78 @@
 package de.rub.nds.signatureengine;
 
+import de.rub.nds.signatureengine.keyparsers.KeyType;
+import de.rub.nds.signatureengine.keyparsers.Sha1WithEcdsaSignatureEngine;
+import java.util.LinkedList;
+import java.util.List;
+
 public abstract class SignatureEngine {
 
-    private static EngineTupel[] engines = new EngineTupel[]{
+    public final static EngineTupel[] engines = new EngineTupel[]{
             new EngineTupel(
                     Sha1WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Sha1WithRsaEncryptionSignatureEngine.class
+                    Sha1WithRsaEncryptionSignatureEngine.class,
+                    Sha1WithRsaEncryptionSignatureEngine.name,
+                    Sha1WithRsaEncryptionSignatureEngine.keyType                    
+            ),
+            new EngineTupel(
+                    Sha1WithEcdsaSignatureEngine.objectIdentifierString,
+                    Sha1WithEcdsaSignatureEngine.class,
+                    Sha1WithEcdsaSignatureEngine.name,
+                    Sha1WithEcdsaSignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    Sha224WithRsaEncryptionSignatureEngine.objectIdentifierString,
+                    Sha224WithRsaEncryptionSignatureEngine.class,
+                    Sha224WithRsaEncryptionSignatureEngine.name,
+                    Sha224WithRsaEncryptionSignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    Sha256WithRsaEncryptionSignatureEngine.objectIdentifierString,
+                    Sha256WithRsaEncryptionSignatureEngine.class,
+                    Sha256WithRsaEncryptionSignatureEngine.name,
+                    Sha256WithRsaEncryptionSignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    Sha384WithRsaEncryptionSignatureEngine.objectIdentifierString,
+                    Sha384WithRsaEncryptionSignatureEngine.class,
+                    Sha384WithRsaEncryptionSignatureEngine.name,
+                    Sha384WithRsaEncryptionSignatureEngine.keyType 
             ),
             new EngineTupel(
                     Sha512WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Sha512WithRsaEncryptionSignatureEngine.class
+                    Sha512WithRsaEncryptionSignatureEngine.class,
+                    Sha512WithRsaEncryptionSignatureEngine.name,
+                    Sha512WithRsaEncryptionSignatureEngine.keyType 
             ),
             new EngineTupel(
                     Md2WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Md2WithRsaEncryptionSignatureEngine.class
+                    Md2WithRsaEncryptionSignatureEngine.class,
+                    Md2WithRsaEncryptionSignatureEngine.name,
+                    Md2WithRsaEncryptionSignatureEngine.keyType 
             ),
             new EngineTupel(
                     Md4WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Md4WithRsaEncryptionSignatureEngine.class
+                    Md4WithRsaEncryptionSignatureEngine.class,
+                    Md4WithRsaEncryptionSignatureEngine.name,
+                    Md4WithRsaEncryptionSignatureEngine.keyType 
             ),
             new EngineTupel(
                     Md5WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Md5WithRsaEncryptionSignatureEngine.class
+                    Md5WithRsaEncryptionSignatureEngine.class,
+                    Md5WithRsaEncryptionSignatureEngine.name,
+                    Md5WithRsaEncryptionSignatureEngine.keyType 
             ),
             new EngineTupel(
                     DsaWithSha1SignatureEngine.objectIdentifierString,
-                    DsaWithSha1SignatureEngine.class
+                    DsaWithSha1SignatureEngine.class,
+                    DsaWithSha1SignatureEngine.name,
+                    DsaWithSha1SignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    EcDsaWithSha1SignatureEngine.objectIdentifierString,
+                    EcDsaWithSha1SignatureEngine.class,
+                    EcDsaWithSha1SignatureEngine.name,
+                    EcDsaWithSha1SignatureEngine.keyType 
             )
     };
 
@@ -34,14 +81,39 @@ public abstract class SignatureEngine {
         public final String objectIdentifierString;
 
         public final Class<? extends SignatureEngine> signatureEngine;
+        
+        public final String name;
+        
+        public final KeyType keyType;
 
-        public EngineTupel(final String objectIdentifierString, final Class<? extends SignatureEngine> signatureEngine) {
+        public EngineTupel(final String objectIdentifierString, final Class<? extends SignatureEngine> signatureEngine, final String name, final KeyType keyType) {
             this.objectIdentifierString = objectIdentifierString;
             this.signatureEngine = signatureEngine;
+            this.name = name;
+            this.keyType = keyType;
         }
     }
+    
+    public static EngineTupel getEngineTupelForOID(final String signOID) {
+        for (EngineTupel engine : engines) {
+            if (engine.objectIdentifierString.equalsIgnoreCase(signOID)) {
+                return engine;
+            }
+        }
+        return null;
+    }
+    
+    public static List<EngineTupel> getEngineTupelForKeyType(final KeyType keyType) {
+        List<EngineTupel> listOfCompatibleEngines = new LinkedList<>();
+        for (EngineTupel engine : engines) {
+            if (engine.keyType.equals(keyType)) {
+                listOfCompatibleEngines.add(engine);
+            }
+        }
+        return listOfCompatibleEngines;
+    }
 
-    public enum KeyType {
+    public enum KeyFormat {
         RAW_KEY,
         DER_ENCODED,
         PEM_ENCODED
@@ -101,10 +173,10 @@ public abstract class SignatureEngine {
      * Initializes the signature engine with the corresponding key material.
      *
      * @param keyBytes   Bytes of the key material.
-     * @param keyType    Indicates how the key bytes shall be parsed.
+     * @param keyFormat    Indicates how the key bytes shall be parsed.
      * @param parameters Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
      */
-    public abstract void init(final byte[] keyBytes, final KeyType keyType, final byte[] parameters) throws SignatureEngineException;
+    public abstract void init(final byte[] keyBytes, final KeyFormat keyFormat, final byte[] parameters) throws SignatureEngineException;
 
     /**
      * Signs the given data and returns the signature value. Cannot be called before the signature engine is initialized.

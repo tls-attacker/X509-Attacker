@@ -14,15 +14,15 @@ public class DefaultKeyParser implements KeyParser {
     }
 
     @Override
-    public final PrivateKey parse(final byte[] keyBytes, final SignatureEngine.KeyType keyType) throws KeyParserException {
+    public final PrivateKey parse(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat) throws KeyParserException {
         PrivateKey privateKey = null;
-        switch (keyType) {
+        switch (keyFormat) {
             case PEM_ENCODED:
                 privateKey = this.parsePemKey(keyBytes);
                 break;
 
             default:
-                throw new KeyParserException("Key type " + keyType + " not supported by key parser!");
+                throw new KeyParserException("Key format " + keyFormat + " not supported by key parser!");
         }
         return privateKey;
     }

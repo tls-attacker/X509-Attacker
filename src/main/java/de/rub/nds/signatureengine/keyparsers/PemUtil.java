@@ -8,6 +8,7 @@
  */
 package de.rub.nds.signatureengine.keyparsers;
 
+import de.rub.nds.signatureengine.SignatureEngine;
 import org.apache.logging.log4j.LogManager;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1Primitive;
@@ -146,4 +147,28 @@ public class PemUtil {
         cert.encode(stream);
         return stream.toByteArray();
     }
+    
+    public static KeyType getKeyType(File f) {        
+        try {
+            PrivateKey privKey = readPrivateKey(f);
+            String algo = privKey.getAlgorithm();
+            switch(algo){
+                case "RSA":
+                    return KeyType.RSA;
+                case "DSA":
+                    return KeyType.DSA;
+                case "EC":
+                    return KeyType.ECDSA;
+                default:
+                    LOGGER.warn("getKeyType(): no KeyType defined for: "+ algo);
+                    return null;
+        }
+        } catch (IOException ex) {
+            LOGGER.warn("getKeyType(): KeyType could not be recognized, IOException: "+ ex);
+            return null;
+        }
+        
+    }
+            
+        
 }
