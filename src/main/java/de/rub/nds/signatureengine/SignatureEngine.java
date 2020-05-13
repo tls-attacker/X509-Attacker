@@ -9,6 +9,10 @@ public abstract class SignatureEngine {
                     Sha1WithRsaEncryptionSignatureEngine.class
             ),
             new EngineTupel(
+                    Sha256WithRsaEncryptionSignatureEngine.objectIdentifierString,
+                    Sha256WithRsaEncryptionSignatureEngine.class
+            ),
+            new EngineTupel(
                     Sha512WithRsaEncryptionSignatureEngine.objectIdentifierString,
                     Sha512WithRsaEncryptionSignatureEngine.class
             ),
@@ -35,6 +39,10 @@ public abstract class SignatureEngine {
             new EngineTupel(
                     DsaWithSha256SignatureEngine.objectIdentifierString,
                     DsaWithSha256SignatureEngine.class
+            ),
+            new EngineTupel(
+                    EcDsaWithSha256SignatureEngine.objectIdentifierString,
+                    EcDsaWithSha256SignatureEngine.class
             )
     };
 
