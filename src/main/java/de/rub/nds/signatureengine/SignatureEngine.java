@@ -1,11 +1,16 @@
 package de.rub.nds.signatureengine;
 
+
 public abstract class SignatureEngine {
 
     private static EngineTupel[] engines = new EngineTupel[]{
             new EngineTupel(
                     Sha1WithRsaEncryptionSignatureEngine.objectIdentifierString,
                     Sha1WithRsaEncryptionSignatureEngine.class
+            ),
+            new EngineTupel(
+                    Sha256WithRsaEncryptionSignatureEngine.objectIdentifierString,
+                    Sha256WithRsaEncryptionSignatureEngine.class
             ),
             new EngineTupel(
                     Sha512WithRsaEncryptionSignatureEngine.objectIdentifierString,
@@ -30,6 +35,14 @@ public abstract class SignatureEngine {
             new EngineTupel(
                     EcDsaWithSha1SignatureEngine.objectIdentifierString,
                     EcDsaWithSha1SignatureEngine.class
+            ),
+            new EngineTupel(
+                    DsaWithSha256SignatureEngine.objectIdentifierString,
+                    DsaWithSha256SignatureEngine.class
+            ),
+            new EngineTupel(
+                    EcDsaWithSha256SignatureEngine.objectIdentifierString,
+                    EcDsaWithSha256SignatureEngine.class
             )
     };
 
