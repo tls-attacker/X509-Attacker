@@ -27,12 +27,10 @@ public class KeyFactory {
     
     
     static final Logger LOGGER = LogManager.getLogger(KeyFactory.class);   
-    
-    private static final String keyFolderPath = "resources/keys";
-    
-    public static File getRandomKeyFile(KeyType keyType) throws IOException
+        
+    public static File getRandomKeyFile(File keyFolder, KeyType keyType) throws IOException
     {        
-        return getRandomKeyFileFromFolder(new File(keyFolderPath), keyType);
+        return getRandomKeyFileFromFolder(keyFolder, keyType);
     }
     
     public static File getRandomKeyFileFromFolder(File keyFolder) throws IOException
@@ -56,7 +54,7 @@ public class KeyFactory {
     {
         if(keyFolder == null)
         {
-            keyFolder = new File(keyFolderPath);
+            throw new IOException("keyFolder is null");
         }
         
         if (keyFolder.exists() && keyFolder.isDirectory()) {

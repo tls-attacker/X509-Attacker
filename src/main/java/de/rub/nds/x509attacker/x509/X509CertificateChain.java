@@ -202,7 +202,7 @@ public class X509CertificateChain {
     */
     public RepairChainStatus repairAndSignChain ()
     {
-        return RepairChain.repair(RepairChainConfig.createRepairAllAndSignConfig(), this);        
+        return RepairChain.repair(RepairChainConfig.createRepairAllAndSignConfig("resources/keys"), this);        
     }
     
     

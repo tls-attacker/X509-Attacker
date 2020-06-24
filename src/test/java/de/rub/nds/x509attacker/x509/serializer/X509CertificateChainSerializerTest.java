@@ -43,7 +43,7 @@ public class X509CertificateChainSerializerTest {
 
     @Before
     public void setUp() throws IOException, JAXBException, XMLStreamException {
-        x509certificateChain = X509Factory.generateRandomX509CertificateChain(new File("resources/x509Certificates"), new File("resources/keys"),3, RepairChainConfig.repairAllAndSignConfig);       
+        x509certificateChain = X509Factory.generateRandomX509CertificateChain(new File("resources/x509Certificates"), new File("resources/keys"),3, RepairChainConfig.createRepairAllAndSignConfig("resources/keys"));       
     }
 
     /**

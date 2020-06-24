@@ -44,7 +44,7 @@ import javax.xml.stream.XMLStreamException;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509Certificate {
-    private static final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger(X509Certificate.class);
     
     @HoldsModifiableVariable      
     private Asn1Sequence certificate;
@@ -61,8 +61,7 @@ public class X509Certificate {
      * @param intermediateAsn1Fields A List<IntermediateAsn1Field> containing a parsed Intermediate Asn1 Structure of a certificate
      * 
      */
-    public static X509Certificate getInstance(List<IntermediateAsn1Field> intermediateAsn1Fields){
-        
+    public static X509Certificate getInstance(List<IntermediateAsn1Field> intermediateAsn1Fields){        
         return new X509Certificate(intermediateAsn1Fields);        
     }
     
@@ -310,6 +309,9 @@ public class X509Certificate {
     /**
      * Returns the effective Signature OID which is used for the computation of 
      * the certificate signature.
+     * 
+     * it will first look into the signatureInfo object for a specific defined AlgoOID and then into 
+     * the Path inside the certificate
      *
      * @return a OID String representing the effective Signature Algorithm.
      */

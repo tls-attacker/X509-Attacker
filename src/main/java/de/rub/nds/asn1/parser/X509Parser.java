@@ -14,12 +14,14 @@ public class X509Parser {
     private byte[] certificateBytes;
     
     public X509Parser(byte[] certificateBytes) {
+        Registry.getInstanceAndRegisterAll();
         this.certificateBytes = certificateBytes;
         
     }
     
     public X509Parser(final String certificateFilePath) throws IOException {
         try{
+            Registry.getInstanceAndRegisterAll();
             certificateBytes = new CertificateFileReader(certificateFilePath).readBytes();
         } catch(IOException e) {
             throw e;
@@ -29,6 +31,7 @@ public class X509Parser {
     
     public X509Parser(final File certificateFile) throws IOException {
         try{
+            Registry.getInstanceAndRegisterAll();
             certificateBytes = new CertificateFileReader(certificateFile.getAbsolutePath()).readBytes();
         } catch(IOException e) {
             throw e;
@@ -37,8 +40,6 @@ public class X509Parser {
     }
     
     public X509Certificate parse() throws ParserException {
-        Registry.getInstanceAndRegisterAll();
-        
         try {
             //Asn1Parser used for parsing the bytes to IntermediateAsn1Fields (without the Asn1Translator)
             List<IntermediateAsn1Field> intermediateAsn1Fields = new Asn1Parser(certificateBytes, false).parseIntermediateFields();

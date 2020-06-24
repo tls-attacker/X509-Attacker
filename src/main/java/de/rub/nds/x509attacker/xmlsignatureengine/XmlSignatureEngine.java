@@ -6,6 +6,7 @@ import de.rub.nds.asn1.model.*;
 import de.rub.nds.asn1.util.AttributeParser;
 import de.rub.nds.signatureengine.SignatureEngine;
 import de.rub.nds.signatureengine.SignatureEngineException;
+import de.rub.nds.signatureengine.keyparsers.KeyType;
 import de.rub.nds.util.ByteArrayUtils;
 import de.rub.nds.x509attacker.X509Attributes;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
@@ -23,6 +24,7 @@ public final class XmlSignatureEngine {
     private final Map<String, Asn1Encodable> identifierMap;
 
     private final List<SignatureInfo> signatureInfoList = new LinkedList<>();
+    private KeyType keyType;
 
     public XmlSignatureEngine(final Linker linker, final Map<String, Asn1Encodable> identifierMap) {
         this.linker = linker;
@@ -124,6 +126,7 @@ public final class XmlSignatureEngine {
         } catch (KeyFileManagerException e) {
             throw new XmlSignatureEngineException(e);
         }        
+        keyType = keyInfo.getKeyType();
         return keyBytes;
     }
 

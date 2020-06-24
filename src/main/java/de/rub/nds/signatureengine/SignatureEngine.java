@@ -1,7 +1,6 @@
 package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyType;
-import de.rub.nds.signatureengine.keyparsers.Sha1WithEcdsaSignatureEngine;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -13,12 +12,6 @@ public abstract class SignatureEngine {
                     Sha1WithRsaEncryptionSignatureEngine.class,
                     Sha1WithRsaEncryptionSignatureEngine.name,
                     Sha1WithRsaEncryptionSignatureEngine.keyType                    
-            ),
-            new EngineTupel(
-                    Sha1WithEcdsaSignatureEngine.objectIdentifierString,
-                    Sha1WithEcdsaSignatureEngine.class,
-                    Sha1WithEcdsaSignatureEngine.name,
-                    Sha1WithEcdsaSignatureEngine.keyType 
             ),
             new EngineTupel(
                     Sha224WithRsaEncryptionSignatureEngine.objectIdentifierString,
@@ -50,12 +43,12 @@ public abstract class SignatureEngine {
                     Md2WithRsaEncryptionSignatureEngine.name,
                     Md2WithRsaEncryptionSignatureEngine.keyType 
             ),
-            new EngineTupel(
-                    Md4WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Md4WithRsaEncryptionSignatureEngine.class,
-                    Md4WithRsaEncryptionSignatureEngine.name,
-                    Md4WithRsaEncryptionSignatureEngine.keyType 
-            ),
+//            new EngineTupel(
+//                    Md4WithRsaEncryptionSignatureEngine.objectIdentifierString,
+//                    Md4WithRsaEncryptionSignatureEngine.class,
+//                    Md4WithRsaEncryptionSignatureEngine.name,
+//                    Md4WithRsaEncryptionSignatureEngine.keyType 
+//            ),
             new EngineTupel(
                     Md5WithRsaEncryptionSignatureEngine.objectIdentifierString,
                     Md5WithRsaEncryptionSignatureEngine.class,
@@ -69,10 +62,10 @@ public abstract class SignatureEngine {
                     DsaWithSha1SignatureEngine.keyType 
             ),
             new EngineTupel(
-                    EcDsaWithSha1SignatureEngine.objectIdentifierString,
-                    EcDsaWithSha1SignatureEngine.class,
-                    EcDsaWithSha1SignatureEngine.name,
-                    EcDsaWithSha1SignatureEngine.keyType 
+                    EcdsaWithSha1SignatureEngine.objectIdentifierString,
+                    EcdsaWithSha1SignatureEngine.class,
+                    EcdsaWithSha1SignatureEngine.name,
+                    EcdsaWithSha1SignatureEngine.keyType 
             )
     };
 

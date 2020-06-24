@@ -1,10 +1,16 @@
 
 package de.rub.nds.x509attacker.repairchain;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+
 /**
  *
  * @author josh
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RepairChainStatus {
     
     private boolean repairChainSuccess;
@@ -14,6 +20,9 @@ public class RepairChainStatus {
     public RepairChainStatus(boolean repairChainSuccess, String repairChainStatusMessage) {
         this.repairChainSuccess = repairChainSuccess;
         this.repairChainStatusMessage = repairChainStatusMessage;
+    }
+
+    public RepairChainStatus() {        
     }
 
     public boolean isRepairChainSuccess() {

@@ -78,7 +78,7 @@ public class IdentifierMap {
         
         if(asn1Element == null)
         {
-            LOGGER.warn("getElementByIDPath(): no mapping for : " + idPath);
+            LOGGER.trace("getElementByIDPath(): no mapping for : " + idPath);
         }
                 
         return asn1Element;
@@ -105,7 +105,7 @@ public class IdentifierMap {
         
         if(asn1List.isEmpty())
         {
-            LOGGER.warn("getElementsByID(): no mapping for : " + id);
+            LOGGER.trace("getElementsByID(): no mapping for : " + id);
             return null;
         }
                 
@@ -134,7 +134,7 @@ public class IdentifierMap {
         
         if(asn1List.isEmpty())
         {
-            LOGGER.warn("getElementsByType(): no mapping for : " + type);
+            LOGGER.trace("getElementsByType(): no mapping for : " + type);
             return null;
         }
                 
@@ -165,7 +165,7 @@ public class IdentifierMap {
         
         if(asn1List.isEmpty())
         {
-            LOGGER.warn("getElementsByClass(): no mapping for : " + asn1Class);
+            LOGGER.trace("getElementsByClass(): no mapping for : " + asn1Class);
             return null;
         }
                 
@@ -188,7 +188,7 @@ public class IdentifierMap {
         }
         
         if(!map.containsValue(asn1)) {
-            LOGGER.warn("getIDPathByElement(): no mapping for : " + asn1);
+            LOGGER.trace("getIDPathByElement(): no mapping for : " + asn1);
             return "";
         }
            
@@ -221,7 +221,7 @@ public class IdentifierMap {
         
         if(idPaths.isEmpty())
         {
-            LOGGER.warn("getIDPathsByID(): no mapping for : " + id);
+            LOGGER.trace("getIDPathsByID(): no mapping for : " + id);
             return null;
         }
                 
@@ -250,7 +250,7 @@ public class IdentifierMap {
         
         if(idPaths.isEmpty())
         {
-            LOGGER.warn("getIDPathsByType(): no mapping for : " + type);
+            LOGGER.trace("getIDPathsByType(): no mapping for : " + type);
             return null;
         }
                 
@@ -280,7 +280,7 @@ public class IdentifierMap {
         
         if(idPaths.isEmpty())
         {
-            LOGGER.warn("getIDPathsByClass(): no mapping for : " + asn1Class.getSimpleName());
+            LOGGER.trace("getIDPathsByClass(): no mapping for : " + asn1Class.getSimpleName());
             return null;
         }
                 
@@ -308,7 +308,7 @@ public class IdentifierMap {
             }
             catch(XMLStreamException | JAXBException | IOException e)
             {
-                LOGGER.warn("getCopyByIDPath(): Copy failed : " + e);
+                LOGGER.trace("getCopyByIDPath(): Copy failed : " + e);
             }
             
         }

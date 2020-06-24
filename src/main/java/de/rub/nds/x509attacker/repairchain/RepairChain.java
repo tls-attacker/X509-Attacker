@@ -1,18 +1,4 @@
-/*
- * Copyright 2020 josh.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
+
 package de.rub.nds.x509attacker.repairchain;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -44,6 +30,7 @@ import org.apache.logging.log4j.Logger;
 public class RepairChain {
     
     private static final Logger LOGGER = LogManager.getLogger(RepairChain.class);
+    
     
     public static RepairChainStatus repair(RepairChainConfig repairConfig , X509CertificateChain chain)
     {
@@ -109,7 +96,7 @@ public class RepairChain {
 
         if(repairConfig.getRepairSignAlgoKeyRelation() != RepairChainConfig.SignAlgoKeyRelationRepairMode.NONE) {                
             try {
-                repairSignAlgoKeyRelation(chain, repairConfig.getRepairSignAlgoKeyRelation());
+                repairSignAlgoKeyRelation(chain, repairConfig);
                 statusMessage.append("repair SignAlgoKeyRelation: success").append("\n");
             }
             catch(RepairChainException e) {
@@ -513,9 +500,9 @@ public class RepairChain {
     }
     
     
-    private static void repairSignAlgoKeyRelation(X509CertificateChain chain, RepairChainConfig.SignAlgoKeyRelationRepairMode repairMode) throws RepairChainException
+    private static void repairSignAlgoKeyRelation(X509CertificateChain chain, RepairChainConfig repairConfig) throws RepairChainException
     {
-        
+        RepairChainConfig.SignAlgoKeyRelationRepairMode repairMode = repairConfig.getRepairSignAlgoKeyRelation();
         List<X509Certificate> certificateChain = chain.getCertificateChain();
         
         boolean error = false;
@@ -585,20 +572,49 @@ public class RepairChain {
             
         } else if(repairMode == RepairChainConfig.SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED)
         {   
+            File keysResourceFolder = new File(repairConfig.getKeysResourceFolder());
+            if(!keysResourceFolder.exists())
+            {
+                errorMessage.append("keysResourceFolder: " + repairConfig.getKeysResourceFolder() + " does not exists" ).append('\n');
+                throw new RepairChainException(errorMessage.toString());
+            }
+            
+            
             try
             {
-                //extract keyType of currently effective SignAlgo
-                String effSignOID = certificateChain.get(0).getEffectiveSignatureOID();
-                KeyType keyTypeSignAlgo = SignatureEngine.getEngineTupelForOID(effSignOID).keyType;
+                //extract effectiveSignOID of currently effective SignAlgo
+                String effSignOID_cert0 = certificateChain.get(0).getEffectiveSignatureOID();
+                
+                //extract compatible keyType for cert1
+                KeyType keyTypeSignAlgo_cert0 = SignatureEngine.getEngineTupelForOID(effSignOID_cert0).keyType;
+                      
+                
+                //if the chain has two certificat, also extract effectiveSignOID of the second cert
+                //cause the key of cert 0 is used to sign cert0 and cert1
+                if(certificateChain.size()>1)
+                {
+                    String effSignOID_cert1 = certificateChain.get(1).getEffectiveSignatureOID();
+                    KeyType keyTypeSignAlgo_cert1 = SignatureEngine.getEngineTupelForOID(effSignOID_cert1).keyType;
+                    
+                    if(!keyTypeSignAlgo_cert0.equals(keyTypeSignAlgo_cert1))
+                    {
+                       
+                        List<SignatureEngine.EngineTupel> listOfCompatibleEngines = SignatureEngine.getEngineTupelForKeyType(keyTypeSignAlgo_cert0);
+                        Random random = RandomHelper.getRandom();
+                        String engineOID = listOfCompatibleEngines.get(random.nextInt(listOfCompatibleEngines.size())).objectIdentifierString;
 
+                        //set the signAlgOid of cert 1 corresponding to the key of cert0
+                        certificateChain.get(1).getSignatureInfo().setSignatureAlgorithmOidValue(engineOID);
+                    }
+                }
 
                 //extract keyType of key
                 KeyType keyTypeCert = certificateChain.get(0).getKeyInfo().getKeyType();    
 
-                if(!keyTypeSignAlgo.equals(keyTypeCert))
-                {   
+                if(!keyTypeSignAlgo_cert0.equals(keyTypeCert))
+                {  
                     //chose and set new key file
-                    File keyFile = KeyFactory.getRandomKeyFile(keyTypeSignAlgo);
+                    File keyFile = KeyFactory.getRandomKeyFile(keysResourceFolder, keyTypeSignAlgo_cert0);
                     certificateChain.get(0).setKeyFile(keyFile);
                 }
                 
@@ -608,7 +624,7 @@ public class RepairChain {
                 errorMessage.append("failed to repair SignAlgoKeyRelation for certificate 0:").append(e).append('\n');
             }     
                 
-            for(int i = 0; i< certificateChain.size()-1; i++)
+            for(int i = 1; i< certificateChain.size()-1; i++)
             {
                 try
                 {
@@ -621,9 +637,9 @@ public class RepairChain {
                     KeyType keyTypeCert = certificateChain.get(i).getKeyInfo().getKeyType();    
 
                     if(!keyTypeSignAlgo.equals(keyTypeCert))
-                    {   
+                    { 
                         //chose and set new key file
-                        File keyFile = KeyFactory.getRandomKeyFile(keyTypeSignAlgo);
+                        File keyFile = KeyFactory.getRandomKeyFile(keysResourceFolder, keyTypeSignAlgo);
                         certificateChain.get(i).setKeyFile(keyFile);
                     }
                 } catch (NullPointerException | IOException e)

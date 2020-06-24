@@ -141,6 +141,50 @@ public class PemUtil {
     public static PublicKey readPublicKey(File f) throws IOException {
         return readPublicKey(new FileInputStream(f));
     }
+    
+    public static PrivateKey readKeyPEM(File f) throws IOException {
+        return readKeyPEM(new FileInputStream(f));
+    }
+    
+    public static PrivateKey readKeyPEM(InputStream stream) throws IOException {
+        PrivateKey privKey = null;
+        PublicKey pubKey = null;
+        
+        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+        InputStreamReader reader = new InputStreamReader(stream);
+        try (PEMParser parser = new PEMParser(reader)) {
+            Object obj = parser.readObject();
+            if (obj instanceof PEMKeyPair) {
+                PEMKeyPair pair = (PEMKeyPair) obj;
+                privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());                
+                pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
+            } 
+            else if (obj instanceof PrivateKeyInfo) {
+                privKey = converter.getPrivateKey((PrivateKeyInfo) obj);
+            }
+            else if (obj instanceof SubjectPublicKeyInfo) {
+                pubKey = converter.getPublicKey((SubjectPublicKeyInfo) obj);
+            }
+            obj = parser.readObject();
+            if (obj instanceof PEMKeyPair) {
+                PEMKeyPair pair = (PEMKeyPair) obj;
+                privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());                
+                pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
+            } 
+            else if (obj instanceof PrivateKeyInfo) {
+                privKey = converter.getPrivateKey((PrivateKeyInfo) obj);
+            }
+            else if (obj instanceof SubjectPublicKeyInfo) {
+                pubKey = converter.getPublicKey((SubjectPublicKeyInfo) obj);
+            }
+        } catch (Exception E) {
+            throw new IOException("Could not read private key", E);
+        } finally {
+            stream.close();
+            reader.close();
+        }
+        return privKey;
+    }
 
     public static byte[] encodeCert(Certificate cert) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();

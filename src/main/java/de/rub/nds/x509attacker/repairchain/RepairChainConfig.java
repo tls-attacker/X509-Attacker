@@ -1,5 +1,8 @@
 package de.rub.nds.x509attacker.repairchain;
 
+import java.util.UUID;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -8,28 +11,41 @@ import javax.xml.bind.annotation.XmlRootElement;
  * @author josh
  */
 @XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RepairChainConfig {
     
     public enum SignAlgoKeyRelationRepairMode {NONE, SIGN_ALGO_BASED, KEY_BASED};
     
-    public static RepairChainConfig createRepairAllAndSignConfig() {
-        return new RepairChainConfig();
+    
+    public static RepairChainConfig createRepairAllAndSignConfig(String keysResourceFolder) {
+        RepairChainConfig repairConfig = new RepairChainConfig("", true,true,true,
+            true,true, SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED,true,keysResourceFolder);
+        return repairConfig;
     }
     
-    public static RepairChainConfig createRepairOnlyConfig() {
-        return new RepairChainConfig(true,true,true,
-            true,true, SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED,false);
+    
+    public static RepairChainConfig createRepairOnlyConfig(String keysResourceFolder) {
+        RepairChainConfig repairConfig = new RepairChainConfig("", true,true,true,
+            true,true, SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED,false,keysResourceFolder);
+        return repairConfig;
     }
     
-    public static RepairChainConfig createSignOnlyConfig() {
-        return new RepairChainConfig(false,false,false,
-            false,false, SignAlgoKeyRelationRepairMode.NONE,true);
+    public static RepairChainConfig createSignOnlyConfig(String keysResourceFolder) {
+        RepairChainConfig repairConfig = new RepairChainConfig("",false,false,false,
+            false,false, SignAlgoKeyRelationRepairMode.NONE,true,keysResourceFolder);
+        return repairConfig;
     }
     
-    public static RepairChainConfig createDoNothingConfig() {
-        return new RepairChainConfig(false,false,false,
-            false,false, SignAlgoKeyRelationRepairMode.NONE,false);
+    public static RepairChainConfig createDoNothingConfig(String keysResourceFolder) {
+        RepairChainConfig repairConfig = new RepairChainConfig("",false,false,false,
+            false,false, SignAlgoKeyRelationRepairMode.NONE,false,keysResourceFolder);
+        return repairConfig;
     }
+    
+    
+    private UUID repairConfigID;
+    
+    private String repairConfigName = "";    
     
     private boolean repairIssuer = true;
     
@@ -45,12 +61,16 @@ public class RepairChainConfig {
     
     private boolean computeChainSignatureAfterRepair = true;
     
+    private String keysResourceFolder = null;
+    
     public RepairChainConfig(){
     }
     
-    public RepairChainConfig(boolean repairIssuer, boolean repairAuthorityKeyIdentifier,
+    public RepairChainConfig(String repairConfigName, boolean repairIssuer, boolean repairAuthorityKeyIdentifier,
             boolean repairCABit, boolean repairPathLen, boolean repairKeyUsage,
-            SignAlgoKeyRelationRepairMode repairSignAlgoKeyRelation, boolean computeChainSignatureAfterRepair ){
+            SignAlgoKeyRelationRepairMode repairSignAlgoKeyRelation, boolean computeChainSignatureAfterRepair, String keysResourceFolder){
+        this.repairConfigID = UUID.randomUUID();
+        this.repairConfigName = repairConfigName;
         this.repairIssuer = repairIssuer;
         this.repairAuthorityKeyIdentifier = repairAuthorityKeyIdentifier;
         this.repairCABit = repairCABit;
@@ -58,9 +78,13 @@ public class RepairChainConfig {
         
         this.repairKeyUsage = repairKeyUsage;
         this.repairSignAlgoKeyRelation = repairSignAlgoKeyRelation;
-        this.computeChainSignatureAfterRepair = computeChainSignatureAfterRepair; 
+        this.computeChainSignatureAfterRepair = computeChainSignatureAfterRepair;
+        
+        this.keysResourceFolder = keysResourceFolder;   
         
     }
+    
+   
     public boolean isRepairIssuer() {
         return repairIssuer;
     }
@@ -116,6 +140,34 @@ public class RepairChainConfig {
     public void setComputeChainSignatureAfterRepair(boolean computeChainSignatureAfterRepair) {
         this.computeChainSignatureAfterRepair = computeChainSignatureAfterRepair;
     }
+
+    public String getKeysResourceFolder() {
+        return keysResourceFolder;
+    }
+
+    public void setKeysResourceFolder(String keysResourceFolder) {
+        this.keysResourceFolder = keysResourceFolder;
+    }
+
+    public UUID getReapirConfigID() {
+        return repairConfigID;
+    }
+
+    public void setReapirConfigID(UUID reapirConfigID) {
+        this.repairConfigID = reapirConfigID;
+    }
+
+    public String getRepairConfigName() {
+        return repairConfigName;
+    }
+
+    public void setRepairConfigName(String repairConfigName) {
+        this.repairConfigName = repairConfigName;
+    }
+    
+    
+    
+    
 
     @Override
     public String toString() {
