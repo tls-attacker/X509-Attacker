@@ -5,6 +5,8 @@ import de.rub.nds.signatureengine.keyparsers.DefaultKeyParser;
 public class Sha512WithRsaEncryptionSignatureEngine extends JavaSignatureEngine {
 
     public static final String objectIdentifierString = "1.2.840.113549.1.1.13";
+    
+    private static final String signatureAlgorithm = "SHA512withRSA";
 
     public Sha512WithRsaEncryptionSignatureEngine() throws SignatureEngineException {
         super(objectIdentifierString, new DefaultKeyParser());

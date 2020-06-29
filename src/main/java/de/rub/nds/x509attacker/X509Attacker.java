@@ -149,8 +149,6 @@ public class X509Attacker {
             XmlConverter xmlConverter = new XmlConverter(asn1XmlContent, new File(xmlFile));
 
             System.out.println("Done.");
-        } catch(KeyFileManagerException e) {
-            e.printStackTrace();
         } catch(IOException e) {
             e.printStackTrace();
         } catch(ParserException e) {
