@@ -15,7 +15,7 @@
         the features of ASN.1 Tool in terms of certificate signing. Also, X.509-Attacker introduces a feature of
         referencing XML elements in order to avoid redundancies when defining certificates in XML.
     </description>
-    <url>https://github.com/nkafka/X.509-Attacker</url>
+    <url>https://github.com/RUB-NDS/X.509-Attacker</url>
 
     <licenses>
         <license>
@@ -79,9 +79,9 @@
     </dependencies>
 
     <scm>
-        <connection>scm:git:git://github.com/nkafka/X.509-Attacker.git</connection>
-        <developerConnection>scm:git:ssh://github.com/nkafka/X.509-Attacker.git</developerConnection>
-        <url>https://github.com/nkafka/X.509-Attacker/tree/master</url>
+        <connection>scm:git:git://github.com/RUB-NDS/X.509-Attacker.git</connection>
+        <developerConnection>scm:git:ssh://github.com/RUB-NDS/X.509-Attacker.git</developerConnection>
+        <url>https://github.com/RUB-NDS/X.509-Attacker/tree/master</url>
     </scm>
 
     <build>
