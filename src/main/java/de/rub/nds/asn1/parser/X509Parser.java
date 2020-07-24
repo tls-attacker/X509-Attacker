@@ -2,7 +2,7 @@
 package de.rub.nds.asn1.parser;
 
 import de.rub.nds.x509attacker.registry.Registry;
-import de.rub.nds.x509attacker.fileystem.CertificateFileReader;
+import de.rub.nds.x509attacker.filesystem.CertificateFileReader;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import java.io.File;
 import java.io.IOException;

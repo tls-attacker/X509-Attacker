@@ -14,7 +14,7 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.modifiablevariable.bytearray.ByteArrayExplicitValueModification;
 import de.rub.nds.x509attacker.X509Attributes;
 import de.rub.nds.x509attacker.exceptions.X509ModificationException;
-import de.rub.nds.x509attacker.fileystem.CertificateFileWriter;
+import de.rub.nds.x509attacker.filesystem.CertificateFileWriter;
 import de.rub.nds.x509attacker.identifiermap.IdentifierMap;
 import de.rub.nds.x509attacker.linker.Linker;
 import de.rub.nds.x509attacker.x509.serializer.X509CertificateSerializer;

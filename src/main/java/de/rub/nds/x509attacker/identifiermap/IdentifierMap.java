@@ -18,7 +18,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
-* Main classes for the mapping of identifiers and the corresponding Asn1Elements
+* Main class for the mapping of identifiers and the corresponding Asn1Elements
 * Contains a Hashmap Key:= Path of Identifiers (ex.: /root/inter/leaf)
 * Value:= the corresponding Asn1Element behind the path
 * 
@@ -453,6 +453,10 @@ public class IdentifierMap {
     private void crawlAsn1EncodedContentRecursive(final String basePath, final List<Asn1Encodable> asn1Encodables) {
         if (asn1Encodables != null) {
             for (Asn1Encodable asn1Encodable : asn1Encodables) {
+                if(asn1Encodable == null)
+                {
+                    continue;
+                }
                 
                 if (asn1Encodable.getIdentifier() == null || asn1Encodable.getIdentifier().isEmpty()) {
                     asn1Encodable.setIdentifier(AnonymousIdentifier.createAnonymousIdentifier());

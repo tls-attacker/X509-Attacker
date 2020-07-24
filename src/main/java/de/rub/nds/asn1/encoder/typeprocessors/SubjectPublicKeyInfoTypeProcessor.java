@@ -59,7 +59,7 @@ public class SubjectPublicKeyInfoTypeProcessor extends DefaultX509TypeProcessor 
                 KeyInfo keyInfo = (KeyInfo) linkedAsn1Encodable;                
                 byte[] keyBytes = keyInfo.getKeyBytes();
                 if(keyBytes == null)
-                {
+                {                    
                     String keyFile = this.resolveKeyFileName(keyInfo);
                     keyBytes = KeyFileManager.getReference().getKeyFileContent(keyFile);
                 }

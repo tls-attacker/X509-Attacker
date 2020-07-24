@@ -1,4 +1,4 @@
-package de.rub.nds.x509attacker.fileystem;
+package de.rub.nds.x509attacker.filesystem;
 
 import de.rub.nds.asn1tool.filesystem.TextFileReader;
 

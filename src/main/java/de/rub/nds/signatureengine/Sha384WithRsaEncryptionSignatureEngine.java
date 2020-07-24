@@ -7,11 +7,13 @@ public class Sha384WithRsaEncryptionSignatureEngine extends JavaSignatureEngine 
 
     public static final String objectIdentifierString = "1.2.840.113549.1.1.12";
     
+    private static final String signatureAlgorithm = "SHA384withRSA";
+    
     public static final String name = "SHA384withRSA";
     
     public static final KeyType keyType = KeyType.RSA;
 
     public Sha384WithRsaEncryptionSignatureEngine() throws SignatureEngineException {
-        super(objectIdentifierString, new DefaultKeyParser());
+        super(signatureAlgorithm, new DefaultKeyParser());
     }
 }

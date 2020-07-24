@@ -1,16 +1,10 @@
 package de.rub.nds.asn1.model;
 
-import de.rub.nds.signatureengine.SignatureEngine;
-import de.rub.nds.signatureengine.keyparsers.DefaultKeyParser;
-import de.rub.nds.signatureengine.keyparsers.KeyParserException;
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 import de.rub.nds.signatureengine.keyparsers.PemUtil;
 import de.rub.nds.x509attacker.filesystem.BinaryFileReader;
-import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import java.io.File;
 import java.io.IOException;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
@@ -45,7 +39,7 @@ public class KeyInfo extends Asn1PseudoType {
     public void setKeyFile(File keyFile) throws IOException {
         this.keyFile = keyFile;
         this.keyFileName = keyFile.getName();
-        this.keyBytes = readKeyFile(keyFile);
+        this.keyBytes = readKeyFile(keyFile);        
         this.keyType = PemUtil.getKeyType(keyFile);
     }
     
@@ -69,7 +63,7 @@ public class KeyInfo extends Asn1PseudoType {
     private byte[] readKeyFile(File keyFile) throws IOException {
         try {
             BinaryFileReader binaryFileReader = new BinaryFileReader(keyFile.getAbsolutePath());
-            byte[] keyFileContent = binaryFileReader.read();
+            byte[] keyFileContent = binaryFileReader.read();            
             return keyFileContent;
         } catch(IOException e) {
             throw new IOException(e);

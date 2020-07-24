@@ -1,33 +1,17 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+
 package de.rub.nds.x509attacker.helper;
 
 import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import de.rub.nds.asn1.parser.ParserException;
 import de.rub.nds.asn1.parser.X509Parser;
 import de.rub.nds.modifiablevariable.util.RandomHelper;
-import de.rub.nds.signatureengine.SignatureEngine;
 import de.rub.nds.signatureengine.keyparsers.KeyType;
-import de.rub.nds.signatureengine.keyparsers.PemUtil;
-import de.rub.nds.x509attacker.exceptions.RepairChainException;
 import de.rub.nds.x509attacker.helper.KeyFactory;
-import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
-import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.x509.X509Certificate;
-import de.rub.nds.x509attacker.x509.X509Certificate;
-import de.rub.nds.x509attacker.x509.X509CertificateChain;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.List;
 import java.util.Random;
-import java.util.stream.Collectors;
 import javax.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import org.apache.logging.log4j.LogManager;
@@ -36,6 +20,7 @@ import org.apache.logging.log4j.Logger;
 /**
  *
  * @author josh
+ * Helper functions to create X509Certificate or X509CertificateChains from a folder of valid X.509 certificates
  */
 public class X509Factory {
     

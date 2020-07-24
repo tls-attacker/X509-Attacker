@@ -2,11 +2,13 @@
 package de.rub.nds.x509attacker.x509;
 
 import de.rub.nds.asn1.Asn1Encodable;
+import de.rub.nds.asn1.model.Asn1PrimitiveIa5String;
 import de.rub.nds.asn1.model.Asn1PrimitivePrintableString;
 import de.rub.nds.asn1.model.Asn1PrimitiveT61String;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
 import de.rub.nds.asn1.parser.IntermediateAsn1Field;
 import de.rub.nds.asn1.translator.X509Translator;
+import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveIa5StringFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitivePrintableStringFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveT61StringFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveUtf8StringFT;
@@ -61,6 +63,10 @@ public class DirectoryString extends X509Model<Asn1Encodable> {
 
             case 12: //UTF8String
                 asn1 = (Asn1PrimitiveUtf8String) X509Translator.translateSingleIntermediateField(intermediateAsn1Field, Asn1PrimitiveUtf8StringFT.class , identifier, type);        
+                break;
+                
+            case 22: //IA5String - this is not defined for DirectoryString but for example the EE Certification Centre Root CA contains such IA5String for an email
+                asn1 = (Asn1PrimitiveIa5String) X509Translator.translateSingleIntermediateField(intermediateAsn1Field, Asn1PrimitiveIa5StringFT.class , identifier, type);        
                 break;
 
             case 30: //BMPString

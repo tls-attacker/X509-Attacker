@@ -24,8 +24,8 @@ import de.rub.nds.asn1.encoder.Asn1EncoderForX509;
 import de.rub.nds.asn1.encoder.typeprocessors.DefaultX509TypeProcessor;
 import de.rub.nds.asn1.translator.*;
 import de.rub.nds.x509attacker.x509.createIdentifierMap;
-import de.rub.nds.x509attacker.fileystem.CertificateFileReader;
-import de.rub.nds.x509attacker.fileystem.CertificateFileWriter;
+import de.rub.nds.x509attacker.filesystem.CertificateFileReader;
+import de.rub.nds.x509attacker.filesystem.CertificateFileWriter;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
@@ -178,11 +178,7 @@ public class X509Attacker {
             
             
             createIdentifierMap createMap = new createIdentifierMap();
-            Map<String, Asn1Encodable> identifierMap = createMap.createMap(asn1Encodables);
-
-            
-            
-            System.out.println("Parsen fertig");
+            Map<String, Asn1Encodable> identifierMap = createMap.createMap(asn1Encodables);            
             
             /*
             certificate.setAsn1Encodable(asn1Encodables);              

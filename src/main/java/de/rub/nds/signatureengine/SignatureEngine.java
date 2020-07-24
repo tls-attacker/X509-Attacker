@@ -5,7 +5,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 public abstract class SignatureEngine {
-
+    
     public final static EngineTupel[] engines = new EngineTupel[]{
             new EngineTupel(
                     Sha1WithRsaEncryptionSignatureEngine.objectIdentifierString,
@@ -43,12 +43,6 @@ public abstract class SignatureEngine {
                     Md2WithRsaEncryptionSignatureEngine.name,
                     Md2WithRsaEncryptionSignatureEngine.keyType 
             ),
-//            new EngineTupel(
-//                    Md4WithRsaEncryptionSignatureEngine.objectIdentifierString,
-//                    Md4WithRsaEncryptionSignatureEngine.class,
-//                    Md4WithRsaEncryptionSignatureEngine.name,
-//                    Md4WithRsaEncryptionSignatureEngine.keyType 
-//            ),
             new EngineTupel(
                     Md5WithRsaEncryptionSignatureEngine.objectIdentifierString,
                     Md5WithRsaEncryptionSignatureEngine.class,
@@ -62,10 +56,58 @@ public abstract class SignatureEngine {
                     DsaWithSha1SignatureEngine.keyType 
             ),
             new EngineTupel(
+                    DsaWithSha224SignatureEngine.objectIdentifierString,
+                    DsaWithSha224SignatureEngine.class,
+                    DsaWithSha224SignatureEngine.name,
+                    DsaWithSha224SignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    DsaWithSha256SignatureEngine.objectIdentifierString,
+                    DsaWithSha256SignatureEngine.class,
+                    DsaWithSha256SignatureEngine.name,
+                    DsaWithSha256SignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    DsaWithSha384SignatureEngine.objectIdentifierString,
+                    DsaWithSha384SignatureEngine.class,
+                    DsaWithSha384SignatureEngine.name,
+                    DsaWithSha384SignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    DsaWithSha512SignatureEngine.objectIdentifierString,
+                    DsaWithSha512SignatureEngine.class,
+                    DsaWithSha512SignatureEngine.name,
+                    DsaWithSha512SignatureEngine.keyType 
+            ),
+            new EngineTupel(
                     EcdsaWithSha1SignatureEngine.objectIdentifierString,
                     EcdsaWithSha1SignatureEngine.class,
                     EcdsaWithSha1SignatureEngine.name,
                     EcdsaWithSha1SignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    EcdsaWithSha224SignatureEngine.objectIdentifierString,
+                    EcdsaWithSha224SignatureEngine.class,
+                    EcdsaWithSha224SignatureEngine.name,
+                    EcdsaWithSha224SignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    EcdsaWithSha256SignatureEngine.objectIdentifierString,
+                    EcdsaWithSha256SignatureEngine.class,
+                    EcdsaWithSha256SignatureEngine.name,
+                    EcdsaWithSha256SignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    EcdsaWithSha384SignatureEngine.objectIdentifierString,
+                    EcdsaWithSha384SignatureEngine.class,
+                    EcdsaWithSha384SignatureEngine.name,
+                    EcdsaWithSha384SignatureEngine.keyType 
+            ),
+            new EngineTupel(
+                    EcdsaWithSha512SignatureEngine.objectIdentifierString,
+                    EcdsaWithSha512SignatureEngine.class,
+                    EcdsaWithSha512SignatureEngine.name,
+                    EcdsaWithSha512SignatureEngine.keyType 
             )
     };
 

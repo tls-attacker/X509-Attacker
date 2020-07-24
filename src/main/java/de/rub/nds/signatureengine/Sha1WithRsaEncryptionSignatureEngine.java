@@ -14,6 +14,6 @@ public class Sha1WithRsaEncryptionSignatureEngine extends JavaSignatureEngine {
     public static final KeyType keyType = KeyType.RSA;
 
     public Sha1WithRsaEncryptionSignatureEngine() throws SignatureEngineException {
-        super(objectIdentifierString, new DefaultKeyParser());
+        super(signatureAlgorithm, new DefaultKeyParser());
     }
 }

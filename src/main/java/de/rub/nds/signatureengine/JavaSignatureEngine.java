@@ -4,6 +4,7 @@ import de.rub.nds.signatureengine.keyparsers.KeyParser;
 import de.rub.nds.signatureengine.keyparsers.KeyParserException;
 
 import java.security.*;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public abstract class JavaSignatureEngine extends SignatureEngine {
 
@@ -14,14 +15,14 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
     private PrivateKey privateKey = null;
 
     private boolean isInitialized = false;
-
-    public JavaSignatureEngine(final String signatureAlgorithm, final KeyParser keyParser) throws SignatureEngineException {
+   
+    public JavaSignatureEngine(final String signatureAlgorithm, final KeyParser keyParser) throws SignatureEngineException {        
         if (keyParser == null) {
             throw new SignatureEngineException("No key parser specified!");
         }
         this.keyParser = keyParser;
         try {
-            this.signature = Signature.getInstance(signatureAlgorithm);
+            this.signature = Signature.getInstance(signatureAlgorithm, BouncyCastleProviderSingleton.getInstance());
         } catch (NoSuchAlgorithmException e) {
             throw new SignatureEngineException(e);
         }

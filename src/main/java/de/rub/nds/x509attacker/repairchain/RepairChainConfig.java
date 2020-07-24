@@ -16,23 +16,22 @@ public class RepairChainConfig {
     
     public enum SignAlgoKeyRelationRepairMode {NONE, SIGN_ALGO_BASED, KEY_BASED};
     
-    
+    //Set of repaor config presets
     public static RepairChainConfig createRepairAllAndSignConfig(String keysResourceFolder) {
         RepairChainConfig repairConfig = new RepairChainConfig("", true,true,true,
             true,true, SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED,true,keysResourceFolder);
         return repairConfig;
-    }
-    
+    }    
     
     public static RepairChainConfig createRepairOnlyConfig(String keysResourceFolder) {
         RepairChainConfig repairConfig = new RepairChainConfig("", true,true,true,
-            true,true, SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED,false,keysResourceFolder);
+            true,true, SignAlgoKeyRelationRepairMode.NONE,false,keysResourceFolder);
         return repairConfig;
     }
     
     public static RepairChainConfig createSignOnlyConfig(String keysResourceFolder) {
         RepairChainConfig repairConfig = new RepairChainConfig("",false,false,false,
-            false,false, SignAlgoKeyRelationRepairMode.NONE,true,keysResourceFolder);
+            false,false, SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED,true,keysResourceFolder);
         return repairConfig;
     }
     

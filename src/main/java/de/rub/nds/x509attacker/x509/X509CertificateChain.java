@@ -16,7 +16,7 @@ import de.rub.nds.x509attacker.X509Attributes;
 import de.rub.nds.x509attacker.constants.X509CertChainOutFormat;
 import de.rub.nds.x509attacker.exceptions.RepairChainException;
 import de.rub.nds.x509attacker.exceptions.X509ModificationException;
-import de.rub.nds.x509attacker.fileystem.CertificateFileWriter;
+import de.rub.nds.x509attacker.filesystem.CertificateFileWriter;
 import de.rub.nds.x509attacker.repairchain.RepairChain;
 import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import de.rub.nds.x509attacker.repairchain.RepairChainStatus;
@@ -26,6 +26,7 @@ import de.rub.nds.x509attacker.xmlsignatureengine.XmlSignatureEngineException;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigInteger;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -320,6 +321,26 @@ public class X509CertificateChain {
                             certificateChainFileWriter.writeCertificate(cert.getEncodedCertificate());
                         }
                         certificateChainFileWriter.close();
+                        outputFiles.add(new File(directory + "/" + filename));
+                    } catch (IOException ex) {
+                        LOGGER.error("Error writing CertificateChain to PEM: " + ex);
+                    }
+                }               
+                break;
+                
+            case LEAF_INTER_ROOT_CERTS_COMBINED:
+                //only if the chain has at least one certificate and there is atleast a root certificate
+                if(certificateChain.size()>=1){
+                    
+                    try {
+                        String filename = "leaf_inter_root_certs.pem";
+                        CertificateFileWriter certificateChainFileWriter = new CertificateFileWriter(directory, filename);
+                        for(int i = certificateChain.size()-1; i>=0; i--)
+                        {
+                            certificateChainFileWriter.writeCertificate(certificateChain.get(i).getEncodedCertificate());
+                        }                        
+                        certificateChainFileWriter.close();
+                        outputFiles.add(new File(directory + "/" + filename));
                     } catch (IOException ex) {
                         LOGGER.error("Error writing CertificateChain to PEM: " + ex);
                     }

@@ -6,8 +6,8 @@ import de.rub.nds.signatureengine.keyparsers.KeyType;
 public class DsaWithSha1SignatureEngine extends JavaSignatureEngine {
 
     public static final String objectIdentifierString = "1.2.840.10040.4.3";
-
-    private static final String signatureAlgorithm = "DSAwithSHA1";
+    
+    private static final String signatureAlgorithm = "SHA1withDSA";
     
     public static final String name = "DSAwithSHA1";
     

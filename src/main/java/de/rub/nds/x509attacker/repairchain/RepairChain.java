@@ -26,6 +26,8 @@ import org.apache.logging.log4j.Logger;
 /**
  *
  * @author josh
+ * 
+ * Helper class to repair a X509certificate chain regarding different repair configurations
  */
 public class RepairChain {
     

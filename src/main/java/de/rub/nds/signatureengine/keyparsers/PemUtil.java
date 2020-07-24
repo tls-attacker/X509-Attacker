@@ -93,26 +93,34 @@ public class PemUtil {
     }
 
     public static PrivateKey readPrivateKey(InputStream stream) throws IOException {
+        PrivateKey privKey = null;
+        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+        
         InputStreamReader reader = new InputStreamReader(stream);
-        try (PEMParser parser = new PEMParser(reader)) {
-            Object obj = parser.readObject();
-            if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPrivateKeyInfo();
-            } else if (obj instanceof ASN1ObjectIdentifier) {
-                obj = parser.readObject();
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPrivateKeyInfo();
+         try (PEMParser parser = new PEMParser(reader)) {
+            Object obj = null;
+            while((obj = parser.readObject()) != null)
+            {
+                if (obj instanceof PEMKeyPair) {
+                PEMKeyPair pair = (PEMKeyPair) obj;               
+                privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());
+                }
+                else if (obj instanceof PrivateKeyInfo) {
+                    privKey = converter.getPrivateKey((PrivateKeyInfo) obj);
+                }
             }
-            PrivateKeyInfo privKeyInfo = (PrivateKeyInfo) obj;
-            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
-            return converter.getPrivateKey(privKeyInfo);
+            
         } catch (Exception E) {
             throw new IOException("Could not read private key", E);
         } finally {
             stream.close();
             reader.close();
         }
+        if(privKey == null)
+        {
+            throw new IOException("No private Key was found in key bytes");
+        }
+        return privKey;
     }
 
     public static PrivateKey readPrivateKey(File f) throws IOException {
@@ -120,71 +128,41 @@ public class PemUtil {
     }
 
     public static PublicKey readPublicKey(InputStream stream) throws IOException {
+        PublicKey pubKey = null;
+        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+        
         InputStreamReader reader = new InputStreamReader(stream);
-        try (PEMParser parser = new PEMParser(reader)) {
-            Object obj = parser.readObject();
-            if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPublicKeyInfo();
+         try (PEMParser parser = new PEMParser(reader)) {
+            Object obj = null;
+            while((obj = parser.readObject()) != null)
+            {
+                if (obj instanceof PEMKeyPair) {
+                PEMKeyPair pair = (PEMKeyPair) obj;               
+                pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
+                }
+                else if (obj instanceof SubjectPublicKeyInfo) {
+                    pubKey = converter.getPublicKey((SubjectPublicKeyInfo) obj);
+                }
             }
-            SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
-            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
-            return converter.getPublicKey(publicKeyInfo);
+            
         } catch (Exception E) {
             throw new IOException("Could not read public key", E);
         } finally {
             stream.close();
             reader.close();
         }
+        if(pubKey == null)
+        {
+            throw new IOException("No public Key was found in key bytes");
+        }
+        return pubKey;
     }
 
     public static PublicKey readPublicKey(File f) throws IOException {
         return readPublicKey(new FileInputStream(f));
     }
     
-    public static PrivateKey readKeyPEM(File f) throws IOException {
-        return readKeyPEM(new FileInputStream(f));
-    }
     
-    public static PrivateKey readKeyPEM(InputStream stream) throws IOException {
-        PrivateKey privKey = null;
-        PublicKey pubKey = null;
-        
-        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
-        InputStreamReader reader = new InputStreamReader(stream);
-        try (PEMParser parser = new PEMParser(reader)) {
-            Object obj = parser.readObject();
-            if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());                
-                pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
-            } 
-            else if (obj instanceof PrivateKeyInfo) {
-                privKey = converter.getPrivateKey((PrivateKeyInfo) obj);
-            }
-            else if (obj instanceof SubjectPublicKeyInfo) {
-                pubKey = converter.getPublicKey((SubjectPublicKeyInfo) obj);
-            }
-            obj = parser.readObject();
-            if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());                
-                pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
-            } 
-            else if (obj instanceof PrivateKeyInfo) {
-                privKey = converter.getPrivateKey((PrivateKeyInfo) obj);
-            }
-            else if (obj instanceof SubjectPublicKeyInfo) {
-                pubKey = converter.getPublicKey((SubjectPublicKeyInfo) obj);
-            }
-        } catch (Exception E) {
-            throw new IOException("Could not read private key", E);
-        } finally {
-            stream.close();
-            reader.close();
-        }
-        return privKey;
-    }
 
     public static byte[] encodeCert(Certificate cert) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
@@ -201,6 +179,7 @@ public class PemUtil {
                     return KeyType.RSA;
                 case "DSA":
                     return KeyType.DSA;
+                case "ECDSA":
                 case "EC":
                     return KeyType.ECDSA;
                 default:
