@@ -12,10 +12,8 @@ package de.rub.nds.asn1.encoder.typeprocessors;
 
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.encoder.Asn1Encoder;
-import de.rub.nds.asn1.encoder.Asn1TypeRegister;
 import de.rub.nds.asn1.encoder.encodingoptions.Asn1EncodingOptions;
 import de.rub.nds.asn1.encoder.encodingoptions.DefaultX509EncodingOptions;
-import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.asn1.util.AttributeParser;
 import de.rub.nds.x509attacker.X509Attributes;
 import org.apache.logging.log4j.LogManager;
@@ -78,15 +76,16 @@ public class DefaultX509TypeProcessor extends Asn1TypeProcessor {
                 if (excludeFromSignature == true) {
                     isFlaggedForEncoding = false;
                 }
-                break;
+                return isFlaggedForEncoding;
 
             case FOR_CERTIFICATE_ONLY:
                 if (excludeFromCertificate == true) {
                     isFlaggedForEncoding = false;
                 }
-                break;
+                return isFlaggedForEncoding;
+            default:
+                return isFlaggedForEncoding;
         }
-        return isFlaggedForEncoding;
     }
 
     protected void setLinkHandled(boolean isLinkHandled) {

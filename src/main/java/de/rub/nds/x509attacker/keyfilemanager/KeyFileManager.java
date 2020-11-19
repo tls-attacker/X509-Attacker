@@ -11,7 +11,6 @@
 package de.rub.nds.x509attacker.keyfilemanager;
 
 import de.rub.nds.x509attacker.filesystem.BinaryFileReader;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;

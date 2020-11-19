@@ -12,8 +12,11 @@ package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyParser;
 import de.rub.nds.signatureengine.keyparsers.KeyParserException;
-
-import java.security.*;
+import java.security.InvalidKeyException;
+import java.security.NoSuchAlgorithmException;
+import java.security.PrivateKey;
+import java.security.Signature;
+import java.security.SignatureException;
 
 public abstract class JavaSignatureEngine extends SignatureEngine {
 

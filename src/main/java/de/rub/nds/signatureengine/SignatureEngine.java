@@ -12,31 +12,31 @@ package de.rub.nds.signatureengine;
 
 public abstract class SignatureEngine {
 
-    private static EngineTupel[] engines = new EngineTupel[] {
-        new EngineTupel(Sha1WithRsaEncryptionSignatureEngine.objectIdentifierString,
+    private static EngineTuple[] engines = new EngineTuple[] {
+        new EngineTuple(Sha1WithRsaEncryptionSignatureEngine.objectIdentifierString,
             Sha1WithRsaEncryptionSignatureEngine.class),
-        new EngineTupel(Sha256WithRsaEncryptionSignatureEngine.objectIdentifierString,
+        new EngineTuple(Sha256WithRsaEncryptionSignatureEngine.objectIdentifierString,
             Sha256WithRsaEncryptionSignatureEngine.class),
-        new EngineTupel(Sha512WithRsaEncryptionSignatureEngine.objectIdentifierString,
+        new EngineTuple(Sha512WithRsaEncryptionSignatureEngine.objectIdentifierString,
             Sha512WithRsaEncryptionSignatureEngine.class),
-        new EngineTupel(Md2WithRsaEncryptionSignatureEngine.objectIdentifierString,
+        new EngineTuple(Md2WithRsaEncryptionSignatureEngine.objectIdentifierString,
             Md2WithRsaEncryptionSignatureEngine.class),
-        new EngineTupel(Md4WithRsaEncryptionSignatureEngine.objectIdentifierString,
+        new EngineTuple(Md4WithRsaEncryptionSignatureEngine.objectIdentifierString,
             Md4WithRsaEncryptionSignatureEngine.class),
-        new EngineTupel(Md5WithRsaEncryptionSignatureEngine.objectIdentifierString,
+        new EngineTuple(Md5WithRsaEncryptionSignatureEngine.objectIdentifierString,
             Md5WithRsaEncryptionSignatureEngine.class),
-        new EngineTupel(DsaWithSha1SignatureEngine.objectIdentifierString, DsaWithSha1SignatureEngine.class),
-        new EngineTupel(EcDsaWithSha1SignatureEngine.objectIdentifierString, EcDsaWithSha1SignatureEngine.class),
-        new EngineTupel(DsaWithSha256SignatureEngine.objectIdentifierString, DsaWithSha256SignatureEngine.class),
-        new EngineTupel(EcDsaWithSha256SignatureEngine.objectIdentifierString, EcDsaWithSha256SignatureEngine.class) };
+        new EngineTuple(DsaWithSha1SignatureEngine.objectIdentifierString, DsaWithSha1SignatureEngine.class),
+        new EngineTuple(EcDsaWithSha1SignatureEngine.objectIdentifierString, EcDsaWithSha1SignatureEngine.class),
+        new EngineTuple(DsaWithSha256SignatureEngine.objectIdentifierString, DsaWithSha256SignatureEngine.class),
+        new EngineTuple(EcDsaWithSha256SignatureEngine.objectIdentifierString, EcDsaWithSha256SignatureEngine.class) };
 
-    public static class EngineTupel {
+    public static class EngineTuple {
 
         public final String objectIdentifierString;
 
         public final Class<? extends SignatureEngine> signatureEngine;
 
-        public EngineTupel(final String objectIdentifierString, final Class<? extends SignatureEngine> signatureEngine) {
+        public EngineTuple(final String objectIdentifierString, final Class<? extends SignatureEngine> signatureEngine) {
             this.objectIdentifierString = objectIdentifierString;
             this.signatureEngine = signatureEngine;
         }
@@ -58,7 +58,7 @@ public abstract class SignatureEngine {
     private static Class<? extends SignatureEngine> findSignatureEngineClass(final String objectIdentifierString)
         throws SignatureEngineException {
         Class<? extends SignatureEngine> signatureEngineClass = null;
-        for (EngineTupel engine : engines) {
+        for (EngineTuple engine : engines) {
             if (engine.objectIdentifierString.equalsIgnoreCase(objectIdentifierString)) {
                 signatureEngineClass = engine.signatureEngine;
                 break;
@@ -89,9 +89,9 @@ public abstract class SignatureEngine {
      */
     public String retrieveObjectIdentifier() throws SignatureEngineException {
         String result = null;
-        for (EngineTupel engineTupel : engines) {
-            if (engineTupel.signatureEngine.isInstance(this)) {
-                result = engineTupel.objectIdentifierString;
+        for (EngineTuple engineTuple : engines) {
+            if (engineTuple.signatureEngine.isInstance(this)) {
+                result = engineTuple.objectIdentifierString;
                 break;
             }
         }

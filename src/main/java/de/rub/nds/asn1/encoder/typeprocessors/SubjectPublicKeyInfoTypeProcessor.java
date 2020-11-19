@@ -18,12 +18,11 @@ import de.rub.nds.signatureengine.keyparsers.PemUtil;
 import de.rub.nds.x509attacker.X509Attributes;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.security.PublicKey;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SubjectPublicKeyInfoTypeProcessor extends DefaultX509TypeProcessor {
 

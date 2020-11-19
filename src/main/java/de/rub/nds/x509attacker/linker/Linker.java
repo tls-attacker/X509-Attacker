@@ -13,7 +13,6 @@ package de.rub.nds.x509attacker.linker;
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.util.AttributeParser;
 import de.rub.nds.x509attacker.X509Attributes;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;

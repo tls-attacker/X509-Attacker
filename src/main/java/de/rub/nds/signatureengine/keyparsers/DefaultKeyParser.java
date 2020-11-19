@@ -11,7 +11,6 @@
 package de.rub.nds.signatureengine.keyparsers;
 
 import de.rub.nds.signatureengine.SignatureEngine;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;

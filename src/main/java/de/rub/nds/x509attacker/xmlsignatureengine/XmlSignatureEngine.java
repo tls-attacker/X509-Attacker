@@ -12,7 +12,11 @@ package de.rub.nds.x509attacker.xmlsignatureengine;
 
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.encoder.Asn1EncoderForX509;
-import de.rub.nds.asn1.model.*;
+import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
+import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
+import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
+import de.rub.nds.asn1.model.KeyInfo;
+import de.rub.nds.asn1.model.SignatureInfo;
 import de.rub.nds.asn1.util.AttributeParser;
 import de.rub.nds.signatureengine.SignatureEngine;
 import de.rub.nds.signatureengine.SignatureEngineException;
@@ -21,7 +25,6 @@ import de.rub.nds.x509attacker.X509Attributes;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;

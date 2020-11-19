@@ -14,7 +14,6 @@ import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.encoder.encodingoptions.Asn1EncodingOptions;
 import de.rub.nds.asn1.encoder.encodingoptions.DefaultX509EncodingOptions;
 import de.rub.nds.x509attacker.linker.Linker;
-
 import java.util.LinkedList;
 import java.util.List;
 

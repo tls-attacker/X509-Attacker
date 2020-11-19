@@ -11,7 +11,9 @@
 package de.rub.nds.x509attacker;
 
 import de.rub.nds.asn1.Asn1Encodable;
+import de.rub.nds.asn1.encoder.Asn1EncoderForX509;
 import de.rub.nds.asn1.encoder.Asn1TypeRegister;
+import de.rub.nds.asn1.encoder.typeprocessors.DefaultX509TypeProcessor;
 import de.rub.nds.asn1.encoder.typeprocessors.SubjectPublicKeyInfoTypeProcessor;
 import de.rub.nds.asn1.model.Asn1PseudoType;
 import de.rub.nds.asn1.model.KeyInfo;
@@ -30,15 +32,12 @@ import de.rub.nds.asn1tool.xmlparser.Asn1XmlContent;
 import de.rub.nds.asn1tool.xmlparser.JaxbClassList;
 import de.rub.nds.asn1tool.xmlparser.XmlConverter;
 import de.rub.nds.asn1tool.xmlparser.XmlParser;
-import de.rub.nds.asn1.encoder.Asn1EncoderForX509;
-import de.rub.nds.asn1.encoder.typeprocessors.DefaultX509TypeProcessor;
 import de.rub.nds.x509attacker.fileystem.CertificateFileReader;
 import de.rub.nds.x509attacker.fileystem.CertificateFileWriter;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
 import de.rub.nds.x509attacker.xmlsignatureengine.XmlSignatureEngine;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
