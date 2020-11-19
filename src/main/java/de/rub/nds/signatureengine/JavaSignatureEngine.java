@@ -1,3 +1,13 @@
+/*
+ * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+ *
+ * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
+ * and Hackmanit GmbH
+ *
+ * Licensed under Apache License 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyParser;
@@ -15,7 +25,8 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
 
     private boolean isInitialized = false;
 
-    public JavaSignatureEngine(final String signatureAlgorithm, final KeyParser keyParser) throws SignatureEngineException {
+    public JavaSignatureEngine(final String signatureAlgorithm, final KeyParser keyParser)
+        throws SignatureEngineException {
         if (keyParser == null) {
             throw new SignatureEngineException("No key parser specified!");
         }
@@ -32,12 +43,16 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
     /**
      * Initializes the signature engine with the corresponding key material.
      *
-     * @param keyBytes   Bytes of the key material.
-     * @param keyType    Indicates how the key bytes shall be parsed. Supported key types: PEM_ENCODED.
-     * @param parameters Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
+     * @param keyBytes
+     * Bytes of the key material.
+     * @param keyType
+     * Indicates how the key bytes shall be parsed. Supported key types: PEM_ENCODED.
+     * @param parameters
+     * Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
      */
     @Override
-    public void init(final byte[] keyBytes, final SignatureEngine.KeyType keyType, final byte[] parameters) throws SignatureEngineException {
+    public void init(final byte[] keyBytes, final SignatureEngine.KeyType keyType, final byte[] parameters)
+        throws SignatureEngineException {
         try {
             this.privateKey = this.keyParser.parse(keyBytes, keyType);
             this.isInitialized = true;
@@ -47,9 +62,11 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
     }
 
     /**
-     * Signs the given data and returns the signature value. Cannot be called before the signature engine is initialized.
+     * Signs the given data and returns the signature value. Cannot be called before the signature engine is
+     * initialized.
      *
-     * @param toBeSigned The data to be signed.
+     * @param toBeSigned
+     * The data to be signed.
      * @return The signature value.
      */
     @Override

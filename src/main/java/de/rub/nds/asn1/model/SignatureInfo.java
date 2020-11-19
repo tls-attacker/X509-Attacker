@@ -1,3 +1,13 @@
+/*
+ * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+ *
+ * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
+ * and Hackmanit GmbH
+ *
+ * Licensed under Apache License 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package de.rub.nds.asn1.model;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -10,9 +20,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SignatureInfo extends Asn1PseudoType {
 
-    @XmlElements(value = {
-            @XmlElement(name = "toBeSignedIdentifier", type = String.class)
-    })
+    @XmlElements(value = { @XmlElement(name = "toBeSignedIdentifier", type = String.class) })
     private List<String> toBeSignedIdentifiers = new LinkedList<>();
 
     @XmlElement(name = "signatureValueTargetIdentifier")

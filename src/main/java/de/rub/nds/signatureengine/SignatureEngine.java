@@ -1,50 +1,34 @@
-package de.rub.nds.signatureengine;
+/*
+ * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+ *
+ * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
+ * and Hackmanit GmbH
+ *
+ * Licensed under Apache License 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
 
+package de.rub.nds.signatureengine;
 
 public abstract class SignatureEngine {
 
-    private static EngineTupel[] engines = new EngineTupel[]{
-            new EngineTupel(
-                    Sha1WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Sha1WithRsaEncryptionSignatureEngine.class
-            ),
-            new EngineTupel(
-                    Sha256WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Sha256WithRsaEncryptionSignatureEngine.class
-            ),
-            new EngineTupel(
-                    Sha512WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Sha512WithRsaEncryptionSignatureEngine.class
-            ),
-            new EngineTupel(
-                    Md2WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Md2WithRsaEncryptionSignatureEngine.class
-            ),
-            new EngineTupel(
-                    Md4WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Md4WithRsaEncryptionSignatureEngine.class
-            ),
-            new EngineTupel(
-                    Md5WithRsaEncryptionSignatureEngine.objectIdentifierString,
-                    Md5WithRsaEncryptionSignatureEngine.class
-            ),
-            new EngineTupel(
-                    DsaWithSha1SignatureEngine.objectIdentifierString,
-                    DsaWithSha1SignatureEngine.class
-            ),
-            new EngineTupel(
-                    EcDsaWithSha1SignatureEngine.objectIdentifierString,
-                    EcDsaWithSha1SignatureEngine.class
-            ),
-            new EngineTupel(
-                    DsaWithSha256SignatureEngine.objectIdentifierString,
-                    DsaWithSha256SignatureEngine.class
-            ),
-            new EngineTupel(
-                    EcDsaWithSha256SignatureEngine.objectIdentifierString,
-                    EcDsaWithSha256SignatureEngine.class
-            )
-    };
+    private static EngineTupel[] engines = new EngineTupel[] {
+        new EngineTupel(Sha1WithRsaEncryptionSignatureEngine.objectIdentifierString,
+            Sha1WithRsaEncryptionSignatureEngine.class),
+        new EngineTupel(Sha256WithRsaEncryptionSignatureEngine.objectIdentifierString,
+            Sha256WithRsaEncryptionSignatureEngine.class),
+        new EngineTupel(Sha512WithRsaEncryptionSignatureEngine.objectIdentifierString,
+            Sha512WithRsaEncryptionSignatureEngine.class),
+        new EngineTupel(Md2WithRsaEncryptionSignatureEngine.objectIdentifierString,
+            Md2WithRsaEncryptionSignatureEngine.class),
+        new EngineTupel(Md4WithRsaEncryptionSignatureEngine.objectIdentifierString,
+            Md4WithRsaEncryptionSignatureEngine.class),
+        new EngineTupel(Md5WithRsaEncryptionSignatureEngine.objectIdentifierString,
+            Md5WithRsaEncryptionSignatureEngine.class),
+        new EngineTupel(DsaWithSha1SignatureEngine.objectIdentifierString, DsaWithSha1SignatureEngine.class),
+        new EngineTupel(EcDsaWithSha1SignatureEngine.objectIdentifierString, EcDsaWithSha1SignatureEngine.class),
+        new EngineTupel(DsaWithSha256SignatureEngine.objectIdentifierString, DsaWithSha256SignatureEngine.class),
+        new EngineTupel(EcDsaWithSha256SignatureEngine.objectIdentifierString, EcDsaWithSha256SignatureEngine.class) };
 
     public static class EngineTupel {
 
@@ -71,7 +55,8 @@ public abstract class SignatureEngine {
         return signatureEngine;
     }
 
-    private static Class<? extends SignatureEngine> findSignatureEngineClass(final String objectIdentifierString) throws SignatureEngineException {
+    private static Class<? extends SignatureEngine> findSignatureEngineClass(final String objectIdentifierString)
+        throws SignatureEngineException {
         Class<? extends SignatureEngine> signatureEngineClass = null;
         for (EngineTupel engine : engines) {
             if (engine.objectIdentifierString.equalsIgnoreCase(objectIdentifierString)) {
@@ -80,12 +65,14 @@ public abstract class SignatureEngine {
             }
         }
         if (signatureEngineClass == null) {
-            throw new SignatureEngineException("No signature engine found for [object identifier = " + objectIdentifierString + "]!");
+            throw new SignatureEngineException("No signature engine found for [object identifier = "
+                + objectIdentifierString + "]!");
         }
         return signatureEngineClass;
     }
 
-    public static SignatureEngine invoke(Class<? extends SignatureEngine> signatureEngineClass) throws SignatureEngineException {
+    public static SignatureEngine invoke(Class<? extends SignatureEngine> signatureEngineClass)
+        throws SignatureEngineException {
         SignatureEngine signatureEngine = null;
         try {
             signatureEngine = signatureEngineClass.newInstance();
@@ -117,16 +104,22 @@ public abstract class SignatureEngine {
     /**
      * Initializes the signature engine with the corresponding key material.
      *
-     * @param keyBytes   Bytes of the key material.
-     * @param keyType    Indicates how the key bytes shall be parsed.
-     * @param parameters Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
+     * @param keyBytes
+     * Bytes of the key material.
+     * @param keyType
+     * Indicates how the key bytes shall be parsed.
+     * @param parameters
+     * Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
      */
-    public abstract void init(final byte[] keyBytes, final KeyType keyType, final byte[] parameters) throws SignatureEngineException;
+    public abstract void init(final byte[] keyBytes, final KeyType keyType, final byte[] parameters)
+        throws SignatureEngineException;
 
     /**
-     * Signs the given data and returns the signature value. Cannot be called before the signature engine is initialized.
+     * Signs the given data and returns the signature value. Cannot be called before the signature engine is
+     * initialized.
      *
-     * @param toBeSigned The data to be signed.
+     * @param toBeSigned
+     * The data to be signed.
      * @return The signature value.
      */
     public abstract byte[] sign(final byte[] toBeSigned) throws SignatureEngineException;

@@ -1,3 +1,13 @@
+/*
+ * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+ *
+ * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
+ * and Hackmanit GmbH
+ *
+ * Licensed under Apache License 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package de.rub.nds.asn1.encoder.typeprocessors;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -30,11 +40,10 @@ public class DefaultX509TypeProcessor extends Asn1TypeProcessor {
     @Override
     public byte[] encode() {
         byte[] encoded = new byte[0];
-        if(this.isFlaggedForEncoding()) {
-            if(this.linksAnotherAsn1Encodable() && this.isLinkHandled == false) {
+        if (this.isFlaggedForEncoding()) {
+            if (this.linksAnotherAsn1Encodable() && this.isLinkHandled == false) {
                 encoded = this.encodeFromLinkedAsn1Encodable();
-            }
-            else {
+            } else {
                 encoded = this.asn1Encodable.getSerializer().serialize();
             }
         }
@@ -47,8 +56,10 @@ public class DefaultX509TypeProcessor extends Asn1TypeProcessor {
 
     private byte[] encodeFromLinkedAsn1Encodable() {
         Asn1Encodable linkedAsn1Encodable = this.encodingOptions.linker.getLinkedAsn1Encodable(this.asn1Encodable);
-        if(this.asn1Encodable.getType().equals(linkedAsn1Encodable.getType()) == false) {
-            LOGGER.warn("Type mismatch: " + this.asn1Encodable.getClass() + " with type " + this.asn1Encodable.getType() + " references " + linkedAsn1Encodable.getClass() + " with type " + linkedAsn1Encodable.getType() + "! Encoding reference anyways...");
+        if (this.asn1Encodable.getType().equals(linkedAsn1Encodable.getType()) == false) {
+            LOGGER.warn("Type mismatch: " + this.asn1Encodable.getClass() + " with type "
+                + this.asn1Encodable.getType() + " references " + linkedAsn1Encodable.getClass() + " with type "
+                + linkedAsn1Encodable.getType() + "! Encoding reference anyways...");
         }
         Asn1Encoder asn1Encoder = new Asn1Encoder(this.encodingOptions, linkedAsn1Encodable);
         return asn1Encoder.encode();
@@ -56,17 +67,21 @@ public class DefaultX509TypeProcessor extends Asn1TypeProcessor {
 
     protected boolean isFlaggedForEncoding() {
         boolean isFlaggedForEncoding = true;
-        boolean excludeFromSignature = AttributeParser.parseBooleanAttributeOrDefault(this.asn1Encodable, X509Attributes.EXCLUDE_FROM_SIGNATURE, false);
-        boolean excludeFromCertificate = AttributeParser.parseBooleanAttributeOrDefault(this.asn1Encodable, X509Attributes.EXCLUDE_FROM_CERTIFICATE, false);
-        switch(this.encodingOptions.encodeTarget) {
+        boolean excludeFromSignature =
+            AttributeParser.parseBooleanAttributeOrDefault(this.asn1Encodable, X509Attributes.EXCLUDE_FROM_SIGNATURE,
+                false);
+        boolean excludeFromCertificate =
+            AttributeParser.parseBooleanAttributeOrDefault(this.asn1Encodable, X509Attributes.EXCLUDE_FROM_CERTIFICATE,
+                false);
+        switch (this.encodingOptions.encodeTarget) {
             case FOR_SIGNATURE_ONLY:
-                if(excludeFromSignature == true) {
+                if (excludeFromSignature == true) {
                     isFlaggedForEncoding = false;
                 }
                 break;
 
             case FOR_CERTIFICATE_ONLY:
-                if(excludeFromCertificate == true) {
+                if (excludeFromCertificate == true) {
                     isFlaggedForEncoding = false;
                 }
                 break;

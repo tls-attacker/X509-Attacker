@@ -1,3 +1,13 @@
+/*
+ * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+ *
+ * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
+ * and Hackmanit GmbH
+ *
+ * Licensed under Apache License 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0
+ */
+
 package de.rub.nds.x509attacker.keyfilemanager;
 
 import de.rub.nds.x509attacker.filesystem.BinaryFileReader;
@@ -38,7 +48,7 @@ public class KeyFileManager {
 
     private void readAllKeyFiles() throws KeyFileManagerException {
         File[] keyFiles = this.keyFileDirectory.listFiles();
-        if(keyFiles != null) {
+        if (keyFiles != null) {
             for (File keyFile : keyFiles) {
                 this.readKeyFile(keyFile);
             }
@@ -50,14 +60,14 @@ public class KeyFileManager {
             BinaryFileReader binaryFileReader = new BinaryFileReader(keyFile.getAbsolutePath());
             byte[] keyFileContent = binaryFileReader.read();
             this.addKeyFile(keyFile.getName(), keyFileContent);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new KeyFileManagerException(e);
         }
     }
 
     private void addKeyFile(String filename, byte[] content) throws KeyFileManagerException {
         String sanitizedFilename = this.sanitizeKeyFileName(filename);
-        if(!this.keyFileMap.containsKey(sanitizedFilename)) {
+        if (!this.keyFileMap.containsKey(sanitizedFilename)) {
             this.keyFileMap.put(sanitizedFilename, content);
         }
     }
@@ -68,10 +78,9 @@ public class KeyFileManager {
 
     public byte[] getKeyFileContent(String filename) throws KeyFileManagerException {
         String sanitizedFilename = this.sanitizeKeyFileName(filename);
-        if(this.keyFileMap.containsKey(sanitizedFilename)) {
+        if (this.keyFileMap.containsKey(sanitizedFilename)) {
             return this.keyFileMap.get(sanitizedFilename);
-        }
-        else {
+        } else {
             throw new KeyFileManagerException("Key file " + filename + " is not available!");
         }
     }

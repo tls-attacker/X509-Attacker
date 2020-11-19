@@ -1,11 +1,13 @@
-/**
+/*
  * TLS-Attacker - A Modular Penetration Testing Framework for TLS
- * <p>
- * Copyright 2014-2017 Ruhr University Bochum / Hackmanit GmbH
- * <p>
+ *
+ * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
+ * and Hackmanit GmbH
+ *
  * Licensed under Apache License 2.0
  * http://www.apache.org/licenses/LICENSE-2.0
  */
+
 package de.rub.nds.signatureengine.keyparsers;
 
 import org.apache.logging.log4j.LogManager;
@@ -74,7 +76,7 @@ public class PemUtil {
     }
 
     public static Certificate readCertificate(InputStream stream) throws FileNotFoundException, CertificateException,
-            IOException {
+        IOException {
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         Collection<? extends java.security.cert.Certificate> certs = certFactory.generateCertificates(stream);
         java.security.cert.Certificate sunCert = (java.security.cert.Certificate) certs.toArray()[0];
