@@ -1,11 +1,10 @@
-/*
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
- * and Hackmanit GmbH
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
  *
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
 package de.rub.nds.x509attacker.fileystem;
@@ -29,9 +28,8 @@ public class CertificateFileReader extends TextFileReader {
         String certificateFileContent = super.read();
         if (certificateFileContent.contains(CERTIFICATE_PEM_PREFIX)
             && certificateFileContent.contains(CERTIFICATE_PEM_SUFFIX)) {
-            String base64Str =
-                certificateFileContent.replace("\\n", "").replace("\n", "").replace("\r", "")
-                    .replace(CERTIFICATE_PEM_PREFIX, "").replace(CERTIFICATE_PEM_SUFFIX, "").trim();
+            String base64Str = certificateFileContent.replace("\\n", "").replace("\n", "").replace("\r", "")
+                .replace(CERTIFICATE_PEM_PREFIX, "").replace(CERTIFICATE_PEM_SUFFIX, "").trim();
             bytes = Base64.getDecoder().decode(base64Str);
         }
         if (bytes == null) {

@@ -1,11 +1,10 @@
-/*
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
- * and Hackmanit GmbH
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
  *
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
 package de.rub.nds.signatureengine;
@@ -47,11 +46,11 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
      * Initializes the signature engine with the corresponding key material.
      *
      * @param keyBytes
-     * Bytes of the key material.
+     *                   Bytes of the key material.
      * @param keyType
-     * Indicates how the key bytes shall be parsed. Supported key types: PEM_ENCODED.
+     *                   Indicates how the key bytes shall be parsed. Supported key types: PEM_ENCODED.
      * @param parameters
-     * Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
+     *                   Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
      */
     @Override
     public void init(final byte[] keyBytes, final SignatureEngine.KeyType keyType, final byte[] parameters)
@@ -68,9 +67,9 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
      * Signs the given data and returns the signature value. Cannot be called before the signature engine is
      * initialized.
      *
-     * @param toBeSigned
-     * The data to be signed.
-     * @return The signature value.
+     * @param  toBeSigned
+     *                    The data to be signed.
+     * @return            The signature value.
      */
     @Override
     public byte[] sign(final byte[] toBeSigned) throws SignatureEngineException {

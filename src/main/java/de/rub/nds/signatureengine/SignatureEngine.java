@@ -1,11 +1,10 @@
-/*
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
- * and Hackmanit GmbH
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
  *
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
 package de.rub.nds.signatureengine;
@@ -36,7 +35,8 @@ public abstract class SignatureEngine {
 
         public final Class<? extends SignatureEngine> signatureEngine;
 
-        public EngineTuple(final String objectIdentifierString, final Class<? extends SignatureEngine> signatureEngine) {
+        public EngineTuple(final String objectIdentifierString,
+            final Class<? extends SignatureEngine> signatureEngine) {
             this.objectIdentifierString = objectIdentifierString;
             this.signatureEngine = signatureEngine;
         }
@@ -65,8 +65,8 @@ public abstract class SignatureEngine {
             }
         }
         if (signatureEngineClass == null) {
-            throw new SignatureEngineException("No signature engine found for [object identifier = "
-                + objectIdentifierString + "]!");
+            throw new SignatureEngineException(
+                "No signature engine found for [object identifier = " + objectIdentifierString + "]!");
         }
         return signatureEngineClass;
     }
@@ -105,11 +105,11 @@ public abstract class SignatureEngine {
      * Initializes the signature engine with the corresponding key material.
      *
      * @param keyBytes
-     * Bytes of the key material.
+     *                   Bytes of the key material.
      * @param keyType
-     * Indicates how the key bytes shall be parsed.
+     *                   Indicates how the key bytes shall be parsed.
      * @param parameters
-     * Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
+     *                   Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
      */
     public abstract void init(final byte[] keyBytes, final KeyType keyType, final byte[] parameters)
         throws SignatureEngineException;
@@ -118,9 +118,9 @@ public abstract class SignatureEngine {
      * Signs the given data and returns the signature value. Cannot be called before the signature engine is
      * initialized.
      *
-     * @param toBeSigned
-     * The data to be signed.
-     * @return The signature value.
+     * @param  toBeSigned
+     *                    The data to be signed.
+     * @return            The signature value.
      */
     public abstract byte[] sign(final byte[] toBeSigned) throws SignatureEngineException;
 }

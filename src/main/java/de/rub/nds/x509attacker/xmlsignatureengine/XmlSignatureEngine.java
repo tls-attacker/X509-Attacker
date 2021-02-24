@@ -1,11 +1,10 @@
-/*
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
- * and Hackmanit GmbH
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
  *
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
 package de.rub.nds.x509attacker.xmlsignatureengine;
@@ -128,9 +127,8 @@ public final class XmlSignatureEngine {
         String objectIdentifierValue = signatureInfo.getSignatureAlgorithmOidValue();
         if (objectIdentifierValue == null || objectIdentifierValue.isEmpty()) {
             try {
-                Asn1ObjectIdentifier asn1ObjectIdentifier =
-                    (Asn1ObjectIdentifier) this.identifierMap.get(signatureInfo.getSignatureAlgorithmOidIdentifier()
-                        .trim());
+                Asn1ObjectIdentifier asn1ObjectIdentifier = (Asn1ObjectIdentifier) this.identifierMap
+                    .get(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
                 objectIdentifierValue = asn1ObjectIdentifier.getValue();
             } catch (Throwable e) {
                 throw new RuntimeException(
@@ -159,7 +157,8 @@ public final class XmlSignatureEngine {
         this.writeSignatureValueToTargetEncodable(targetEncodable, signatureValue);
     }
 
-    private void writeSignatureValueToTargetEncodable(final Asn1Encodable targetEncodable, final byte[] signatureValue) {
+    private void writeSignatureValueToTargetEncodable(final Asn1Encodable targetEncodable,
+        final byte[] signatureValue) {
         if (targetEncodable instanceof Asn1PrimitiveBitString) {
             Asn1PrimitiveBitString targetBitString = (Asn1PrimitiveBitString) targetEncodable;
             targetBitString.setValue(signatureValue);

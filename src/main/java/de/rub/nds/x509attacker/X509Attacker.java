@@ -1,11 +1,10 @@
-/*
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
- * and Hackmanit GmbH
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
  *
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
 package de.rub.nds.x509attacker;
@@ -78,8 +77,8 @@ public class X509Attacker {
     }
 
     private static void printHelp() {
-        System.out
-            .println("Usage: x509attacker xml2cert [input xml file] [key file directory] [output certificate directory]");
+        System.out.println(
+            "Usage: x509attacker xml2cert [input xml file] [key file directory] [output certificate directory]");
         System.out.println("   or: x509attacker cert2xml [input certificate file] [output xml file]");
         System.out.println();
         System.out.println("[input xml file]                the file name of the xml input file");
@@ -207,8 +206,8 @@ public class X509Attacker {
         certificateChainFileWriter.close();
     }
 
-    private static void writeSingleCertificate(final String certificateOutputDirectory,
-        final Asn1Encodable certificate, final byte[] encodedCertificate) throws IOException {
+    private static void writeSingleCertificate(final String certificateOutputDirectory, final Asn1Encodable certificate,
+        final byte[] encodedCertificate) throws IOException {
         String certificateFileName = certificate.getIdentifier() + ".pem";
         CertificateFileWriter certificateFileWriter =
             new CertificateFileWriter(certificateOutputDirectory, certificateFileName);

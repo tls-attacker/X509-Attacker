@@ -1,11 +1,10 @@
-/*
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2020 Ruhr University Bochum, Paderborn University,
- * and Hackmanit GmbH
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
  *
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
 package de.rub.nds.x509attacker.linker;
@@ -46,8 +45,8 @@ public class Linker {
                 Asn1Encodable referencedAsn1Encodable = this.identifierMap.get(fromIdentifier);
                 this.buildLink(asn1Encodable, referencedAsn1Encodable);
             } else {
-                throw new LinkerException("Cannot build link from " + asn1Encodable + " for fromIdentifier "
-                    + fromIdentifier + "!");
+                throw new LinkerException(
+                    "Cannot build link from " + asn1Encodable + " for fromIdentifier " + fromIdentifier + "!");
             }
         }
     }
