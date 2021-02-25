@@ -1,13 +1,27 @@
 /**
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
- * <p>
- * Copyright 2014-2017 Ruhr University Bochum / Hackmanit GmbH
- * <p>
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.signatureengine.keyparsers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1Primitive;
@@ -20,13 +34,6 @@ import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
-
-import java.io.*;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.util.Collection;
 
 public class PemUtil {
 
@@ -73,8 +80,8 @@ public class PemUtil {
         }
     }
 
-    public static Certificate readCertificate(InputStream stream) throws FileNotFoundException, CertificateException,
-            IOException {
+    public static Certificate readCertificate(InputStream stream)
+        throws FileNotFoundException, CertificateException, IOException {
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         Collection<? extends java.security.cert.Certificate> certs = certFactory.generateCertificates(stream);
         java.security.cert.Certificate sunCert = (java.security.cert.Certificate) certs.toArray()[0];
@@ -106,8 +113,8 @@ public class PemUtil {
             PrivateKeyInfo privKeyInfo = (PrivateKeyInfo) obj;
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             return converter.getPrivateKey(privKeyInfo);
-        } catch (Exception E) {
-            throw new IOException("Could not read private key", E);
+        } catch (Exception e) {
+            throw new IOException("Could not read private key", e);
         } finally {
             stream.close();
             reader.close();
@@ -129,8 +136,8 @@ public class PemUtil {
             SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
             JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             return converter.getPublicKey(publicKeyInfo);
-        } catch (Exception E) {
-            throw new IOException("Could not read public key", E);
+        } catch (Exception e) {
+            throw new IOException("Could not read public key", e);
         } finally {
             stream.close();
             reader.close();

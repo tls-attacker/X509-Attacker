@@ -1,7 +1,18 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.x509attacker;
 
 import de.rub.nds.asn1.Asn1Encodable;
+import de.rub.nds.asn1.encoder.Asn1EncoderForX509;
 import de.rub.nds.asn1.encoder.Asn1TypeRegister;
+import de.rub.nds.asn1.encoder.typeprocessors.DefaultX509TypeProcessor;
 import de.rub.nds.asn1.encoder.typeprocessors.SubjectPublicKeyInfoTypeProcessor;
 import de.rub.nds.asn1.model.Asn1PseudoType;
 import de.rub.nds.asn1.model.KeyInfo;
@@ -20,15 +31,12 @@ import de.rub.nds.asn1tool.xmlparser.Asn1XmlContent;
 import de.rub.nds.asn1tool.xmlparser.JaxbClassList;
 import de.rub.nds.asn1tool.xmlparser.XmlConverter;
 import de.rub.nds.asn1tool.xmlparser.XmlParser;
-import de.rub.nds.asn1.encoder.Asn1EncoderForX509;
-import de.rub.nds.asn1.encoder.typeprocessors.DefaultX509TypeProcessor;
 import de.rub.nds.x509attacker.fileystem.CertificateFileReader;
 import de.rub.nds.x509attacker.fileystem.CertificateFileWriter;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
 import de.rub.nds.x509attacker.xmlsignatureengine.XmlSignatureEngine;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
@@ -38,22 +46,19 @@ public class X509Attacker {
 
     public static void main(String[] args) {
         // Parse program arguments
-        if(args.length > 0) {
-            switch(args[0]) {
-                case "xml2cert":
-                {
-                    if(args.length == 4) {
+        if (args.length > 0) {
+            switch (args[0]) {
+                case "xml2cert": {
+                    if (args.length == 4) {
                         xmlToCertificate(args[1], args[2], args[3]);
-                    }
-                    else {
+                    } else {
                         printHelp();
                     }
                     break;
                 }
 
-                case "cert2xml":
-                {
-                    if(args.length == 3) {
+                case "cert2xml": {
+                    if (args.length == 3) {
                         certificateToXml(args[1], args[2]);
                     } else {
                         printHelp();
@@ -61,20 +66,19 @@ public class X509Attacker {
                     break;
                 }
 
-                default:
-                {
+                default: {
                     printHelp();
                     break;
                 }
             }
-        }
-        else {
+        } else {
             printHelp();
         }
     }
 
     private static void printHelp() {
-        System.out.println("Usage: x509attacker xml2cert [input xml file] [key file directory] [output certificate directory]");
+        System.out.println(
+            "Usage: x509attacker xml2cert [input xml file] [key file directory] [output certificate directory]");
         System.out.println("   or: x509attacker cert2xml [input certificate file] [output xml file]");
         System.out.println();
         System.out.println("[input xml file]                the file name of the xml input file");
@@ -85,7 +89,8 @@ public class X509Attacker {
         System.out.println("[output xml file]               the output xml file");
     }
 
-    public static void xmlToCertificate(final String xmlFile, final String keyDirectory, final String certificateOutputDirectory) {
+    public static void xmlToCertificate(final String xmlFile, final String keyDirectory,
+        final String certificateOutputDirectory) {
         try {
             registerXmlClasses();
             registerTypes();
@@ -121,9 +126,9 @@ public class X509Attacker {
             writeCertificates(certificateOutputDirectory, certificates, encodedCertificates);
 
             System.out.println("Done.");
-        } catch(KeyFileManagerException e) {
+        } catch (KeyFileManagerException e) {
             e.printStackTrace();
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -149,9 +154,9 @@ public class X509Attacker {
             XmlConverter xmlConverter = new XmlConverter(asn1XmlContent, new File(xmlFile));
 
             System.out.println("Done.");
-        } catch(IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
-        } catch(ParserException e) {
+        } catch (ParserException e) {
             e.printStackTrace();
         }
     }
@@ -159,11 +164,7 @@ public class X509Attacker {
     public static void registerXmlClasses() {
         JaxbClassList jaxbClassList = JaxbClassList.getInstance();
         jaxbClassList.addClasses(Asn1Tool.getAsn1ToolJaxbClasses());
-        jaxbClassList.addClasses(
-                Asn1PseudoType.class,
-                SignatureInfo.class,
-                KeyInfo.class
-        );
+        jaxbClassList.addClasses(Asn1PseudoType.class, SignatureInfo.class, KeyInfo.class);
     }
 
     public static void registerTypes() {
@@ -185,15 +186,18 @@ public class X509Attacker {
         contentUnpackerRegister.registerContentUnpacker(new PrimitiveBitStringUnpacker());
     }
 
-    public static void writeCertificates(final String certificateOutputDirectory, final List<Asn1Encodable> certificates, final byte[][] encodedCertificates) throws IOException {
-        CertificateFileWriter certificateChainFileWriter = new CertificateFileWriter(certificateOutputDirectory, "certificate_chain.pem");
-        for(int i = 0; i < certificates.size(); i++) {
+    public static void writeCertificates(final String certificateOutputDirectory,
+        final List<Asn1Encodable> certificates, final byte[][] encodedCertificates) throws IOException {
+        CertificateFileWriter certificateChainFileWriter =
+            new CertificateFileWriter(certificateOutputDirectory, "certificate_chain.pem");
+        for (int i = 0; i < certificates.size(); i++) {
             Asn1Encodable certificate = certificates.get(i);
-            if(certificate.getType().equalsIgnoreCase("Certificate") == false) {
+            if (certificate.getType().equalsIgnoreCase("Certificate") == false) {
                 continue;
             }
             // Append certificate to certificate chain file
-            if(AttributeParser.parseBooleanAttributeOrDefault(certificate, X509Attributes.ATTACH_TO_CERTIFICATE_LIST, false)) {
+            if (AttributeParser.parseBooleanAttributeOrDefault(certificate, X509Attributes.ATTACH_TO_CERTIFICATE_LIST,
+                false)) {
                 certificateChainFileWriter.writeCertificate(encodedCertificates[i]);
             }
             // Write certificate in its own file
@@ -202,9 +206,11 @@ public class X509Attacker {
         certificateChainFileWriter.close();
     }
 
-    private static void writeSingleCertificate(final String certificateOutputDirectory, final Asn1Encodable certificate, final byte[] encodedCertificate) throws IOException {
+    private static void writeSingleCertificate(final String certificateOutputDirectory, final Asn1Encodable certificate,
+        final byte[] encodedCertificate) throws IOException {
         String certificateFileName = certificate.getIdentifier() + ".pem";
-        CertificateFileWriter certificateFileWriter = new CertificateFileWriter(certificateOutputDirectory, certificateFileName);
+        CertificateFileWriter certificateFileWriter =
+            new CertificateFileWriter(certificateOutputDirectory, certificateFileName);
         certificateFileWriter.writeCertificate(encodedCertificate);
         certificateFileWriter.close();
     }

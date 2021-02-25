@@ -1,8 +1,21 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.x509attacker.xmlsignatureengine;
 
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.encoder.Asn1EncoderForX509;
-import de.rub.nds.asn1.model.*;
+import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
+import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
+import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
+import de.rub.nds.asn1.model.KeyInfo;
+import de.rub.nds.asn1.model.SignatureInfo;
 import de.rub.nds.asn1.util.AttributeParser;
 import de.rub.nds.signatureengine.SignatureEngine;
 import de.rub.nds.signatureengine.SignatureEngineException;
@@ -11,7 +24,6 @@ import de.rub.nds.x509attacker.X509Attributes;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
-
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -56,7 +68,7 @@ public final class XmlSignatureEngine {
             signatureEngine.init(keyBytes, SignatureEngine.KeyType.PEM_ENCODED, signatureAlgorithmParameters);
             byte[] signatureValue = signatureEngine.sign(toBeSigned);
             this.writeSignatureValueToTarget(signatureInfo, signatureValue);
-        } catch(SignatureEngineException e) {
+        } catch (SignatureEngineException e) {
             throw new XmlSignatureEngineException(e);
         }
     }
@@ -89,7 +101,8 @@ public final class XmlSignatureEngine {
                 throw new XmlSignatureEngineException(e);
             }
         } else {
-            throw new XmlSignatureEngineException("SignatureInfo does not contain the mandatory KeyInfoIdentifier element or KeyInfoIdentifier links to an element of type other than KeyInfo!");
+            throw new XmlSignatureEngineException(
+                "SignatureInfo does not contain the mandatory KeyInfoIdentifier element or KeyInfoIdentifier links to an element of type other than KeyInfo!");
         }
         return key;
     }
@@ -97,13 +110,14 @@ public final class XmlSignatureEngine {
     private String getKeyFileName(final KeyInfo keyInfo) {
         String keyFile = keyInfo.getKeyFile();
         if (keyFile == null || keyFile.isEmpty()) {
-            String identifier = AttributeParser.parseStringAttributeOrDefault(keyInfo, X509Attributes.FROM_IDENTIFIER, null);
+            String identifier =
+                AttributeParser.parseStringAttributeOrDefault(keyInfo, X509Attributes.FROM_IDENTIFIER, null);
             Asn1Encodable asn1Encodable = this.identifierMap.get(identifier);
-            if(asn1Encodable instanceof KeyInfo) {
+            if (asn1Encodable instanceof KeyInfo) {
                 keyFile = this.getKeyFileName((KeyInfo) asn1Encodable);
-            }
-            else {
-                throw new XmlSignatureEngineException("KeyInfo uses fromIdentifier to reference an element that is not of type KeyInfo!");
+            } else {
+                throw new XmlSignatureEngineException(
+                    "KeyInfo uses fromIdentifier to reference an element that is not of type KeyInfo!");
             }
         }
         return keyFile.trim();
@@ -111,13 +125,14 @@ public final class XmlSignatureEngine {
 
     private String getSignatureAlgorithmObjectIdentifierValue(final SignatureInfo signatureInfo) {
         String objectIdentifierValue = signatureInfo.getSignatureAlgorithmOidValue();
-        if(objectIdentifierValue == null || objectIdentifierValue.isEmpty()) {
+        if (objectIdentifierValue == null || objectIdentifierValue.isEmpty()) {
             try {
-                Asn1ObjectIdentifier asn1ObjectIdentifier = (Asn1ObjectIdentifier) this.identifierMap.get(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
+                Asn1ObjectIdentifier asn1ObjectIdentifier = (Asn1ObjectIdentifier) this.identifierMap
+                    .get(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
                 objectIdentifierValue = asn1ObjectIdentifier.getValue();
-            }
-            catch(Throwable e) {
-                throw new RuntimeException("SignatureInfo must contain either signatureAlgorithmOidValue or signatureAlgorithmOidIdentifier whereas signatureAlgorithmOidIdentifier needs to contain an identifier pointing to Asn1ObjectIdentifier!");
+            } catch (Throwable e) {
+                throw new RuntimeException(
+                    "SignatureInfo must contain either signatureAlgorithmOidValue or signatureAlgorithmOidIdentifier whereas signatureAlgorithmOidIdentifier needs to contain an identifier pointing to Asn1ObjectIdentifier!");
             }
         }
         return objectIdentifierValue.trim();
@@ -127,10 +142,10 @@ public final class XmlSignatureEngine {
         byte[] parameters = null;
         String parametersIdentifier = signatureInfo.getParametersIdentifier().trim();
         Asn1Encodable asn1Parameters = signatureInfo.getParameters();
-        if(parametersIdentifier != null && parametersIdentifier.isEmpty() == false) {
+        if (parametersIdentifier != null && parametersIdentifier.isEmpty() == false) {
             asn1Parameters = this.identifierMap.get(parametersIdentifier);
         }
-        if(asn1Parameters != null) {
+        if (asn1Parameters != null) {
             parameters = Asn1EncoderForX509.encode(this.linker, asn1Parameters);
         }
         return parameters;
@@ -142,7 +157,8 @@ public final class XmlSignatureEngine {
         this.writeSignatureValueToTargetEncodable(targetEncodable, signatureValue);
     }
 
-    private void writeSignatureValueToTargetEncodable(final Asn1Encodable targetEncodable, final byte[] signatureValue) {
+    private void writeSignatureValueToTargetEncodable(final Asn1Encodable targetEncodable,
+        final byte[] signatureValue) {
         if (targetEncodable instanceof Asn1PrimitiveBitString) {
             Asn1PrimitiveBitString targetBitString = (Asn1PrimitiveBitString) targetEncodable;
             targetBitString.setValue(signatureValue);
@@ -150,7 +166,8 @@ public final class XmlSignatureEngine {
             Asn1PrimitiveOctetString targetOctetString = (Asn1PrimitiveOctetString) targetEncodable;
             targetOctetString.setValue(signatureValue);
         } else {
-            throw new XmlSignatureEngineException("Signature value can only be written to ASN.1 types Asn1PrimitiveBitString and Asn1PrimitiveOctetString!");
+            throw new XmlSignatureEngineException(
+                "Signature value can only be written to ASN.1 types Asn1PrimitiveBitString and Asn1PrimitiveOctetString!");
         }
     }
 }
