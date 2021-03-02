@@ -28,32 +28,7 @@ public class X509CertificateChainTest {
     @BeforeClass
     public static void setUpClass() throws IOException, JAXBException, XMLStreamException{
         x509certificateChain = X509Factory.generateRandomX509CertificateChain(new File("resources/x509Certificates"),new File("resources/keys"),numberOfCerts, RepairChainConfig.createRepairAllAndSignConfig("resources/keys"));
-            
     }    
-
-    /**
-     * Test of signAllCertificates method, of class X509CertificateChain.
-     */
-    @Test
-    public void testSignAllCertificates() {
-        System.out.println("signAllCertificates");
-        X509CertificateChain instance = new X509CertificateChain();
-        instance.signAllCertificates();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of repairChain method, of class X509CertificateChain.
-     */
-    @Test
-    public void testRepairChain() throws RepairChainException{
-        System.out.println("repairChain");
-        X509CertificateChain instance = new X509CertificateChain();
-        instance.repairAndSignChain();
-        // TODO review the generated test code and remove the default call to fail.
-        fail("The test case is a prototype.");
-    }
 
     /**
      * Test of writeCertificateChainToFile method, of class X509CertificateChain.

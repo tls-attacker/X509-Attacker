@@ -1,7 +1,6 @@
 
 package de.rub.nds.asn1.parser;
 
-import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.filesystem.CertificateFileReader;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import java.io.File;
@@ -14,14 +13,12 @@ public class X509Parser {
     private byte[] certificateBytes;
     
     public X509Parser(byte[] certificateBytes) {
-        Registry.getInstanceAndRegisterAll();
         this.certificateBytes = certificateBytes;
         
     }
     
     public X509Parser(final String certificateFilePath) throws IOException {
         try{
-            Registry.getInstanceAndRegisterAll();
             certificateBytes = new CertificateFileReader(certificateFilePath).readBytes();
         } catch(IOException e) {
             throw e;
@@ -31,7 +28,6 @@ public class X509Parser {
     
     public X509Parser(final File certificateFile) throws IOException {
         try{
-            Registry.getInstanceAndRegisterAll();
             certificateBytes = new CertificateFileReader(certificateFile.getAbsolutePath()).readBytes();
         } catch(IOException e) {
             throw e;

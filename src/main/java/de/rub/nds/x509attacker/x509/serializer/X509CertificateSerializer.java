@@ -55,6 +55,7 @@ public class X509CertificateSerializer {
             classList.add(VariableModification.class);
             classList.add(ModifiableVariable.class);
             classList.add(File.class);
+            classList.add(X509Certificate.class);
             
             Class[] jaxbClasses = classList.toArray(new Class[classList.size()]);
                         
