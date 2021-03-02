@@ -47,7 +47,7 @@ public class DirectoryString extends X509Model<Asn1Encodable> {
         // Choice
         switch (intermediateAsn1Field.getTagNumber()) {
 
-            // TODO: choice deckt aktuell nur 3 von 5 möglichen Typen ab
+            // TODO: choice currently covers 3 out of 5 available types
 
             case 20: // TeletexString - T61String
                 asn1 = (Asn1PrimitiveT61String) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
