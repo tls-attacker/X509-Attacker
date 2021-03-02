@@ -15,7 +15,6 @@ import de.rub.nds.asn1.parser.IntermediateAsn1Field;
 import de.rub.nds.asn1.translator.fieldtranslators.FieldTranslator;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import de.rub.nds.asn1.translator.Asn1Translator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -31,7 +30,7 @@ public abstract class X509Translator {
         return result;
     }
 
-    // TranslateSingleIntermediate(,,, wie oben, implicit Flag)
+    // TranslateSingleIntermediate(... as above, implicit flag)
     public static <T extends Asn1Encodable> Asn1Encodable translateSingleIntermediateField(final boolean implicit,
         final IntermediateAsn1Field intermediateAsn1Field, Class<? extends FieldTranslator<T>> fieldTranslatorClass,
         final String identifier, final String type) {
@@ -45,8 +44,9 @@ public abstract class X509Translator {
         return result;
     }
 
-    // Fallback Methode, falls Asn1Field Klasse nicht bekannt, wird der Asn1Translator mit dem ParseNativeTypesContext
-    // genutzt.
+    // Fallback method, in case Asn1Field cass is not known. In that case the Asn1Translator with
+    // ParseNativeTypesContext
+    // will be used
     public static <T extends Asn1Encodable> Asn1Encodable translateSingleIntermediateField(
         final IntermediateAsn1Field intermediateAsn1Field, final String identifier, final String type) {
         List<IntermediateAsn1Field> intermediateAsn1Fields = new LinkedList<>();
