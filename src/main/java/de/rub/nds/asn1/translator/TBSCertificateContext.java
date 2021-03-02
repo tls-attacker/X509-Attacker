@@ -31,7 +31,7 @@ public class TBSCertificateContext extends Context {
             new ContextComponentOption<?>[] { new Asn1SequenceCCO(NameContext.NAME) }, false, false),
         new ContextComponent("subjectPublicKeyInfo", "SubjectPublicKeyInfo",
             new ContextComponentOption<?>[] { new Asn1SequenceCCO(SubjectPublicKeyInfoContext.NAME) }, false, false),
-        // TODO: laut RFC können die folgenden 2 Felder noch optional vorkommen
+        // TODO: according to the rfc the following fields are optional
         // new ContextComponent("issuerUniqueID", "UniqueIdentifier", new ContextComponentOption<?>[] {new
         // Asn1SequenceCCO(SubjectPublicKeyInfoContext.NAME)}, true, false),
         // new ContextComponent("subjectUniqueID", "UniqueIdentifier", new ContextComponentOption<?>[] {new
