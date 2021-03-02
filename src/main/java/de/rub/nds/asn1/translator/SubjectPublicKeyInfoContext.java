@@ -18,8 +18,9 @@ public class SubjectPublicKeyInfoContext extends Context {
     private static final ContextComponent[] contextComponents = new ContextComponent[] {
         new ContextComponent("algorithm", "AlgorithmIdentifier",
             new ContextComponentOption<?>[] { new Asn1SequenceCCO(AlgorithmIdentifierContext.NAME) }, false, false),
-        // TODO: subjectPublicKey strucutre is dependent on the algorithm identifier , this means we can only name this struct
-        //after parsing it
+        // TODO: subjectPublicKey strucutre is dependent on the algorithm identifier , this means we can only name this
+        // struct
+        // after parsing it
         new ContextComponent("subjectPublicKey", "",
             new ContextComponentOption<?>[] { new Asn1EncapsulatingBitStringCCO(ParseNativeTypesContext.NAME) }, false,
             false) };
