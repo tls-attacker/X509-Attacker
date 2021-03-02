@@ -18,7 +18,7 @@ public class AttributeTypeAndValueContext extends Context {
     private static final ContextComponent[] contextComponents = new ContextComponent[] {
         new ContextComponent("type", "AttributeType", new ContextComponentOption<?>[] { new Asn1ObjectIdentifierCCO() },
             false, false),
-        // TODO: lauft RFC 5280 Kapitel 4.1.2.4. Issuer: kann hier einer von 5 String Typen vorkommen
+        // TODO: According to RFC 5280 4.1.2.4. Issuer can have one of 5 string types
         new ContextComponent("value", "AttributeValue",
             new ContextComponentOption<?>[] { new Asn1PrimitivePrintableStringCCO(), new Asn1PrimitiveUtf8StringCCO() },
             false, false) };
