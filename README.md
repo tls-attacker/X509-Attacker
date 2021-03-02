@@ -7,6 +7,6 @@ X.509-Attacker is a tool based on ASN.1 Tool for creating arbitrary certificates
 
 # Acknowledgements
 The framework was initially developed by Nils Kafka (nils.kafka@ruhr-uni-bochum.de) during his master thesis. 
-
+Extended by Joshua Waldner
 # Projects
 This framework is used in future versions of TLS-Attacker (https://github.com/RUB-NDS/TLS-Attacker)

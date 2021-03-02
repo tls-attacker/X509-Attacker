@@ -65,8 +65,12 @@ public class SubjectPublicKeyInfoTypeProcessor extends DefaultX509TypeProcessor 
         if (linkedAsn1Encodable instanceof KeyInfo) {
             try {
                 KeyInfo keyInfo = (KeyInfo) linkedAsn1Encodable;
-                String keyFile = this.resolveKeyFileName(keyInfo);
-                byte[] keyBytes = KeyFileManager.getReference().getKeyFileContent(keyFile);
+                byte[] keyBytes = keyInfo.getKeyBytes();
+                if (keyBytes == null) {
+                    String keyFile = this.resolveKeyFileName(keyInfo);
+                    keyBytes = KeyFileManager.getReference().getKeyFileContent(keyFile);
+                }
+
                 PublicKey publicKey = this.readPublicKeyFromKeyBytes(keyBytes);
                 this.encodedPublicKey = publicKey.getEncoded();
                 this.setLinkHandled(true);
@@ -77,11 +81,11 @@ public class SubjectPublicKeyInfoTypeProcessor extends DefaultX509TypeProcessor 
     }
 
     private String resolveKeyFileName(KeyInfo keyInfo) {
-        String keyFile = keyInfo.getPubKeyFile();
+        String keyFile = keyInfo.getKeyFileName();
         while (keyFile == null || keyFile.isEmpty()) {
             if (keyInfo.hasAttribute(X509Attributes.FROM_IDENTIFIER)) {
                 keyInfo = (KeyInfo) this.encodingOptions.linker.getLinkedAsn1Encodable(keyInfo);
-                keyFile = keyInfo.getPubKeyFile();
+                keyFile = keyInfo.getKeyFileName();
             } else {
                 throw new RuntimeException(
                     "KeyInfo must either specify fromIdentifier attribute or a keyFile element containing the file name of a key file!");

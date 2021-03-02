@@ -24,6 +24,7 @@ import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.Asn1Constructed
 import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.Asn1EncapsulatingBitStringCCO;
 import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.Asn1EncapsulatingOctetStringCCO;
 import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.Asn1EndOfContentCCO;
+import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.Asn1ExplicitCCO;
 import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.Asn1IntegerCCO;
 import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.Asn1NullCCO;
 import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.Asn1ObjectIdentifierCCO;
@@ -55,7 +56,7 @@ public class ParseNativeTypeContextComponent extends ContextComponent {
         new Asn1PrimitiveGeneralizedTimeCCO(), new Asn1PrimitiveIa5StringCCO(), new Asn1PrimitiveOctetStringCCO(),
         new Asn1PrimitivePrintableStringCCO(), new Asn1PrimitiveT61StringCCO(), new Asn1PrimitiveUtcTimeCCO(),
         new Asn1PrimitiveUtf8StringCCO(), new Asn1SequenceCCO(ParseNativeTypesContext.NAME),
-        new Asn1SetCCO(ParseNativeTypesContext.NAME) };
+        new Asn1SetCCO(ParseNativeTypesContext.NAME), new Asn1ExplicitCCO(ParseNativeTypesContext.NAME) };
 
     public ParseNativeTypeContextComponent() {
         super("", "", contextComponentOptions, false, true);

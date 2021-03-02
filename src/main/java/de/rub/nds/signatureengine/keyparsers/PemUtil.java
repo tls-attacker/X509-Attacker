@@ -23,7 +23,6 @@ import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
-import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
@@ -99,19 +98,24 @@ public class PemUtil {
     }
 
     public static PrivateKey readPrivateKey(InputStream stream) throws IOException {
+        PrivateKey privKey = null;
+        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+
         InputStreamReader reader = new InputStreamReader(stream);
         try (PEMParser parser = new PEMParser(reader)) {
-            Object obj = parser.readObject();
-            if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPrivateKeyInfo();
-            } else if (obj instanceof ASN1ObjectIdentifier) {
-                obj = parser.readObject();
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPrivateKeyInfo();
+            Object obj = null;
+            while ((obj = parser.readObject()) != null) {
+                if (obj instanceof PEMKeyPair) {
+                    PEMKeyPair pair = (PEMKeyPair) obj;
+                    privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());
+                    return privKey;
+                } else if (obj instanceof PrivateKeyInfo) {
+                    privKey = converter.getPrivateKey((PrivateKeyInfo) obj);
+                    return privKey;
+                }
             }
+            // TODO this looks weired
             PrivateKeyInfo privKeyInfo = (PrivateKeyInfo) obj;
-            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             return converter.getPrivateKey(privKeyInfo);
         } catch (Exception e) {
             throw new IOException("Could not read private key", e);
@@ -126,15 +130,24 @@ public class PemUtil {
     }
 
     public static PublicKey readPublicKey(InputStream stream) throws IOException {
+        PublicKey pubKey = null;
+        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+
         InputStreamReader reader = new InputStreamReader(stream);
         try (PEMParser parser = new PEMParser(reader)) {
-            Object obj = parser.readObject();
-            if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPublicKeyInfo();
+            Object obj = null;
+            while ((obj = parser.readObject()) != null) {
+                if (obj instanceof PEMKeyPair) {
+                    PEMKeyPair pair = (PEMKeyPair) obj;
+                    pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
+                    return pubKey;
+                } else if (obj instanceof SubjectPublicKeyInfo) {
+                    pubKey = converter.getPublicKey((SubjectPublicKeyInfo) obj);
+                    return pubKey;
+                }
             }
+            // TODO this looks weired
             SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
-            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             return converter.getPublicKey(publicKeyInfo);
         } catch (Exception e) {
             throw new IOException("Could not read public key", e);
@@ -153,4 +166,28 @@ public class PemUtil {
         cert.encode(stream);
         return stream.toByteArray();
     }
+
+    public static KeyType getKeyType(File f) {
+        try {
+            PrivateKey privKey = readPrivateKey(f);
+            String algo = privKey.getAlgorithm();
+            switch (algo) {
+                case "RSA":
+                    return KeyType.RSA;
+                case "DSA":
+                    return KeyType.DSA;
+                case "ECDSA":
+                case "EC":
+                    return KeyType.ECDSA;
+                default:
+                    LOGGER.warn("getKeyType(): no KeyType defined for: " + algo);
+                    return null;
+            }
+        } catch (IOException ex) {
+            LOGGER.warn("getKeyType(): KeyType could not be recognized, IOException: " + ex);
+            return null;
+        }
+
+    }
+
 }

@@ -78,4 +78,9 @@ public abstract class Asn1PseudoType implements Asn1Encodable {
     public Asn1Serializer getSerializer() {
         return new Asn1PseudoTypeSerializer(this);
     }
+
+    @Override
+    public Asn1Encodable getCopy() {
+        return null;
+    }
 }

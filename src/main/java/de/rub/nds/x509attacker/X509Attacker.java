@@ -31,11 +31,16 @@ import de.rub.nds.asn1tool.xmlparser.Asn1XmlContent;
 import de.rub.nds.asn1tool.xmlparser.JaxbClassList;
 import de.rub.nds.asn1tool.xmlparser.XmlConverter;
 import de.rub.nds.asn1tool.xmlparser.XmlParser;
-import de.rub.nds.x509attacker.fileystem.CertificateFileReader;
-import de.rub.nds.x509attacker.fileystem.CertificateFileWriter;
+import de.rub.nds.asn1.encoder.Asn1EncoderForX509;
+import de.rub.nds.asn1.encoder.typeprocessors.DefaultX509TypeProcessor;
+import de.rub.nds.asn1.translator.*;
+import de.rub.nds.x509attacker.x509.createIdentifierMap;
+import de.rub.nds.x509attacker.filesystem.CertificateFileReader;
+import de.rub.nds.x509attacker.filesystem.CertificateFileWriter;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
+import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.xmlsignatureengine.XmlSignatureEngine;
 import java.io.File;
 import java.io.IOException;
@@ -92,8 +97,7 @@ public class X509Attacker {
     public static void xmlToCertificate(final String xmlFile, final String keyDirectory,
         final String certificateOutputDirectory) {
         try {
-            registerXmlClasses();
-            registerTypes();
+            Registry.getInstanceAndRegisterAll();
 
             // Read XML file
             TextFileReader textFileReader = new TextFileReader(xmlFile);
@@ -135,10 +139,7 @@ public class X509Attacker {
 
     public static void certificateToXml(final String certificateFile, final String xmlFile) {
         try {
-            registerXmlClasses();
-            registerTypes();
-            registerContexts();
-            registerContentUnpackers();
+            Registry.getInstanceAndRegisterAll();
 
             // Read certificate file
             CertificateFileReader certificateFileReader = new CertificateFileReader(certificateFile);
@@ -161,32 +162,48 @@ public class X509Attacker {
         }
     }
 
-    public static void registerXmlClasses() {
-        JaxbClassList jaxbClassList = JaxbClassList.getInstance();
-        jaxbClassList.addClasses(Asn1Tool.getAsn1ToolJaxbClasses());
-        jaxbClassList.addClasses(Asn1PseudoType.class, SignatureInfo.class, KeyInfo.class);
+    public static void loadCertificate(final String certificateFile, final String xmlFile) throws ParserException {
+        try {
+            Registry.getInstanceAndRegisterAll();
+
+            // Read certificate file
+            CertificateFileReader certificateFileReader = new CertificateFileReader(certificateFile);
+            byte[] certificateContent = certificateFileReader.readBytes();
+
+            // Parse certificate
+            Asn1Parser asn1Parser = new Asn1Parser(certificateContent, false);
+
+            // Certificate Content
+            List<Asn1Encodable> asn1Encodables = asn1Parser.parse(CertificateOuterContext.NAME);
+
+            // Extension Content
+            // List<Asn1Encodable> asn1Encodables = asn1Parser.parse(TestExtensionsContext.NAME);
+
+            createIdentifierMap createMap = new createIdentifierMap();
+            Map<String, Asn1Encodable> identifierMap = createMap.createMap(asn1Encodables);
+
+            /*
+             * certificate.setAsn1Encodable(asn1Encodables); //Create IdentifierMap createIdentifierMap createMap = new
+             * createIdentifierMap(); //TODO: bei gleicher Identifier bezeichnung ein Index einfügen Map<String,
+             * Asn1Encodable> identifierMap = createMap.createMap(certificate.getAsn1Encodable());
+             * certificate.setIdentifierMap(identifierMap);
+             */
+
+            Asn1XmlContent asn1XmlContent = new Asn1XmlContent();
+            asn1XmlContent.setAsn1Encodables(asn1Encodables);
+
+            // Write XML file
+            XmlConverter xmlConverter = new XmlConverter(asn1XmlContent, new File(xmlFile));
+
+            System.out.println("Done.");
+        } catch (IOException e) {
+            throw new ParserException(e);
+        } catch (ParserException e) {
+            throw new ParserException(e);
+        }
     }
 
-    public static void registerTypes() {
-        Asn1TypeRegister asn1TypeRegister = Asn1TypeRegister.getInstance();
-        asn1TypeRegister.setDefaultTypeProcessorClass(DefaultX509TypeProcessor.class);
-        asn1TypeRegister.register("SubjectPublicKeyInfo", SubjectPublicKeyInfoTypeProcessor.class);
-    }
-
-    public static void registerContexts() {
-        ContextRegister contextRegister = ContextRegister.getInstance();
-        contextRegister.registerContext(ParseNativeTypesContext.NAME, ParseNativeTypesContext.class);
-
-        // Todo: Implement X.509 contexts according to RFC 5280
-    }
-
-    public static void registerContentUnpackers() {
-        ContentUnpackerRegister contentUnpackerRegister = ContentUnpackerRegister.getInstance();
-        contentUnpackerRegister.registerContentUnpacker(new DefaultContentUnpacker());
-        contentUnpackerRegister.registerContentUnpacker(new PrimitiveBitStringUnpacker());
-    }
-
-    public static void writeCertificates(final String certificateOutputDirectory,
+    private static void writeCertificates(final String certificateOutputDirectory,
         final List<Asn1Encodable> certificates, final byte[][] encodedCertificates) throws IOException {
         CertificateFileWriter certificateChainFileWriter =
             new CertificateFileWriter(certificateOutputDirectory, "certificate_chain.pem");

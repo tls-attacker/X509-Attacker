@@ -11,11 +11,9 @@ package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyParser;
 import de.rub.nds.signatureengine.keyparsers.KeyParserException;
-import java.security.InvalidKeyException;
-import java.security.NoSuchAlgorithmException;
-import java.security.PrivateKey;
-import java.security.Signature;
-import java.security.SignatureException;
+
+import java.security.*;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public abstract class JavaSignatureEngine extends SignatureEngine {
 
@@ -34,7 +32,7 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
         }
         this.keyParser = keyParser;
         try {
-            this.signature = Signature.getInstance(signatureAlgorithm);
+            this.signature = Signature.getInstance(signatureAlgorithm, BouncyCastleProviderSingleton.getInstance());
         } catch (NoSuchAlgorithmException e) {
             throw new SignatureEngineException(e);
         }
@@ -47,16 +45,16 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
      *
      * @param keyBytes
      *                   Bytes of the key material.
-     * @param keyType
+     * @param keyFormat
      *                   Indicates how the key bytes shall be parsed. Supported key types: PEM_ENCODED.
      * @param parameters
      *                   Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
      */
     @Override
-    public void init(final byte[] keyBytes, final SignatureEngine.KeyType keyType, final byte[] parameters)
+    public void init(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat, final byte[] parameters)
         throws SignatureEngineException {
         try {
-            this.privateKey = this.keyParser.parse(keyBytes, keyType);
+            this.privateKey = this.keyParser.parse(keyBytes, keyFormat);
             this.isInitialized = true;
         } catch (KeyParserException e) {
             throw new SignatureEngineException(e);
