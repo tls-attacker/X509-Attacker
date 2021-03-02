@@ -57,7 +57,7 @@ public class Extension extends X509Model<Asn1Sequence> {
         }
 
         // extnValue
-        // TODO: abhängig von extnID den Encapsulating Bit String weiterparsen
+        // TODO: depending on extnID the Encapsulating Bit String has to be parsed
         // extnValue = (Asn1EncapsulatingOctetString)
         // X509Translator.translateSingleIntermediateField(intermediateAsn1Field.getChildren().get(index++),
         // Asn1EncapsulatingOctetStringFT.class, "extnValue", "");
