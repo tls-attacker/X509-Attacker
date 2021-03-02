@@ -45,10 +45,6 @@ public class X509Encoder {
             KeyFileManager keyFileManager = KeyFileManager.getReference();
             keyFileManager.init(keyDirectory);
 
-            // Create signatures
-            // XmlSignatureEngine xmlSignatureEngine = new XmlSignatureEngine(linker,
-            // certificate.getIdentifierMap().getMap());
-            // xmlSignatureEngine.computeSignatures();
 
             // Encode XML for certificate
             List<Asn1Encodable> certificates = certificate.getAsn1Encodables();
