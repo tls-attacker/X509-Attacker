@@ -45,7 +45,6 @@ public class X509Encoder {
             KeyFileManager keyFileManager = KeyFileManager.getReference();
             keyFileManager.init(keyDirectory);
 
-
             // Encode XML for certificate
             List<Asn1Encodable> certificates = certificate.getAsn1Encodables();
             byte[][] encodedCertificates = new byte[certificates.size()][];
