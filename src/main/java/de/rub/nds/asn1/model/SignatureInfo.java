@@ -1,18 +1,29 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.asn1.model;
 
 import de.rub.nds.asn1.Asn1Encodable;
-
-import javax.xml.bind.annotation.*;
 import java.util.LinkedList;
 import java.util.List;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElements;
+import javax.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SignatureInfo extends Asn1PseudoType {
 
-    @XmlElements(value = {
-            @XmlElement(name = "toBeSignedIdentifier", type = String.class)
-    })
+    @XmlElements(value = { @XmlElement(name = "toBeSignedIdentifier", type = String.class) })
     private List<String> toBeSignedIdentifiers = new LinkedList<>();
 
     @XmlElement(name = "signatureValueTargetIdentifier")

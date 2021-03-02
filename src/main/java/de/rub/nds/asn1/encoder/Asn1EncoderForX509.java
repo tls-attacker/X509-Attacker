@@ -1,10 +1,18 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.asn1.encoder;
 
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.encoder.encodingoptions.Asn1EncodingOptions;
 import de.rub.nds.asn1.encoder.encodingoptions.DefaultX509EncodingOptions;
 import de.rub.nds.x509attacker.linker.Linker;
-
 import java.util.LinkedList;
 import java.util.List;
 
@@ -23,7 +31,8 @@ public class Asn1EncoderForX509 {
     }
 
     public static byte[] encodeForSignature(final Linker linker, final List<Asn1Encodable> asn1Encodables) {
-        Asn1EncodingOptions asn1EncodingOptions = new DefaultX509EncodingOptions(EncodeTarget.FOR_SIGNATURE_ONLY, linker);
+        Asn1EncodingOptions asn1EncodingOptions =
+            new DefaultX509EncodingOptions(EncodeTarget.FOR_SIGNATURE_ONLY, linker);
         Asn1Encoder asn1Encoder = new Asn1Encoder(asn1EncodingOptions, asn1Encodables);
         return asn1Encoder.encode();
     }
@@ -35,7 +44,8 @@ public class Asn1EncoderForX509 {
     }
 
     public static byte[] encodeForCertificate(final Linker linker, final List<Asn1Encodable> asn1Encodables) {
-        Asn1EncodingOptions asn1EncodingOptions = new DefaultX509EncodingOptions(EncodeTarget.FOR_CERTIFICATE_ONLY, linker);
+        Asn1EncodingOptions asn1EncodingOptions =
+            new DefaultX509EncodingOptions(EncodeTarget.FOR_CERTIFICATE_ONLY, linker);
         Asn1Encoder asn1Encoder = new Asn1Encoder(asn1EncodingOptions, asn1Encodables);
         return asn1Encoder.encode();
     }

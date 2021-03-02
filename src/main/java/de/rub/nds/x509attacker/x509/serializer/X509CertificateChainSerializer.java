@@ -1,3 +1,12 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.x509attacker.x509.serializer;
 
 import de.rub.nds.asn1.translator.AlgorithmIdentifierContext;
@@ -101,14 +110,19 @@ public class X509CertificateChainSerializer {
     /**
      * Writes a X509CertificateChain to a File
      *
-     * @param file File to which the X509CertificateChain should be written
-     * @param chain X509CertificateChain that should be written
-     * @throws FileNotFoundException Is thrown if the File cannot be found
-     * @throws JAXBException Is thrown when the Object cannot be serialized
-     * @throws IOException Is thrown if the Process doesn't have the rights to
-     * write to the File
+     * @param  file
+     *                               File to which the X509CertificateChain should be written
+     * @param  chain
+     *                               X509CertificateChain that should be written
+     * @throws FileNotFoundException
+     *                               Is thrown if the File cannot be found
+     * @throws JAXBException
+     *                               Is thrown when the Object cannot be serialized
+     * @throws IOException
+     *                               Is thrown if the Process doesn't have the rights to write to the File
      */
-    public static void write(File file, X509CertificateChain chain) throws FileNotFoundException, JAXBException, IOException {
+    public static void write(File file, X509CertificateChain chain)
+        throws FileNotFoundException, JAXBException, IOException {
         if (!file.exists()) {
             file.createNewFile();
         }
@@ -119,10 +133,14 @@ public class X509CertificateChainSerializer {
     /**
      * Writes a X509CertificateChain to an Outputstream
      *
-     * @param outputStream Outputstream to write to
-     * @param chain X509CertificateChain to serializ
-     * @throws JAXBException If something goes wrong
-     * @throws IOException If something goes wrong
+     * @param  outputStream
+     *                       Outputstream to write to
+     * @param  chain
+     *                       X509CertificateChain to serializ
+     * @throws JAXBException
+     *                       If something goes wrong
+     * @throws IOException
+     *                       If something goes wrong
      */
     public static void write(OutputStream outputStream, X509CertificateChain chain) throws JAXBException, IOException {
         context = getJAXBContext();
@@ -135,13 +153,18 @@ public class X509CertificateChainSerializer {
     /**
      * Reads a X509CertificateChain from an InputStream
      *
-     * @param inputStream Inputstream to read from
-     * @return Read X509CertificateChain
-     * @throws JAXBException If something goes wrong
-     * @throws IOException If something goes wrong
-     * @throws XMLStreamException If something goes wrong
+     * @param  inputStream
+     *                            Inputstream to read from
+     * @return                    Read X509CertificateChain
+     * @throws JAXBException
+     *                            If something goes wrong
+     * @throws IOException
+     *                            If something goes wrong
+     * @throws XMLStreamException
+     *                            If something goes wrong
      */
-    public static X509CertificateChain read(InputStream inputStream) throws JAXBException, IOException, XMLStreamException {
+    public static X509CertificateChain read(InputStream inputStream)
+        throws JAXBException, IOException, XMLStreamException {
         context = getJAXBContext();
         Unmarshaller m = context.createUnmarshaller();
         XMLInputFactory xif = XMLInputFactory.newFactory();
@@ -154,21 +177,23 @@ public class X509CertificateChainSerializer {
     }
 
     /**
-     * Returns a somehow deep copy of the X509CertificateChain. The
-     * WorkflowTrace is deep copied and the rest is passed as a reference.
+     * Returns a somehow deep copy of the X509CertificateChain. The WorkflowTrace is deep copied and the rest is passed
+     * as a reference.
      *
-     * @param chain X509CertificateChain to copy
+     * @param  chain
+     *                                             X509CertificateChain to copy
      * @return
      * @throws javax.xml.bind.JAXBException
      * @throws java.io.IOException
      * @throws javax.xml.stream.XMLStreamException
      */
-    public static X509CertificateChain copyX509CertificateChain(X509CertificateChain chain) throws JAXBException, IOException,
-            XMLStreamException {
+    public static X509CertificateChain copyX509CertificateChain(X509CertificateChain chain)
+        throws JAXBException, IOException, XMLStreamException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         X509CertificateChainSerializer.write(stream, chain);
         stream.flush();
-        X509CertificateChain copiedChain = X509CertificateChainSerializer.read(new ByteArrayInputStream(stream.toByteArray()));
+        X509CertificateChain copiedChain =
+            X509CertificateChainSerializer.read(new ByteArrayInputStream(stream.toByteArray()));
         return copiedChain;
     }
 

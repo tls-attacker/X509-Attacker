@@ -1,16 +1,28 @@
 /**
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
- * <p>
- * Copyright 2014-2017 Ruhr University Bochum / Hackmanit GmbH
- * <p>
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.signatureengine.keyparsers;
 
-import de.rub.nds.signatureengine.SignatureEngine;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
-import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
@@ -21,13 +33,6 @@ import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
-
-import java.io.*;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.util.Collection;
 
 public class PemUtil {
 
@@ -74,8 +79,8 @@ public class PemUtil {
         }
     }
 
-    public static Certificate readCertificate(InputStream stream) throws FileNotFoundException, CertificateException,
-            IOException {
+    public static Certificate readCertificate(InputStream stream)
+        throws FileNotFoundException, CertificateException, IOException {
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         Collection<? extends java.security.cert.Certificate> certs = certFactory.generateCertificates(stream);
         java.security.cert.Certificate sunCert = (java.security.cert.Certificate) certs.toArray()[0];
@@ -95,32 +100,29 @@ public class PemUtil {
     public static PrivateKey readPrivateKey(InputStream stream) throws IOException {
         PrivateKey privKey = null;
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
-        
+
         InputStreamReader reader = new InputStreamReader(stream);
-         try (PEMParser parser = new PEMParser(reader)) {
+        try (PEMParser parser = new PEMParser(reader)) {
             Object obj = null;
-            while((obj = parser.readObject()) != null)
-            {
+            while ((obj = parser.readObject()) != null) {
                 if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;               
-                privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());
-                }
-                else if (obj instanceof PrivateKeyInfo) {
+                    PEMKeyPair pair = (PEMKeyPair) obj;
+                    privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());
+                    return privKey;
+                } else if (obj instanceof PrivateKeyInfo) {
                     privKey = converter.getPrivateKey((PrivateKeyInfo) obj);
+                    return privKey;
                 }
             }
-            
-        } catch (Exception E) {
-            throw new IOException("Could not read private key", E);
+            // TODO this looks weired
+            PrivateKeyInfo privKeyInfo = (PrivateKeyInfo) obj;
+            return converter.getPrivateKey(privKeyInfo);
+        } catch (Exception e) {
+            throw new IOException("Could not read private key", e);
         } finally {
             stream.close();
             reader.close();
         }
-        if(privKey == null)
-        {
-            throw new IOException("No private Key was found in key bytes");
-        }
-        return privKey;
     }
 
     public static PrivateKey readPrivateKey(File f) throws IOException {
@@ -130,51 +132,46 @@ public class PemUtil {
     public static PublicKey readPublicKey(InputStream stream) throws IOException {
         PublicKey pubKey = null;
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
-        
+
         InputStreamReader reader = new InputStreamReader(stream);
-         try (PEMParser parser = new PEMParser(reader)) {
+        try (PEMParser parser = new PEMParser(reader)) {
             Object obj = null;
-            while((obj = parser.readObject()) != null)
-            {
+            while ((obj = parser.readObject()) != null) {
                 if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;               
-                pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
-                }
-                else if (obj instanceof SubjectPublicKeyInfo) {
+                    PEMKeyPair pair = (PEMKeyPair) obj;
+                    pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
+                    return pubKey;
+                } else if (obj instanceof SubjectPublicKeyInfo) {
                     pubKey = converter.getPublicKey((SubjectPublicKeyInfo) obj);
+                    return pubKey;
                 }
             }
-            
-        } catch (Exception E) {
-            throw new IOException("Could not read public key", E);
+            // TODO this looks weired
+            SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
+            return converter.getPublicKey(publicKeyInfo);
+        } catch (Exception e) {
+            throw new IOException("Could not read public key", e);
         } finally {
             stream.close();
             reader.close();
         }
-        if(pubKey == null)
-        {
-            throw new IOException("No public Key was found in key bytes");
-        }
-        return pubKey;
     }
 
     public static PublicKey readPublicKey(File f) throws IOException {
         return readPublicKey(new FileInputStream(f));
     }
-    
-    
 
     public static byte[] encodeCert(Certificate cert) throws IOException {
         ByteArrayOutputStream stream = new ByteArrayOutputStream();
         cert.encode(stream);
         return stream.toByteArray();
     }
-    
-    public static KeyType getKeyType(File f) {        
+
+    public static KeyType getKeyType(File f) {
         try {
             PrivateKey privKey = readPrivateKey(f);
             String algo = privKey.getAlgorithm();
-            switch(algo){
+            switch (algo) {
                 case "RSA":
                     return KeyType.RSA;
                 case "DSA":
@@ -183,15 +180,14 @@ public class PemUtil {
                 case "EC":
                     return KeyType.ECDSA;
                 default:
-                    LOGGER.warn("getKeyType(): no KeyType defined for: "+ algo);
+                    LOGGER.warn("getKeyType(): no KeyType defined for: " + algo);
                     return null;
-        }
+            }
         } catch (IOException ex) {
-            LOGGER.warn("getKeyType(): KeyType could not be recognized, IOException: "+ ex);
+            LOGGER.warn("getKeyType(): KeyType could not be recognized, IOException: " + ex);
             return null;
         }
-        
+
     }
-            
-        
+
 }

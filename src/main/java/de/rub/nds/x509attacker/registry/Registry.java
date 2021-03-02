@@ -1,3 +1,11 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 
 package de.rub.nds.x509attacker.registry;
 
@@ -34,12 +42,10 @@ import de.rub.nds.asn1tool.xmlparser.JaxbClassList;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
 
-
 public class Registry {
-    
-    
+
     private static Registry instance = null;
-     
+
     /**
      * Private constructor for singleton.
      */
@@ -49,30 +55,24 @@ public class Registry {
         registerContexts();
         registerContentUnpackers();
     }
-    
+
     /**
      * Singleton getInstance() method.
+     * 
      * @return An instance of Asn1AnyTypeRegister.
      */
     public static Registry getInstanceAndRegisterAll() {
         if (instance == null) {
-            instance = new Registry();            
+            instance = new Registry();
         }
         return instance;
     }
-    
-    
-     
+
     private void registerXmlClasses() {
         JaxbClassList jaxbClassList = JaxbClassList.getInstance();
         jaxbClassList.addClasses(Asn1Tool.getAsn1ToolJaxbClasses());
-        jaxbClassList.addClasses(
-                Asn1PseudoType.class,
-                SignatureInfo.class,
-                KeyInfo.class,
-                X509CertificateChain.class,
-                X509Certificate.class
-        );
+        jaxbClassList.addClasses(Asn1PseudoType.class, SignatureInfo.class, KeyInfo.class, X509CertificateChain.class,
+            X509Certificate.class);
     }
 
     private void registerTypes() {
@@ -88,7 +88,7 @@ public class Registry {
         contextRegister.registerContext(AttributeTypeAndValueContext.NAME, AttributeTypeAndValueContext.class);
         contextRegister.registerContext(CertificateContext.NAME, CertificateContext.class);
         contextRegister.registerContext(CertificateOuterContext.NAME, CertificateOuterContext.class);
-        contextRegister.registerContext(ExplicitExtensionsContext.NAME, ExplicitExtensionsContext.class);        
+        contextRegister.registerContext(ExplicitExtensionsContext.NAME, ExplicitExtensionsContext.class);
         contextRegister.registerContext(ExtensionContext.NAME, ExtensionContext.class);
         contextRegister.registerContext(ExtensionsContext.NAME, ExtensionsContext.class);
         contextRegister.registerContext(NameContext.NAME, NameContext.class);
@@ -97,16 +97,15 @@ public class Registry {
         contextRegister.registerContext(TBSCertificateContext.NAME, TBSCertificateContext.class);
         contextRegister.registerContext(ValidityContext.NAME, ValidityContext.class);
         contextRegister.registerContext(ExplicitVersionContext.NAME, ExplicitVersionContext.class);
-        
-        //Extensions
+
+        // Extensions
         contextRegister.registerContext(ExtKeyUsageContext.NAME, ExtKeyUsageContext.class);
         contextRegister.registerContext(ExtAuthorityKeyIdentifierContext.NAME, ExtAuthorityKeyIdentifierContext.class);
         contextRegister.registerContext(AuthorityKeyIdentifierContext.NAME, AuthorityKeyIdentifierContext.class);
-        
-        
-        //For Testing the Extension only
-        contextRegister.registerContext(TestExtensionsContext.NAME, TestExtensionsContext.class);        
-        
+
+        // For Testing the Extension only
+        contextRegister.registerContext(TestExtensionsContext.NAME, TestExtensionsContext.class);
+
     }
 
     private void registerContentUnpackers() {

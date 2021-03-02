@@ -1,3 +1,11 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 
 package de.rub.nds.x509attacker.identifiermap;
 
@@ -24,20 +32,19 @@ import org.junit.Ignore;
  * @author josh
  */
 public class IdentifierMapTest {
-    
-    
-    
+
     private X509Certificate cert;
     private IdentifierMap identifierMap;
-    
+
     public IdentifierMapTest() {
-    }   
-    
+    }
+
     @Before
     public void setUp() throws IOException, JAXBException, XMLStreamException {
-        cert = X509Factory.getRandomX509CertificateFromFolder(new File("resources/x509Certificates"), new File("resources/keys")); 
+        cert = X509Factory.getRandomX509CertificateFromFolder(new File("resources/x509Certificates"),
+            new File("resources/keys"));
         identifierMap = cert.getIdentifierMap();
-    }    
+    }
 
     /**
      * Test of getMap method, of class IdentifierMap.
@@ -56,13 +63,13 @@ public class IdentifierMapTest {
     public void testSetMap() {
         Map<String, Asn1Encodable> newHashMap = new HashMap<>();
         newHashMap.put("/test", new Asn1Integer());
-        
+
         identifierMap.setMap(newHashMap);
-        
+
         Map<String, Asn1Encodable> map = identifierMap.getMap();
         assertNotNull(map);
         assertTrue(map.size() == 1);
-        
+
     }
 
     /**
@@ -70,12 +77,12 @@ public class IdentifierMapTest {
      */
     @Test
     public void testGetElementByIDPath() {
-        assertTrue(identifierMap.getElementByIDPath("/certificate").getClass().equals(Asn1Sequence.class) );
+        assertTrue(identifierMap.getElementByIDPath("/certificate").getClass().equals(Asn1Sequence.class));
         assertNull(identifierMap.getElementByIDPath("/cert"));
-        assertTrue(identifierMap.getElementByIDPath("certificate").getClass().equals(Asn1Sequence.class) );
-        assertTrue(identifierMap.getElementByIDPath("/certificate/").getClass().equals(Asn1Sequence.class) );
+        assertTrue(identifierMap.getElementByIDPath("certificate").getClass().equals(Asn1Sequence.class));
+        assertTrue(identifierMap.getElementByIDPath("/certificate/").getClass().equals(Asn1Sequence.class));
         assertNull(identifierMap.getElementByIDPath(""));
-        
+
     }
 
     /**
@@ -83,7 +90,7 @@ public class IdentifierMapTest {
      */
     @Test
     public void testGetElementsByID() {
-        assertTrue(identifierMap.getElementsByID("certificate").size() >= 1 );
+        assertTrue(identifierMap.getElementsByID("certificate").size() >= 1);
         assertNull(identifierMap.getElementsByID("cert"));
         assertNull(identifierMap.getElementsByID(""));
     }
@@ -93,7 +100,7 @@ public class IdentifierMapTest {
      */
     @Test
     public void testGetElementsByType() {
-        assertTrue(identifierMap.getElementsByType("Certificate").size() >= 1 );
+        assertTrue(identifierMap.getElementsByType("Certificate").size() >= 1);
         assertNull(identifierMap.getElementsByType("cert"));
         assertNull(identifierMap.getElementsByType(""));
     }
@@ -103,8 +110,8 @@ public class IdentifierMapTest {
      */
     @Test
     public void testGetElementsByClass() {
-        assertTrue(identifierMap.getElementsByClass(Asn1Sequence.class).size() >= 1 );
-        assertTrue(identifierMap.getElementsByClass(Asn1Container.class).size() >= 1 );
+        assertTrue(identifierMap.getElementsByClass(Asn1Sequence.class).size() >= 1);
+        assertTrue(identifierMap.getElementsByClass(Asn1Container.class).size() >= 1);
         assertNull(identifierMap.getElementsByClass(Integer.class));
         assertNull(identifierMap.getElementsByClass(null));
     }
@@ -115,7 +122,7 @@ public class IdentifierMapTest {
     @Test
     public void testGetIDPathByElement() {
         Asn1Encodable certificateAsn1Sequence = identifierMap.getElementByIDPath("/certificate");
-        assertEquals(identifierMap.getIDPathByElement(certificateAsn1Sequence),"/certificate");
+        assertEquals(identifierMap.getIDPathByElement(certificateAsn1Sequence), "/certificate");
         assertEquals(identifierMap.getIDPathByElement(null), "");
         assertEquals(identifierMap.getIDPathByElement(new Asn1Sequence()), "");
     }
@@ -125,7 +132,7 @@ public class IdentifierMapTest {
      */
     @Test
     public void testGetIDPathsByID() {
-        assertTrue(identifierMap.getIDPathsByID("certificate").size() >= 1 );
+        assertTrue(identifierMap.getIDPathsByID("certificate").size() >= 1);
         assertNull(identifierMap.getIDPathsByID("cert"));
         assertNull(identifierMap.getIDPathsByID(""));
     }
@@ -135,7 +142,7 @@ public class IdentifierMapTest {
      */
     @Test
     public void testGetIDPathsByType() {
-        assertTrue(identifierMap.getIDPathsByType("Certificate").size() >= 1 );
+        assertTrue(identifierMap.getIDPathsByType("Certificate").size() >= 1);
         assertNull(identifierMap.getIDPathsByType("cert"));
         assertNull(identifierMap.getIDPathsByType(""));
     }
@@ -145,8 +152,8 @@ public class IdentifierMapTest {
      */
     @Test
     public void testGetIDPathsByClass() {
-        assertTrue(identifierMap.getIDPathsByClass(Asn1Sequence.class).size() >= 1 );
-        assertTrue(identifierMap.getIDPathsByClass(Asn1Container.class).size() >= 1 );
+        assertTrue(identifierMap.getIDPathsByClass(Asn1Sequence.class).size() >= 1);
+        assertTrue(identifierMap.getIDPathsByClass(Asn1Container.class).size() >= 1);
         assertNull(identifierMap.getIDPathsByClass(Integer.class));
         assertNull(identifierMap.getIDPathsByClass(null));
     }
@@ -185,5 +192,5 @@ public class IdentifierMapTest {
     public void testRemoveElementByIDPath_noParent() throws Exception {
         identifierMap.removeElementByIDPath("/certificate");
     }
-    
+
 }

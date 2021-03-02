@@ -1,7 +1,15 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.x509attacker.keyfilemanager;
 
 import de.rub.nds.x509attacker.filesystem.BinaryFileReader;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -30,13 +38,15 @@ public class KeyFileManager {
     }
 
     public void init(String keyFileDirectory) throws KeyFileManagerException {
-        this.keyFileDirectory = new File(keyFileDirectory);
-        this.readAllKeyFiles();
+        if (this.keyFileMap.isEmpty()) {
+            this.keyFileDirectory = new File(keyFileDirectory);
+            this.readAllKeyFiles();
+        }
     }
 
     private void readAllKeyFiles() throws KeyFileManagerException {
         File[] keyFiles = this.keyFileDirectory.listFiles();
-        if(keyFiles != null) {
+        if (keyFiles != null) {
             for (File keyFile : keyFiles) {
                 this.readKeyFile(keyFile);
             }
@@ -48,14 +58,14 @@ public class KeyFileManager {
             BinaryFileReader binaryFileReader = new BinaryFileReader(keyFile.getAbsolutePath());
             byte[] keyFileContent = binaryFileReader.read();
             this.addKeyFile(keyFile.getName(), keyFileContent);
-        } catch(IOException e) {
+        } catch (IOException e) {
             throw new KeyFileManagerException(e);
         }
     }
 
     private void addKeyFile(String filename, byte[] content) throws KeyFileManagerException {
         String sanitizedFilename = this.sanitizeKeyFileName(filename);
-        if(!this.keyFileMap.containsKey(sanitizedFilename)) {
+        if (!this.keyFileMap.containsKey(sanitizedFilename)) {
             this.keyFileMap.put(sanitizedFilename, content);
         }
     }
@@ -66,10 +76,9 @@ public class KeyFileManager {
 
     public byte[] getKeyFileContent(String filename) throws KeyFileManagerException {
         String sanitizedFilename = this.sanitizeKeyFileName(filename);
-        if(this.keyFileMap.containsKey(sanitizedFilename)) {
+        if (this.keyFileMap.containsKey(sanitizedFilename)) {
             return this.keyFileMap.get(sanitizedFilename);
-        }
-        else {
+        } else {
             throw new KeyFileManagerException("Key file " + filename + " is not available!");
         }
     }

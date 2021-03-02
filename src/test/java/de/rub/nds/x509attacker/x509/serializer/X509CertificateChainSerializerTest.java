@@ -1,6 +1,13 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 
 package de.rub.nds.x509attacker.x509.serializer;
-
 
 import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.constants.X509CertChainOutFormat;
@@ -30,20 +37,19 @@ import org.junit.rules.TemporaryFolder;
 public class X509CertificateChainSerializerTest {
 
     private final Logger LOGGER = LogManager.getLogger();
-    
+
     @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();   
-    
-    
+    public TemporaryFolder tempFolder = new TemporaryFolder();
+
     private X509CertificateChain x509certificateChain;
-   
 
     public X509CertificateChainSerializerTest() {
     }
 
     @Before
     public void setUp() throws IOException, JAXBException, XMLStreamException {
-        x509certificateChain = X509Factory.generateRandomX509CertificateChain(new File("resources/x509Certificates"), new File("resources/keys"),3, RepairChainConfig.createRepairAllAndSignConfig("resources/keys"));       
+        x509certificateChain = X509Factory.generateRandomX509CertificateChain(new File("resources/x509Certificates"),
+            new File("resources/keys"), 3, RepairChainConfig.createRepairAllAndSignConfig("resources/keys"));
     }
 
     /**
@@ -62,7 +68,7 @@ public class X509CertificateChainSerializerTest {
     public void testWrite_OutputStream_X509CertificateChain() throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         X509CertificateChainSerializer.write(outputStream, x509certificateChain);
-        //LOGGER.info(new String(outputStream.toByteArray()));
+        // LOGGER.info(new String(outputStream.toByteArray()));
     }
 
     /**
@@ -72,7 +78,7 @@ public class X509CertificateChainSerializerTest {
     public void testRead() throws Exception {
         File file = tempFolder.newFile();
         X509CertificateChainSerializer.write(file, x509certificateChain);
-        X509CertificateChain chain = X509CertificateChainSerializer.read(new FileInputStream(file)); 
+        X509CertificateChain chain = X509CertificateChainSerializer.read(new FileInputStream(file));
     }
 
     /**
@@ -80,16 +86,17 @@ public class X509CertificateChainSerializerTest {
      */
     @Test
     public void testCopyX509CertificateChain() throws Exception {
-        X509CertificateChain copiedChain = X509CertificateChainSerializer.copyX509CertificateChain(x509certificateChain);
+        X509CertificateChain copiedChain =
+            X509CertificateChainSerializer.copyX509CertificateChain(x509certificateChain);
         File originFolder = tempFolder.newFolder("origin");
         File copiedFolder = tempFolder.newFolder("copy");
-        x509certificateChain.writeCertificateChainToFile(originFolder.getAbsolutePath(), X509CertChainOutFormat.CHAIN_COMBINED);
+        x509certificateChain.writeCertificateChainToFile(originFolder.getAbsolutePath(),
+            X509CertChainOutFormat.CHAIN_COMBINED);
         copiedChain.writeCertificateChainToFile(copiedFolder.getAbsolutePath(), X509CertChainOutFormat.CHAIN_COMBINED);
         File origin = originFolder.listFiles()[0];
         File copy = copiedFolder.listFiles()[0];
-        
+
         assertTrue(Arrays.equals(Files.readAllBytes(origin.toPath()), Files.readAllBytes(copy.toPath())));
     }
 
 }
-

@@ -6,7 +6,7 @@
 
     <groupId>de.rub.nds</groupId>
     <artifactId>X509Attacker</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.2.0</version>
     <packaging>jar</packaging>
 
     <name>X.509-Attacker</name>
@@ -15,7 +15,7 @@
         the features of ASN.1 Tool in terms of certificate signing. Also, X.509-Attacker introduces a feature of
         referencing XML elements in order to avoid redundancies when defining certificates in XML.
     </description>
-    <url>https://github.com/nkafka/X.509-Attacker</url>
+    <url>https://github.com/RUB-NDS/X509-Attacker</url>
 
     <licenses>
         <license>
@@ -42,6 +42,8 @@
             <name>Nils Kafka</name>
             <email>nils.kafka@rub.de</email>
             <url>http://www.nds.rub.de/</url>
+            <organization>NDS</organization>
+            <organizationUrl>http://www.nds.rub.de</organizationUrl>
             <roles>
                 <role>Architect</role>
                 <role>Developer</role>
@@ -58,7 +60,7 @@
         <dependency>
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcpkix-jdk15on</artifactId>
-            <version>1.60</version>
+            <version>1.66</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -69,22 +71,41 @@
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
-            <version>4.12</version>
+            <version>4.13</version>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>jakarta.xml.bind</groupId>
+            <artifactId>jakarta.xml.bind-api</artifactId>
+            <version>2.3.3</version>
+            <scope>compile</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>org.glassfish.jaxb</groupId>
+            <artifactId>jaxb-runtime</artifactId>
+            <version>2.3.3</version>
         </dependency>
     </dependencies>
 
     <scm>
-        <connection>scm:git:git://github.com/nkafka/X.509-Attacker.git</connection>
-        <developerConnection>scm:git:ssh://github.com/nkafka/X.509-Attacker.git</developerConnection>
-        <url>https://github.com/nkafka/X.509-Attacker/tree/master</url>
+        <connection>scm:git:git://github.com/RUB-NDS/X509-Attacker.git</connection>
+        <developerConnection>scm:git:ssh://github.com/RUB-NDS/X509-Attacker.git</developerConnection>
+        <url>https://github.com/RUB-NDS/X509-Attacker/tree/master</url>
     </scm>
 
     <build>
         <finalName>x509attacker</finalName>
         <plugins>
             <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.8.1</version>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.8.1</version>
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
@@ -110,6 +131,29 @@
                 </executions>
             </plugin>
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.0.0-M3</version>
+                <executions>
+                    <execution>
+                        <id>default-cli</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.1</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>1.8,11</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
                 <!-- Build an executable JAR -->
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
@@ -124,14 +168,137 @@
                     </archive>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- formats the code -->
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>2.14.0</version>
+                <configuration>
+                    <configFile>maven-eclipse-codestyle.xml</configFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <configuration>
+                    <header>license_header_plain.txt</header>
+                    <strictCheck>true</strictCheck>
+                    <includes>
+                        <include>src/**/*.java</include>
+                    </includes>
+                    <properties>
+                        <startYear>2014</startYear>
+                        <year>${buildYear}</year>
+                        <description>A tool for creating arbitrary certificates</description>
+                        <owner>Ruhr University Bochum, Paderborn University, Hackmanit GmbH</owner>
+                        <licenseName>Apache License, Version 2.0</licenseName>
+                        <licenseURL>http://www.apache.org/licenses/LICENSE-2.0.txt</licenseURL>
+                    </properties>
+                    <mapping>
+                        <java>JAVADOC_STYLE</java>
+                    </mapping>
+                </configuration>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Allows to run checkstyle with Maven -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.1.1</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>8.37</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>checkstyle.xml</configLocation>
+                    <violationSeverity>info</violationSeverity>
+                    <failOnViolation>false</failOnViolation>
+                </configuration>
+            </plugin>
+            <!-- Following plugins handle the OOSRH distribution -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>2.10.4</version>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-gpg-plugin</artifactId>
+                <version>1.6</version>
+                <executions>
+                    <execution>
+                        <id>sign-artifacts</id>
+                        <phase>verify</phase>
+                        <goals>
+                            <goal>sign</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <skip>${skip.signature}</skip>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <serverId>ossrh</serverId>
+                    <nexusUrl>https://oss.sonatype.org/</nexusUrl>
+                    <!-- deploy with the following command: mvn nexus-staging:release -->
+                    <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 
     <properties>
+        <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
+        <buildYear>${maven.build.timestamp}</buildYear>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>1.7</maven.compiler.source>
-        <maven.compiler.target>1.7</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
         <skip.signature>true</skip.signature>
     </properties>
 </project>

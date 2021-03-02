@@ -1,3 +1,11 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 
 package de.rub.nds.x509attacker.helper;
 
@@ -15,12 +23,12 @@ import static org.junit.Assert.*;
  * @author josh
  */
 public class KeyFactoryTest {
-    
+
     private File keyFolder;
-    
+
     public KeyFactoryTest() {
     }
-    
+
     @Before
     public void setUp() throws Exception {
         keyFolder = new File("resources/keys");
@@ -34,10 +42,9 @@ public class KeyFactoryTest {
         File result = KeyFactory.getRandomKeyFileFromFolder(keyFolder, null);
         assertNotNull(result);
         assertTrue(result.getAbsolutePath().contains(keyFolder.getAbsolutePath()));
-        
+
     }
-    
-    
+
     /**
      * Test of getRandomKeyFileFromFolder method, of class X509Factory.
      */
@@ -57,5 +64,5 @@ public class KeyFactoryTest {
         assertNotNull(result);
         assertTrue(result.getAbsolutePath().contains(keyFolder.getAbsolutePath()));
     }
-    
+
 }

@@ -1,6 +1,13 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 
 package de.rub.nds.x509attacker.x509.serializer;
-
 
 import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.x509.X509Certificate;
@@ -27,20 +34,19 @@ import org.junit.rules.TemporaryFolder;
 public class X509CertificateSerializerTest {
 
     private final Logger LOGGER = LogManager.getLogger();
-    
+
     @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();   
-    
-    
+    public TemporaryFolder tempFolder = new TemporaryFolder();
+
     private X509Certificate x509certificate;
-   
 
     public X509CertificateSerializerTest() {
     }
 
     @Before
     public void setUp() throws IOException, JAXBException, XMLStreamException {
-        x509certificate = X509Factory.getRandomX509CertificateFromFolder(new File("resources/x509Certificates"), new File("resources/keys"));        
+        x509certificate = X509Factory.getRandomX509CertificateFromFolder(new File("resources/x509Certificates"),
+            new File("resources/keys"));
     }
 
     /**
@@ -59,7 +65,7 @@ public class X509CertificateSerializerTest {
     public void testWrite_OutputStream_X509Certificate() throws Exception {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         X509CertificateSerializer.write(outputStream, x509certificate);
-        //LOGGER.info(new String(outputStream.toByteArray()));
+        // LOGGER.info(new String(outputStream.toByteArray()));
     }
 
     /**
@@ -69,7 +75,7 @@ public class X509CertificateSerializerTest {
     public void testRead() throws Exception {
         File file = tempFolder.newFile();
         X509CertificateSerializer.write(file, x509certificate);
-        X509Certificate cert = X509CertificateSerializer.read(new FileInputStream(file)); 
+        X509Certificate cert = X509CertificateSerializer.read(new FileInputStream(file));
     }
 
     /**
@@ -84,9 +90,8 @@ public class X509CertificateSerializerTest {
         copiedCert.writeCertificate(copiedFolder.getAbsolutePath(), "copy");
         File origin = originFolder.listFiles()[0];
         File copy = copiedFolder.listFiles()[0];
-        
+
         assertTrue(Arrays.equals(Files.readAllBytes(origin.toPath()), Files.readAllBytes(copy.toPath())));
     }
 
 }
-

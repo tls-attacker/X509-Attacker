@@ -1,3 +1,11 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 
 package de.rub.nds.x509attacker.x509;
 
@@ -11,36 +19,35 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
-
- * policyQualifiers   SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL
+ * 
+ * policyQualifiers SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL
  * 
  */
 
 public class PolicyQualifiers extends X509Model<Asn1Sequence> {
-    
-    private static final Logger LOGGER = LogManager.getLogger();    
-    
+
+    private static final Logger LOGGER = LogManager.getLogger();
+
     private static final String type = "PolicyQualifiers";
-    
+
     public List<PolicyQualifierInfo> policyQualifierInfo;
-    
-    
-    public static PolicyQualifiers getInstance(IntermediateAsn1Field intermediateAsn1Field, String identifier){
-        
-        return new PolicyQualifiers(intermediateAsn1Field, identifier);        
+
+    public static PolicyQualifiers getInstance(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
+
+        return new PolicyQualifiers(intermediateAsn1Field, identifier);
     }
-    
-    private PolicyQualifiers(IntermediateAsn1Field intermediateAsn1Field, String identifier)
-    {
-        
-        asn1 = (Asn1Sequence) X509Translator.translateSingleIntermediateField(intermediateAsn1Field, Asn1SequenceFT.class , identifier, type);
-        
+
+    private PolicyQualifiers(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
+
+        asn1 = (Asn1Sequence) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
+            Asn1SequenceFT.class, identifier, type);
+
         policyQualifierInfo = new LinkedList<>();
         int index = 0;
-        for(IntermediateAsn1Field interFieldChild : intermediateAsn1Field.getChildren()) {
-            policyQualifierInfo.add(PolicyQualifierInfo.getInstance(interFieldChild, "policyQualifierInfo"+index++));
-            asn1.addChild(policyQualifierInfo.get(policyQualifierInfo.size()-1).asn1);
+        for (IntermediateAsn1Field interFieldChild : intermediateAsn1Field.getChildren()) {
+            policyQualifierInfo.add(PolicyQualifierInfo.getInstance(interFieldChild, "policyQualifierInfo" + index++));
+            asn1.addChild(policyQualifierInfo.get(policyQualifierInfo.size() - 1).asn1);
         }
-    } 
-    
+    }
+
 }
