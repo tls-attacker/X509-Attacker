@@ -49,7 +49,7 @@ public class OtherName extends X509Model<Asn1Sequence> {
         asn1.addChild(type_id);
 
         // value
-        // TODO: Parameter vom Typ any hier mittels algemeinen Parser abgedeckt
+        // TODO: Cover parameter of Type any here with a general parser
         value = (Asn1Encodable) X509Translator
             .translateSingleIntermediateField(intermediateAsn1Field.getChildren().get(1), "value", "");
         asn1.addChild(value);

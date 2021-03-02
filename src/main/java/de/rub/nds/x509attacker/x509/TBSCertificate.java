@@ -96,7 +96,7 @@ public class TBSCertificate extends X509Model<Asn1Sequence> {
                 switch (intermediateAsn1Field.getChildren().get(index).getTagNumber()) {
 
                     case 1:// issuerUniqueID
-                           // TODO: entweder erwetiern, oder Logger warnung ausgeben und Überspringen
+                           // TODO: has to be extended, logger or skipped
                         LOGGER.warn("Not Implemented: GeneralName -> Parsing Tag 1 'issuerUniqueID'");
                         break;
 

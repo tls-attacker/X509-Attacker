@@ -50,8 +50,8 @@ public class PolicyQualifierInfo extends X509Model<Asn1Sequence> {
         asn1.addChild(policyQualifierId);
 
         // qualifier
-        // TODO: Parameter vom Typ any hier mittels algemeinen Parser abgedeckt
-        // --> kann erweitern werden Siehe RFC5280 - "4.2.1.4. Certificate Policies" (Qualifier ::= CHOICE {...})
+        // TODO: Cover parameter of Type any here with a general parser
+        // --> can be extended see RFC5280 - "4.2.1.4. Certificate Policies" (Qualifier ::= CHOICE {...})
         qualifier = (Asn1Encodable) X509Translator
             .translateSingleIntermediateField(intermediateAsn1Field.getChildren().get(1), "qualifier", "");
         asn1.addChild(qualifier);

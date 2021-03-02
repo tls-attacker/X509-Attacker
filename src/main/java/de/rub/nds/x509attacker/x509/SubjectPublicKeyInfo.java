@@ -41,7 +41,7 @@ public class SubjectPublicKeyInfo extends X509Model<Asn1Sequence> {
         algorithm = AlgorithmIdentifier.getInstance(intermediateAsn1Field.getChildren().get(0), "algorithm");
         asn1.addChild(algorithm.asn1);
 
-        // TODO: SubjectPublicKey ist abhängig vom OID im AlgorithmIdentifier,
+        // TODO: SubjectPublicKey is dependent on OID of AlgorithmIdentifier,
         subjectPublicKey = (Asn1EncapsulatingBitString) X509Translator.translateSingleIntermediateField(
             intermediateAsn1Field.getChildren().get(1), Asn1EncapsulatingBitStringFT.class, "subjectPublicKey", "");
         asn1.addChild(subjectPublicKey);
