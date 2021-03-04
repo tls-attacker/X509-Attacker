@@ -59,7 +59,7 @@ public class X509CertificateSerializer {
         if (context == null) {
 
             Class[] X509AttackerClasses = JaxbClassList.getInstance().getClasses();
-            List<Class> classList = new ArrayList<Class>(Arrays.asList(X509AttackerClasses));
+            List<Class> classList = new ArrayList<>(Arrays.asList(X509AttackerClasses));
             classList.add(ModificationFilter.class);
             classList.add(VariableModification.class);
             classList.add(ModifiableVariable.class);
@@ -67,7 +67,9 @@ public class X509CertificateSerializer {
             classList.add(X509Certificate.class);
 
             Class[] jaxbClasses = classList.toArray(new Class[classList.size()]);
-
+            for (Class someClass : jaxbClasses) {
+                LOGGER.debug("Registering: " + someClass);
+            }
             context = JAXBContext.newInstance(jaxbClasses);
         }
         return context;

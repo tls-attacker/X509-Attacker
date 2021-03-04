@@ -32,7 +32,7 @@ public class X509Encoder {
         this.certificate = certificate;
         this.certificateOutputDirectory = certificateOutputDirectory;
         this.keyDirectory = keyDirectory;
-        Registry.getInstanceAndRegisterAll();
+        Registry.getInstance();
     }
 
     public void encode() {

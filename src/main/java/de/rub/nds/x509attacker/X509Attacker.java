@@ -97,7 +97,7 @@ public class X509Attacker {
     public static void xmlToCertificate(final String xmlFile, final String keyDirectory,
         final String certificateOutputDirectory) {
         try {
-            Registry.getInstanceAndRegisterAll();
+            Registry.getInstance();
 
             // Read XML file
             TextFileReader textFileReader = new TextFileReader(xmlFile);
@@ -139,7 +139,7 @@ public class X509Attacker {
 
     public static void certificateToXml(final String certificateFile, final String xmlFile) {
         try {
-            Registry.getInstanceAndRegisterAll();
+            Registry.getInstance();
 
             // Read certificate file
             CertificateFileReader certificateFileReader = new CertificateFileReader(certificateFile);
@@ -164,7 +164,7 @@ public class X509Attacker {
 
     public static void loadCertificate(final String certificateFile, final String xmlFile) throws ParserException {
         try {
-            Registry.getInstanceAndRegisterAll();
+            Registry.getInstance();
 
             // Read certificate file
             CertificateFileReader certificateFileReader = new CertificateFileReader(certificateFile);
