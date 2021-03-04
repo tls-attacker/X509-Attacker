@@ -25,6 +25,7 @@ import de.rub.nds.asn1.translator.*;
 import de.rub.nds.asn1.translator.TestExtensionsContext;
 import de.rub.nds.asn1tool.Asn1Tool;
 import de.rub.nds.asn1tool.xmlparser.JaxbClassList;
+import de.rub.nds.x509attacker.registry.Registry;
 import java.util.List;
 import org.junit.Test;
 
@@ -39,10 +40,7 @@ public class Asn1ParserTest {
         System.out.println("Test Asn1 Parser");
 
         try {
-            registerXmlClasses();
-            registerTypes();
-            registerContexts();
-            registerContentUnpackers();
+            Registry.getInstance();
 
             byte[] certificateContent;
 
@@ -89,7 +87,6 @@ public class Asn1ParserTest {
 
     private static void registerContexts() {
         ContextRegister contextRegister = ContextRegister.getInstance();
-        contextRegister.registerContext(ParseNativeTypesContext.NAME, ParseNativeTypesContext.class);
         contextRegister.registerContext(TestEncapsulatingExtensionContext.NAME,
             TestEncapsulatingExtensionContext.class);
         contextRegister.registerContext(ExtensionContext.NAME, ExtensionContext.class);

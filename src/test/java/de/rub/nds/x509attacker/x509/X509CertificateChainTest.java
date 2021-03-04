@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509;
 
 import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.constants.X509CertChainOutFormat;
-import de.rub.nds.x509attacker.exceptions.RepairChainException;
+import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import java.io.File;
 import java.io.IOException;
@@ -33,6 +33,8 @@ public class X509CertificateChainTest {
 
     @BeforeClass
     public static void setUpClass() throws IOException, JAXBException, XMLStreamException {
+        Registry.getInstance();
+
         x509certificateChain = X509Factory.generateRandomX509CertificateChain(new File("resources/x509Certificates"),
             new File("resources/keys"), numberOfCerts,
             RepairChainConfig.createRepairAllAndSignConfig("resources/keys"));

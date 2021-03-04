@@ -47,7 +47,6 @@ public class X509Parser {
             // Asn1Parser used for parsing the bytes to IntermediateAsn1Fields (without the Asn1Translator)
             List<IntermediateAsn1Field> intermediateAsn1Fields =
                 new Asn1Parser(certificateBytes, false).parseIntermediateFields();
-
             // X509Certificate intern Translator is used for the translation from intermediateAsn1Fields to context
             // specific Asn1Fields
             X509Certificate x509certificate = X509Certificate.getInstance(intermediateAsn1Fields);
