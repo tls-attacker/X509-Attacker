@@ -9,9 +9,8 @@
 
 package de.rub.nds.x509attacker.helper;
 
-import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.signatureengine.keyparsers.KeyType;
-import de.rub.nds.x509attacker.helper.KeyFactory;
+import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import java.io.File;
 import org.junit.Before;
@@ -32,6 +31,8 @@ public class X509FactoryTest {
 
     @Before
     public void setUp() throws Exception {
+        Registry.getInstance();
+
         keyFolder = new File("resources/keys");
         certificateFolder = new File("resources/x509Certificates");
     }
