@@ -16,6 +16,7 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.exceptions.X509ModificationException;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import de.rub.nds.x509attacker.helper.X509Factory;
+import de.rub.nds.x509attacker.registry.Registry;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
@@ -41,6 +42,7 @@ public class IdentifierMapTest {
 
     @Before
     public void setUp() throws IOException, JAXBException, XMLStreamException {
+        Registry.getInstance();
         cert = X509Factory.getRandomX509CertificateFromFolder(new File("resources/x509Certificates"),
             new File("resources/keys"));
         identifierMap = cert.getIdentifierMap();
@@ -156,33 +158,6 @@ public class IdentifierMapTest {
         assertTrue(identifierMap.getIDPathsByClass(Asn1Container.class).size() >= 1);
         assertNull(identifierMap.getIDPathsByClass(Integer.class));
         assertNull(identifierMap.getIDPathsByClass(null));
-    }
-
-    /**
-     * Test of getCopyByIDPath method, of class IdentifierMap.
-     */
-    @Ignore("Not yet implemented")
-    @Test
-    public void testGetCopyByIDPath() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of getCopyByElement method, of class IdentifierMap.
-     */
-    @Ignore("Not yet implemented")
-    @Test
-    public void testGetCopyByElement() {
-        fail("The test case is a prototype.");
-    }
-
-    /**
-     * Test of setElementByIDPath method, of class IdentifierMap.
-     */
-    @Ignore("Not yet implemented")
-    @Test
-    public void testSetElementByIDPath() throws Exception {
-        fail("The test case is a prototype.");
     }
 
     /**

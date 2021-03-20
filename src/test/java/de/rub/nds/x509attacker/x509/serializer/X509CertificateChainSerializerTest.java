@@ -12,6 +12,7 @@ package de.rub.nds.x509attacker.x509.serializer;
 import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.constants.X509CertChainOutFormat;
 import de.rub.nds.x509attacker.exceptions.RepairChainException;
+import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
 import java.io.ByteArrayOutputStream;
@@ -48,6 +49,7 @@ public class X509CertificateChainSerializerTest {
 
     @Before
     public void setUp() throws IOException, JAXBException, XMLStreamException {
+        Registry.getInstance();
         x509certificateChain = X509Factory.generateRandomX509CertificateChain(new File("resources/x509Certificates"),
             new File("resources/keys"), 3, RepairChainConfig.createRepairAllAndSignConfig("resources/keys"));
     }
