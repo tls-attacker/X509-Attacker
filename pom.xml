@@ -6,7 +6,7 @@
 
     <groupId>de.rub.nds</groupId>
     <artifactId>X509Attacker</artifactId>
-    <version>1.2.0</version>
+    <version>1.2.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
     <name>X.509-Attacker</name>
@@ -27,8 +27,9 @@
 
     <distributionManagement>
         <snapshotRepository>
-            <id>ossrh</id>
-            <url>https://oss.sonatype.org/content/repositories/snapshots</url>
+            <id>nexus-snapshots</id>
+            <name>TLS-Attacker Internal Repository</name>
+            <url>https://hydrogen.cloud.nds.rub.de/nexus/repository/maven-snapshots/</url>
         </snapshotRepository>
         <repository>
             <id>ossrh</id>
@@ -95,7 +96,8 @@
     </scm>
 
     <build>
-        <finalName>x509attacker</finalName>
+        <finalName>${project.artifactId}-${project.version}-r${buildNumber}</finalName>
+        <!--finalName>x509attacker</finalName-->
         <plugins>
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
@@ -287,6 +289,53 @@
                     <nexusUrl>https://oss.sonatype.org/</nexusUrl>
                     <!-- deploy with the following command: mvn nexus-staging:release -->
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-deploy-plugin</artifactId>
+                <version>3.0.0-M1</version>
+                <configuration>
+                    <file>${project.artifactId}-${project.version}-r${buildNumber}</file>
+                    <!--skip>true</skip-->
+                </configuration>
+            </plugin>
+            <!-- Deploys to the remote repository -->
+            <!--plugin>
+                <groupId>org.sonatype.plugins</groupId>
+                <artifactId>nexus-staging-maven-plugin</artifactId>
+                <version>1.6.8</version>
+                <executions>
+                    <execution>
+                        <id>default-deploy</id>
+                        <phase>deploy</phase>
+                        <goals>
+                            <goal>deploy</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <serverId>nexus</serverId>
+                    <nexusUrl>https://hydrogen.cloud.nds.rub.de/nexus/</nexusUrl>
+                    <skipStaging>true</skipStaging>
+                </configuration>
+            </plugin-->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>buildnumber-maven-plugin</artifactId>
+                <version>1.4</version>
+                <executions>
+                    <execution>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>create</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <shortRevisionLength>5</shortRevisionLength>
+                    <doCheck>false</doCheck>
+                    <doUpdate>false</doUpdate>
                 </configuration>
             </plugin>
         </plugins>
