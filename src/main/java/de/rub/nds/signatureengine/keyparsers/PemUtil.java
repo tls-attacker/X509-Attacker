@@ -1,15 +1,28 @@
 /**
- * TLS-Attacker - A Modular Penetration Testing Framework for TLS
- * <p>
- * Copyright 2014-2017 Ruhr University Bochum / Hackmanit GmbH
- * <p>
- * Licensed under Apache License 2.0
- * http://www.apache.org/licenses/LICENSE-2.0
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.signatureengine.keyparsers;
 
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.cert.CertificateException;
+import java.security.cert.CertificateFactory;
+import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
-import org.bouncycastle.asn1.ASN1ObjectIdentifier;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
@@ -20,13 +33,6 @@ import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
-
-import java.io.*;
-import java.security.PrivateKey;
-import java.security.PublicKey;
-import java.security.cert.CertificateException;
-import java.security.cert.CertificateFactory;
-import java.util.Collection;
 
 public class PemUtil {
 
@@ -73,8 +79,8 @@ public class PemUtil {
         }
     }
 
-    public static Certificate readCertificate(InputStream stream) throws FileNotFoundException, CertificateException,
-            IOException {
+    public static Certificate readCertificate(InputStream stream)
+        throws FileNotFoundException, CertificateException, IOException {
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         Collection<? extends java.security.cert.Certificate> certs = certFactory.generateCertificates(stream);
         java.security.cert.Certificate sunCert = (java.security.cert.Certificate) certs.toArray()[0];
@@ -92,22 +98,27 @@ public class PemUtil {
     }
 
     public static PrivateKey readPrivateKey(InputStream stream) throws IOException {
+        PrivateKey privKey = null;
+        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+
         InputStreamReader reader = new InputStreamReader(stream);
         try (PEMParser parser = new PEMParser(reader)) {
-            Object obj = parser.readObject();
-            if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPrivateKeyInfo();
-            } else if (obj instanceof ASN1ObjectIdentifier) {
-                obj = parser.readObject();
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPrivateKeyInfo();
+            Object obj = null;
+            while ((obj = parser.readObject()) != null) {
+                if (obj instanceof PEMKeyPair) {
+                    PEMKeyPair pair = (PEMKeyPair) obj;
+                    privKey = converter.getPrivateKey(pair.getPrivateKeyInfo());
+                    return privKey;
+                } else if (obj instanceof PrivateKeyInfo) {
+                    privKey = converter.getPrivateKey((PrivateKeyInfo) obj);
+                    return privKey;
+                }
             }
+            // TODO this looks weired
             PrivateKeyInfo privKeyInfo = (PrivateKeyInfo) obj;
-            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             return converter.getPrivateKey(privKeyInfo);
-        } catch (Exception E) {
-            throw new IOException("Could not read private key", E);
+        } catch (Exception e) {
+            throw new IOException("Could not read private key", e);
         } finally {
             stream.close();
             reader.close();
@@ -119,18 +130,27 @@ public class PemUtil {
     }
 
     public static PublicKey readPublicKey(InputStream stream) throws IOException {
+        PublicKey pubKey = null;
+        JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
+
         InputStreamReader reader = new InputStreamReader(stream);
         try (PEMParser parser = new PEMParser(reader)) {
-            Object obj = parser.readObject();
-            if (obj instanceof PEMKeyPair) {
-                PEMKeyPair pair = (PEMKeyPair) obj;
-                obj = pair.getPublicKeyInfo();
+            Object obj = null;
+            while ((obj = parser.readObject()) != null) {
+                if (obj instanceof PEMKeyPair) {
+                    PEMKeyPair pair = (PEMKeyPair) obj;
+                    pubKey = converter.getPublicKey(pair.getPublicKeyInfo());
+                    return pubKey;
+                } else if (obj instanceof SubjectPublicKeyInfo) {
+                    pubKey = converter.getPublicKey((SubjectPublicKeyInfo) obj);
+                    return pubKey;
+                }
             }
+            // TODO this looks weired
             SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
-            JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
             return converter.getPublicKey(publicKeyInfo);
-        } catch (Exception E) {
-            throw new IOException("Could not read public key", E);
+        } catch (Exception e) {
+            throw new IOException("Could not read public key", e);
         } finally {
             stream.close();
             reader.close();
@@ -146,4 +166,28 @@ public class PemUtil {
         cert.encode(stream);
         return stream.toByteArray();
     }
+
+    public static KeyType getKeyType(File f) {
+        try {
+            PrivateKey privKey = readPrivateKey(f);
+            String algo = privKey.getAlgorithm();
+            switch (algo) {
+                case "RSA":
+                    return KeyType.RSA;
+                case "DSA":
+                    return KeyType.DSA;
+                case "ECDSA":
+                case "EC":
+                    return KeyType.ECDSA;
+                default:
+                    LOGGER.warn("getKeyType(): no KeyType defined for: " + algo);
+                    return null;
+            }
+        } catch (IOException ex) {
+            LOGGER.warn("getKeyType(): KeyType could not be recognized, IOException: " + ex);
+            return null;
+        }
+
+    }
+
 }

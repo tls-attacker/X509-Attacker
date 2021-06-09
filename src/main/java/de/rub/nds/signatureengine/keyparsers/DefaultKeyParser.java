@@ -1,7 +1,15 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.signatureengine.keyparsers;
 
 import de.rub.nds.signatureengine.SignatureEngine;
-
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -14,15 +22,16 @@ public class DefaultKeyParser implements KeyParser {
     }
 
     @Override
-    public final PrivateKey parse(final byte[] keyBytes, final SignatureEngine.KeyType keyType) throws KeyParserException {
+    public final PrivateKey parse(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat)
+        throws KeyParserException {
         PrivateKey privateKey = null;
-        switch (keyType) {
+        switch (keyFormat) {
             case PEM_ENCODED:
                 privateKey = this.parsePemKey(keyBytes);
                 break;
 
             default:
-                throw new KeyParserException("Key type " + keyType + " not supported by key parser!");
+                throw new KeyParserException("Key format " + keyFormat + " not supported by key parser!");
         }
         return privateKey;
     }

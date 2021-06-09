@@ -1,13 +1,25 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.asn1.model;
 
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.serializer.Asn1PseudoTypeSerializer;
 import de.rub.nds.asn1.serializer.Asn1Serializer;
-
-import javax.xml.bind.annotation.*;
-import javax.xml.namespace.QName;
 import java.util.HashMap;
 import java.util.Map;
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAnyAttribute;
+import javax.xml.bind.annotation.XmlAttribute;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.namespace.QName;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -65,5 +77,10 @@ public abstract class Asn1PseudoType implements Asn1Encodable {
 
     public Asn1Serializer getSerializer() {
         return new Asn1PseudoTypeSerializer(this);
+    }
+
+    @Override
+    public Asn1Encodable getCopy() {
+        return null;
     }
 }

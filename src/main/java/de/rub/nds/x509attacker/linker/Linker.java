@@ -1,9 +1,17 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2021 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.x509attacker.linker;
 
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.util.AttributeParser;
 import de.rub.nds.x509attacker.X509Attributes;
-
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -22,22 +30,23 @@ public class Linker {
 
     public void runLinking() {
         List<Asn1Encodable> asn1Encodables = new LinkedList<>(this.identifierMap.values());
-        for(Asn1Encodable asn1Encodable : asn1Encodables) {
-            if(asn1Encodable.hasAttribute(X509Attributes.FROM_IDENTIFIER)) {
-                String fromIdentifier = AttributeParser.parseStringAttribute(asn1Encodable, X509Attributes.FROM_IDENTIFIER);
+        for (Asn1Encodable asn1Encodable : asn1Encodables) {
+            if (asn1Encodable.hasAttribute(X509Attributes.FROM_IDENTIFIER)) {
+                String fromIdentifier =
+                    AttributeParser.parseStringAttribute(asn1Encodable, X509Attributes.FROM_IDENTIFIER);
                 this.resolveAndBuildLink(asn1Encodable, fromIdentifier);
             }
         }
     }
 
     private void resolveAndBuildLink(final Asn1Encodable asn1Encodable, final String fromIdentifier) {
-        if(fromIdentifier.isEmpty() == false) {
-            if(this.identifierMap.containsKey(fromIdentifier)) {
+        if (fromIdentifier.isEmpty() == false) {
+            if (this.identifierMap.containsKey(fromIdentifier)) {
                 Asn1Encodable referencedAsn1Encodable = this.identifierMap.get(fromIdentifier);
                 this.buildLink(asn1Encodable, referencedAsn1Encodable);
-            }
-            else {
-                throw new LinkerException("Cannot build link from " + asn1Encodable + " for fromIdentifier " + fromIdentifier + "!");
+            } else {
+                throw new LinkerException(
+                    "Cannot build link from " + asn1Encodable + " for fromIdentifier " + fromIdentifier + "!");
             }
         }
     }
