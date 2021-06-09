@@ -30,7 +30,7 @@ If you want to use this project as a dependency, you do not have to compile it y
 <dependency>
     <groupId>de.rub.nds</groupId>
     <artifactId>X509Attacker</artifactId>
-    <version>1.1.0</version>
+    <version>1.2.0</version>
 </dependency>
 ```
 
