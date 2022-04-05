@@ -15,7 +15,7 @@ In order to compile and use X.509-Attacker, you need to have Java and Maven inst
 ```bash
 $ sudo apt-get install maven
 ```
-X.509-Attacker currently needs Java JDK 8 to run. If you have the correct Java version you can install
+X.509-Attacker currently needs Java JDK 11 to run. If you have the correct Java version you can install
  X.509-Attacker as follows.
 ```bash
 $ git clone https://github.com/tls-attacker/X509-Attacker.git
