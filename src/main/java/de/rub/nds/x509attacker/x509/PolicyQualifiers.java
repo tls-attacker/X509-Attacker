@@ -19,9 +19,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * policyQualifiers SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL
- * 
+ *
  */
 
 public class PolicyQualifiers extends X509Model<Asn1Sequence> {

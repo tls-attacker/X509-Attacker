@@ -17,9 +17,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 
+ *
  * RelativeDistinguishedName ::= SET SIZE (1..MAX) OF AttributeTypeAndValue
- * 
+ *
  */
 public class RelativeDistinguishedName extends X509Model<Asn1Set> {
 

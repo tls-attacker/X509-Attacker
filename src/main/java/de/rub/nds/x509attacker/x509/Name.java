@@ -17,11 +17,11 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 
+ *
  * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
- * 
+ *
  * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
- * 
+ *
  */
 public class Name extends X509Model<Asn1Sequence> {
 

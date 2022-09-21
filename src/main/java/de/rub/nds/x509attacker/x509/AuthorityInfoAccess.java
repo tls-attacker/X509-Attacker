@@ -19,9 +19,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * AuthorityInfoAcessSyntax :== SEQUENCE SIZE (1..MAX) OF AccessDescription
- * 
+ *
  */
 
 public class AuthorityInfoAccess extends X509Model<Asn1Sequence> {

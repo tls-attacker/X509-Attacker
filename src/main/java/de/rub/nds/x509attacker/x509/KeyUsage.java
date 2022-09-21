@@ -17,11 +17,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * KeyUsage ::= BIT STRING { digitalSignature (0), nonRepudiation (1), -- recent editions of X.509 have -- renamed this
  * bit to contentCommitment keyEncipherment (2), dataEncipherment (3), keyAgreement (4), keyCertSign (5), cRLSign (6),
  * encipherOnly (7), decipherOnly (8) }
- * 
+ *
  */
 public class KeyUsage extends X509Model<Asn1PrimitiveBitString> {
 

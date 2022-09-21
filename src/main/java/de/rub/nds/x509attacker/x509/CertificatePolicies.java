@@ -19,9 +19,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation
- * 
+ *
  */
 
 public class CertificatePolicies extends X509Model<Asn1Sequence> {

@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.exceptions;
 
 /**
  * Exception thrown if a modification of a X509Certificate failed.
- * 
+ *
  */
 public class X509ModificationException extends Exception {
 

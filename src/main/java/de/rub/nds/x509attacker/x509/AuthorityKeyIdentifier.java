@@ -21,14 +21,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * AuthorityKeyIdentifier ::= SEQUENCE { keyIdentifier [0] KeyIdentifier OPTIONAL, authorityCertIssuer [1] GeneralNames
  * OPTIONAL, authorityCertSerialNumber [2] CertificateSerialNumber OPTIONAL }
  *
  * KeyIdentifier ::= OCTET STRING
- * 
+ *
  * CertificateSerialNumber ::= INTEGER
- * 
+ *
  */
 
 public class AuthorityKeyIdentifier extends X509Model<Asn1Sequence> {

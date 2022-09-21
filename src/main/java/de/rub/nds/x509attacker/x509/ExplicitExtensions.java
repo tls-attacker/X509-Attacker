@@ -15,9 +15,9 @@ import de.rub.nds.asn1.translator.X509Translator;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1ExplicitFT;
 
 /**
- * 
+ *
  * extensions [3] EXPLICIT Extensions OPTIONAL
- * 
+ *
  */
 public class ExplicitExtensions extends X509Model<Asn1Explicit> {
 

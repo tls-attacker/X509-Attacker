@@ -15,9 +15,9 @@ import de.rub.nds.asn1.translator.X509Translator;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1ExplicitFT;
 
 /**
- * 
+ *
  * Explicit Container for GeneralName
- * 
+ *
  */
 public class ExplicitGeneralName extends X509Model<Asn1Explicit> {
 

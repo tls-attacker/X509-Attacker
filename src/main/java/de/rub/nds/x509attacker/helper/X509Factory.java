@@ -20,7 +20,7 @@ import de.rub.nds.x509attacker.x509.X509CertificateChain;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

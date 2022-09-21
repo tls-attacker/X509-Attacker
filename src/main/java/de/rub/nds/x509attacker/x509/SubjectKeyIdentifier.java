@@ -17,11 +17,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * SubjectKeyIdentifier ::= KeyIdentifier
  *
  * KeyIdentifier ::= OCTET STRING
- * 
+ *
  */
 public class SubjectKeyIdentifier extends X509Model<Asn1PrimitiveOctetString> {
 

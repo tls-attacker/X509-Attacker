@@ -22,14 +22,14 @@ import java.io.IOException;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import javax.xml.stream.XMLStreamException;
 
 /**
@@ -167,7 +167,7 @@ public class X509CertificateChain {
      * AuthorityKeyIdentifer, the CABit, the PathLen, the KeyUsage, the SignatureAlgo / key relation.
      *
      * @return RepairChainStatus A status report about the succcess of the repair
-     * 
+     *
      */
     public RepairChainStatus repairAndSignChain() {
         return RepairChain.repair(RepairChainConfig.createRepairAllAndSignConfig("resources/keys"), this);
@@ -175,7 +175,7 @@ public class X509CertificateChain {
 
     /**
      * Repairs the chain of certificates depending on the given RepairChainConfig.
-     * 
+     *
      * @param  repairConfig
      *                      the RepairChainConfig which is used
      * @return              RepairChainStatus A status report about the succcess of the repair
@@ -186,8 +186,8 @@ public class X509CertificateChain {
 
     /**
      * Writes all X509Certificates of the chain as certificateFile in .pem format to the given directory.
-     * 
-     * 
+     *
+     *
      * @param  directory
      *                   The path to the directory.
      * @param  outFormat
@@ -199,7 +199,7 @@ public class X509CertificateChain {
      *                   CHAIN_GROUPED2: two certificateFiles one for root and one for the intermediates together with
      *                   the leaf certificate (root_cert.pem, inter_leaf_certs.pem)
      * @return           List of created Files
-     * 
+     *
      */
     public List<File> writeCertificateChainToFile(String directory, X509CertChainOutFormat outFormat) {
         List<File> outputFiles = new LinkedList<>();

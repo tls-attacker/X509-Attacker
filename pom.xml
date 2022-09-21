@@ -15,7 +15,7 @@
         the features of ASN.1 Tool in terms of certificate signing. Also, X.509-Attacker introduces a feature of
         referencing XML elements in order to avoid redundancies when defining certificates in XML.
     </description>
-    <url>https://github.com/RUB-NDS/X509-Attacker</url>
+    <url>https://github.com/tls-attacker/X509-Attacker</url>
 
     <licenses>
         <license>
@@ -42,9 +42,8 @@
             <id>nkafka</id>
             <name>Nils Kafka</name>
             <email>nils.kafka@rub.de</email>
-            <url>http://www.nds.rub.de/</url>
             <organization>NDS</organization>
-            <organizationUrl>http://www.nds.rub.de</organizationUrl>
+            <organizationUrl>https://informatik.rub.de/nds/</organizationUrl>
             <roles>
                 <role>Architect</role>
                 <role>Developer</role>
@@ -52,11 +51,33 @@
         </developer>
     </developers>
 
+    <scm>
+        <connection>scm:git:https://github.com/tls-attacker/X509-Attacker.git</connection>
+        <developerConnection>scm:git:ssh://git@github.com/tls-attacker/X509-Attacker-Development.git</developerConnection>
+        <url>https://github.com/tls-attacker/X509-Attacker</url>
+    </scm>
+
     <dependencies>
+        <!-- scope: compile -->
+        <dependency>
+            <groupId>de.rub.nds</groupId>
+            <artifactId>ModifiableVariable</artifactId>
+            <version>3.6.0-SNAPSHOT</version>
+        </dependency>
         <dependency>
             <groupId>de.rub.nds</groupId>
             <artifactId>Asn1Tool</artifactId>
             <version>1.5.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.19.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.19.0</version>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
@@ -67,54 +88,215 @@
             <groupId>org.bouncycastle</groupId>
             <artifactId>bcprov-jdk15on</artifactId>
             <version>1.64</version>
-            <type>jar</type>
-        </dependency>
-        <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>4.13.1</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>jakarta.xml.bind</groupId>
             <artifactId>jakarta.xml.bind-api</artifactId>
-            <version>2.3.3</version>
-            <scope>compile</scope>
-            <type>jar</type>
+            <version>4.0.0</version>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
             <artifactId>jaxb-runtime</artifactId>
-            <version>2.3.3</version>
+            <version>4.0.0</version>
+        </dependency>
+        <!-- scope: test -->
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.9.0</version>
+            <scope>test</scope>
         </dependency>
     </dependencies>
 
-    <scm>
-        <connection>scm:git:git://github.com/RUB-NDS/X509-Attacker.git</connection>
-        <developerConnection>scm:git:ssh://github.com/RUB-NDS/X509-Attacker.git</developerConnection>
-        <url>https://github.com/RUB-NDS/X509-Attacker/tree/master</url>
-    </scm>
-
     <build>
-        <finalName>x509attacker</finalName>
         <plugins>
+            <!--################## clean lifecycle plugins ##################-->
             <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>versions-maven-plugin</artifactId>
-                <version>2.8.1</version>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clean-plugin</artifactId>
+                <version>3.2.0</version>
+                <executions>
+                    <execution>
+                        <id>default-clean</id>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${maven.multiModuleProjectDirectory}/apps</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>clean-apps-folder</id>
+                        <phase>prepare-package</phase>
+                        <goals>
+                            <goal>clean</goal>
+                        </goals>
+                        <configuration>
+                            <excludeDefaultDirectories>true</excludeDefaultDirectories>
+                            <filesets>
+                                <fileset>
+                                    <directory>${maven.multiModuleProjectDirectory}/apps</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
+            <!--################# default lifecycle plugins #################-->
+            <!-- Enforce maven and java version -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-enforcer-plugin</artifactId>
+                <version>3.1.0</version>
+                <executions>
+                    <execution>
+                        <id>enforce-versions</id>
+                        <goals>
+                            <goal>enforce</goal>
+                        </goals>
+                        <configuration>
+                            <rules>
+                                <requireMavenVersion>
+                                    <version>3.6</version>
+                                </requireMavenVersion>
+                                <requireJavaVersion>
+                                    <version>${maven.compiler.source}</version>
+                                </requireJavaVersion>
+                            </rules>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Formatting -->
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <version>2.20.0</version>
+                <configuration>
+                    <configFile>${project.basedir}/maven-eclipse-codestyle.xml</configFile>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>format-sources</id>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <version>4.1</version>
+                <configuration>
+                    <header>${project.basedir}/license_header_plain.txt</header>
+                    <strictCheck>true</strictCheck>
+                    <includes>
+                        <include>src/**/*.java</include>
+                    </includes>
+                    <properties>
+                        <startYear>2014</startYear>
+                        <year>${maven.build.timestamp}</year>
+                        <description>A tool for creating arbitrary certificates</description>
+                        <owner>Ruhr University Bochum, Paderborn University, Hackmanit GmbH</owner>
+                        <licenseName>Apache License, Version 2.0</licenseName>
+                        <licenseURL>http://www.apache.org/licenses/LICENSE-2.0.txt</licenseURL>
+                    </properties>
+                    <mapping>
+                        <java>JAVADOC_STYLE</java>
+                    </mapping>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>update-license-header</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Copy project resources to output directory -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.3.0</version>
+            </plugin>
+            <!-- Compile source files -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.8.1</version>
+                <version>3.10.1</version>
                 <configuration>
-                    <source>11</source>
-                    <target>11</target>
+                    <source>${maven.compiler.source}</source>
+                    <target>${maven.compiler.target}</target>
                 </configuration>
             </plugin>
+            <!-- Execute unit tests -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.0.0-M7</version>
+            </plugin>
+            <!-- Build jar file -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>3.3.0</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <useUniqueVersions>false</useUniqueVersions>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib/</classpathPrefix>
+                            <mainClass>de.rub.nds.x509attacker.X509Attacker</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <!-- Compile javadoc -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <version>3.4.1</version>
+                <configuration>
+                    <source>${maven.compiler.source}</source>
+                    <javadocExecutable>
+                        ${java.home}/bin/javadoc
+                    </javadocExecutable>
+                </configuration>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Pack source files to jar archive -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-source-plugin</artifactId>
+                <version>3.2.1</version>
+                <executions>
+                    <execution>
+                        <id>attach-sources</id>
+                        <goals>
+                            <goal>jar-no-fork</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <!-- Copy artifacts to apps folder -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.3.0</version>
                 <executions>
                     <execution>
                         <id>copy</id>
@@ -149,151 +331,14 @@
                     </execution>
                 </executions>
             </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-enforcer-plugin</artifactId>
-                <version>3.0.0-M3</version>
-                <executions>
-                    <execution>
-                        <id>default-cli</id>
-                        <goals>
-                            <goal>enforce</goal>
-                        </goals>
-                        <configuration>
-                            <rules>
-                                <requireMavenVersion>
-                                    <version>3.1</version>
-                                </requireMavenVersion>
-                                <requireJavaVersion>
-                                    <version>11</version>
-                                </requireJavaVersion>
-                            </rules>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <!-- Build an executable JAR -->
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.1.0</version>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <useUniqueVersions>false</useUniqueVersions>
-                            <addClasspath>true</addClasspath>
-                            <classpathPrefix>lib/</classpathPrefix>
-                            <mainClass>de.rub.nds.x509attacker.X509Attacker</mainClass>
-                        </manifest>
-                    </archive>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-source-plugin</artifactId>
-                <version>3.2.0</version>
-                <executions>
-                    <execution>
-                        <id>attach-sources</id>
-                        <goals>
-                            <goal>jar-no-fork</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- formats the code -->
-            <plugin>
-                <groupId>net.revelc.code.formatter</groupId>
-                <artifactId>formatter-maven-plugin</artifactId>
-                <version>2.14.0</version>
-                <configuration>
-                    <configFile>${project.basedir}/maven-eclipse-codestyle.xml</configFile>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>com.mycila</groupId>
-                <artifactId>license-maven-plugin</artifactId>
-                <version>4.1</version>
-                <configuration>
-                    <header>${project.basedir}/license_header_plain.txt</header>
-                    <strictCheck>true</strictCheck>
-                    <includes>
-                        <include>src/**/*.java</include>
-                    </includes>
-                    <properties>
-                        <startYear>2014</startYear>
-                        <year>${buildYear}</year>
-                        <description>A tool for creating arbitrary certificates</description>
-                        <owner>Ruhr University Bochum, Paderborn University, Hackmanit GmbH</owner>
-                        <licenseName>Apache License, Version 2.0</licenseName>
-                        <licenseURL>http://www.apache.org/licenses/LICENSE-2.0.txt</licenseURL>
-                    </properties>
-                    <mapping>
-                        <java>JAVADOC_STYLE</java>
-                    </mapping>
-                </configuration>
-                <executions>
-                    <execution>
-                        <phase>process-sources</phase>
-                        <goals>
-                            <goal>format</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
-            <!-- Allows to run checkstyle with Maven -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-checkstyle-plugin</artifactId>
-                <version>3.1.1</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>com.puppycrawl.tools</groupId>
-                        <artifactId>checkstyle</artifactId>
-                        <version>8.37</version>
-                    </dependency>
-                </dependencies>
-                <configuration>
-                    <configLocation>${project.basedir}/checkstyle.xml</configLocation>
-                    <violationSeverity>info</violationSeverity>
-                    <failOnViolation>false</failOnViolation>
-                </configuration>
-            </plugin>
-            <!-- Following plugins handle the OOSRH distribution -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <version>3.2.0</version>
-                <configuration>
-                    <javadocExecutable>
-                        ${java.home}/bin/javadoc
-                    </javadocExecutable>
-                </configuration>
-                <executions>
-                    <execution>
-                        <id>attach-javadocs</id>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
+            <!-- Sign artifacts -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-gpg-plugin</artifactId>
-                <version>1.6</version>
+                <version>3.0.1</version>
                 <executions>
                     <execution>
                         <id>sign-artifacts</id>
-                        <phase>verify</phase>
                         <goals>
                             <goal>sign</goal>
                         </goals>
@@ -303,10 +348,17 @@
                     <skip>${skip.signature}</skip>
                 </configuration>
             </plugin>
+            <!-- Install artifacts to local maven repository -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-install-plugin</artifactId>
+                <version>3.0.1</version>
+            </plugin>
+            <!-- Artifact deployment to OSSRH -->
             <plugin>
                 <groupId>org.sonatype.plugins</groupId>
                 <artifactId>nexus-staging-maven-plugin</artifactId>
-                <version>1.6.8</version>
+                <version>1.6.13</version>
                 <extensions>true</extensions>
                 <configuration>
                     <serverId>ossrh</serverId>
@@ -315,21 +367,42 @@
                     <autoReleaseAfterClose>false</autoReleaseAfterClose>
                 </configuration>
             </plugin>
+            <!--############ plugins without lifecycle bindings #############-->
+            <!-- Dependency version management -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>versions-maven-plugin</artifactId>
+                <version>2.12.0</version>
+            </plugin>
+            <!-- Codestyle -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-deploy-plugin</artifactId>
-                <version>3.0.0-M1</version>
+                <artifactId>maven-checkstyle-plugin</artifactId>
+                <version>3.2.0</version>
+                <dependencies>
+                    <dependency>
+                        <groupId>com.puppycrawl.tools</groupId>
+                        <artifactId>checkstyle</artifactId>
+                        <version>10.3.3</version>
+                    </dependency>
+                </dependencies>
+                <configuration>
+                    <configLocation>${project.basedir}/checkstyle.xml</configLocation>
+                    <violationSeverity>info</violationSeverity>
+                    <failOnViolation>false</failOnViolation>
+                </configuration>
             </plugin>
-            </plugins>
+        </plugins>
     </build>
 
     <properties>
-        <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
-        <buildYear>${maven.build.timestamp}</buildYear>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <maven.compiler.source>11</maven.compiler.source>
         <maven.compiler.target>11</maven.compiler.target>
+        <maven.build.timestamp.format>yyyy</maven.build.timestamp.format>
+        <!-- We redefine the signature generation process, which is enabled by default,
+        but cannot be performed by typical users. Enable it using -Dskip.signature=false -->
         <skip.signature>true</skip.signature>
     </properties>
 </project>

@@ -17,7 +17,7 @@ import de.rub.nds.asn1.translator.fieldtranslators.Asn1EncapsulatingBitStringFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
 
 /**
- * 
+ *
  * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier, subjectPublicKey BIT STRING }
  *
  */

@@ -22,17 +22,14 @@ import de.rub.nds.asn1.parser.contentunpackers.ContentUnpackerRegister;
 import de.rub.nds.asn1.parser.contentunpackers.DefaultContentUnpacker;
 import de.rub.nds.asn1.parser.contentunpackers.PrimitiveBitStringUnpacker;
 import de.rub.nds.asn1.translator.*;
-import de.rub.nds.asn1.translator.TestExtensionsContext;
 import de.rub.nds.asn1tool.Asn1Tool;
 import de.rub.nds.asn1tool.xmlparser.JaxbClassList;
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.registry.Registry;
-import java.util.List;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author josh
- */
+import java.util.List;
+
 public class Asn1ParserTest {
 
     @Test
@@ -53,7 +50,7 @@ public class Asn1ParserTest {
 
             // Test von ExtensionContent only/ Unterscheiden zwischen Boolean und octedString
             byte[] extensionContent =
-                hexStringToByteArray("0603551D23041830168014BBAF7E023DFAA6F13C848EADEE3898ECD93232D4");
+                ArrayConverter.hexStringToByteArray("0603551D23041830168014BBAF7E023DFAA6F13C848EADEE3898ECD93232D4");
             Asn1Parser asn1Parser2 = new Asn1Parser(extensionContent, false);
             List<Asn1Encodable> asn1Encodables2 = asn1Parser2.parse(ExtensionContext.NAME);
 
@@ -62,15 +59,6 @@ public class Asn1ParserTest {
             throw new ParserException(e);
         }
 
-    }
-
-    public static byte[] hexStringToByteArray(String s) {
-        int len = s.length();
-        byte[] data = new byte[len / 2];
-        for (int i = 0; i < len; i += 2) {
-            data[i / 2] = (byte) ((Character.digit(s.charAt(i), 16) << 4) + Character.digit(s.charAt(i + 1), 16));
-        }
-        return data;
     }
 
     private static void registerXmlClasses() {

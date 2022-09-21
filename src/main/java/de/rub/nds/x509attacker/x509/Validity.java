@@ -15,9 +15,9 @@ import de.rub.nds.asn1.translator.X509Translator;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
 
 /**
- * 
+ *
  * Validity ::= SEQUENCE { notBefore Time, notAfter Time }
- * 
+ *
  */
 
 public class Validity extends X509Model<Asn1Sequence> {

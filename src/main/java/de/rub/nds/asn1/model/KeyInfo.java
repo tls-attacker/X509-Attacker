@@ -14,10 +14,10 @@ import de.rub.nds.signatureengine.keyparsers.PemUtil;
 import de.rub.nds.x509attacker.filesystem.BinaryFileReader;
 import java.io.File;
 import java.io.IOException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 
 @XmlRootElement

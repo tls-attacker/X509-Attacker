@@ -20,12 +20,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * TBSCertificate ::= SEQUENCE { version [ 0 ] Version DEFAULT v1(0), serialNumber CertificateSerialNumber, signature
  * AlgorithmIdentifier, issuer Name, validity Validity, subject Name, subjectPublicKeyInfo SubjectPublicKeyInfo,
  * issuerUniqueID [ 1 ] IMPLICIT UniqueIdentifier OPTIONAL, subjectUniqueID [ 2 ] IMPLICIT UniqueIdentifier OPTIONAL,
  * extensions [ 3 ] Extensions OPTIONAL }
- * 
+ *
  */
 public class TBSCertificate extends X509Model<Asn1Sequence> {
 

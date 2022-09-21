@@ -17,10 +17,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * ReasonFlags ::= BIT STRING { unused (0), keyCompromise (1), cACompromise (2), affiliationChanged (3), superseded (4),
  * cessationOfOperation (5), certificateHold (6), privilegeWithdrawn (7), aACompromise (8) }
- * 
+ *
  */
 public class ReasonFlags extends X509Model<Asn1PrimitiveBitString> {
 

@@ -19,10 +19,10 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons [1] ReasonFlags
  * OPTIONAL, cRLIssuer [2] GeneralNames OPTIONAL }
- * 
+ *
  */
 
 public class DistributionPoint extends X509Model<Asn1Sequence> {

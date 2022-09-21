@@ -19,10 +19,10 @@ import de.rub.nds.asn1.translator.fieldtranslators.Asn1ObjectIdentifierFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
 
 /**
- * 
+ *
  * Extension ::= SEQUENCE { extnID OBJECT IDENTIFIER, critical BOOLEAN DEFAULT FALSE, extnValue OCTET STRING -- contains
  * the DER encoding of an ASN.1 value -- corresponding to the extension type identified -- by extnID }
- * 
+ *
  */
 public class Extension extends X509Model<Asn1Sequence> {
 

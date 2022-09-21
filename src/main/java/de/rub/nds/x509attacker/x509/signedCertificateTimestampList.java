@@ -17,9 +17,9 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * SignedCertificateTimestampList ::= OCTET STRING
- * 
+ *
  */
 
 public class signedCertificateTimestampList extends X509Model<Asn1PrimitiveOctetString> {

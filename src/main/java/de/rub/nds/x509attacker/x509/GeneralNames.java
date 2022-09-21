@@ -17,9 +17,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 
+ *
  * GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName
- * 
+ *
  */
 public class GeneralNames extends X509Model<Asn1Sequence> {
 

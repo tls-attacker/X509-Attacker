@@ -21,17 +21,13 @@ import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import javax.xml.bind.JAXBException;
+import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
-import org.junit.Ignore;
+import static org.junit.jupiter.api.Assertions.*;
 
-/**
- *
- * @author josh
- */
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
 public class IdentifierMapTest {
 
     private X509Certificate cert;
@@ -40,7 +36,7 @@ public class IdentifierMapTest {
     public IdentifierMapTest() {
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException, JAXBException, XMLStreamException {
         Registry.getInstance();
         cert = X509Factory.getRandomX509CertificateFromFolder(new File("resources/x509Certificates"),
@@ -70,7 +66,7 @@ public class IdentifierMapTest {
 
         Map<String, Asn1Encodable> map = identifierMap.getMap();
         assertNotNull(map);
-        assertTrue(map.size() == 1);
+        assertEquals(1, map.size());
 
     }
 
@@ -79,10 +75,10 @@ public class IdentifierMapTest {
      */
     @Test
     public void testGetElementByIDPath() {
-        assertTrue(identifierMap.getElementByIDPath("/certificate").getClass().equals(Asn1Sequence.class));
+        assertEquals(identifierMap.getElementByIDPath("/certificate").getClass(), Asn1Sequence.class);
         assertNull(identifierMap.getElementByIDPath("/cert"));
-        assertTrue(identifierMap.getElementByIDPath("certificate").getClass().equals(Asn1Sequence.class));
-        assertTrue(identifierMap.getElementByIDPath("/certificate/").getClass().equals(Asn1Sequence.class));
+        assertEquals(identifierMap.getElementByIDPath("certificate").getClass(), Asn1Sequence.class);
+        assertEquals(identifierMap.getElementByIDPath("/certificate/").getClass(), Asn1Sequence.class);
         assertNull(identifierMap.getElementByIDPath(""));
 
     }
@@ -163,9 +159,9 @@ public class IdentifierMapTest {
     /**
      * Test of removeElementByIDPath method, of class IdentifierMap.
      */
-    @Test(expected = X509ModificationException.class)
-    public void testRemoveElementByIDPath_noParent() throws Exception {
-        identifierMap.removeElementByIDPath("/certificate");
+    @Test
+    public void testRemoveElementByIDPath_noParent() {
+        assertThrowsExactly(X509ModificationException.class, () -> identifierMap.removeElementByIDPath("/certificate"));
     }
 
 }

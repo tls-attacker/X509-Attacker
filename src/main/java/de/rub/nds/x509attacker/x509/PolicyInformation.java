@@ -22,12 +22,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * PolicyInformation ::= SEQUENCE { policyIdentifier CertPolicyId, policyQualifiers SEQUENCE SIZE (1..MAX) OF
  * PolicyQualifierInfo OPTIONAL }
- * 
+ *
  * CertPolicyId ::= OBJECT IDENTIFIER
- * 
+ *
  */
 
 public class PolicyInformation extends X509Model<Asn1Sequence> {

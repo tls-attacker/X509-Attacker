@@ -10,13 +10,13 @@
 package de.rub.nds.x509attacker.repairchain;
 
 import java.util.UUID;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
  * A Config File which controls the repair of the chain.
- * 
+ *
  * @author josh
  */
 @XmlRootElement

@@ -9,9 +9,11 @@
 
 package de.rub.nds.x509attacker.x509.serializer;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.constants.X509CertChainOutFormat;
-import de.rub.nds.x509attacker.exceptions.RepairChainException;
 import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
@@ -20,34 +22,29 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
-import java.util.Arrays;
-import javax.xml.bind.JAXBException;
+import java.util.Objects;
+
+import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import static org.junit.Assert.assertTrue;
-import org.junit.Before;
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.TemporaryFolder;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.io.TempDir;
 
-/**
- *
- * @author josh
- */
 public class X509CertificateChainSerializerTest {
 
     private final Logger LOGGER = LogManager.getLogger();
 
-    @Rule
-    public TemporaryFolder tempFolder = new TemporaryFolder();
+    @TempDir
+    public File tempFolder;
 
     private X509CertificateChain x509certificateChain;
 
     public X509CertificateChainSerializerTest() {
     }
 
-    @Before
+    @BeforeEach
     public void setUp() throws IOException, JAXBException, XMLStreamException {
         Registry.getInstance();
         x509certificateChain = X509Factory.generateRandomX509CertificateChain(new File("resources/x509Certificates"),
@@ -59,7 +56,8 @@ public class X509CertificateChainSerializerTest {
      */
     @Test
     public void testWrite_File_X509CertificateChain() throws Exception {
-        File file = tempFolder.newFile();
+        File file = new File(tempFolder, "x509CertificateChainWrite.tmp");
+        assertTrue(file.createNewFile());
         X509CertificateChainSerializer.write(file, x509certificateChain);
     }
 
@@ -78,7 +76,8 @@ public class X509CertificateChainSerializerTest {
      */
     @Test
     public void testRead() throws Exception {
-        File file = tempFolder.newFile();
+        File file = new File(tempFolder, "x509CertificateChainRead.tmp");
+        assertTrue(file.createNewFile());
         X509CertificateChainSerializer.write(file, x509certificateChain);
         X509CertificateChain chain = X509CertificateChainSerializer.read(new FileInputStream(file));
     }
@@ -90,15 +89,17 @@ public class X509CertificateChainSerializerTest {
     public void testCopyX509CertificateChain() throws Exception {
         X509CertificateChain copiedChain =
             X509CertificateChainSerializer.copyX509CertificateChain(x509certificateChain);
-        File originFolder = tempFolder.newFolder("origin");
-        File copiedFolder = tempFolder.newFolder("copy");
+        File originFolder = new File(tempFolder, "origin");
+        assertTrue(originFolder.mkdir());
+        File copiedFolder = new File(tempFolder, "copy");
+        assertTrue(copiedFolder.mkdir());
         x509certificateChain.writeCertificateChainToFile(originFolder.getAbsolutePath(),
             X509CertChainOutFormat.CHAIN_COMBINED);
         copiedChain.writeCertificateChainToFile(copiedFolder.getAbsolutePath(), X509CertChainOutFormat.CHAIN_COMBINED);
-        File origin = originFolder.listFiles()[0];
-        File copy = copiedFolder.listFiles()[0];
+        File origin = Objects.requireNonNull(originFolder.listFiles())[0];
+        File copy = Objects.requireNonNull(copiedFolder.listFiles())[0];
 
-        assertTrue(Arrays.equals(Files.readAllBytes(origin.toPath()), Files.readAllBytes(copy.toPath())));
+        assertArrayEquals(Files.readAllBytes(origin.toPath()), Files.readAllBytes(copy.toPath()));
     }
 
 }

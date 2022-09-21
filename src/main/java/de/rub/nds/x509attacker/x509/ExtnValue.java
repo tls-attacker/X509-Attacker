@@ -24,11 +24,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
- * 
+ *
+ *
  * extnValue OCTET STRING -- contains the DER encoding of an ASN.1 value -- corresponding to the extension type
  * identified -- by extnID
- * 
+ *
  */
 public class ExtnValue extends X509Model<Asn1EncapsulatingOctetString> {
 

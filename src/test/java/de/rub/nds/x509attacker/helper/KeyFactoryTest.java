@@ -11,26 +11,18 @@ package de.rub.nds.x509attacker.helper;
 
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 import java.io.File;
-import org.junit.After;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.BeforeClass;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author josh
- */
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+
 public class KeyFactoryTest {
 
     private File keyFolder;
 
-    public KeyFactoryTest() {
-    }
-
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         keyFolder = new File("resources/keys");
     }
 

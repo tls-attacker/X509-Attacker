@@ -22,9 +22,9 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 
+ *
  * Version ::= INTEGER {v1(0), v2(1), v3(2) }
- * 
+ *
  */
 public class Version extends X509Model<Asn1Explicit> {
 

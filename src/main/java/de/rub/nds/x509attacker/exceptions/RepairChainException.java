@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.exceptions;
 
 /**
  * Exception thrown the repair of a X509CertificateChain failed.
- * 
+ *
  */
 public class RepairChainException extends Exception {
 

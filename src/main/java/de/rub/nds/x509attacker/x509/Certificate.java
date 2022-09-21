@@ -33,7 +33,7 @@ import java.util.Map;
  *
  * Certificate ::= SEQUENCE { tbsCertificate TBSCertificate, signatureAlgorithm AlgorithmIdentifier, signature BIT
  * STRING }
- * 
+ *
  */
 public class Certificate extends X509Model<Asn1Sequence> {
 

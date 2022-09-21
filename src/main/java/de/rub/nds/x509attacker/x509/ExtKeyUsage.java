@@ -21,11 +21,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * ExtKeyUsageSyntax ::= SEQUENCE SIZE (1..MAX) OF KeyPurposeId
- * 
+ *
  * KeyPurposeId ::= OBJECT IDENTIFIER
- * 
+ *
  */
 
 public class ExtKeyUsage extends X509Model<Asn1Sequence> {

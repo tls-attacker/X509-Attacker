@@ -19,9 +19,9 @@ import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveGeneralizedTimeF
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveUtcTimeFT;
 
 /**
- * 
+ *
  * Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime }
- * 
+ *
  */
 
 public class Time extends X509Model<Asn1Encodable> {

@@ -9,28 +9,22 @@
 
 package de.rub.nds.x509attacker.helper;
 
+import static org.junit.jupiter.api.Assertions.assertNotNull;
+
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import java.io.File;
-import org.junit.Before;
-import org.junit.Test;
-import static org.junit.Assert.*;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
-/**
- *
- * @author josh
- */
 public class X509FactoryTest {
 
     private File keyFolder;
     private File certificateFolder;
 
-    public X509FactoryTest() {
-    }
-
-    @Before
-    public void setUp() throws Exception {
+    @BeforeEach
+    public void setUp() {
         Registry.getInstance();
 
         keyFolder = new File("resources/keys");

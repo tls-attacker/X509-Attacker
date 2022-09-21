@@ -17,10 +17,10 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * 
+ *
  * Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension
- * 
- * 
+ *
+ *
  */
 public class Extensions extends X509Model<Asn1Sequence> {
 

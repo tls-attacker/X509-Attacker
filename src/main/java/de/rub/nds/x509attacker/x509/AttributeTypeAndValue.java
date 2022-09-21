@@ -20,18 +20,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * 
+ *
  * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue }
- * 
+ *
  * AttributeType ::= OBJECT IDENTIFIER
- * 
+ *
  * AttributeValue ::= ANY -- DEFINED BY AttributeType
- * 
+ *
  * DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)), printableString PrintableString (SIZE
  * (1..MAX)), universalString UniversalString (SIZE (1..MAX)), utf8String UTF8String (SIZE (1..MAX)), bmpString
  * BMPString (SIZE (1..MAX)) }
- * 
- * 
+ *
+ *
  */
 public class AttributeTypeAndValue extends X509Model<Asn1Sequence> {
 

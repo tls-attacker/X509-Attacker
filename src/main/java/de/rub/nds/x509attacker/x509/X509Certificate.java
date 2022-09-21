@@ -33,12 +33,12 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import javax.xml.bind.JAXBException;
-import javax.xml.bind.annotation.XmlAccessType;
-import javax.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.JAXBException;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import javax.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import javax.xml.stream.XMLStreamException;
 
 /**
@@ -294,7 +294,7 @@ public class X509Certificate {
      * Returns a deep copy of this X509Certificate
      *
      * @return                                     a deep Copy of this X509certificate.
-     * @throws javax.xml.bind.JAXBException
+     * @throws jakarta.xml.bind.JAXBException
      *                                             If a copy could not be created
      * @throws java.io.IOException
      *                                             If a copy could not be created
