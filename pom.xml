@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>x509-attacker</artifactId>
-    <version>2.0.0</version>
+    <version>2.0.1-SNAPSHOT</version>
 
     <name>X.509-Attacker</name>
     <description>X.509-Attacker is a tool based on ASN.1 Tool for creating arbitrary certificates; including especially
@@ -44,7 +44,7 @@
         <connection>scm:git:https://github.com/tls-attacker/X509-Attacker.git</connection>
         <developerConnection>scm:git:ssh://git@github.com/tls-attacker/X509-Attacker-Development.git</developerConnection>
         <url>https://github.com/tls-attacker/X509-Attacker</url>
-      <tag>v2.0.0</tag>
+      <tag>HEAD</tag>
   </scm>
 
     <dependencies>
