@@ -8,7 +8,7 @@ X.509-Attacker is a tool based on ASN.1 Tool for creating arbitrary certificates
   ASN.1 Tool (https://github.com/tls-attacker/ASN.1-Tool) in terms of certificate signing. Also, X.509-Attacker
    introduces a feature of referencing XML elements in order to avoid redundancies when defining certificates in XML.
 
-#Installation
+# Installation
 
 In order to compile and use X.509-Attacker, you need to have Java and Maven installed. On Ubuntu you can install Maven by
  running:
@@ -29,8 +29,8 @@ If you want to use this project as a dependency, you do not have to compile it y
 ```xml
 <dependency>
     <groupId>de.rub.nds</groupId>
-    <artifactId>X509Attacker</artifactId>
-    <version>1.2.0</version>
+    <artifactId>x509-attacker</artifactId>
+    <version>2.0.0</version>
 </dependency>
 ```
 
