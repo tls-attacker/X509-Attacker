@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyParser;
@@ -15,42 +14,34 @@ import java.security.*;
 
 public abstract class JavaSignatureEngine extends SignatureEngine {
 
-    private final Signature signature;
-
     private KeyParser keyParser;
-
+    private final String signatureAlgorithm;
     private PrivateKey privateKey = null;
 
     private boolean isInitialized = false;
 
     public JavaSignatureEngine(final String signatureAlgorithm, final KeyParser keyParser)
-        throws SignatureEngineException {
+            throws SignatureEngineException {
         if (keyParser == null) {
             throw new SignatureEngineException("No key parser specified!");
         }
         this.keyParser = keyParser;
-        try {
-            this.signature = Signature.getInstance(signatureAlgorithm, BouncyCastleProviderSingleton.getInstance());
-        } catch (NoSuchAlgorithmException e) {
-            throw new SignatureEngineException(e);
-        }
+        this.signatureAlgorithm = signatureAlgorithm;
     }
 
     // Todo: Handle parameters argument.
-
     /**
      * Initializes the signature engine with the corresponding key material.
      *
-     * @param keyBytes
-     *                   Bytes of the key material.
-     * @param keyFormat
-     *                   Indicates how the key bytes shall be parsed. Supported key types: PEM_ENCODED.
-     * @param parameters
-     *                   Binary ASN.1 data from AlgorithmIdentifier's parameter field (see RFC 5280 4.1.1.2).
+     * @param keyBytes Bytes of the key material.
+     * @param keyFormat Indicates how the key bytes shall be parsed. Supported
+     * key types: PEM_ENCODED.
+     * @param parameters Binary ASN.1 data from AlgorithmIdentifier's parameter
+     * field (see RFC 5280 4.1.1.2).
      */
     @Override
     public void init(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat, final byte[] parameters)
-        throws SignatureEngineException {
+            throws SignatureEngineException {
         try {
             this.privateKey = this.keyParser.parse(keyBytes, keyFormat);
             this.isInitialized = true;
@@ -60,12 +51,11 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
     }
 
     /**
-     * Signs the given data and returns the signature value. Cannot be called before the signature engine is
-     * initialized.
+     * Signs the given data and returns the signature value. Cannot be called
+     * before the signature engine is initialized.
      *
-     * @param  toBeSigned
-     *                    The data to be signed.
-     * @return            The signature value.
+     * @param toBeSigned The data to be signed.
+     * @return The signature value.
      */
     @Override
     public byte[] sign(final byte[] toBeSigned) throws SignatureEngineException {
@@ -74,13 +64,12 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
             throw new SignatureEngineException("Signature engine is not initialized!");
         }
         try {
-            this.signature.initSign(this.privateKey);
-            this.signature.update(toBeSigned);
-            signature = this.signature.sign();
-        } catch (InvalidKeyException e) {
-            throw new SignatureEngineException(e);
-        } catch (SignatureException e) {
-            throw new SignatureEngineException(e);
+            Signature signatureObj = Signature.getInstance(signatureAlgorithm);
+            signatureObj.initSign(this.privateKey);
+            signatureObj.update(toBeSigned);
+            signature = signatureObj.sign();
+        } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
         }
         return signature;
     }
