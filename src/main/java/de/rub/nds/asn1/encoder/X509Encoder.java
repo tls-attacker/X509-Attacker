@@ -92,6 +92,6 @@ public class X509Encoder {
                 = new CertificateFileWriter(certificateOutputDirectory, certificateFileName);
         certificateFileWriter.writeCertificate(encodedCertificate);
         certificateFileWriter.close();
-    }
+    }       
 
 }

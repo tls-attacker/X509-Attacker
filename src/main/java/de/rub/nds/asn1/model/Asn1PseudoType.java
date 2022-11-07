@@ -58,10 +58,12 @@ public abstract class Asn1PseudoType implements Asn1Encodable {
         this.type = type;
     }
 
+    @Override
     public boolean hasAttribute(final String attributeName) {
         return this.attributes.containsKey(new QName(attributeName));
     }
 
+    @Override
     public String getAttribute(final String attributeName) {
         String attribute = null;
         QName attributeQName = new QName(attributeName);
@@ -71,10 +73,12 @@ public abstract class Asn1PseudoType implements Asn1Encodable {
         return attribute;
     }
 
+    @Override
     public void setAttribute(final String attributeName, final String attributeValue) {
         this.attributes.put(new QName(attributeName), attributeValue);
     }
 
+    @Override
     public Asn1Serializer getSerializer() {
         return new Asn1PseudoTypeSerializer(this);
     }
