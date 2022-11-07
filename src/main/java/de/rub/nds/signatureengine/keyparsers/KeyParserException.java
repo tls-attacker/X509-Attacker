@@ -9,7 +9,7 @@
 
 package de.rub.nds.signatureengine.keyparsers;
 
-public class KeyParserException extends Exception {
+public class KeyParserException extends RuntimeException {
 
     public KeyParserException(String message) {
         super(message);
