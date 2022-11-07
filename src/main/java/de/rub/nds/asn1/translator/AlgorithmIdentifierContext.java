@@ -13,7 +13,7 @@ import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.*;
 
 public class AlgorithmIdentifierContext extends Context {
 
-    public static String NAME = "AlgorithmIdentifierContext";
+    public static final String NAME = "AlgorithmIdentifierContext";
 
     private static final ContextComponent[] contextComponents = new ContextComponent[] {
         new ContextComponent("algorithm", "", new ContextComponentOption<?>[] { new Asn1ObjectIdentifierCCO() }, false,
