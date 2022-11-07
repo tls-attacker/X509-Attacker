@@ -16,49 +16,6 @@ import java.util.List;
 
 public abstract class SignatureEngine {
 
-    public final static EngineTuple[] engines = new EngineTuple[] {
-        new EngineTuple(Sha1WithRsaEncryptionSignatureEngine.objectIdentifierString,
-            Sha1WithRsaEncryptionSignatureEngine.class, Sha1WithRsaEncryptionSignatureEngine.name,
-            Sha1WithRsaEncryptionSignatureEngine.keyType),
-        new EngineTuple(Sha224WithRsaEncryptionSignatureEngine.objectIdentifierString,
-            Sha224WithRsaEncryptionSignatureEngine.class, Sha224WithRsaEncryptionSignatureEngine.name,
-            Sha224WithRsaEncryptionSignatureEngine.keyType),
-        new EngineTuple(Sha256WithRsaEncryptionSignatureEngine.objectIdentifierString,
-            Sha256WithRsaEncryptionSignatureEngine.class, Sha256WithRsaEncryptionSignatureEngine.name,
-            Sha256WithRsaEncryptionSignatureEngine.keyType),
-        new EngineTuple(Sha384WithRsaEncryptionSignatureEngine.objectIdentifierString,
-            Sha384WithRsaEncryptionSignatureEngine.class, Sha384WithRsaEncryptionSignatureEngine.name,
-            Sha384WithRsaEncryptionSignatureEngine.keyType),
-        new EngineTuple(Sha512WithRsaEncryptionSignatureEngine.objectIdentifierString,
-            Sha512WithRsaEncryptionSignatureEngine.class, Sha512WithRsaEncryptionSignatureEngine.name,
-            Sha512WithRsaEncryptionSignatureEngine.keyType),
-        new EngineTuple(Md2WithRsaEncryptionSignatureEngine.objectIdentifierString,
-            Md2WithRsaEncryptionSignatureEngine.class, Md2WithRsaEncryptionSignatureEngine.name,
-            Md2WithRsaEncryptionSignatureEngine.keyType),
-        new EngineTuple(Md5WithRsaEncryptionSignatureEngine.objectIdentifierString,
-            Md5WithRsaEncryptionSignatureEngine.class, Md5WithRsaEncryptionSignatureEngine.name,
-            Md5WithRsaEncryptionSignatureEngine.keyType),
-        new EngineTuple(DsaWithSha1SignatureEngine.objectIdentifierString, DsaWithSha1SignatureEngine.class,
-            DsaWithSha1SignatureEngine.name, DsaWithSha1SignatureEngine.keyType),
-        new EngineTuple(DsaWithSha224SignatureEngine.objectIdentifierString, DsaWithSha224SignatureEngine.class,
-            DsaWithSha224SignatureEngine.name, DsaWithSha224SignatureEngine.keyType),
-        new EngineTuple(DsaWithSha256SignatureEngine.objectIdentifierString, DsaWithSha256SignatureEngine.class,
-            DsaWithSha256SignatureEngine.name, DsaWithSha256SignatureEngine.keyType),
-        new EngineTuple(DsaWithSha384SignatureEngine.objectIdentifierString, DsaWithSha384SignatureEngine.class,
-            DsaWithSha384SignatureEngine.name, DsaWithSha384SignatureEngine.keyType),
-        new EngineTuple(DsaWithSha512SignatureEngine.objectIdentifierString, DsaWithSha512SignatureEngine.class,
-            DsaWithSha512SignatureEngine.name, DsaWithSha512SignatureEngine.keyType),
-        new EngineTuple(EcdsaWithSha1SignatureEngine.objectIdentifierString, EcdsaWithSha1SignatureEngine.class,
-            EcdsaWithSha1SignatureEngine.name, EcdsaWithSha1SignatureEngine.keyType),
-        new EngineTuple(EcdsaWithSha224SignatureEngine.objectIdentifierString, EcdsaWithSha224SignatureEngine.class,
-            EcdsaWithSha224SignatureEngine.name, EcdsaWithSha224SignatureEngine.keyType),
-        new EngineTuple(EcdsaWithSha256SignatureEngine.objectIdentifierString, EcdsaWithSha256SignatureEngine.class,
-            EcdsaWithSha256SignatureEngine.name, EcdsaWithSha256SignatureEngine.keyType),
-        new EngineTuple(EcdsaWithSha384SignatureEngine.objectIdentifierString, EcdsaWithSha384SignatureEngine.class,
-            EcdsaWithSha384SignatureEngine.name, EcdsaWithSha384SignatureEngine.keyType),
-        new EngineTuple(EcdsaWithSha512SignatureEngine.objectIdentifierString, EcdsaWithSha512SignatureEngine.class,
-            EcdsaWithSha512SignatureEngine.name, EcdsaWithSha512SignatureEngine.keyType) };
-
     public static EngineTuple getEngineTupelForOID(final String signOID) {
         for (EngineTuple engine : engines) {
             if (engine.getObjectIdentifierString().equalsIgnoreCase(signOID)) {

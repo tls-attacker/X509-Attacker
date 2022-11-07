@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.DefaultKeyParser;
@@ -22,7 +21,7 @@ public class Md2WithRsaEncryptionSignatureEngine extends JavaSignatureEngine {
 
     public static final KeyType keyType = KeyType.RSA;
 
-    public Md2WithRsaEncryptionSignatureEngine() throws SignatureEngineException {
+    public Md2WithRsaEncryptionSignatureEngine() {
         super(signatureAlgorithm, new DefaultKeyParser());
     }
 }
