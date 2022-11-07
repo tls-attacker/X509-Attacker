@@ -9,7 +9,7 @@
 
 package de.rub.nds.signatureengine;
 
-public class SignatureEngineException extends Exception {
+public class SignatureEngineException extends RuntimeException {
 
     public SignatureEngineException(String message) {
         super(message);
