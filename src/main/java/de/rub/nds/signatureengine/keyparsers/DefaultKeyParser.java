@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.signatureengine.keyparsers;
 
 import de.rub.nds.signatureengine.SignatureEngine;
@@ -22,21 +21,19 @@ public class DefaultKeyParser implements KeyParser {
     }
 
     @Override
-    public final PrivateKey parse(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat)
-        throws KeyParserException {
+    public final PrivateKey parse(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat) {
         PrivateKey privateKey = null;
         switch (keyFormat) {
             case PEM_ENCODED:
                 privateKey = this.parsePemKey(keyBytes);
                 break;
-
             default:
                 throw new KeyParserException("Key format " + keyFormat + " not supported by key parser!");
         }
         return privateKey;
     }
 
-    protected PrivateKey parsePemKey(final byte[] keyBytes) throws KeyParserException {
+    protected PrivateKey parsePemKey(final byte[] keyBytes) {
         try {
             InputStream keyBytesInputSteam = new ByteArrayInputStream(keyBytes);
             return PemUtil.readPrivateKey(keyBytesInputSteam);
