@@ -13,7 +13,7 @@ import de.rub.nds.asn1.translator.defaultcontextcomponentoptions.*;
 
 public class AuthorityKeyIdentifierContext extends Context {
 
-    public static String NAME = "AuthorityKeyIdentifierInnerContext";
+    public static final String NAME = "AuthorityKeyIdentifierInnerContext";
 
     private static final ContextComponent[] contextComponents = new ContextComponent[] {
         new ContextComponent("keyIdentifier", "AuthorityKeyIdentifier",
