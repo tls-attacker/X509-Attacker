@@ -11,10 +11,6 @@ package de.rub.nds.signatureengine;
 
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
-/**
- *
- * @author josh
- */
 public class BouncyCastleProviderSingleton {
 
     private static BouncyCastleProvider instance;
