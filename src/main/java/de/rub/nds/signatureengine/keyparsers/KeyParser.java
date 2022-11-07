@@ -9,9 +9,9 @@
 
 package de.rub.nds.signatureengine.keyparsers;
 
-import de.rub.nds.signatureengine.SignatureEngine;
+import de.rub.nds.x509attacker.constants.KeyFormat;
 import java.security.PrivateKey;
 
 public interface KeyParser {
-    public PrivateKey parse(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat) throws KeyParserException;
+    public PrivateKey parse(final byte[] keyBytes, final KeyFormat keyFormat) throws KeyParserException;
 }

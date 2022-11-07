@@ -10,6 +10,7 @@
 package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.KeyFormat;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -78,11 +79,6 @@ public abstract class SignatureEngine {
 
     }
 
-    public enum KeyFormat {
-        RAW_KEY,
-        DER_ENCODED,
-        PEM_ENCODED
-    }
 
     public static SignatureEngine getInstance(final String objectIdentifierString) throws SignatureEngineException {
         SignatureEngine signatureEngine;

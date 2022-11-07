@@ -22,6 +22,7 @@ import de.rub.nds.signatureengine.SignatureEngineException;
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 import de.rub.nds.util.ByteArrayUtils;
 import de.rub.nds.x509attacker.X509Attributes;
+import de.rub.nds.x509attacker.constants.KeyFormat;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
@@ -86,7 +87,7 @@ public final class XmlSignatureEngine {
             String objectIdentifierValue = this.getSignatureAlgorithmObjectIdentifierValue(signatureInfo);
             byte[] signatureAlgorithmParameters = this.getSignatureAlgorithmParameters(signatureInfo);
             SignatureEngine signatureEngine = SignatureEngine.getInstance(objectIdentifierValue);
-            signatureEngine.init(keyBytes, SignatureEngine.KeyFormat.PEM_ENCODED, signatureAlgorithmParameters);
+            signatureEngine.init(keyBytes, KeyFormat.PEM_ENCODED, signatureAlgorithmParameters);
             byte[] signatureValue = signatureEngine.sign(toBeSigned);
             this.writeSignatureValueToTarget(signatureInfo, signatureValue);
         } catch (SignatureEngineException e) {

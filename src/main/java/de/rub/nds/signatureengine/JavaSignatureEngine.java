@@ -10,6 +10,7 @@ package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyParser;
 import de.rub.nds.signatureengine.keyparsers.KeyParserException;
+import de.rub.nds.x509attacker.constants.KeyFormat;
 import java.security.*;
 
 public abstract class JavaSignatureEngine extends SignatureEngine {
@@ -40,7 +41,7 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
      * field (see RFC 5280 4.1.1.2).
      */
     @Override
-    public void init(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat, final byte[] parameters)
+    public void init(final byte[] keyBytes, final KeyFormat keyFormat, final byte[] parameters)
             throws SignatureEngineException {
         try {
             this.privateKey = this.keyParser.parse(keyBytes, keyFormat);

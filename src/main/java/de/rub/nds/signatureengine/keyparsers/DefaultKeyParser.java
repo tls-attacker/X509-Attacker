@@ -8,7 +8,8 @@
  */
 package de.rub.nds.signatureengine.keyparsers;
 
-import de.rub.nds.signatureengine.SignatureEngine;
+import de.rub.nds.x509attacker.constants.KeyFormat;
+import static de.rub.nds.x509attacker.constants.KeyFormat.PEM_ENCODED;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,7 +22,7 @@ public class DefaultKeyParser implements KeyParser {
     }
 
     @Override
-    public final PrivateKey parse(final byte[] keyBytes, final SignatureEngine.KeyFormat keyFormat) {
+    public final PrivateKey parse(final byte[] keyBytes, final KeyFormat keyFormat) {
         PrivateKey privateKey = null;
         switch (keyFormat) {
             case PEM_ENCODED:
@@ -34,11 +35,7 @@ public class DefaultKeyParser implements KeyParser {
     }
 
     protected PrivateKey parsePemKey(final byte[] keyBytes) {
-        try {
-            InputStream keyBytesInputSteam = new ByteArrayInputStream(keyBytes);
-            return PemUtil.readPrivateKey(keyBytesInputSteam);
-        } catch (IOException e) {
-            throw new KeyParserException(e);
-        }
+        InputStream keyBytesInputSteam = new ByteArrayInputStream(keyBytes);
+        return PemUtil.readPrivateKey(keyBytesInputSteam);
     }
 }
