@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -31,8 +30,12 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class X509Attacker {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public static void main(String[] args) {
         // Parse program arguments
@@ -67,20 +70,20 @@ public class X509Attacker {
     }
 
     private static void printHelp() {
-        System.out.println(
-            "Usage: x509attacker xml2cert [input xml file] [key file directory] [output certificate directory]");
-        System.out.println("   or: x509attacker cert2xml [input certificate file] [output xml file]");
-        System.out.println();
-        System.out.println("[input xml file]                the file name of the xml input file");
-        System.out.println("[key file directory]            the directory where key files are stored");
-        System.out.println("[output certificate directory]  the directory where output certificates are created");
-        System.out.println();
-        System.out.println("[input certificate file]        the input certificate file");
-        System.out.println("[output xml file]               the output xml file");
+        LOGGER.info(
+                "Usage: x509attacker xml2cert [input xml file] [key file directory] [output certificate directory]");
+        LOGGER.info("   or: x509attacker cert2xml [input certificate file] [output xml file]");
+        LOGGER.info("");
+        LOGGER.info("[input xml file]                the file name of the xml input file");
+        LOGGER.info("[key file directory]            the directory where key files are stored");
+        LOGGER.info("[output certificate directory]  the directory where output certificates are created");
+        LOGGER.info("");
+        LOGGER.info("[input certificate file]        the input certificate file");
+        LOGGER.info("[output xml file]               the output xml file");
     }
 
     public static void xmlToCertificate(final String xmlFile, final String keyDirectory,
-        final String certificateOutputDirectory) {
+            final String certificateOutputDirectory) {
         try {
             Registry.getInstance();
 
@@ -115,10 +118,8 @@ public class X509Attacker {
             writeCertificates(certificateOutputDirectory, certificates, encodedCertificates);
 
             System.out.println("Done.");
-        } catch (KeyFileManagerException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
+        } catch (KeyFileManagerException | IOException e) {
+            LOGGER.error(e);
         }
     }
 
@@ -138,12 +139,10 @@ public class X509Attacker {
 
             // Write XML file
             XmlConverter xmlConverter = new XmlConverter(asn1XmlContent, new File(xmlFile));
-
-            System.out.println("Done.");
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (ParserException e) {
-            e.printStackTrace();
+           
+            LOGGER.info("Done.");
+        } catch (IOException | ParserException e) {
+            LOGGER.error(e);
         }
     }
 
@@ -163,7 +162,6 @@ public class X509Attacker {
 
             // Extension Content
             // List<Asn1Encodable> asn1Encodables = asn1Parser.parse(TestExtensionsContext.NAME);
-
             createIdentifierMap createMap = new createIdentifierMap();
             Map<String, Asn1Encodable> identifierMap = createMap.createMap(asn1Encodables);
 
@@ -173,25 +171,22 @@ public class X509Attacker {
              * Asn1Encodable> identifierMap = createMap.createMap(certificate.getAsn1Encodable());
              * certificate.setIdentifierMap(identifierMap);
              */
-
             Asn1XmlContent asn1XmlContent = new Asn1XmlContent();
             asn1XmlContent.setAsn1Encodables(asn1Encodables);
 
             // Write XML file
             XmlConverter xmlConverter = new XmlConverter(asn1XmlContent, new File(xmlFile));
 
-            System.out.println("Done.");
-        } catch (IOException e) {
-            throw new ParserException(e);
-        } catch (ParserException e) {
+            LOGGER.info("Done.");
+        } catch (IOException | ParserException e) {
             throw new ParserException(e);
         }
     }
 
     private static void writeCertificates(final String certificateOutputDirectory,
-        final List<Asn1Encodable> certificates, final byte[][] encodedCertificates) throws IOException {
-        CertificateFileWriter certificateChainFileWriter =
-            new CertificateFileWriter(certificateOutputDirectory, "certificate_chain.pem");
+            final List<Asn1Encodable> certificates, final byte[][] encodedCertificates) throws IOException {
+        CertificateFileWriter certificateChainFileWriter
+                = new CertificateFileWriter(certificateOutputDirectory, "certificate_chain.pem");
         for (int i = 0; i < certificates.size(); i++) {
             Asn1Encodable certificate = certificates.get(i);
             if (certificate.getType().equalsIgnoreCase("Certificate") == false) {
@@ -199,7 +194,7 @@ public class X509Attacker {
             }
             // Append certificate to certificate chain file
             if (AttributeParser.parseBooleanAttributeOrDefault(certificate, X509Attributes.ATTACH_TO_CERTIFICATE_LIST,
-                false)) {
+                    false)) {
                 certificateChainFileWriter.writeCertificate(encodedCertificates[i]);
             }
             // Write certificate in its own file
@@ -209,10 +204,10 @@ public class X509Attacker {
     }
 
     private static void writeSingleCertificate(final String certificateOutputDirectory, final Asn1Encodable certificate,
-        final byte[] encodedCertificate) throws IOException {
+            final byte[] encodedCertificate) throws IOException {
         String certificateFileName = certificate.getIdentifier() + ".pem";
-        CertificateFileWriter certificateFileWriter =
-            new CertificateFileWriter(certificateOutputDirectory, certificateFileName);
+        CertificateFileWriter certificateFileWriter
+                = new CertificateFileWriter(certificateOutputDirectory, certificateFileName);
         certificateFileWriter.writeCertificate(encodedCertificate);
         certificateFileWriter.close();
     }
