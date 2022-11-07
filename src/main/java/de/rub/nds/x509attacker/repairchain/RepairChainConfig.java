@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.repairchain;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -24,26 +25,26 @@ public class RepairChainConfig {
 
     // Set of repaor config presets
     public static RepairChainConfig createRepairAllAndSignConfig(String keysResourceFolder) {
-        RepairChainConfig repairConfig = new RepairChainConfig("", true, true, true, true, true,
-                true, keysResourceFolder);
+        RepairChainConfig repairConfig =
+            new RepairChainConfig("", true, true, true, true, true, true, keysResourceFolder);
         return repairConfig;
     }
 
     public static RepairChainConfig createRepairOnlyConfig(String keysResourceFolder) {
-        RepairChainConfig repairConfig = new RepairChainConfig("", true, true, true, true, true,
-                false, keysResourceFolder);
+        RepairChainConfig repairConfig =
+            new RepairChainConfig("", true, true, true, true, true, false, keysResourceFolder);
         return repairConfig;
     }
 
     public static RepairChainConfig createSignOnlyConfig(String keysResourceFolder) {
-        RepairChainConfig repairConfig = new RepairChainConfig("", false, false, false, false, false,
-                true, keysResourceFolder);
+        RepairChainConfig repairConfig =
+            new RepairChainConfig("", false, false, false, false, false, true, keysResourceFolder);
         return repairConfig;
     }
 
     public static RepairChainConfig createDoNothingConfig(String keysResourceFolder) {
-        RepairChainConfig repairConfig = new RepairChainConfig("", false, false, false, false, false,
-                false, keysResourceFolder);
+        RepairChainConfig repairConfig =
+            new RepairChainConfig("", false, false, false, false, false, false, keysResourceFolder);
         return repairConfig;
     }
 
@@ -69,8 +70,8 @@ public class RepairChainConfig {
     }
 
     public RepairChainConfig(String repairConfigName, boolean repairIssuer, boolean repairAuthorityKeyIdentifier,
-            boolean repairCABit, boolean repairPathLen, boolean repairKeyUsage, boolean computeChainSignatureAfterRepair,
-            String keysResourceFolder) {
+        boolean repairCABit, boolean repairPathLen, boolean repairKeyUsage, boolean computeChainSignatureAfterRepair,
+        String keysResourceFolder) {
         this.repairConfigID = UUID.randomUUID();
         this.repairConfigName = repairConfigName;
         this.repairIssuer = repairIssuer;
@@ -159,6 +160,10 @@ public class RepairChainConfig {
 
     @Override
     public String toString() {
-        return "RepairChainConfig{" + "repairConfigID=" + repairConfigID + ", repairConfigName=" + repairConfigName + ", repairIssuer=" + repairIssuer + ", repairAuthorityKeyIdentifier=" + repairAuthorityKeyIdentifier + ", repairCABit=" + repairCABit + ", repairPathLen=" + repairPathLen + ", repairKeyUsage=" + repairKeyUsage + ", computeChainSignatureAfterRepair=" + computeChainSignatureAfterRepair + ", keysResourceFolder=" + keysResourceFolder + '}';
+        return "RepairChainConfig{" + "repairConfigID=" + repairConfigID + ", repairConfigName=" + repairConfigName
+            + ", repairIssuer=" + repairIssuer + ", repairAuthorityKeyIdentifier=" + repairAuthorityKeyIdentifier
+            + ", repairCABit=" + repairCABit + ", repairPathLen=" + repairPathLen + ", repairKeyUsage=" + repairKeyUsage
+            + ", computeChainSignatureAfterRepair=" + computeChainSignatureAfterRepair + ", keysResourceFolder="
+            + keysResourceFolder + '}';
     }
 }

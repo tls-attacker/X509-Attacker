@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509;
 
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -31,8 +32,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Represent one X509CertificateChain containing multiple X509Certificates and
- * provides an API for accessing and modifying the chain.
+ * Represent one X509CertificateChain containing multiple X509Certificates and provides an API for accessing and
+ * modifying the chain.
  */
 @XmlRootElement(name = "X509CertificateChain")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -123,10 +124,9 @@ public class X509CertificateChain {
     }
 
     /**
-     * Computes the signature of all X509Certificate in the chain. For one
-     * signature computation of a certificate the private Key from the parent
-     * certificate is used. It skips the computation of one signature, if the
-     * signature engine throws an exception
+     * Computes the signature of all X509Certificate in the chain. For one signature computation of a certificate the
+     * private Key from the parent certificate is used. It skips the computation of one signature, if the signature
+     * engine throws an exception
      */
     public void signAllCertificates() {
         boolean error = false;
@@ -134,24 +134,27 @@ public class X509CertificateChain {
         if (certificateChain.size() >= 1) {
             // Selfsign of root
             try {
-                certificateChain.get(0).signCertificate(certificateChain.get(0).getSignatureInfo(), certificateChain.get(0).getPrivateKey());
+                certificateChain.get(0).signCertificate(certificateChain.get(0).getSignatureInfo(),
+                    certificateChain.get(0).getPrivateKey());
             } catch (Exception e) {
                 LOGGER.warn("- signAllCertificates(): signature computation of certificate: 0 failed.", e);
                 error = true;
-                StringBuilder append = errorMessage.append("signature computation of certificate: 0 failed: ").append(e).append("\n");
+                StringBuilder append =
+                    errorMessage.append("signature computation of certificate: 0 failed: ").append(e).append("\n");
 
             }
 
             // Sign of intermediate and leaf
             for (int i = 1; i <= certificateChain.size() - 1; i++) {
                 try {
-                    //TODO is this i or i-1 for signature info?
-                    certificateChain.get(i).signCertificate(certificateChain.get(i).getSignatureInfo(), certificateChain.get(i - 1).getPrivateKey());
+                    // TODO is this i or i-1 for signature info?
+                    certificateChain.get(i).signCertificate(certificateChain.get(i).getSignatureInfo(),
+                        certificateChain.get(i - 1).getPrivateKey());
                 } catch (Exception e) {
-                    LOGGER
-                            .warn("- signAllCertificates(): signature computation of certificate: " + i + " failed.", e);
+                    LOGGER.warn("- signAllCertificates(): signature computation of certificate: " + i + " failed.", e);
                     error = true;
-                    errorMessage.append("signature computation of certificate: ").append(i).append(" failed: ").append(e).append("\n");
+                    errorMessage.append("signature computation of certificate: ").append(i).append(" failed: ")
+                        .append(e).append("\n");
                 }
             }
         }
@@ -162,14 +165,11 @@ public class X509CertificateChain {
     }
 
     /**
-     * Repairs the chain of certificates such that all X509Certificates in the
-     * chain form a valid cerificate chain.It uses the default RepairChainConfig
-     * (which repairs all and recomputes the signature). It repairs the issuer,
-     * the AuthorityKeyIdentifer, the CABit, the PathLen, the KeyUsage, the
-     * SignatureAlgo / key relation.
+     * Repairs the chain of certificates such that all X509Certificates in the chain form a valid cerificate chain.It
+     * uses the default RepairChainConfig (which repairs all and recomputes the signature). It repairs the issuer, the
+     * AuthorityKeyIdentifer, the CABit, the PathLen, the KeyUsage, the SignatureAlgo / key relation.
      *
-     * @return RepairChainStatus A status report about the succcess of the
-     * repair
+     * @return RepairChainStatus A status report about the succcess of the repair
      *
      */
     public RepairChainStatus repairAndSignChain() {
@@ -177,33 +177,31 @@ public class X509CertificateChain {
     }
 
     /**
-     * Repairs the chain of certificates depending on the given
-     * RepairChainConfig.
+     * Repairs the chain of certificates depending on the given RepairChainConfig.
      *
-     * @param repairConfig the RepairChainConfig which is used
-     * @return RepairChainStatus A status report about the succcess of the
-     * repair
+     * @param  repairConfig
+     *                      the RepairChainConfig which is used
+     * @return              RepairChainStatus A status report about the succcess of the repair
      */
     public RepairChainStatus repairChain(RepairChainConfig repairConfig) {
         return RepairChain.repair(repairConfig, this);
     }
 
     /**
-     * Writes all X509Certificates of the chain as certificateFile in .pem
-     * format to the given directory.
+     * Writes all X509Certificates of the chain as certificateFile in .pem format to the given directory.
      *
      *
-     * @param directory The path to the directory.
-     * @param outFormat The type how the certificates are divided into different
-     * certificateFiles. CHAIN_ALL_IND_ROOT_TO_LEAF: each X509Certificates in
-     * his own certificateFile (certificate_x.pem) CHAIN_COMBINED: all
-     * X509Certificates combined in one certificateFile (certificate_chain.pem)
-     * CHAIN_GROUPED3: three certificateFiles one for root, one for the
-     * intermediates and one for the leaf certificate (root_cert.pem,
-     * inter_certs.pem, leaf_cert.pem) CHAIN_GROUPED2: two certificateFiles one
-     * for root and one for the intermediates together with the leaf certificate
-     * (root_cert.pem, inter_leaf_certs.pem)
-     * @return List of created Files
+     * @param  directory
+     *                   The path to the directory.
+     * @param  outFormat
+     *                   The type how the certificates are divided into different certificateFiles.
+     *                   CHAIN_ALL_IND_ROOT_TO_LEAF: each X509Certificates in his own certificateFile
+     *                   (certificate_x.pem) CHAIN_COMBINED: all X509Certificates combined in one certificateFile
+     *                   (certificate_chain.pem) CHAIN_GROUPED3: three certificateFiles one for root, one for the
+     *                   intermediates and one for the leaf certificate (root_cert.pem, inter_certs.pem, leaf_cert.pem)
+     *                   CHAIN_GROUPED2: two certificateFiles one for root and one for the intermediates together with
+     *                   the leaf certificate (root_cert.pem, inter_leaf_certs.pem)
+     * @return           List of created Files
      *
      */
     public List<File> writeCertificateChainToFile(String directory, X509CertChainOutFormat outFormat) {
@@ -224,7 +222,7 @@ public class X509CertificateChain {
                 // only if the chain has at least two certificate and there is a leaf certificate
                 if (certificateChain.size() >= 2) {
                     outputFiles.add(
-                            certificateChain.get(certificateChain.size() - 1).writeCertificate(directory, "leaf_cert"));
+                        certificateChain.get(certificateChain.size() - 1).writeCertificate(directory, "leaf_cert"));
                 }
 
                 break;
@@ -234,7 +232,7 @@ public class X509CertificateChain {
                 if (certificateChain.size() >= 3) {
 
                     certificateChain.subList(1, certificateChain.size() - 1).forEach(x -> outputFiles
-                            .add(x.writeCertificate(directory, "inter_cert_" + (certificateChain.indexOf(x) - 1))));
+                        .add(x.writeCertificate(directory, "inter_cert_" + (certificateChain.indexOf(x) - 1))));
 
                 }
                 break;
@@ -245,8 +243,8 @@ public class X509CertificateChain {
                 if (certificateChain.size() >= 3) {
                     try {
                         String filename = "inter_certs.pem";
-                        CertificateFileWriter certificateChainFileWriter
-                                = new CertificateFileWriter(directory, filename);
+                        CertificateFileWriter certificateChainFileWriter =
+                            new CertificateFileWriter(directory, filename);
                         for (X509Certificate cert : certificateChain.subList(1, certificateChain.size() - 1)) {
 
                             // Append certificate to certificate chain file
@@ -268,8 +266,8 @@ public class X509CertificateChain {
                 if (certificateChain.size() >= 2) {
                     try {
                         String filename = "inter_leaf_certs.pem";
-                        CertificateFileWriter certificateChainFileWriter
-                                = new CertificateFileWriter(directory, filename);
+                        CertificateFileWriter certificateChainFileWriter =
+                            new CertificateFileWriter(directory, filename);
                         for (X509Certificate cert : certificateChain.subList(1, certificateChain.size())) {
 
                             // Append certificate to certificate chain file
@@ -291,8 +289,8 @@ public class X509CertificateChain {
 
                     try {
                         String filename = "root_inter_leaf_certs_combined.pem";
-                        CertificateFileWriter certificateChainFileWriter
-                                = new CertificateFileWriter(directory, filename);
+                        CertificateFileWriter certificateChainFileWriter =
+                            new CertificateFileWriter(directory, filename);
                         for (X509Certificate cert : certificateChain) {
                             certificateChainFileWriter.writeCertificate(cert.getEncodedCertificate());
                         }
@@ -310,11 +308,11 @@ public class X509CertificateChain {
 
                     try {
                         String filename = "leaf_inter_root_certs.pem";
-                        CertificateFileWriter certificateChainFileWriter
-                                = new CertificateFileWriter(directory, filename);
+                        CertificateFileWriter certificateChainFileWriter =
+                            new CertificateFileWriter(directory, filename);
                         for (int i = certificateChain.size() - 1; i >= 0; i--) {
                             certificateChainFileWriter
-                                    .writeCertificate(certificateChain.get(i).getEncodedCertificate());
+                                .writeCertificate(certificateChain.get(i).getEncodedCertificate());
                         }
                         certificateChainFileWriter.close();
                         outputFiles.add(new File(directory + "/" + filename));
@@ -334,7 +332,7 @@ public class X509CertificateChain {
             case CHAIN_COMBINED:
 
                 outputFiles.addAll(
-                        writeCertificateChainToFile(directory, X509CertChainOutFormat.ROOT_INTER_LEAF_CERTS_COMBINED));
+                    writeCertificateChainToFile(directory, X509CertChainOutFormat.ROOT_INTER_LEAF_CERTS_COMBINED));
                 break;
 
             case CHAIN_GROUPED3:
@@ -348,7 +346,7 @@ public class X509CertificateChain {
 
                 outputFiles.addAll(writeCertificateChainToFile(directory, X509CertChainOutFormat.ROOT_CERT));
                 outputFiles
-                        .addAll(writeCertificateChainToFile(directory, X509CertChainOutFormat.INTER_LEAF_CERTS_COMBINED));
+                    .addAll(writeCertificateChainToFile(directory, X509CertChainOutFormat.INTER_LEAF_CERTS_COMBINED));
                 break;
 
             default:
@@ -364,7 +362,7 @@ public class X509CertificateChain {
     /**
      * Returns a deep copy of this X509CertificateChain
      *
-     * @return a deep Copy of this X509CertificateChain.
+     * @return                                     a deep Copy of this X509CertificateChain.
      * @throws jakarta.xml.bind.JAXBException
      * @throws java.io.IOException
      * @throws javax.xml.stream.XMLStreamException

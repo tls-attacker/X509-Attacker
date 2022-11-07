@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.asn1.encoder;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -66,9 +67,9 @@ public class X509Encoder {
     }
 
     private void writeCertificates(final String certificateOutputDirectory, final List<Asn1Encodable> certificates,
-            final byte[][] encodedCertificates) throws IOException {
-        CertificateFileWriter certificateChainFileWriter
-                = new CertificateFileWriter(certificateOutputDirectory, "certificate_chain.pem");
+        final byte[][] encodedCertificates) throws IOException {
+        CertificateFileWriter certificateChainFileWriter =
+            new CertificateFileWriter(certificateOutputDirectory, "certificate_chain.pem");
         for (int i = 0; i < certificates.size(); i++) {
             Asn1Encodable certificate = certificates.get(i);
             if (certificate.getType().equalsIgnoreCase("Certificate") == false) {
@@ -76,7 +77,7 @@ public class X509Encoder {
             }
             // Append certificate to certificate chain file
             if (de.rub.nds.asn1.util.AttributeParser.parseBooleanAttributeOrDefault(certificate,
-                    X509Attributes.ATTACH_TO_CERTIFICATE_LIST, false)) {
+                X509Attributes.ATTACH_TO_CERTIFICATE_LIST, false)) {
                 certificateChainFileWriter.writeCertificate(encodedCertificates[i]);
             }
             // Write certificate in its own file
@@ -86,12 +87,12 @@ public class X509Encoder {
     }
 
     private void writeSingleCertificate(final String certificateOutputDirectory, final Asn1Encodable certificate,
-            final byte[] encodedCertificate) throws IOException {
+        final byte[] encodedCertificate) throws IOException {
         String certificateFileName = certificate.getIdentifier() + ".pem";
-        CertificateFileWriter certificateFileWriter
-                = new CertificateFileWriter(certificateOutputDirectory, certificateFileName);
+        CertificateFileWriter certificateFileWriter =
+            new CertificateFileWriter(certificateOutputDirectory, certificateFileName);
         certificateFileWriter.writeCertificate(encodedCertificate);
         certificateFileWriter.close();
-    }       
+    }
 
 }

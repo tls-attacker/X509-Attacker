@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -41,10 +42,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Represent one X509Certificate with the certificate itself as an Asn1
- * structure, a SignatureInfo with Information how the signature of the
- * certificate is computed, and a KeyInfo Element containing the KeyFile of the
- * certificate.
+ * Represent one X509Certificate with the certificate itself as an Asn1 structure, a SignatureInfo with Information how
+ * the signature of the certificate is computed, and a KeyInfo Element containing the KeyFile of the certificate.
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -61,13 +60,13 @@ public class X509Certificate {
     private PrivateKey privateKey;
 
     /**
-     * Converts the intermediateAsn1Field structure of a parsed Certificate into
-     * one X509Certificate object
+     * Converts the intermediateAsn1Field structure of a parsed Certificate into one X509Certificate object
      *
      *
-     * @param intermediateAsn1Fields A List of IntermediateAsn1Field containing
-     * a parsed Intermediate Asn1 Structure of a certificate
-     * @return an X509Certificate constructed from the asn1 fields
+     * @param  intermediateAsn1Fields
+     *                                A List of IntermediateAsn1Field containing a parsed Intermediate Asn1 Structure of
+     *                                a certificate
+     * @return                        an X509Certificate constructed from the asn1 fields
      *
      */
     public static X509Certificate getInstance(List<IntermediateAsn1Field> intermediateAsn1Fields) {
@@ -75,13 +74,12 @@ public class X509Certificate {
     }
 
     /**
-     * Converts the intermediateAsn1Field structure of a parsed Certificate into
-     * one X509Certificate object Expects a correct defined intermediate
-     * strucutre of a certificate. Create corresponding SignatureInfo and
-     * KeyInfo Elements.
+     * Converts the intermediateAsn1Field structure of a parsed Certificate into one X509Certificate object Expects a
+     * correct defined intermediate strucutre of a certificate. Create corresponding SignatureInfo and KeyInfo Elements.
      *
-     * @param intermediateAsn1Fields A List<IntermediateAsn1Field> containing a
-     * parsed Intermediate Asn1 Structure of a certificate
+     * @param intermediateAsn1Fields
+     *                               A List<IntermediateAsn1Field> containing a parsed Intermediate Asn1 Structure of a
+     *                               certificate
      *
      */
     private X509Certificate(List<IntermediateAsn1Field> intermediateAsn1Fields) {
@@ -106,8 +104,8 @@ public class X509Certificate {
 
         // connect tbsCertificate/SubjectPublicKeyInfo with KeyInfo Object for automatic encoding of the correct key
         // if this is not set, the SubjectPublicKeyInfo must be set correctly manually
-        Asn1Encodable asn1Enc
-                = this.getIdentifierMap().getElementByIDPath("/certificate/tbsCertificate/subjectPublicKeyInfo");
+        Asn1Encodable asn1Enc =
+            this.getIdentifierMap().getElementByIDPath("/certificate/tbsCertificate/subjectPublicKeyInfo");
         asn1Enc.setAttribute("fromIdentifier", "/keyInfo");
 
         // randomize the subject cn name, such that no two randomly choosen certificate have the same subject
@@ -120,12 +118,12 @@ public class X509Certificate {
         List<String> attributeTypeAndValuePathList = this.getIdentifierMap().getIDPathsByType("AttributeTypeAndValue");
 
         for (String path : attributeTypeAndValuePathList.stream().filter(s -> s.contains("subject"))
-                .collect(Collectors.toList())) {
+            .collect(Collectors.toList())) {
             if (((Asn1ObjectIdentifier) this.getIdentifierMap().getElementByIDPath(path + "/type")).getValue()
-                    .equals("2.5.4.3")) {
+                .equals("2.5.4.3")) {
                 byte[] guidBytes = guid.toString().split("-")[0].getBytes();
                 ((Asn1Field) this.getIdentifierMap().getElementByIDPath(path + "/value")).getContent()
-                        .setModification(new ByteArrayExplicitValueModification(guidBytes));
+                    .setModification(new ByteArrayExplicitValueModification(guidBytes));
             }
         }
 
@@ -135,14 +133,13 @@ public class X509Certificate {
     }
 
     /**
-     * Returns a List of the Asn1Encodables of the certificate. Containing the
-     * certificate, signatureInfo and KeyInfo structure.
+     * Returns a List of the Asn1Encodables of the certificate. Containing the certificate, signatureInfo and KeyInfo
+     * structure.
      *
-     * An important structure for many old codesnippets. It needs to contain the
-     * certificate, signatureInfo and keyInfo Objects.
+     * An important structure for many old codesnippets. It needs to contain the certificate, signatureInfo and keyInfo
+     * Objects.
      *
-     * @return A List of Ans1Encdoable of certificate, signatureInfo and
-     * keyInfo.
+     * @return A List of Ans1Encdoable of certificate, signatureInfo and keyInfo.
      *
      */
     public List<Asn1Encodable> getAsn1Encodables() {
@@ -150,14 +147,13 @@ public class X509Certificate {
     }
 
     /**
-     * Returns a List of the Asn1Encodables of the certificate. An important
-     * structure for many old codesnippets. It needs to contain the certificate
-     * and signatureInfo.
+     * Returns a List of the Asn1Encodables of the certificate. An important structure for many old codesnippets. It
+     * needs to contain the certificate and signatureInfo.
      *
-     * @param certificateOnly Flag whether the List of Asn1Encodable only
-     * contains the certificate or certificate, signatureInfo, keyInfos
-     * @return A List of Asn1Encodable of certificate, signatureInfo and
-     * keyInfo.
+     * @param  certificateOnly
+     *                         Flag whether the List of Asn1Encodable only contains the certificate or certificate,
+     *                         signatureInfo, keyInfos
+     * @return                 A List of Asn1Encodable of certificate, signatureInfo and keyInfo.
      *
      */
     public List<Asn1Encodable> getAsn1Encodables(boolean certificateOnly) {
@@ -173,9 +169,8 @@ public class X509Certificate {
     }
 
     /**
-     * Creates and returns the currently correct IdentifierMap. A Hashmap
-     * containing each path of identifiers and the corresponding Asn1Element.
-     * Containing the certificate, signatureInfo and KeyInfo structure.
+     * Creates and returns the currently correct IdentifierMap. A Hashmap containing each path of identifiers and the
+     * corresponding Asn1Element. Containing the certificate, signatureInfo and KeyInfo structure.
      *
      * @return The IdentifierMap of the X509Certificate.
      *
@@ -185,12 +180,13 @@ public class X509Certificate {
     }
 
     /**
-     * Creates and returns the currently correct IdentifierMap. A Hashmap
-     * containing each path of identifiers and the corresponding Asn1Element
+     * Creates and returns the currently correct IdentifierMap. A Hashmap containing each path of identifiers and the
+     * corresponding Asn1Element
      *
-     * @param certificateOnly Flag whether the IdentifierMap only contains the
-     * certificate or certificate, signatureInfo, keyInfos
-     * @return The IdentifierMap of the X509Certificate.
+     * @param  certificateOnly
+     *                         Flag whether the IdentifierMap only contains the certificate or certificate,
+     *                         signatureInfo, keyInfos
+     * @return                 The IdentifierMap of the X509Certificate.
      *
      */
     public final IdentifierMap getIdentifierMap(boolean certificateOnly) {
@@ -198,10 +194,9 @@ public class X509Certificate {
     }
 
     /**
-     * Creates and returns the currently correct Linker. A map containing all
-     * links between two Asn1 Elements. A link is defined with an Asn1 Attribute
-     * and allows to reuse an Asn1 Element at a different position inside the
-     * ASN1 structure.
+     * Creates and returns the currently correct Linker. A map containing all links between two Asn1 Elements. A link is
+     * defined with an Asn1 Attribute and allows to reuse an Asn1 Element at a different position inside the ASN1
+     * structure.
      *
      * @return The Linker of the X509Certificate.
      *
@@ -239,14 +234,15 @@ public class X509Certificate {
     }
 
     /**
-     * Write the X509Certificate as certificateFile in .pem format to the given
-     * directory/filename.
+     * Write the X509Certificate as certificateFile in .pem format to the given directory/filename.
      *
      *
      *
-     * @param directory The path to the directory.
-     * @param filename The filename of the certificateFile (without .pem).
-     * @return The full path of the written certificate
+     * @param  directory
+     *                   The path to the directory.
+     * @param  filename
+     *                   The filename of the certificateFile (without .pem).
+     * @return           The full path of the written certificate
      *
      */
     public File writeCertificate(String directory, String filename) {
@@ -264,8 +260,7 @@ public class X509Certificate {
     }
 
     /**
-     * Computes and returns a byte Array of the encoded form of the
-     * X509Certificate
+     * Computes and returns a byte Array of the encoded form of the X509Certificate
      *
      *
      * @return The byte Array of the encoded certificate.
@@ -278,16 +273,14 @@ public class X509Certificate {
     }
 
     /**
-     * Computes and set the signature of the Certificate. For the computation it
-     * takes the SignatureInfo of the X509Certificate into consideration for
-     * information about which structure should be signed(default:
-     * /certificate/tbsCertificate), which AlgorithmOID and Parameters are used
-     * (default: the Infos defined in /certificate/signatureAlgorithm/) and the
-     * target where to write the computed signature value (default:
-     * /certificate/tbsCertificate/signatureValue). The used private Key is
-     * defined in the parameter KeyInfo
+     * Computes and set the signature of the Certificate. For the computation it takes the SignatureInfo of the
+     * X509Certificate into consideration for information about which structure should be signed(default:
+     * /certificate/tbsCertificate), which AlgorithmOID and Parameters are used (default: the Infos defined in
+     * /certificate/signatureAlgorithm/) and the target where to write the computed signature value (default:
+     * /certificate/tbsCertificate/signatureValue). The used private Key is defined in the parameter KeyInfo
      *
-     * @param key The KeyInfo which is used for the computation
+     * @param key
+     *            The KeyInfo which is used for the computation
      *
      */
     public void signCertificate(SignatureInfo signatureInfo, PrivateKey key) {
@@ -298,22 +291,23 @@ public class X509Certificate {
     /**
      * Returns a deep copy of this X509Certificate
      *
-     * @return a deep Copy of this X509certificate.
-     * @throws jakarta.xml.bind.JAXBException If a copy could not be created
-     * @throws java.io.IOException If a copy could not be created
-     * @throws javax.xml.stream.XMLStreamException If a copy could not be
-     * created
+     * @return                                     a deep Copy of this X509certificate.
+     * @throws jakarta.xml.bind.JAXBException
+     *                                             If a copy could not be created
+     * @throws java.io.IOException
+     *                                             If a copy could not be created
+     * @throws javax.xml.stream.XMLStreamException
+     *                                             If a copy could not be created
      */
     public X509Certificate getCopy() throws JAXBException, IOException, XMLStreamException {
         return X509CertificateSerializer.copyX509Certificate(this);
     }
 
     /**
-     * Returns the effective Signature OID which is used for the computation of
-     * the certificate signature.
+     * Returns the effective Signature OID which is used for the computation of the certificate signature.
      *
-     * it will first look into the signatureInfo object for a specific defined
-     * AlgoOID and then into the Path inside the certificate
+     * it will first look into the signatureInfo object for a specific defined AlgoOID and then into the Path inside the
+     * certificate
      *
      * @return a OID String representing the effective Signature Algorithm.
      */
@@ -322,7 +316,7 @@ public class X509Certificate {
         if (signatureOID == null || signatureOID.isEmpty()) {
             try {
                 Asn1ObjectIdentifier asn1ObjectIdentifier = (Asn1ObjectIdentifier) getIdentifierMap()
-                        .getElementByIDPath(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
+                    .getElementByIDPath(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
                 signatureOID = asn1ObjectIdentifier.getValue();
             } catch (Throwable e) {
                 LOGGER.warn("getEffectiveSignatureOID(): could not recognize the effective SignatureOID: " + e);

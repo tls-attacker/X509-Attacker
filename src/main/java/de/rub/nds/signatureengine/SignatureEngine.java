@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyType;
@@ -38,14 +39,14 @@ public abstract class SignatureEngine {
     }
 
     /**
-     * Signs the given data and returns the signature value.Cannot be called
-     * before the signature engine is initialized.
+     * Signs the given data and returns the signature value.Cannot be called before the signature engine is initialized.
      *
-     * @param privateKey
-     * @param toBeSigned The data to be signed.
-     * @return The signature value.
-     * @throws de.rub.nds.signatureengine.SignatureEngineException when the
-     * signing fails
+     * @param  privateKey
+     * @param  toBeSigned
+     *                                                             The data to be signed.
+     * @return                                                     The signature value.
+     * @throws de.rub.nds.signatureengine.SignatureEngineException
+     *                                                             when the signing fails
      */
     public abstract byte[] sign(PrivateKey privateKey, final byte[] toBeSigned) throws SignatureEngineException;
 

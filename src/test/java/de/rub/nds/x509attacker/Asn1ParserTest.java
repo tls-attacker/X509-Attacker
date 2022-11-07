@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -34,8 +35,8 @@ public class Asn1ParserTest {
             Registry.getInstance();
 
             // Test von ExtensionContent only/ Unterscheiden zwischen Boolean und octedString
-            byte[] extensionContent
-                    = ArrayConverter.hexStringToByteArray("0603551D23041830168014BBAF7E023DFAA6F13C848EADEE3898ECD93232D4");
+            byte[] extensionContent =
+                ArrayConverter.hexStringToByteArray("0603551D23041830168014BBAF7E023DFAA6F13C848EADEE3898ECD93232D4");
             Asn1Parser asn1Parser2 = new Asn1Parser(extensionContent, false);
             List<Asn1Encodable> asn1Encodables2 = asn1Parser2.parse(ExtensionContext.NAME);
 
@@ -55,7 +56,7 @@ public class Asn1ParserTest {
     private static void registerContexts() {
         ContextRegister contextRegister = ContextRegister.getInstance();
         contextRegister.registerContext(TestEncapsulatingExtensionContext.NAME,
-                TestEncapsulatingExtensionContext.class);
+            TestEncapsulatingExtensionContext.class);
         contextRegister.registerContext(ExtensionContext.NAME, ExtensionContext.class);
 
     }

@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.xmlsignatureengine;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -77,11 +78,11 @@ public final class XmlSignatureEngine {
         if (objectIdentifierValue == null || objectIdentifierValue.isEmpty()) {
             try {
                 Asn1ObjectIdentifier asn1ObjectIdentifier = (Asn1ObjectIdentifier) this.identifierMap
-                        .get(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
+                    .get(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
                 objectIdentifierValue = asn1ObjectIdentifier.getValue();
             } catch (Throwable e) {
                 throw new RuntimeException(
-                        "SignatureInfo must contain either signatureAlgorithmOidValue or signatureAlgorithmOidIdentifier whereas signatureAlgorithmOidIdentifier needs to contain an identifier pointing to Asn1ObjectIdentifier!");
+                    "SignatureInfo must contain either signatureAlgorithmOidValue or signatureAlgorithmOidIdentifier whereas signatureAlgorithmOidIdentifier needs to contain an identifier pointing to Asn1ObjectIdentifier!");
             }
         }
         return objectIdentifierValue.trim();
@@ -107,7 +108,7 @@ public final class XmlSignatureEngine {
     }
 
     private void writeSignatureValueToTargetEncodable(final Asn1Encodable targetEncodable,
-            final byte[] signatureValue) {
+        final byte[] signatureValue) {
         if (targetEncodable instanceof Asn1PrimitiveBitString) {
             Asn1PrimitiveBitString targetBitString = (Asn1PrimitiveBitString) targetEncodable;
             targetBitString.setValue(signatureValue);
@@ -116,7 +117,7 @@ public final class XmlSignatureEngine {
             targetOctetString.setValue(signatureValue);
         } else {
             throw new RuntimeException(
-                    "Signature value can only be written to ASN.1 types Asn1PrimitiveBitString and Asn1PrimitiveOctetString!");
+                "Signature value can only be written to ASN.1 types Asn1PrimitiveBitString and Asn1PrimitiveOctetString!");
         }
     }
 }

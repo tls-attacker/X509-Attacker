@@ -1,3 +1,12 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
+
 package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyType;
@@ -31,11 +40,12 @@ public class SignatureEngineFactory {
     static {
         OID_ENGINE_MAP = new HashMap<>();
         NAME_ENGINE_MAP = new HashMap<>();
-        //TODO Reflection magic to find signature engines and add them to the maps
+        // TODO Reflection magic to find signature engines and add them to the maps
         SIGNATURE_ENGINE_LIST = new LinkedList<>();
-        //TODO add to list
+        // TODO add to list
 
-        Reflections reflections = new Reflections("de.rub.nds");//TODO this could be tighter to imrprove performance a little bit
+        Reflections reflections = new Reflections("de.rub.nds");// TODO this could be tighter to imrprove performance a
+                                                                // little bit
         Set<Class<? extends SignatureEngine>> signatureEngineClasses = reflections.getSubTypesOf(SignatureEngine.class);
         for (Class<? extends SignatureEngine> engineClass : signatureEngineClasses) {
             if (Modifier.isAbstract(engineClass.getModifiers())) {
@@ -45,7 +55,7 @@ public class SignatureEngineFactory {
                 for (Constructor<?> constructor : constructors) {
                     if (constructor.getParameterCount() == 0) {
                         try {
-                            //this is the default constructor
+                            // this is the default constructor
                             SignatureEngine engine = (SignatureEngine) constructor.newInstance();
                             if (engine.getOid() != null) {
                                 OID_ENGINE_MAP.put(engine.getOid(), engine);
@@ -54,7 +64,8 @@ public class SignatureEngineFactory {
                                 OID_ENGINE_MAP.put(engine.getName(), engine);
                             }
                             SIGNATURE_ENGINE_LIST.add(engine);
-                        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException | InvocationTargetException ex) {
+                        } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
+                            | InvocationTargetException ex) {
                             LOGGER.error("Could not create signature engine instance");
                         }
                     }
@@ -72,7 +83,7 @@ public class SignatureEngineFactory {
     }
 
     public static List<SignatureEngine> getEnginesForKeyType(final KeyType keyType) {
-        List< SignatureEngine> listOfCompatibleEngines = new LinkedList<>();
+        List<SignatureEngine> listOfCompatibleEngines = new LinkedList<>();
         for (SignatureEngine engine : SIGNATURE_ENGINE_LIST) {
             if (engine.getKeyType().equals(keyType)) {
                 listOfCompatibleEngines.add(engine);

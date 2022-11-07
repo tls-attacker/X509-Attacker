@@ -12,13 +12,13 @@ package de.rub.nds.asn1.model;
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.serializer.Asn1PseudoTypeSerializer;
 import de.rub.nds.asn1.serializer.Asn1Serializer;
+import java.util.HashMap;
+import java.util.Map;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyAttribute;
 import jakarta.xml.bind.annotation.XmlAttribute;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.util.HashMap;
-import java.util.Map;
 import javax.xml.namespace.QName;
 
 @XmlRootElement
@@ -58,12 +58,10 @@ public abstract class Asn1PseudoType implements Asn1Encodable {
         this.type = type;
     }
 
-    @Override
     public boolean hasAttribute(final String attributeName) {
         return this.attributes.containsKey(new QName(attributeName));
     }
 
-    @Override
     public String getAttribute(final String attributeName) {
         String attribute = null;
         QName attributeQName = new QName(attributeName);
@@ -73,12 +71,10 @@ public abstract class Asn1PseudoType implements Asn1Encodable {
         return attribute;
     }
 
-    @Override
     public void setAttribute(final String attributeName, final String attributeValue) {
         this.attributes.put(new QName(attributeName), attributeValue);
     }
 
-    @Override
     public Asn1Serializer getSerializer() {
         return new Asn1PseudoTypeSerializer(this);
     }

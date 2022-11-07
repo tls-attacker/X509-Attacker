@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyType;
@@ -22,17 +23,19 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
      * @param name
      * @param signatureAlgorithm
      */
-    public JavaSignatureEngine(final KeyType keyType, final String oid, final String name, final String signatureAlgorithm) {
+    public JavaSignatureEngine(final KeyType keyType, final String oid, final String name,
+        final String signatureAlgorithm) {
         super(keyType, oid, name);
         this.signatureAlgorithm = signatureAlgorithm;
     }
 
     /**
-     * Signs the given data and returns the signature value. Cannot be called
-     * before the signature engine is initialized.
+     * Signs the given data and returns the signature value. Cannot be called before the signature engine is
+     * initialized.
      *
-     * @param toBeSigned The data to be signed.
-     * @return The signature value.
+     * @param  toBeSigned
+     *                    The data to be signed.
+     * @return            The signature value.
      */
     @Override
     public byte[] sign(final PrivateKey privateKey, final byte[] toBeSigned) throws SignatureEngineException {

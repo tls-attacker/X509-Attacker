@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.signatureengine.keyparsers;
 
 import java.io.ByteArrayOutputStream;
@@ -83,7 +84,7 @@ public class PemUtil {
     }
 
     public static Certificate readCertificate(InputStream stream)
-            throws FileNotFoundException, CertificateException, IOException {
+        throws FileNotFoundException, CertificateException, IOException {
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         Collection<? extends java.security.cert.Certificate> certs = certFactory.generateCertificates(stream);
         java.security.cert.Certificate sunCert = (java.security.cert.Certificate) certs.toArray()[0];
@@ -105,7 +106,7 @@ public class PemUtil {
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
         InputStreamReader reader = new InputStreamReader(stream);
-        try ( PEMParser parser = new PEMParser(reader)) {
+        try (PEMParser parser = new PEMParser(reader)) {
             Object obj = null;
             while ((obj = parser.readObject()) != null) {
                 if (obj instanceof PEMKeyPair) {
@@ -145,7 +146,7 @@ public class PemUtil {
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
         InputStreamReader reader = new InputStreamReader(stream);
-        try ( PEMParser parser = new PEMParser(reader)) {
+        try (PEMParser parser = new PEMParser(reader)) {
             Object obj = null;
             while ((obj = parser.readObject()) != null) {
                 if (obj instanceof PEMKeyPair) {
