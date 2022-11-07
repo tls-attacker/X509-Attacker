@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.signatureengine.keyparsers;
 
 import java.io.ByteArrayOutputStream;
@@ -22,6 +21,8 @@ import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.Collection;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
@@ -69,18 +70,20 @@ public class PemUtil {
             }
             pemWriter.flush();
         } catch (IOException ex) {
-            LOGGER.warn(ex);
+            throw new RuntimeException(ex);
         } finally {
             try {
-                pemWriter.close();
+                if (pemWriter != null) {
+                    pemWriter.close();
+                }
             } catch (IOException ex) {
-                LOGGER.warn(ex);
+                LOGGER.error(ex);
             }
         }
     }
 
     public static Certificate readCertificate(InputStream stream)
-        throws FileNotFoundException, CertificateException, IOException {
+            throws FileNotFoundException, CertificateException, IOException {
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
         Collection<? extends java.security.cert.Certificate> certs = certFactory.generateCertificates(stream);
         java.security.cert.Certificate sunCert = (java.security.cert.Certificate) certs.toArray()[0];
@@ -97,12 +100,12 @@ public class PemUtil {
         return readCertificate(new FileInputStream(f));
     }
 
-    public static PrivateKey readPrivateKey(InputStream stream) throws IOException {
-        PrivateKey privKey = null;
+    public static PrivateKey readPrivateKey(InputStream stream) {
+        PrivateKey privKey;
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
         InputStreamReader reader = new InputStreamReader(stream);
-        try (PEMParser parser = new PEMParser(reader)) {
+        try ( PEMParser parser = new PEMParser(reader)) {
             Object obj = null;
             while ((obj = parser.readObject()) != null) {
                 if (obj instanceof PEMKeyPair) {
@@ -118,10 +121,14 @@ public class PemUtil {
             PrivateKeyInfo privKeyInfo = (PrivateKeyInfo) obj;
             return converter.getPrivateKey(privKeyInfo);
         } catch (Exception e) {
-            throw new IOException("Could not read private key", e);
+            throw new RuntimeException("Could not read private key", e);
         } finally {
-            stream.close();
-            reader.close();
+            try {
+                stream.close();
+                reader.close();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
@@ -134,7 +141,7 @@ public class PemUtil {
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
         InputStreamReader reader = new InputStreamReader(stream);
-        try (PEMParser parser = new PEMParser(reader)) {
+        try ( PEMParser parser = new PEMParser(reader)) {
             Object obj = null;
             while ((obj = parser.readObject()) != null) {
                 if (obj instanceof PEMKeyPair) {
