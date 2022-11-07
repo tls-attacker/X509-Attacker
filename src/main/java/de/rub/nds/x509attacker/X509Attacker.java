@@ -117,7 +117,7 @@ public class X509Attacker {
             // Write certificate files
             writeCertificates(certificateOutputDirectory, certificates, encodedCertificates);
 
-            System.out.println("Done.");
+            LOGGER.info("Done.");
         } catch (KeyFileManagerException | IOException e) {
             LOGGER.error(e);
         }
