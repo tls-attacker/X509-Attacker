@@ -8,20 +8,11 @@
  */
 package de.rub.nds.signatureengine;
 
-import de.rub.nds.signatureengine.keyparsers.DefaultKeyParser;
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 
 public class EcdsaWithSha1SignatureEngine extends JavaSignatureEngine {
 
-    public static final String objectIdentifierString = "1.2.840.10045.4.1";
-
-    private static final String signatureAlgorithm = "SHA1withECDSA";
-
-    public static final String name = "ECDSAwithSHA1";
-
-    public static final KeyType keyType = KeyType.ECDSA;
-
     public EcdsaWithSha1SignatureEngine() {
-        super(signatureAlgorithm, new DefaultKeyParser());
+        super(KeyType.ECDSA, "1.2.840.10045.4.1", "ECDSAwithSHA1", "SHA1withECDSA");
     }
 }

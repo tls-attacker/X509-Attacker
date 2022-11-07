@@ -8,47 +8,23 @@
  */
 package de.rub.nds.signatureengine;
 
-import de.rub.nds.signatureengine.keyparsers.KeyParser;
-import de.rub.nds.signatureengine.keyparsers.KeyParserException;
-import de.rub.nds.x509attacker.constants.KeyFormat;
+import de.rub.nds.signatureengine.keyparsers.KeyType;
 import java.security.*;
 
 public abstract class JavaSignatureEngine extends SignatureEngine {
 
-    private KeyParser keyParser;
     private final String signatureAlgorithm;
-    private PrivateKey privateKey = null;
 
-    private boolean isInitialized = false;
-
-    public JavaSignatureEngine(final String signatureAlgorithm, final KeyParser keyParser)
-            throws SignatureEngineException {
-        if (keyParser == null) {
-            throw new SignatureEngineException("No key parser specified!");
-        }
-        this.keyParser = keyParser;
-        this.signatureAlgorithm = signatureAlgorithm;
-    }
-
-    // Todo: Handle parameters argument.
     /**
-     * Initializes the signature engine with the corresponding key material.
      *
-     * @param keyBytes Bytes of the key material.
-     * @param keyFormat Indicates how the key bytes shall be parsed. Supported
-     * key types: PEM_ENCODED.
-     * @param parameters Binary ASN.1 data from AlgorithmIdentifier's parameter
-     * field (see RFC 5280 4.1.1.2).
+     * @param keyType
+     * @param oid
+     * @param name
+     * @param signatureAlgorithm
      */
-    @Override
-    public void init(final byte[] keyBytes, final KeyFormat keyFormat, final byte[] parameters)
-            throws SignatureEngineException {
-        try {
-            this.privateKey = this.keyParser.parse(keyBytes, keyFormat);
-            this.isInitialized = true;
-        } catch (KeyParserException e) {
-            throw new SignatureEngineException(e);
-        }
+    public JavaSignatureEngine(final KeyType keyType, final String oid, final String name, final String signatureAlgorithm) {
+        super(keyType, oid, name);
+        this.signatureAlgorithm = signatureAlgorithm;
     }
 
     /**
@@ -59,19 +35,14 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
      * @return The signature value.
      */
     @Override
-    public byte[] sign(final byte[] toBeSigned) throws SignatureEngineException {
-        byte[] signature = null;
-        if (this.isInitialized == false) {
-            throw new SignatureEngineException("Signature engine is not initialized!");
-        }
+    public byte[] sign(final PrivateKey privateKey, final byte[] toBeSigned) throws SignatureEngineException {
         try {
             Signature signatureObj = Signature.getInstance(signatureAlgorithm);
-            signatureObj.initSign(this.privateKey);
+            signatureObj.initSign(privateKey);
             signatureObj.update(toBeSigned);
-            signature = signatureObj.sign();
+            return signatureObj.sign();
         } catch (InvalidKeyException | SignatureException | NoSuchAlgorithmException e) {
             throw new RuntimeException(e);
         }
-        return signature;
     }
 }
