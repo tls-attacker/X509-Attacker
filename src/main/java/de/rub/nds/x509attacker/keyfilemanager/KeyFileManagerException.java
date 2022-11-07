@@ -9,7 +9,7 @@
 
 package de.rub.nds.x509attacker.keyfilemanager;
 
-public class KeyFileManagerException extends Exception {
+public class KeyFileManagerException extends RuntimeException {
 
     public KeyFileManagerException(String message) {
         super(message);
