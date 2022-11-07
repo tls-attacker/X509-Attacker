@@ -104,10 +104,6 @@ public class X509Attacker {
             KeyFileManager keyFileManager = KeyFileManager.getReference();
             keyFileManager.init(keyDirectory);
 
-            // Create signatures
-            XmlSignatureEngine xmlSignatureEngine = new XmlSignatureEngine(linker, identifierMap);
-            xmlSignatureEngine.computeSignatures();
-
             // Encode XML for certificate
             List<Asn1Encodable> certificates = asn1XmlContent.getAsn1Encodables();
             byte[][] encodedCertificates = new byte[certificates.size()][];

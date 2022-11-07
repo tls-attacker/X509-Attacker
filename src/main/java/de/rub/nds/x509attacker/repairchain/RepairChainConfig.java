@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.repairchain;
 
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -23,34 +22,28 @@ import java.util.UUID;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RepairChainConfig {
 
-    public enum SignAlgoKeyRelationRepairMode {
-        NONE,
-        SIGN_ALGO_BASED,
-        KEY_BASED
-    };
-
     // Set of repaor config presets
     public static RepairChainConfig createRepairAllAndSignConfig(String keysResourceFolder) {
         RepairChainConfig repairConfig = new RepairChainConfig("", true, true, true, true, true,
-            SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED, true, keysResourceFolder);
+                true, keysResourceFolder);
         return repairConfig;
     }
 
     public static RepairChainConfig createRepairOnlyConfig(String keysResourceFolder) {
         RepairChainConfig repairConfig = new RepairChainConfig("", true, true, true, true, true,
-            SignAlgoKeyRelationRepairMode.NONE, false, keysResourceFolder);
+                false, keysResourceFolder);
         return repairConfig;
     }
 
     public static RepairChainConfig createSignOnlyConfig(String keysResourceFolder) {
         RepairChainConfig repairConfig = new RepairChainConfig("", false, false, false, false, false,
-            SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED, true, keysResourceFolder);
+                true, keysResourceFolder);
         return repairConfig;
     }
 
     public static RepairChainConfig createDoNothingConfig(String keysResourceFolder) {
         RepairChainConfig repairConfig = new RepairChainConfig("", false, false, false, false, false,
-            SignAlgoKeyRelationRepairMode.NONE, false, keysResourceFolder);
+                false, keysResourceFolder);
         return repairConfig;
     }
 
@@ -68,8 +61,6 @@ public class RepairChainConfig {
 
     private boolean repairKeyUsage = true;
 
-    private SignAlgoKeyRelationRepairMode repairSignAlgoKeyRelation = SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED;
-
     private boolean computeChainSignatureAfterRepair = true;
 
     private String keysResourceFolder = null;
@@ -78,9 +69,8 @@ public class RepairChainConfig {
     }
 
     public RepairChainConfig(String repairConfigName, boolean repairIssuer, boolean repairAuthorityKeyIdentifier,
-        boolean repairCABit, boolean repairPathLen, boolean repairKeyUsage,
-        SignAlgoKeyRelationRepairMode repairSignAlgoKeyRelation, boolean computeChainSignatureAfterRepair,
-        String keysResourceFolder) {
+            boolean repairCABit, boolean repairPathLen, boolean repairKeyUsage, boolean computeChainSignatureAfterRepair,
+            String keysResourceFolder) {
         this.repairConfigID = UUID.randomUUID();
         this.repairConfigName = repairConfigName;
         this.repairIssuer = repairIssuer;
@@ -89,7 +79,6 @@ public class RepairChainConfig {
         this.repairPathLen = repairPathLen;
 
         this.repairKeyUsage = repairKeyUsage;
-        this.repairSignAlgoKeyRelation = repairSignAlgoKeyRelation;
         this.computeChainSignatureAfterRepair = computeChainSignatureAfterRepair;
 
         this.keysResourceFolder = keysResourceFolder;
@@ -136,14 +125,6 @@ public class RepairChainConfig {
         this.repairKeyUsage = repairKeyUsage;
     }
 
-    public SignAlgoKeyRelationRepairMode getRepairSignAlgoKeyRelation() {
-        return repairSignAlgoKeyRelation;
-    }
-
-    public void setRepairSignAlgoKeyRelation(SignAlgoKeyRelationRepairMode repairSignAlgoKeyRelation) {
-        this.repairSignAlgoKeyRelation = repairSignAlgoKeyRelation;
-    }
-
     public boolean isComputeChainSignatureAfterRepair() {
         return computeChainSignatureAfterRepair;
     }
@@ -178,10 +159,6 @@ public class RepairChainConfig {
 
     @Override
     public String toString() {
-        return "RepairChainConfig{" + "repairIssuer=" + repairIssuer + ", repairAuthorityKeyIdentifier="
-            + repairAuthorityKeyIdentifier + ", repairCABit=" + repairCABit + ", repairPathLen=" + repairPathLen
-            + ", repairKeyUsage=" + repairKeyUsage + ", repairSignAlgoKeyRelation=" + repairSignAlgoKeyRelation
-            + ", computeChainSignatureAfterRepair=" + computeChainSignatureAfterRepair + '}';
+        return "RepairChainConfig{" + "repairConfigID=" + repairConfigID + ", repairConfigName=" + repairConfigName + ", repairIssuer=" + repairIssuer + ", repairAuthorityKeyIdentifier=" + repairAuthorityKeyIdentifier + ", repairCABit=" + repairCABit + ", repairPathLen=" + repairPathLen + ", repairKeyUsage=" + repairKeyUsage + ", computeChainSignatureAfterRepair=" + computeChainSignatureAfterRepair + ", keysResourceFolder=" + keysResourceFolder + '}';
     }
-
 }

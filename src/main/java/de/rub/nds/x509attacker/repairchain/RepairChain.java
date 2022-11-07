@@ -13,21 +13,12 @@ import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
-import de.rub.nds.modifiablevariable.util.RandomHelper;
-import de.rub.nds.signatureengine.SignatureEngine;
-import de.rub.nds.signatureengine.SignatureEngineFactory;
-import de.rub.nds.signatureengine.keyparsers.KeyType;
 import de.rub.nds.x509attacker.exceptions.RepairChainException;
 import de.rub.nds.x509attacker.exceptions.X509ModificationException;
-import de.rub.nds.x509attacker.helper.KeyFactory;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
-import de.rub.nds.x509attacker.xmlsignatureengine.XmlSignatureEngineException;
-import java.io.File;
-import java.io.IOException;
 import java.math.BigInteger;
 import java.util.List;
-import java.util.Random;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -95,21 +86,11 @@ public class RepairChain {
             }
         }
 
-        if (repairConfig.getRepairSignAlgoKeyRelation() != RepairChainConfig.SignAlgoKeyRelationRepairMode.NONE) {
-            try {
-                repairSignAlgoKeyRelation(chain, repairConfig);
-                statusMessage.append("repair SignAlgoKeyRelation: success").append("\n");
-            } catch (RepairChainException e) {
-                error = true;
-                statusMessage.append("repair SignAlgoKeyRelation: failed => \n").append(e).append("\n");
-            }
-        }
-
         if (repairConfig.isComputeChainSignatureAfterRepair()) {
             try {
                 chain.signAllCertificates();
                 statusMessage.append("compute ChainSignature after repair: success").append("\n");
-            } catch (XmlSignatureEngineException e) {
+            } catch (Exception e) {
                 error = true;
                 statusMessage.append("compute ChainSignature after repair: failed => \n").append(e).append("\n");
             }
@@ -427,150 +408,9 @@ public class RepairChain {
                         ((Asn1PrimitiveBitString) keyUsageAsn1.get(0)).setUnusedBits(2);
                     } else {
                         error = true;
-                        errorMessage.append("failed to repair KeyUsage for certificate " + i
-                                + ": keyUsage is null or not Asn1PrimitiveBitString").append('\n');
+                        errorMessage.append("failed to repair KeyUsage for certificate ").append(i).append(": keyUsage is null or not Asn1PrimitiveBitString").append('\n');
                     }
 
-                }
-            }
-        }
-
-        if (error == true) {
-            throw new RepairChainException(errorMessage.toString());
-        }
-
-    }
-
-    private static void repairSignAlgoKeyRelation(X509CertificateChain chain, RepairChainConfig repairConfig)
-            throws RepairChainException {
-        RepairChainConfig.SignAlgoKeyRelationRepairMode repairMode = repairConfig.getRepairSignAlgoKeyRelation();
-        List<X509Certificate> certificateChain = chain.getCertificateChain();
-
-        boolean error = false;
-        StringBuilder errorMessage = new StringBuilder();
-
-        if (certificateChain.isEmpty()) {
-            errorMessage.append("chain is empty").append('\n');
-            throw new RepairChainException(errorMessage.toString());
-        }
-
-        if (repairMode == RepairChainConfig.SignAlgoKeyRelationRepairMode.KEY_BASED) {
-            // --- repair Root Cert ---
-            try {
-                // extract keyType of key
-                KeyType keyType = certificateChain.get(0).getKeyInfo().getKeyType();
-
-                // extract keyType of currently effective SignAlgo
-                String effSignOID = certificateChain.get(0).getEffectiveSignatureOID();
-                KeyType keyTypeSignAlgo = SignatureEngineFactory.getEngineForOid(effSignOID).getKeyType();
-
-                if (!keyType.equals(keyTypeSignAlgo)) {
-                    List<SignatureEngine> listOfCompatibleEngines = SignatureEngineFactory.getEnginesForKeyType(keyType);
-                    Random random = RandomHelper.getRandom();
-                    String engineOID = listOfCompatibleEngines.get(random.nextInt(listOfCompatibleEngines.size()))
-                            .getOid();
-
-                    // set choosen SignatureEngine in cert i+1
-                    certificateChain.get(0).getSignatureInfo().setSignatureAlgorithmOidValue(engineOID);
-                }
-
-            } catch (NullPointerException e) {
-                error = true;
-                errorMessage.append("failed to repair SignAlgoKeyRelation for certificate 0:").append(e).append('\n');
-            }
-
-            // --- repair Intermediate / Leaf Cert ---
-            for (int i = 0; i < certificateChain.size() - 1; i++) {
-                try {
-                    // extract keyType of key
-                    KeyType keyType = certificateChain.get(i).getKeyInfo().getKeyType();
-
-                    // extract keyType of currently effective SignAlgo
-                    String effSignOID = certificateChain.get(i + 1).getEffectiveSignatureOID();
-                    KeyType keyTypeSignAlgo = SignatureEngineFactory.getEngineForOid(effSignOID).getKeyType();
-
-                    if (!keyType.equals(keyTypeSignAlgo)) {
-                        List<SignatureEngine> listOfCompatibleEngines = SignatureEngineFactory.getEnginesForKeyType(keyType);
-                        Random random = RandomHelper.getRandom();
-                        String engineOID = listOfCompatibleEngines.get(random.nextInt(listOfCompatibleEngines.size()))
-                                .getOid();
-
-                        // set choosen SignatureEngine in cert i+1
-                        certificateChain.get(i + 1).getSignatureInfo().setSignatureAlgorithmOidValue(engineOID);
-                    }
-                } catch (NullPointerException e) {
-                    error = true;
-                    errorMessage.append("failed to repair SignAlgoKeyRelation for certificate " + i + ":").append(e)
-                            .append('\n');
-                }
-            }
-
-        } else if (repairMode == RepairChainConfig.SignAlgoKeyRelationRepairMode.SIGN_ALGO_BASED) {
-            File keysResourceFolder = new File(repairConfig.getKeysResourceFolder());
-            if (!keysResourceFolder.exists()) {
-                errorMessage.append("keysResourceFolder: " + repairConfig.getKeysResourceFolder() + " does not exists")
-                        .append('\n');
-                throw new RepairChainException(errorMessage.toString());
-            }
-
-            try {
-                // extract effectiveSignOID of currently effective SignAlgo
-                String effSignOID_cert0 = certificateChain.get(0).getEffectiveSignatureOID();
-
-                // extract compatible keyType for cert1
-                KeyType keyTypeSignAlgo_cert0 = SignatureEngineFactory.getEngineForOid(effSignOID_cert0).getKeyType();
-
-                // if the chain has two certificat, also extract effectiveSignOID of the second cert
-                // cause the key of cert 0 is used to sign cert0 and cert1
-                if (certificateChain.size() > 1) {
-                    String effSignOID_cert1 = certificateChain.get(1).getEffectiveSignatureOID();
-                    KeyType keyTypeSignAlgo_cert1 = SignatureEngineFactory.getEngineForOid(effSignOID_cert1).getKeyType();
-
-                    if (!keyTypeSignAlgo_cert0.equals(keyTypeSignAlgo_cert1)) {
-
-                        List<SignatureEngine> listOfCompatibleEngines
-                                = SignatureEngineFactory.getEnginesForKeyType(keyTypeSignAlgo_cert0);
-                        Random random = RandomHelper.getRandom();
-                        String engineOID = listOfCompatibleEngines.get(random.nextInt(listOfCompatibleEngines.size()))
-                                .getOid();
-
-                        // set the signAlgOid of cert 1 corresponding to the key of cert0
-                        certificateChain.get(1).getSignatureInfo().setSignatureAlgorithmOidValue(engineOID);
-                    }
-                }
-
-                // extract keyType of key
-                KeyType keyTypeCert = certificateChain.get(0).getKeyInfo().getKeyType();
-
-                if (!keyTypeSignAlgo_cert0.equals(keyTypeCert)) {
-                    // chose and set new key file
-                    File keyFile = KeyFactory.getRandomKeyFile(keysResourceFolder, keyTypeSignAlgo_cert0);
-                    certificateChain.get(0).setKeyFile(keyFile);
-                }
-
-            } catch (NullPointerException | IOException e) {
-                error = true;
-                errorMessage.append("failed to repair SignAlgoKeyRelation for certificate 0:").append(e).append('\n');
-            }
-
-            for (int i = 1; i < certificateChain.size() - 1; i++) {
-                try {
-                    // extract keyType of currently effective SignAlgo
-                    String effSignOID = certificateChain.get(i + 1).getEffectiveSignatureOID();
-                    KeyType keyTypeSignAlgo = SignatureEngineFactory.getEngineForOid(effSignOID).getKeyType();
-
-                    // extract keyType of key
-                    KeyType keyTypeCert = certificateChain.get(i).getKeyInfo().getKeyType();
-
-                    if (!keyTypeSignAlgo.equals(keyTypeCert)) {
-                        // chose and set new key file
-                        File keyFile = KeyFactory.getRandomKeyFile(keysResourceFolder, keyTypeSignAlgo);
-                        certificateChain.get(i).setKeyFile(keyFile);
-                    }
-                } catch (NullPointerException | IOException e) {
-                    error = true;
-                    errorMessage.append("failed to repair SignAlgoKeyRelation for certificate " + i + ":").append(e)
-                            .append('\n');
                 }
             }
         }

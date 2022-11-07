@@ -11,9 +11,7 @@ package de.rub.nds.x509attacker.registry;
 
 import de.rub.nds.asn1.encoder.Asn1TypeRegister;
 import de.rub.nds.asn1.encoder.typeprocessors.DefaultX509TypeProcessor;
-import de.rub.nds.asn1.encoder.typeprocessors.SubjectPublicKeyInfoTypeProcessor;
 import de.rub.nds.asn1.model.Asn1PseudoType;
-import de.rub.nds.asn1.model.KeyInfo;
 import de.rub.nds.asn1.model.SignatureInfo;
 import de.rub.nds.asn1.parser.contentunpackers.ContentUnpackerRegister;
 import de.rub.nds.asn1.parser.contentunpackers.DefaultContentUnpacker;
@@ -71,14 +69,13 @@ public class Registry {
     private void registerXmlClasses() {
         JaxbClassList jaxbClassList = JaxbClassList.getInstance();
         jaxbClassList.addClasses(Asn1Tool.getAsn1ToolJaxbClasses());
-        jaxbClassList.addClasses(Asn1PseudoType.class, SignatureInfo.class, KeyInfo.class, X509CertificateChain.class,
+        jaxbClassList.addClasses(Asn1PseudoType.class, SignatureInfo.class, X509CertificateChain.class,
             X509Certificate.class);
     }
 
     private void registerTypes() {
         Asn1TypeRegister asn1TypeRegister = Asn1TypeRegister.getInstance();
         asn1TypeRegister.setDefaultTypeProcessorClass(DefaultX509TypeProcessor.class);
-        asn1TypeRegister.register("SubjectPublicKeyInfo", SubjectPublicKeyInfoTypeProcessor.class);
     }
 
     private void registerContexts() {
