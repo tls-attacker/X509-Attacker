@@ -279,7 +279,7 @@ public class X509Certificate {
      * X509Certificate into consideration for information about which structure should be signed(default:
      * /certificate/tbsCertificate), which AlgorithmOID and Parameters are used (default: the Infos defined in
      * /certificate/signatureAlgorithm/) and the target where to write the computed signature value (default:
-     * /certificate/tbsCertificate/signatureValue). The used private Key is definied in the parameter KeyInfo
+     * /certificate/tbsCertificate/signatureValue). The used private Key is defined in the parameter KeyInfo
      *
      * @param key
      *            The KeyInfo which is used for the computation

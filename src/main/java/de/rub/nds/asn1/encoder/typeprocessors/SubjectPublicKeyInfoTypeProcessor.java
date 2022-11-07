@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.asn1.encoder.typeprocessors;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -18,7 +17,6 @@ import de.rub.nds.x509attacker.X509Attributes;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.security.PublicKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -34,7 +32,7 @@ public class SubjectPublicKeyInfoTypeProcessor extends DefaultX509TypeProcessor 
     private byte[] encodedPublicKey = null;
 
     public SubjectPublicKeyInfoTypeProcessor(final Asn1EncodingOptions encodingOptions,
-        final Asn1Encodable asn1Encodable) {
+            final Asn1Encodable asn1Encodable) {
         super(encodingOptions, asn1Encodable);
         this.encodingOptions = (DefaultX509EncodingOptions) encodingOptions;
         this.asn1Encodable = asn1Encodable;
@@ -88,17 +86,13 @@ public class SubjectPublicKeyInfoTypeProcessor extends DefaultX509TypeProcessor 
                 keyFile = keyInfo.getKeyFileName();
             } else {
                 throw new RuntimeException(
-                    "KeyInfo must either specify fromIdentifier attribute or a keyFile element containing the file name of a key file!");
+                        "KeyInfo must either specify fromIdentifier attribute or a keyFile element containing the file name of a key file!");
             }
         }
         return keyFile;
     }
 
     private PublicKey readPublicKeyFromKeyBytes(byte[] keyBytes) {
-        try {
-            return PemUtil.readPublicKey(new ByteArrayInputStream(keyBytes));
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
+        return PemUtil.readPublicKey(new ByteArrayInputStream(keyBytes));
     }
 }

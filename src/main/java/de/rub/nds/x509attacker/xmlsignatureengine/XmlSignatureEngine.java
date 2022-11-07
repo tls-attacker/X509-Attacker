@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.xmlsignatureengine;
 
 import de.rub.nds.asn1.Asn1Encodable;
@@ -19,13 +18,14 @@ import de.rub.nds.asn1.model.SignatureInfo;
 import de.rub.nds.asn1.util.AttributeParser;
 import de.rub.nds.signatureengine.SignatureEngine;
 import de.rub.nds.signatureengine.SignatureEngineException;
+import de.rub.nds.signatureengine.SignatureEngineFactory;
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 import de.rub.nds.util.ByteArrayUtils;
 import de.rub.nds.x509attacker.X509Attributes;
-import de.rub.nds.x509attacker.constants.KeyFormat;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
+import java.security.PrivateKey;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
@@ -75,20 +75,18 @@ public final class XmlSignatureEngine {
     }
 
     private void computeSignature(final SignatureInfo signatureInfo, KeyInfo keyInfo)
-        throws XmlSignatureEngineException {
+            throws XmlSignatureEngineException {
         byte[] keyBytes = this.getKey(keyInfo);
         this.computeSignature(signatureInfo, keyBytes);
     }
 
-    private void computeSignature(final SignatureInfo signatureInfo, byte[] keyBytes)
-        throws XmlSignatureEngineException {
+    private void computeSignature(final SignatureInfo signatureInfo, PrivateKey privateKey)
+            throws XmlSignatureEngineException {
         try {
             byte[] toBeSigned = this.prepareForSigning(signatureInfo);
             String objectIdentifierValue = this.getSignatureAlgorithmObjectIdentifierValue(signatureInfo);
-            byte[] signatureAlgorithmParameters = this.getSignatureAlgorithmParameters(signatureInfo);
-            SignatureEngine signatureEngine = SignatureEngine.getInstance(objectIdentifierValue);
-            signatureEngine.init(keyBytes, KeyFormat.PEM_ENCODED, signatureAlgorithmParameters);
-            byte[] signatureValue = signatureEngine.sign(toBeSigned);
+            SignatureEngine signatureEngine = SignatureEngineFactory.getEngineForOid(objectIdentifierValue);
+            byte[] signatureValue = signatureEngine.sign(privateKey, toBeSigned);
             this.writeSignatureValueToTarget(signatureInfo, signatureValue);
         } catch (SignatureEngineException e) {
             throw new XmlSignatureEngineException(e);
@@ -122,7 +120,7 @@ public final class XmlSignatureEngine {
 
         } else {
             throw new XmlSignatureEngineException(
-                "SignatureInfo does not contain the mandatory KeyInfoIdentifier element or KeyInfoIdentifier links to an element of type other than KeyInfo!");
+                    "SignatureInfo does not contain the mandatory KeyInfoIdentifier element or KeyInfoIdentifier links to an element of type other than KeyInfo!");
         }
         return key;
     }
@@ -146,14 +144,14 @@ public final class XmlSignatureEngine {
     private String getKeyFileName(final KeyInfo keyInfo) {
         String keyFile = keyInfo.getKeyFileName();
         if (keyFile == null || keyFile.isEmpty()) {
-            String identifier =
-                AttributeParser.parseStringAttributeOrDefault(keyInfo, X509Attributes.FROM_IDENTIFIER, null);
+            String identifier
+                    = AttributeParser.parseStringAttributeOrDefault(keyInfo, X509Attributes.FROM_IDENTIFIER, null);
             Asn1Encodable asn1Encodable = this.identifierMap.get(identifier);
             if (asn1Encodable instanceof KeyInfo) {
                 keyFile = this.getKeyFileName((KeyInfo) asn1Encodable);
             } else {
                 throw new XmlSignatureEngineException(
-                    "KeyInfo uses fromIdentifier to reference an element that is not of type KeyInfo!");
+                        "KeyInfo uses fromIdentifier to reference an element that is not of type KeyInfo!");
             }
         }
         return keyFile.trim();
@@ -164,11 +162,11 @@ public final class XmlSignatureEngine {
         if (objectIdentifierValue == null || objectIdentifierValue.isEmpty()) {
             try {
                 Asn1ObjectIdentifier asn1ObjectIdentifier = (Asn1ObjectIdentifier) this.identifierMap
-                    .get(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
+                        .get(signatureInfo.getSignatureAlgorithmOidIdentifier().trim());
                 objectIdentifierValue = asn1ObjectIdentifier.getValue();
             } catch (Throwable e) {
                 throw new XmlSignatureEngineException(
-                    "SignatureInfo must contain either signatureAlgorithmOidValue or signatureAlgorithmOidIdentifier whereas signatureAlgorithmOidIdentifier needs to contain an identifier pointing to Asn1ObjectIdentifier!");
+                        "SignatureInfo must contain either signatureAlgorithmOidValue or signatureAlgorithmOidIdentifier whereas signatureAlgorithmOidIdentifier needs to contain an identifier pointing to Asn1ObjectIdentifier!");
             }
         }
         return objectIdentifierValue.trim();
@@ -194,7 +192,7 @@ public final class XmlSignatureEngine {
     }
 
     private void writeSignatureValueToTargetEncodable(final Asn1Encodable targetEncodable,
-        final byte[] signatureValue) {
+            final byte[] signatureValue) {
         if (targetEncodable instanceof Asn1PrimitiveBitString) {
             Asn1PrimitiveBitString targetBitString = (Asn1PrimitiveBitString) targetEncodable;
             targetBitString.setValue(signatureValue);
@@ -203,7 +201,7 @@ public final class XmlSignatureEngine {
             targetOctetString.setValue(signatureValue);
         } else {
             throw new XmlSignatureEngineException(
-                "Signature value can only be written to ASN.1 types Asn1PrimitiveBitString and Asn1PrimitiveOctetString!");
+                    "Signature value can only be written to ASN.1 types Asn1PrimitiveBitString and Asn1PrimitiveOctetString!");
         }
     }
 }
