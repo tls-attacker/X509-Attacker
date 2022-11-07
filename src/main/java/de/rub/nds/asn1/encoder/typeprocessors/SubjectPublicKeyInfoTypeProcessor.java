@@ -61,7 +61,7 @@ public class SubjectPublicKeyInfoTypeProcessor extends DefaultX509TypeProcessor 
     }
 
     private void tryCreateSubjectPublicKeyInfoFromLink() {
-        Asn1Encodable linkedAsn1Encodable = this.encodingOptions.linker.getLinkedAsn1Encodable(this.asn1Encodable);
+        Asn1Encodable linkedAsn1Encodable = this.encodingOptions.getLinker().getLinkedAsn1Encodable(this.asn1Encodable);
         if (linkedAsn1Encodable instanceof KeyInfo) {
             try {
                 KeyInfo keyInfo = (KeyInfo) linkedAsn1Encodable;
@@ -84,7 +84,7 @@ public class SubjectPublicKeyInfoTypeProcessor extends DefaultX509TypeProcessor 
         String keyFile = keyInfo.getKeyFileName();
         while (keyFile == null || keyFile.isEmpty()) {
             if (keyInfo.hasAttribute(X509Attributes.FROM_IDENTIFIER)) {
-                keyInfo = (KeyInfo) this.encodingOptions.linker.getLinkedAsn1Encodable(keyInfo);
+                keyInfo = (KeyInfo) this.encodingOptions.getLinker().getLinkedAsn1Encodable(keyInfo);
                 keyFile = keyInfo.getKeyFileName();
             } else {
                 throw new RuntimeException(

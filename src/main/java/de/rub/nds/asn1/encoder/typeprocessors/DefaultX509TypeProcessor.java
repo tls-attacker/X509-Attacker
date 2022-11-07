@@ -48,11 +48,11 @@ public class DefaultX509TypeProcessor extends Asn1TypeProcessor {
     }
 
     protected boolean linksAnotherAsn1Encodable() {
-        return this.encodingOptions.linker.hasLink(this.asn1Encodable);
+        return this.encodingOptions.getLinker().hasLink(this.asn1Encodable);
     }
 
     private byte[] encodeFromLinkedAsn1Encodable() {
-        Asn1Encodable linkedAsn1Encodable = this.encodingOptions.linker.getLinkedAsn1Encodable(this.asn1Encodable);
+        Asn1Encodable linkedAsn1Encodable = this.encodingOptions.getLinker().getLinkedAsn1Encodable(this.asn1Encodable);
         if (this.asn1Encodable.getType().equals(linkedAsn1Encodable.getType()) == false) {
             LOGGER.warn("Type mismatch: " + this.asn1Encodable.getClass() + " with type " + this.asn1Encodable.getType()
                 + " references " + linkedAsn1Encodable.getClass() + " with type " + linkedAsn1Encodable.getType()
@@ -68,7 +68,7 @@ public class DefaultX509TypeProcessor extends Asn1TypeProcessor {
             X509Attributes.EXCLUDE_FROM_SIGNATURE, false);
         boolean excludeFromCertificate = AttributeParser.parseBooleanAttributeOrDefault(this.asn1Encodable,
             X509Attributes.EXCLUDE_FROM_CERTIFICATE, false);
-        switch (this.encodingOptions.encodeTarget) {
+        switch (this.encodingOptions.getEncodeTarget()) {
             case FOR_SIGNATURE_ONLY:
                 if (excludeFromSignature == true) {
                     isFlaggedForEncoding = false;
