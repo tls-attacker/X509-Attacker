@@ -9,17 +9,12 @@
 
 package de.rub.nds.x509attacker.x509;
 
-import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
-import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.IntermediateAsn1Field;
 import de.rub.nds.asn1.translator.X509Translator;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1ExplicitFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1IntegerFT;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  *

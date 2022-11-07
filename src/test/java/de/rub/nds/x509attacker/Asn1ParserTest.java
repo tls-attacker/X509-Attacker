@@ -26,9 +26,8 @@ import de.rub.nds.asn1tool.Asn1Tool;
 import de.rub.nds.asn1tool.xmlparser.JaxbClassList;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.registry.Registry;
-import org.junit.jupiter.api.Test;
-
 import java.util.List;
+import org.junit.jupiter.api.Test;
 
 public class Asn1ParserTest {
 

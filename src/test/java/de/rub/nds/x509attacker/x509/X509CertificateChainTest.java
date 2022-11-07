@@ -9,23 +9,20 @@
 
 package de.rub.nds.x509attacker.x509;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.constants.X509CertChainOutFormat;
+import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
+import jakarta.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
-
-import jakarta.xml.bind.JAXBException;
+import javax.xml.stream.XMLStreamException;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
-
-import javax.xml.stream.XMLStreamException;
 
 public class X509CertificateChainTest {
 

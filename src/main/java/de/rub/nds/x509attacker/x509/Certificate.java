@@ -9,25 +9,12 @@
 
 package de.rub.nds.x509attacker.x509;
 
-import de.rub.nds.asn1.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Container;
-import de.rub.nds.asn1.model.Asn1Field;
-import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.IntermediateAsn1Field;
-import de.rub.nds.asn1.translator.Asn1Translator;
-import de.rub.nds.asn1.translator.ContextComponent;
-import de.rub.nds.asn1.translator.ContextComponentOption;
 import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1IntegerFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveBitStringFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
-import de.rub.nds.asn1.translator.fieldtranslators.FieldTranslator;
-import java.lang.reflect.Constructor;
-import java.lang.reflect.InvocationTargetException;
-import java.util.List;
-import java.util.Map;
 
 /**
  *

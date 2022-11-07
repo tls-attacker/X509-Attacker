@@ -11,9 +11,7 @@ package de.rub.nds.signatureengine;
 
 import de.rub.nds.signatureengine.keyparsers.KeyParser;
 import de.rub.nds.signatureengine.keyparsers.KeyParserException;
-
 import java.security.*;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
 
 public abstract class JavaSignatureEngine extends SignatureEngine {
 

@@ -9,17 +9,10 @@
 
 package de.rub.nds.x509attacker.x509;
 
-import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1EncapsulatingOctetString;
-import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
-import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.IntermediateAsn1Field;
 import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1BooleanFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1EncapsulatingOctetStringFT;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1ObjectIdentifierFT;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
-import java.lang.reflect.Method;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

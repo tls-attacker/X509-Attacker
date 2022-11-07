@@ -9,25 +9,23 @@
 
 package de.rub.nds.x509attacker.x509.serializer;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
-import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.constants.X509CertChainOutFormat;
+import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
+import jakarta.xml.bind.JAXBException;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Objects;
-
-import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;

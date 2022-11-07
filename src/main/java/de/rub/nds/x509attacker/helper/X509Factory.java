@@ -9,18 +9,17 @@
 
 package de.rub.nds.x509attacker.helper;
 
-import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import de.rub.nds.asn1.parser.ParserException;
 import de.rub.nds.asn1.parser.X509Parser;
 import de.rub.nds.modifiablevariable.util.RandomHelper;
 import de.rub.nds.signatureengine.keyparsers.KeyType;
-import de.rub.nds.x509attacker.helper.KeyFactory;
+import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
+import jakarta.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.util.Random;
-import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

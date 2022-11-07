@@ -12,9 +12,7 @@ package de.rub.nds.x509attacker.x509;
 import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.asn1tool.xmlparser.AnonymousIdentifier;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 

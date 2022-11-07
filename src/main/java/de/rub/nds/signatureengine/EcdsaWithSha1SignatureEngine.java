@@ -9,8 +9,6 @@
 
 package de.rub.nds.signatureengine;
 
-import de.rub.nds.signatureengine.JavaSignatureEngine;
-import de.rub.nds.signatureengine.SignatureEngineException;
 import de.rub.nds.signatureengine.keyparsers.DefaultKeyParser;
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 

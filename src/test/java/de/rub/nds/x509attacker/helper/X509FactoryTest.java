@@ -9,12 +9,11 @@
 
 package de.rub.nds.x509attacker.helper;
 
-import static org.junit.jupiter.api.Assertions.assertNotNull;
-
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import java.io.File;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

@@ -17,20 +17,20 @@ import de.rub.nds.x509attacker.repairchain.RepairChainConfig;
 import de.rub.nds.x509attacker.repairchain.RepairChainStatus;
 import de.rub.nds.x509attacker.x509.serializer.X509CertificateChainSerializer;
 import de.rub.nds.x509attacker.xmlsignatureengine.XmlSignatureEngineException;
-import java.io.File;
-import java.io.IOException;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 import jakarta.xml.bind.JAXBException;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import java.io.File;
+import java.io.IOException;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+import javax.xml.stream.XMLStreamException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import javax.xml.stream.XMLStreamException;
 
 /**
  * Represent one X509CertificateChain containing multiple X509Certificates and provides an API for accessing and

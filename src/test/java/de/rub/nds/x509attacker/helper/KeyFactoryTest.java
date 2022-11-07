@@ -11,11 +11,10 @@ package de.rub.nds.x509attacker.helper;
 
 import de.rub.nds.signatureengine.keyparsers.KeyType;
 import java.io.File;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class KeyFactoryTest {
 

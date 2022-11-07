@@ -10,12 +10,12 @@
 package de.rub.nds.asn1.encoder;
 
 import de.rub.nds.asn1.Asn1Encodable;
-import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.X509Attributes;
 import de.rub.nds.x509attacker.filesystem.CertificateFileWriter;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManager;
 import de.rub.nds.x509attacker.keyfilemanager.KeyFileManagerException;
 import de.rub.nds.x509attacker.linker.Linker;
+import de.rub.nds.x509attacker.registry.Registry;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import java.io.IOException;
 import java.util.List;

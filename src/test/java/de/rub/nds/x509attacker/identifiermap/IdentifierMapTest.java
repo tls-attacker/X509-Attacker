@@ -14,17 +14,16 @@ import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.exceptions.X509ModificationException;
-import de.rub.nds.x509attacker.x509.X509Certificate;
 import de.rub.nds.x509attacker.helper.X509Factory;
 import de.rub.nds.x509attacker.registry.Registry;
+import de.rub.nds.x509attacker.x509.X509Certificate;
+import jakarta.xml.bind.JAXBException;
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
-import jakarta.xml.bind.JAXBException;
 import javax.xml.stream.XMLStreamException;
 import static org.junit.jupiter.api.Assertions.*;
-
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 

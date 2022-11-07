@@ -39,7 +39,6 @@ import de.rub.nds.asn1.translator.TestExtensionsContext;
 import de.rub.nds.asn1.translator.ValidityContext;
 import de.rub.nds.asn1tool.Asn1Tool;
 import de.rub.nds.asn1tool.xmlparser.JaxbClassList;
-import de.rub.nds.x509attacker.x509.SubjectPublicKeyInfo;
 import de.rub.nds.x509attacker.x509.X509Certificate;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
 

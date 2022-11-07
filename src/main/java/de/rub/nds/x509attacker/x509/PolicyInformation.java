@@ -9,15 +9,12 @@
 
 package de.rub.nds.x509attacker.x509;
 
-import de.rub.nds.asn1.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.IntermediateAsn1Field;
 import de.rub.nds.asn1.translator.X509Translator;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1ObjectIdentifierFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
-import java.util.LinkedList;
-import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -10,7 +10,6 @@
 package de.rub.nds.x509attacker.filesystem;
 
 import de.rub.nds.asn1tool.filesystem.BinaryFileWriter;
-
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;

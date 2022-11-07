@@ -10,16 +10,11 @@
 package de.rub.nds.x509attacker.x509;
 
 import de.rub.nds.asn1.Asn1Encodable;
-import de.rub.nds.asn1.TagNumber;
-import de.rub.nds.asn1.model.Asn1Explicit;
-import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
-import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveIa5String;
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.asn1.parser.IntermediateAsn1Field;
 import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1ExplicitFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1ObjectIdentifierFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveIa5StringFT;
 import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveOctetStringFT;
