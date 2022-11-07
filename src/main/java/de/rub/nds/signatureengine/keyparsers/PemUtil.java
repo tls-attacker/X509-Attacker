@@ -132,12 +132,16 @@ public class PemUtil {
         }
     }
 
-    public static PrivateKey readPrivateKey(File f) throws IOException {
-        return readPrivateKey(new FileInputStream(f));
+    public static PrivateKey readPrivateKey(File f) {
+        try {
+            return readPrivateKey(new FileInputStream(f));
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    public static PublicKey readPublicKey(InputStream stream) throws IOException {
-        PublicKey pubKey = null;
+    public static PublicKey readPublicKey(InputStream stream) {
+        PublicKey pubKey;
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
         InputStreamReader reader = new InputStreamReader(stream);
@@ -157,42 +161,49 @@ public class PemUtil {
             SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
             return converter.getPublicKey(publicKeyInfo);
         } catch (Exception e) {
-            throw new IOException("Could not read public key", e);
+            throw new RuntimeException("Could not read public key", e);
         } finally {
-            stream.close();
-            reader.close();
+            try {
+                stream.close();
+                reader.close();
+            } catch (IOException ex) {
+                throw new RuntimeException(ex);
+            }
         }
     }
 
-    public static PublicKey readPublicKey(File f) throws IOException {
-        return readPublicKey(new FileInputStream(f));
+    public static PublicKey readPublicKey(File f) {
+        try {
+            return readPublicKey(new FileInputStream(f));
+        } catch (FileNotFoundException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
-    public static byte[] encodeCert(Certificate cert) throws IOException {
-        ByteArrayOutputStream stream = new ByteArrayOutputStream();
-        cert.encode(stream);
-        return stream.toByteArray();
+    public static byte[] encodeCert(Certificate cert) {
+        try {
+            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            cert.encode(stream);
+            return stream.toByteArray();
+        } catch (IOException ex) {
+            throw new RuntimeException(ex);
+        }
     }
 
     public static KeyType getKeyType(File f) {
-        try {
-            PrivateKey privKey = readPrivateKey(f);
-            String algo = privKey.getAlgorithm();
-            switch (algo) {
-                case "RSA":
-                    return KeyType.RSA;
-                case "DSA":
-                    return KeyType.DSA;
-                case "ECDSA":
-                case "EC":
-                    return KeyType.ECDSA;
-                default:
-                    LOGGER.warn("getKeyType(): no KeyType defined for: " + algo);
-                    return null;
-            }
-        } catch (IOException ex) {
-            LOGGER.warn("getKeyType(): KeyType could not be recognized, IOException: " + ex);
-            return null;
+        PrivateKey privKey = readPrivateKey(f);
+        String algo = privKey.getAlgorithm();
+        switch (algo) {
+            case "RSA":
+                return KeyType.RSA;
+            case "DSA":
+                return KeyType.DSA;
+            case "ECDSA":
+            case "EC":
+                return KeyType.ECDSA;
+            default:
+                LOGGER.warn("getKeyType(): no KeyType defined for: " + algo);
+                return null;
         }
 
     }
