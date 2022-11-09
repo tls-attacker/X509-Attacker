@@ -9,7 +9,7 @@
 
 package de.rub.nds.x509attacker.helper;
 
-import de.rub.nds.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
