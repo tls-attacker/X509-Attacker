@@ -6,11 +6,11 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.x509attacker.x509.ExplicitExtensions;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bouncycastle.asn1.ASN1BitString;
@@ -18,7 +18,6 @@ import org.bouncycastle.asn1.ASN1BitString;
 public class TBSCertificate extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
 
     private Version version;
     private Asn1Integer serialNumber;
@@ -29,7 +28,7 @@ public class TBSCertificate extends Asn1Sequence {
     private SubjectPublicKeyInfo subjectPublicKeyInfo;
     private ASN1BitString issuerUniqueID;
     private ASN1BitString subjecUniqueID;
-    private ExplicitExtensions explicitExtensions;
+    private Extensions extensions;
 
     public TBSCertificate() {
         this.setIdentifier("tbsCertificate");
@@ -91,28 +90,27 @@ public class TBSCertificate extends Asn1Sequence {
         this.subjectPublicKeyInfo = subjectPublicKeyInfo;
     }
 
-    public UniqueIdentifier getIssuerUniqueID() {
+    public ASN1BitString getIssuerUniqueID() {
         return issuerUniqueID;
     }
 
-    public void setIssuerUniqueID(UniqueIdentifier issuerUniqueID) {
+    public void setIssuerUniqueID(ASN1BitString issuerUniqueID) {
         this.issuerUniqueID = issuerUniqueID;
     }
 
-    public UniqueIdentifier getSubjecUniqueID() {
+    public ASN1BitString getSubjecUniqueID() {
         return subjecUniqueID;
     }
 
-    public void setSubjecUniqueID(UniqueIdentifier subjecUniqueID) {
+    public void setSubjecUniqueID(ASN1BitString subjecUniqueID) {
         this.subjecUniqueID = subjecUniqueID;
     }
 
-    public ExplicitExtensions getExplicitExtensions() {
-        return explicitExtensions;
+    public Extensions getExtensions() {
+        return extensions;
     }
 
-    public void setExplicitExtensions(ExplicitExtensions explicitExtensions) {
-        this.explicitExtensions = explicitExtensions;
+    public void setExtensions(Extensions extensions) {
+        this.extensions = extensions;
     }
-
 }

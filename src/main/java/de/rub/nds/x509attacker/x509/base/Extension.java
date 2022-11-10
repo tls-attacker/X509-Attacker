@@ -12,12 +12,7 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.IntermediateAsn1Field;
-import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1BooleanFT;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1ObjectIdentifierFT;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
-import de.rub.nds.x509attacker.x509.extensions.ExtnValue;
+import org.bouncycastle.asn1.ASN1OctetString;
 
 /**
  *
@@ -25,46 +20,38 @@ import de.rub.nds.x509attacker.x509.extensions.ExtnValue;
  * the DER encoding of an ASN.1 value -- corresponding to the extension type identified -- by extnID }
  *
  */
-public class Extension extends X509Model<Asn1Sequence> {
-
-    private static final String type = "Extension";
+public class Extension extends Asn1Sequence {
 
     public Asn1ObjectIdentifier extnID;
     public Asn1Boolean critical;
-    public ExtnValue extnValue;
+    public ASN1OctetString extnValue;
 
-    public static Extension getInstance(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-
-        return new Extension(intermediateAsn1Field, identifier);
-
+    public Extension(String identifier) {
+        this.setIdentifier(identifier);
     }
 
-    private Extension(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-        asn1 = (Asn1Sequence) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
-            Asn1SequenceFT.class, identifier, type);
+    public Asn1ObjectIdentifier getExtnID() {
+        return extnID;
+    }
 
-        int index = 0;
+    public void setExtnID(Asn1ObjectIdentifier extnID) {
+        this.extnID = extnID;
+    }
 
-        // extnID
-        extnID = (Asn1ObjectIdentifier) X509Translator.translateSingleIntermediateField(
-            intermediateAsn1Field.getChildren().get(index++), Asn1ObjectIdentifierFT.class, "extnID", "");
-        asn1.addChild(extnID);
+    public Asn1Boolean getCritical() {
+        return critical;
+    }
 
-        // critical - can be optional
-        if (intermediateAsn1Field.getChildren().size() == 3) {
-            critical = (Asn1Boolean) X509Translator.translateSingleIntermediateField(
-                intermediateAsn1Field.getChildren().get(index++), Asn1BooleanFT.class, "critical", "");
-            asn1.addChild(critical);
-        }
+    public void setCritical(Asn1Boolean critical) {
+        this.critical = critical;
+    }
 
-        // extnValue
-        // TODO: depending on extnID the Encapsulating Bit String has to be parsed
-        // extnValue = (Asn1EncapsulatingOctetString)
-        // X509Translator.translateSingleIntermediateField(intermediateAsn1Field.getChildren().get(index++),
-        // Asn1EncapsulatingOctetStringFT.class, "extnValue", "");
-        extnValue =
-            ExtnValue.getInstance(intermediateAsn1Field.getChildren().get(index++), "extnValue", extnID.getValue());
-        asn1.addChild(extnValue.asn1);
+    public ASN1OctetString getExtnValue() {
+        return extnValue;
+    }
+
+    public void setExtnValue(ASN1OctetString extnValue) {
+        this.extnValue = extnValue;
     }
 
 }

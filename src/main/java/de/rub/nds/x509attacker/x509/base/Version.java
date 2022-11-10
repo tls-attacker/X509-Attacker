@@ -16,15 +16,9 @@ import de.rub.nds.asn1.model.Asn1Integer;
  * Version ::= INTEGER {v1(0), v2(1), v3(2) }
  *
  */
-public class Version {
+public class Version extends Asn1Integer {
 
-    private static final String type = "Version";
-
-    public Asn1Integer version;
-
-    public Version(Asn1Integer version) {
-        this.version = version;
+    public Version() {
     }
 
-    
 }

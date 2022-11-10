@@ -11,10 +11,6 @@ package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.IntermediateAsn1Field;
-import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1ObjectIdentifierFT;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,37 +22,30 @@ import org.apache.logging.log4j.Logger;
  * CertPolicyId ::= OBJECT IDENTIFIER
  *
  */
-
-public class PolicyInformation extends X509Model<Asn1Sequence> {
+public class PolicyInformation extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
-    private static final String type = "PolicyInformation";
 
     public Asn1ObjectIdentifier policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
     public PolicyQualifiers policyQualifiers;
 
-    public static PolicyInformation getInstance(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-
-        return new PolicyInformation(intermediateAsn1Field, identifier);
+    public PolicyInformation(String identifier) {
+        this.setIdentifier(identifier);
     }
 
-    private PolicyInformation(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-
-        asn1 = (Asn1Sequence) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
-            Asn1SequenceFT.class, identifier, type);
-
-        // PolicyIdentifier
-        policyIdentifier = (Asn1ObjectIdentifier) X509Translator.translateSingleIntermediateField(
-            intermediateAsn1Field.getChildren().get(0), Asn1ObjectIdentifierFT.class, "policyIdentifier", "");
-        asn1.addChild(policyIdentifier);
-
-        // PolicyQualifiers - can be optional
-        if (intermediateAsn1Field.getChildren().size() == 2) {
-            policyQualifiers =
-                PolicyQualifiers.getInstance(intermediateAsn1Field.getChildren().get(1), "policyQualifiers");
-            asn1.addChild(policyQualifiers.asn1);
-        }
+    public Asn1ObjectIdentifier getPolicyIdentifier() {
+        return policyIdentifier;
     }
 
+    public void setPolicyIdentifier(Asn1ObjectIdentifier policyIdentifier) {
+        this.policyIdentifier = policyIdentifier;
+    }
+
+    public PolicyQualifiers getPolicyQualifiers() {
+        return policyQualifiers;
+    }
+
+    public void setPolicyQualifiers(PolicyQualifiers policyQualifiers) {
+        this.policyQualifiers = policyQualifiers;
+    }
 }

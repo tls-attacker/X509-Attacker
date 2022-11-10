@@ -11,10 +11,6 @@ package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.IntermediateAsn1Field;
-import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1ObjectIdentifierFT;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,33 +18,30 @@ import org.apache.logging.log4j.Logger;
  *
  * AccessDescription ::= SEQUENCE { accessMethod OBJECT IDENTIFIER, accessLocation GeneralName }
  */
-public class AccessDescription extends X509Model<Asn1Sequence> {
+public class AccessDescription extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
-    private static final String type = "AcessDescription";
 
     public Asn1ObjectIdentifier accessMethod;
     public GeneralName accessLocation;
 
-    public static AccessDescription getInstance(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-
-        return new AccessDescription(intermediateAsn1Field, identifier);
-
+    public AccessDescription(String identifier) {
+        this.setIdentifier(identifier);
     }
 
-    private AccessDescription(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-        asn1 = (Asn1Sequence) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
-            Asn1SequenceFT.class, identifier, type);
-
-        // algorithm
-        accessMethod = (Asn1ObjectIdentifier) X509Translator.translateSingleIntermediateField(
-            intermediateAsn1Field.getChildren().get(0), Asn1ObjectIdentifierFT.class, "accessMethod", "");
-        asn1.addChild(accessMethod);
-
-        accessLocation = GeneralName.getInstance(intermediateAsn1Field.getChildren().get(1), "accessLocation");
-        asn1.addChild(accessLocation.asn1);
-
+    public Asn1ObjectIdentifier getAccessMethod() {
+        return accessMethod;
     }
 
+    public void setAccessMethod(Asn1ObjectIdentifier accessMethod) {
+        this.accessMethod = accessMethod;
+    }
+
+    public GeneralName getAccessLocation() {
+        return accessLocation;
+    }
+
+    public void setAccessLocation(GeneralName accessLocation) {
+        this.accessLocation = accessLocation;
+    }
 }

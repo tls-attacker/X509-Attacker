@@ -9,41 +9,38 @@
 
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.Asn1Encodable;
-import de.rub.nds.asn1.TagNumber;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
-import de.rub.nds.asn1.parser.IntermediateAsn1Field;
-import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveGeneralizedTimeFT;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveUtcTimeFT;
 
 /**
  *
  * Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime }
  *
  */
+public class Time {
 
-public class Time extends X509Model<Asn1Encodable> {
+    private Asn1PrimitiveUtcTime utcTime;
+    private Asn1PrimitiveGeneralizedTime generalizedTime;
 
-    private static final String type = "Time";
+    private final String identifier;
 
-    public static Time getInstance(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-
-        return new Time(intermediateAsn1Field, identifier);
-
+    public Time(String identifier) {
+        this.identifier = identifier;
     }
 
-    private Time(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-        // Choice
-        if (intermediateAsn1Field.getTagNumber() == TagNumber.UTCTIME.getIntValue()) {
-            asn1 = (Asn1PrimitiveUtcTime) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
-                Asn1PrimitiveUtcTimeFT.class, identifier, type);
-        } else if (intermediateAsn1Field.getTagNumber() == TagNumber.GENERALIZEDTIME.getIntValue()) {
-            asn1 = (Asn1PrimitiveGeneralizedTime) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
-                Asn1PrimitiveGeneralizedTimeFT.class, identifier, type);
-        }
-
+    public Asn1PrimitiveUtcTime getUtcTime() {
+        return utcTime;
     }
 
+    public void setUtcTime(Asn1PrimitiveUtcTime utcTime) {
+        this.utcTime = utcTime;
+    }
+
+    public Asn1PrimitiveGeneralizedTime getGeneralizedTime() {
+        return generalizedTime;
+    }
+
+    public void setGeneralizedTime(Asn1PrimitiveGeneralizedTime generalizedTime) {
+        this.generalizedTime = generalizedTime;
+    }
 }

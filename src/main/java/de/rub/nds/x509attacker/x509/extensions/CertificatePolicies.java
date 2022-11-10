@@ -10,10 +10,6 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.IntermediateAsn1Field;
-import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1SequenceFT;
-import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,33 +19,21 @@ import org.apache.logging.log4j.Logger;
  * certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation
  *
  */
-
-public class CertificatePolicies extends X509Model<Asn1Sequence> {
+public class CertificatePolicies extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static final String OID = "2.5.29.32";
-
-    private static final String type = "CertificatePolicies";
-
     public List<PolicyInformation> policyInformation;
 
-    public static CertificatePolicies getInstance(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-
-        return new CertificatePolicies(intermediateAsn1Field, identifier);
+    public CertificatePolicies(String identifier) {
+        this.setIdentifier(identifier);
     }
 
-    private CertificatePolicies(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-
-        asn1 = (Asn1Sequence) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
-            Asn1SequenceFT.class, identifier, type);
-
-        policyInformation = new LinkedList<>();
-        int index = 0;
-        for (IntermediateAsn1Field interFieldChild : intermediateAsn1Field.getChildren()) {
-            policyInformation.add(PolicyInformation.getInstance(interFieldChild, "policyInformation" + index++));
-            asn1.addChild(policyInformation.get(policyInformation.size() - 1).asn1);
-        }
+    public List<PolicyInformation> getPolicyInformation() {
+        return policyInformation;
     }
 
+    public void setPolicyInformation(List<PolicyInformation> policyInformation) {
+        this.policyInformation = policyInformation;
+    }
 }

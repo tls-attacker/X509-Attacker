@@ -10,9 +10,6 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
-import de.rub.nds.asn1.parser.IntermediateAsn1Field;
-import de.rub.nds.asn1.translator.X509Translator;
-import de.rub.nds.asn1.translator.fieldtranslators.Asn1PrimitiveBitStringFT;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,22 +20,13 @@ import org.apache.logging.log4j.Logger;
  * encipherOnly (7), decipherOnly (8) }
  *
  */
-public class KeyUsage extends X509Model<Asn1PrimitiveBitString> {
+public class KeyUsage extends Asn1PrimitiveBitString {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public static final String OID = "2.5.29.15";
-    private static final String type = "KeyUsage";
-
-    public static KeyUsage getInstance(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
-
-        return new KeyUsage(intermediateAsn1Field, identifier);
-    }
-
-    private KeyUsage(IntermediateAsn1Field intermediateAsn1Field, String identifier) {
+    private KeyUsage(String identifier) {
         // keyIdentifier
-        asn1 = (Asn1PrimitiveBitString) X509Translator.translateSingleIntermediateField(intermediateAsn1Field,
-            Asn1PrimitiveBitStringFT.class, identifier, type);
+        this.setIdentifier(identifier);
     }
 
 }
