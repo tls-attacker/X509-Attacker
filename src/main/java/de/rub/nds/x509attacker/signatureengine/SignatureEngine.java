@@ -43,10 +43,10 @@ public abstract class SignatureEngine {
      *
      * @param  privateKey
      * @param  toBeSigned
-     *                                                             The data to be signed.
-     * @return                                                     The signature value.
+     *                                                                          The data to be signed.
+     * @return                                                                  The signature value.
      * @throws de.rub.nds.x509attacker.signatureengine.SignatureEngineException
-     *                                                             when the signing fails
+     *                                                                          when the signing fails
      */
     public abstract byte[] sign(PrivateKey privateKey, final byte[] toBeSigned) throws SignatureEngineException;
 
