@@ -33,8 +33,8 @@ public class AttributeTypeAndValue extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public Asn1ObjectIdentifier type;
-    public Asn1Encodable value;
+    private Asn1ObjectIdentifier type;
+    private Asn1Encodable value;
 
     public AttributeTypeAndValue(String identifier) {
         super(identifier);

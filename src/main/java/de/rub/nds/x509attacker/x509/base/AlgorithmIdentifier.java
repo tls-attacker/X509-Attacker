@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
@@ -19,11 +18,26 @@ public class AlgorithmIdentifier extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public Asn1ObjectIdentifier algorithm;
-    public Asn1Encodable parameters;
+    private Asn1ObjectIdentifier algorithm;
+    private Asn1Encodable parameters;
 
     public AlgorithmIdentifier(String identifier) {
         super(identifier);
     }
 
+    public Asn1ObjectIdentifier getAlgorithm() {
+        return algorithm;
+    }
+
+    public void setAlgorithm(Asn1ObjectIdentifier algorithm) {
+        this.algorithm = algorithm;
+    }
+
+    public Asn1Encodable getParameters() {
+        return parameters;
+    }
+
+    public void setParameters(Asn1Encodable parameters) {
+        this.parameters = parameters;
+    }
 }
