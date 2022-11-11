@@ -30,8 +30,8 @@ public class TBSCertificate extends Asn1Sequence {
     private ASN1BitString subjecUniqueID;
     private Extensions extensions;
 
-    public TBSCertificate() {
-        this.setIdentifier("tbsCertificate");
+    public TBSCertificate(String identifier) {
+        super(identifier);
     }
 
     public Version getVersion() {

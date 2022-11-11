@@ -19,11 +19,11 @@ import de.rub.nds.asn1.model.Asn1Sequence;
  */
 public class SubjectPublicKeyInfo extends Asn1Sequence {
 
-    public AlgorithmIdentifier algorithm;
-    public Asn1EncapsulatingBitString subjectPublicKey;
+    private AlgorithmIdentifier algorithm;
+    private Asn1EncapsulatingBitString subjectPublicKey;
 
     public SubjectPublicKeyInfo(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public AlgorithmIdentifier getAlgorithm() {

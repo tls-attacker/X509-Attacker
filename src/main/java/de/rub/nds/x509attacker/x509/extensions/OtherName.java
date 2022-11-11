@@ -27,7 +27,7 @@ public class OtherName extends Asn1Sequence {
     private Asn1Encodable value;
 
     public OtherName(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public Asn1ObjectIdentifier getType_id() {

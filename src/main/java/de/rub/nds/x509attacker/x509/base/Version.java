@@ -18,7 +18,8 @@ import de.rub.nds.asn1.model.Asn1Integer;
  */
 public class Version extends Asn1Integer {
 
-    public Version() {
+    public Version(String identifier) {
+        super(identifier);
     }
 
 }

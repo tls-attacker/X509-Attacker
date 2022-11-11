@@ -26,7 +26,7 @@ public class PolicyQualifiers extends Asn1Sequence {
     private List<PolicyQualifierInfo> policyQualifierInfo;
 
     public PolicyQualifiers(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public List<PolicyQualifierInfo> getPolicyQualifierInfo() {

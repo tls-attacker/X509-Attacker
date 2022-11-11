@@ -34,7 +34,7 @@ public class AuthorityKeyIdentifier extends Asn1Sequence {
     private Asn1Integer authorityCertSerialNumber;
 
     public AuthorityKeyIdentifier(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public Asn1PrimitiveOctetString getKeyIdentifier() {

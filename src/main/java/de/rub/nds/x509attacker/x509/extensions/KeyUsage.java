@@ -25,8 +25,7 @@ public class KeyUsage extends Asn1PrimitiveBitString {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private KeyUsage(String identifier) {
-        // keyIdentifier
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
 }

@@ -30,7 +30,7 @@ public class PolicyInformation extends Asn1Sequence {
     public PolicyQualifiers policyQualifiers;
 
     public PolicyInformation(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public Asn1ObjectIdentifier getPolicyIdentifier() {

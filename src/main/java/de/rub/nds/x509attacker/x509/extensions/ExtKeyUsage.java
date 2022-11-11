@@ -29,7 +29,7 @@ public class ExtKeyUsage extends Asn1Sequence {
     private List<Asn1ObjectIdentifier> keyPurposeID;
 
     private ExtKeyUsage(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public List<Asn1ObjectIdentifier> getKeyPurposeID() {

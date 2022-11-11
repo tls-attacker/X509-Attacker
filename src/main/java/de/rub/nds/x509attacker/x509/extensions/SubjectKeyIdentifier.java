@@ -25,7 +25,7 @@ public class SubjectKeyIdentifier extends Asn1PrimitiveOctetString {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private SubjectKeyIdentifier(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
 }

@@ -19,10 +19,10 @@ import java.util.List;
  */
 public class RelativeDistinguishedName extends Asn1Set {
 
-    public List<AttributeTypeAndValue> attributeTypeAndValue;
+    private List<AttributeTypeAndValue> attributeTypeAndValue;
 
     public RelativeDistinguishedName(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public List<AttributeTypeAndValue> getAttributeTypeAndValue() {

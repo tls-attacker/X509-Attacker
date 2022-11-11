@@ -23,12 +23,12 @@ public class DistributionPoint extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public DistributionPointName distributionPointName;
-    public ReasonFlags reasons;
-    public GeneralNames cRLIssuer;
+    private DistributionPointName distributionPointName;
+    private ReasonFlags reasons;
+    private GeneralNames cRLIssuer;
 
     private DistributionPoint(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public DistributionPointName getDistributionPointName() {

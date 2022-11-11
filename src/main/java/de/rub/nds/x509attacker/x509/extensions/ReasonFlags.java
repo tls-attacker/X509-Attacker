@@ -24,7 +24,7 @@ public class ReasonFlags extends Asn1PrimitiveBitString {
     private static final Logger LOGGER = LogManager.getLogger();
 
     public ReasonFlags(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
 }

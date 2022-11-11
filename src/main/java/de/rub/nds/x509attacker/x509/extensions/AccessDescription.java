@@ -22,11 +22,11 @@ public class AccessDescription extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public Asn1ObjectIdentifier accessMethod;
-    public GeneralName accessLocation;
+    private Asn1ObjectIdentifier accessMethod;
+    private GeneralName accessLocation;
 
     public AccessDescription(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public Asn1ObjectIdentifier getAccessMethod() {

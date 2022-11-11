@@ -24,11 +24,11 @@ public class BasicConstraints extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public Asn1Boolean ca;
-    public Asn1Integer pathLenConstraint;
+    private Asn1Boolean ca;
+    private  Asn1Integer pathLenConstraint;
 
     private BasicConstraints(String identifier) {
-        setIdentifier(identifier);
+        super(identifier);
     }
 
     public Asn1Boolean getCa() {

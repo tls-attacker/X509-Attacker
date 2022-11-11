@@ -21,10 +21,10 @@ import java.util.List;
  */
 public class Name extends Asn1Sequence {
 
-    public List<RelativeDistinguishedName> relativeDistinguishedName;
+    private List<RelativeDistinguishedName> relativeDistinguishedName;
 
     public Name(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public List<RelativeDistinguishedName> getRelativeDistinguishedName() {

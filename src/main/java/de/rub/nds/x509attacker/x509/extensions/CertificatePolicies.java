@@ -23,10 +23,10 @@ public class CertificatePolicies extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public List<PolicyInformation> policyInformation;
+    private List<PolicyInformation> policyInformation;
 
     public CertificatePolicies(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public List<PolicyInformation> getPolicyInformation() {

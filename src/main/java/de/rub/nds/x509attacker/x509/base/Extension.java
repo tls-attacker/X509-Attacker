@@ -22,12 +22,12 @@ import org.bouncycastle.asn1.ASN1OctetString;
  */
 public class Extension extends Asn1Sequence {
 
-    public Asn1ObjectIdentifier extnID;
-    public Asn1Boolean critical;
-    public ASN1OctetString extnValue;
+    private Asn1ObjectIdentifier extnID;
+    private Asn1Boolean critical;
+    private ASN1OctetString extnValue;
 
     public Extension(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public Asn1ObjectIdentifier getExtnID() {

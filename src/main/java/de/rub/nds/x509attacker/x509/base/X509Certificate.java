@@ -33,9 +33,8 @@ public class X509Certificate extends Asn1Sequence {
     @HoldsModifiableVariable
     private ASN1BitString signature;
 
-    public X509Certificate() {
-        super();
-        setIdentifier("certificate");
+    public X509Certificate(String identifier) {
+        super(identifier);
     }
 
     public TBSCertificate getTbsCertificate() {

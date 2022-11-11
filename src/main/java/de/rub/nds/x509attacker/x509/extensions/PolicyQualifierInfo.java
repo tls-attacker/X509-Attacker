@@ -29,7 +29,7 @@ public class PolicyQualifierInfo extends Asn1Sequence {
     private Asn1Encodable qualifier;
 
     public PolicyQualifierInfo(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public Asn1ObjectIdentifier getPolicyQualifierId() {

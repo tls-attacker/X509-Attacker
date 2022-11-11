@@ -23,10 +23,10 @@ public class AuthorityInfoAccess extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public List<AccessDescription> accessDescription;
+    private List<AccessDescription> accessDescription;
 
     private AuthorityInfoAccess(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public List<AccessDescription> getAccessDescription() {

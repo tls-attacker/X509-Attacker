@@ -19,12 +19,10 @@ import java.util.List;
  */
 public class GeneralNames extends Asn1Sequence {
 
-    private static final String type = "GeneralNames";
+    private List<GeneralName> generalName;
 
-    public List<GeneralName> generalName;
-
-    private GeneralNames(String identifier) {
-        this.setIdentifier(identifier);
+    public GeneralNames(String identifier) {
+        super(identifier);
     }
 
     public List<GeneralName> getGeneralName() {

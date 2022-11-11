@@ -26,7 +26,7 @@ public class EDIPartyName extends Asn1Sequence {
     private DirectoryString partyName;
 
     public EDIPartyName(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public DirectoryString getNameAssigner() {

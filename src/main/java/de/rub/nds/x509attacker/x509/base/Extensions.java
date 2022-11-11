@@ -20,10 +20,17 @@ import java.util.List;
  */
 public class Extensions extends Asn1Sequence {
 
-    public List<Extension> extension;
+    private List<Extension> extension;
 
     private Extensions(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
+    public List<Extension> getExtension() {
+        return extension;
+    }
+
+    public void setExtension(List<Extension> extension) {
+        this.extension = extension;
+    }
 }

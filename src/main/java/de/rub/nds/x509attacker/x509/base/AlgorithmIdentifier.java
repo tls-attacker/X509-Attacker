@@ -23,8 +23,7 @@ public class AlgorithmIdentifier extends Asn1Sequence {
     public Asn1Encodable parameters;
 
     public AlgorithmIdentifier(String identifier) {
-        this.setIdentifier(identifier);
-
+        super(identifier);
     }
 
 }

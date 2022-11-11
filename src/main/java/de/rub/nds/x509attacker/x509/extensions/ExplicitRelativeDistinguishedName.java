@@ -9,6 +9,7 @@
 
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 
 /**
@@ -21,7 +22,7 @@ public class ExplicitRelativeDistinguishedName extends Asn1Choice {
     private RelativeDistinguishedName relativeDistinguishedName;
 
     private ExplicitRelativeDistinguishedName(String identifier) {
-
+        super(identifier);
     }
 
 }

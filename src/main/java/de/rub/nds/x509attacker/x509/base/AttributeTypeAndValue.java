@@ -37,7 +37,7 @@ public class AttributeTypeAndValue extends Asn1Sequence {
     public Asn1Encodable value;
 
     public AttributeTypeAndValue(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public Asn1ObjectIdentifier getType() {

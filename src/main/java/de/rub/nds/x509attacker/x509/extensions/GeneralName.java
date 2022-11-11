@@ -9,6 +9,7 @@
 
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.model.Asn1Choice;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,8 +24,8 @@ public class GeneralName extends Asn1Choice {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private GeneralName(String identifier) {
-
+    public GeneralName(String identifier) {
+        super(identifier);
     }
 
 }

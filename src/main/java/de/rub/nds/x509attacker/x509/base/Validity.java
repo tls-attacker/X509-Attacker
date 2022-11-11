@@ -18,11 +18,11 @@ import de.rub.nds.asn1.model.Asn1Sequence;
  */
 public class Validity extends Asn1Sequence {
 
-    public Time notBefore;
-    public Time notAfter;
+    private Time notBefore;
+    private Time notAfter;
 
     public Validity(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public Time getNotBefore() {

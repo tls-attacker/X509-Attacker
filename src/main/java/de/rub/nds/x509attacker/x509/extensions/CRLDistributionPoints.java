@@ -23,10 +23,10 @@ public class CRLDistributionPoints extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public List<DistributionPoint> distributionPoint;
+    private List<DistributionPoint> distributionPoint;
 
     public CRLDistributionPoints(String identifier) {
-        this.setIdentifier(identifier);
+        super(identifier);
     }
 
     public List<DistributionPoint> getDistributionPoint() {
