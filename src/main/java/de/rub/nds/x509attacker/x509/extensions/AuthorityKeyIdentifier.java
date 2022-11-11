@@ -41,6 +41,12 @@ public class AuthorityKeyIdentifier extends Asn1Sequence {
 
     public AuthorityKeyIdentifier(String identifier) {
         super(identifier);
+        keyIdentifier = new Asn1PrimitiveOctetString("keyIdentifier");
+        authorityCertIssuer = new GeneralNames("authorityCertIssuer");
+        authorityCertSerialNumber = new Asn1Integer("authorityCertSerialNumber");
+        addChild(keyIdentifier);
+        addChild(authorityCertIssuer);
+        addChild(authorityCertSerialNumber);
     }
 
     public Asn1PrimitiveOctetString getKeyIdentifier() {

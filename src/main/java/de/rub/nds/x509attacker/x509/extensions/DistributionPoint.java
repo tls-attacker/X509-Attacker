@@ -17,7 +17,7 @@ import org.apache.logging.log4j.Logger;
 /**
  *
  * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons [1] ReasonFlags
- * OPTIONAL, cRLIssuer [2] GeneralNames OPTIONAL }
+ OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
  *
  */
 public class DistributionPoint extends Asn1Sequence {
@@ -31,10 +31,16 @@ public class DistributionPoint extends Asn1Sequence {
     private ReasonFlags reasons;
     
     @HoldsModifiableVariable
-    private GeneralNames cRLIssuer;
+    private GeneralNames crlIssuer;
 
     private DistributionPoint(String identifier) {
         super(identifier);
+        distributionPointName = new DistributionPointName(identifier);
+        reasons = new ReasonFlags(identifier);
+        crlIssuer = new GeneralNames("crlIssuer");
+        addChild(distributionPointName);
+        addChild(reasons);
+        addChild(crlIssuer);
     }
 
     public DistributionPointName getDistributionPointName() {
@@ -53,12 +59,12 @@ public class DistributionPoint extends Asn1Sequence {
         this.reasons = reasons;
     }
 
-    public GeneralNames getcRLIssuer() {
-        return cRLIssuer;
+    public GeneralNames getCrlIssuer() {
+        return crlIssuer;
     }
 
-    public void setcRLIssuer(GeneralNames cRLIssuer) {
-        this.cRLIssuer = cRLIssuer;
+    public void setCrlIssuer(GeneralNames crlIssuer) {
+        this.crlIssuer = crlIssuer;
     }
 
 }

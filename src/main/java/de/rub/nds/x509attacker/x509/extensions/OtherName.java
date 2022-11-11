@@ -10,6 +10,7 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -32,6 +33,10 @@ public class OtherName extends Asn1Sequence {
 
     public OtherName(String identifier) {
         super(identifier);
+        typeId = new Asn1ObjectIdentifier("typeId");
+        value = new Asn1Null("value");
+        addChild(typeId);
+        addChild(value);
     }
 
     public Asn1ObjectIdentifier getTypeId() {

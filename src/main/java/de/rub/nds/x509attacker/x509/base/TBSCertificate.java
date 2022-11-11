@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import org.apache.logging.log4j.LogManager;
@@ -41,16 +42,36 @@ public class TBSCertificate extends Asn1Sequence {
     private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
     @HoldsModifiableVariable
-    private ASN1BitString issuerUniqueID;
+    private Asn1PrimitiveBitString issuerUniqueID;
 
     @HoldsModifiableVariable
-    private ASN1BitString subjecUniqueID;
+    private Asn1PrimitiveBitString subjectUniqueID;
 
     @HoldsModifiableVariable
     private Extensions extensions;
 
     public TBSCertificate(String identifier) {
         super(identifier);
+        version = new Version("version");
+        serialNumber = new Asn1Integer("serialNumber");
+        signature = new AlgorithmIdentifier("signature");
+        issuer = new Name("issuer");
+        validity = new Validity("validity");
+        subject = new Name("subject");
+        subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
+        issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
+        subjectUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
+        extensions = new Extensions("extensions");
+        addChild(version);
+        addChild(serialNumber);
+        addChild(signature);
+        addChild(issuer);
+        addChild(validity);
+        addChild(subject);
+        addChild(subjectPublicKeyInfo);
+        addChild(issuerUniqueID);
+        addChild(subjectUniqueID);
+        addChild(extensions);
     }
 
     public Version getVersion() {
@@ -109,20 +130,20 @@ public class TBSCertificate extends Asn1Sequence {
         this.subjectPublicKeyInfo = subjectPublicKeyInfo;
     }
 
-    public ASN1BitString getIssuerUniqueID() {
+    public Asn1PrimitiveBitString getIssuerUniqueID() {
         return issuerUniqueID;
     }
 
-    public void setIssuerUniqueID(ASN1BitString issuerUniqueID) {
+    public void setIssuerUniqueID(Asn1PrimitiveBitString issuerUniqueID) {
         this.issuerUniqueID = issuerUniqueID;
     }
 
-    public ASN1BitString getSubjecUniqueID() {
-        return subjecUniqueID;
+    public Asn1PrimitiveBitString getSubjectUniqueID() {
+        return subjectUniqueID;
     }
 
-    public void setSubjecUniqueID(ASN1BitString subjecUniqueID) {
-        this.subjecUniqueID = subjecUniqueID;
+    public void setSubjectUniqueID(Asn1PrimitiveBitString subjectUniqueID) {
+        this.subjectUniqueID = subjectUniqueID;
     }
 
     public Extensions getExtensions() {

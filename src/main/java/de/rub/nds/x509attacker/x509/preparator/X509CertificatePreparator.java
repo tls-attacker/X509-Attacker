@@ -15,13 +15,17 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.preparator.Preparator;
+import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
+import de.rub.nds.x509attacker.x509.base.X509Certificate;
 
-public class X509CertificatePreparator extends Preparator{
+public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certificate> {
+
+    public X509CertificatePreparator(X509Certificate field) {
+        super(field);
+    }
 
     @Override
-    public void prepare() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    protected byte[] encodeContent() {
     }
-    
+
 }

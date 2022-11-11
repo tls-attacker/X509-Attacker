@@ -6,10 +6,10 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -18,8 +18,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  *
- * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId, qualifier ANY DEFINED BY policyQualifierId }
- * }
+ * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId,
+ * qualifier ANY DEFINED BY policyQualifierId } }
  */
 public class PolicyQualifierInfo extends Asn1Sequence {
 
@@ -33,6 +33,10 @@ public class PolicyQualifierInfo extends Asn1Sequence {
 
     public PolicyQualifierInfo(String identifier) {
         super(identifier);
+        policyQualifierId = new Asn1ObjectIdentifier("policyQualifiersId");
+        qualifier = new Asn1Null("qualifier");
+        addChild(policyQualifierId);
+        addChild(qualifier);
     }
 
     public Asn1ObjectIdentifier getPolicyQualifierId() {

@@ -10,9 +10,9 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
+import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
-import org.bouncycastle.asn1.ASN1OctetString;
 
 /**
  *
@@ -25,15 +25,21 @@ public class Extension extends Asn1Sequence {
 
     @HoldsModifiableVariable
     private Asn1ObjectIdentifier extnID;
-    
+
     @HoldsModifiableVariable
     private Asn1Boolean critical;
-    
+
     @HoldsModifiableVariable
-    private ASN1OctetString extnValue;
+    private Asn1PrimitiveOctetString extnValue;
 
     public Extension(String identifier) {
         super(identifier);
+        extnID = new Asn1ObjectIdentifier(identifier);
+        critical = new Asn1Boolean(identifier);
+        extnValue = new Asn1PrimitiveOctetString(identifier);
+        addChild(extnID);
+        addChild(critical);
+        addChild(extnValue);
     }
 
     public Asn1ObjectIdentifier getExtnID() {
@@ -52,12 +58,11 @@ public class Extension extends Asn1Sequence {
         this.critical = critical;
     }
 
-    public ASN1OctetString getExtnValue() {
+    public Asn1PrimitiveOctetString getExtnValue() {
         return extnValue;
     }
 
-    public void setExtnValue(ASN1OctetString extnValue) {
+    public void setExtnValue(Asn1PrimitiveOctetString extnValue) {
         this.extnValue = extnValue;
     }
-
 }

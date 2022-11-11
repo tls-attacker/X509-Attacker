@@ -31,6 +31,10 @@ public class AccessDescription extends Asn1Sequence {
 
     public AccessDescription(String identifier) {
         super(identifier);
+        accessMethod = new Asn1ObjectIdentifier("accessMethod");
+        accessLocation = new GeneralName("accessLocation");
+        addChild(accessMethod);
+        addChild(accessLocation);
     }
 
     public Asn1ObjectIdentifier getAccessMethod() {

@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -32,6 +33,7 @@ public class CRLDistributionPoints extends Asn1Sequence {
 
     public CRLDistributionPoints(String identifier) {
         super(identifier);
+        distributionPoint = new LinkedList<>();
     }
 
     public List<DistributionPoint> getDistributionPoint() {

@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1Set;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import java.util.LinkedList;
 import java.util.List;
 
 /**
@@ -28,6 +29,7 @@ public class RelativeDistinguishedName extends Asn1Set {
 
     public RelativeDistinguishedName(String identifier) {
         super(identifier);
+        attributeTypeAndValue = new LinkedList<>();
     }
 
     public List<AttributeTypeAndValue> getAttributeTypeAndValue() {

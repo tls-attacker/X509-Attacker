@@ -28,6 +28,10 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
 
     public SubjectPublicKeyInfo(String identifier) {
         super(identifier);
+        algorithm = new AlgorithmIdentifier("algorithm");
+        subjectPublicKey = new Asn1EncapsulatingBitString("subjectPublicKey");
+        addChild(algorithm);
+        addChild(subjectPublicKey);
     }
 
     public AlgorithmIdentifier getAlgorithm() {

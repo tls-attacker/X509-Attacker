@@ -13,6 +13,7 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -35,6 +36,7 @@ public class ExtKeyUsage extends Asn1Sequence {
 
     private ExtKeyUsage(String identifier) {
         super(identifier);
+        keyPurposeID = new LinkedList<>();
     }
 
     public List<Asn1ObjectIdentifier> getKeyPurposeID() {

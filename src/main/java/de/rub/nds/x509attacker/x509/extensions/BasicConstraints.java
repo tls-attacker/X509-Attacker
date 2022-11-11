@@ -33,6 +33,10 @@ public class BasicConstraints extends Asn1Sequence {
     
     public BasicConstraints(String identifier) {
         super(identifier);
+        ca = new Asn1Boolean("ca");
+        pathLenConstraint = new Asn1Integer("pathLenConstraint");
+        addChild(ca);
+        addChild(pathLenConstraint);
     }
     
     public Asn1Boolean getCa() {

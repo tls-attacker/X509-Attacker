@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -27,6 +28,10 @@ public class AlgorithmIdentifier extends Asn1Sequence {
 
     public AlgorithmIdentifier(String identifier) {
         super(identifier);
+        algorithm = new Asn1ObjectIdentifier("algorithm");
+        parameters = new Asn1Null("parameters");
+        addChild(algorithm);
+        addChild(parameters);
     }
 
     public Asn1ObjectIdentifier getAlgorithm() {

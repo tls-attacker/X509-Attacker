@@ -31,6 +31,10 @@ public class EDIPartyName extends Asn1Sequence {
 
     public EDIPartyName(String identifier) {
         super(identifier);
+        nameAssigner = new DirectoryString("nameAssigner");
+        partyName = new DirectoryString("partyName");
+        addChild(nameAssigner);
+        addChild(partyName);
     }
 
     public DirectoryString getNameAssigner() {

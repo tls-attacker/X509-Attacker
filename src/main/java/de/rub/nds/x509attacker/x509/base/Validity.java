@@ -27,6 +27,10 @@ public class Validity extends Asn1Sequence {
 
     public Validity(String identifier) {
         super(identifier);
+        notBefore = new Time("notBefore");
+        notAfter = new Time("notAfter");
+        addChild(notBefore);
+        addChild(notAfter);
     }
 
     public Time getNotBefore() {
