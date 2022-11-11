@@ -10,6 +10,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 
 /**
  *
@@ -18,7 +19,10 @@ import de.rub.nds.asn1.model.Asn1Sequence;
  */
 public class Validity extends Asn1Sequence {
 
+    @HoldsModifiableVariable
     private Time notBefore;
+    
+    @HoldsModifiableVariable
     private Time notAfter;
 
     public Validity(String identifier) {

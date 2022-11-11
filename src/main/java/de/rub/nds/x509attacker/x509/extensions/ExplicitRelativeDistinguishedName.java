@@ -6,10 +6,10 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Choice;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 
 /**
@@ -19,9 +19,10 @@ import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
  */
 public class ExplicitRelativeDistinguishedName extends Asn1Choice {
 
+    @HoldsModifiableVariable
     private RelativeDistinguishedName relativeDistinguishedName;
 
-    private ExplicitRelativeDistinguishedName(String identifier) {
+    public ExplicitRelativeDistinguishedName(String identifier) {
         super(identifier);
     }
 

@@ -6,10 +6,12 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import jakarta.xml.bind.annotation.XmlElementRef;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -23,9 +25,12 @@ public class AuthorityInfoAccess extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @XmlElementWrapper
+    @XmlElementRef
+    @HoldsModifiableVariable
     private List<AccessDescription> accessDescription;
 
-    private AuthorityInfoAccess(String identifier) {
+    public AuthorityInfoAccess(String identifier) {
         super(identifier);
     }
 

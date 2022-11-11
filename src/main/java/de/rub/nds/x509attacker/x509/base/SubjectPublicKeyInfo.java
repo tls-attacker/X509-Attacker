@@ -6,20 +6,24 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1EncapsulatingBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 
 /**
  *
- * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier, subjectPublicKey BIT STRING }
+ * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier,
+ * subjectPublicKey BIT STRING }
  *
  */
 public class SubjectPublicKeyInfo extends Asn1Sequence {
 
+    @HoldsModifiableVariable
     private AlgorithmIdentifier algorithm;
+
+    @HoldsModifiableVariable
     private Asn1EncapsulatingBitString subjectPublicKey;
 
     public SubjectPublicKeyInfo(String identifier) {

@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,7 +19,10 @@ public class AlgorithmIdentifier extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @HoldsModifiableVariable
     private Asn1ObjectIdentifier algorithm;
+
+    @HoldsModifiableVariable
     private Asn1Encodable parameters;
 
     public AlgorithmIdentifier(String identifier) {

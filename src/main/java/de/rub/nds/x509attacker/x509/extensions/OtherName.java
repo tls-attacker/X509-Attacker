@@ -12,6 +12,7 @@ package de.rub.nds.x509attacker.x509.extensions;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,19 +24,22 @@ public class OtherName extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private Asn1ObjectIdentifier type_id;
+    @HoldsModifiableVariable
+    private Asn1ObjectIdentifier typeId;
+    
+    @HoldsModifiableVariable
     private Asn1Encodable value;
 
     public OtherName(String identifier) {
         super(identifier);
     }
 
-    public Asn1ObjectIdentifier getType_id() {
-        return type_id;
+    public Asn1ObjectIdentifier getTypeId() {
+        return typeId;
     }
 
-    public void setType_id(Asn1ObjectIdentifier type_id) {
-        this.type_id = type_id;
+    public void setTypeId(Asn1ObjectIdentifier typeId) {
+        this.typeId = typeId;
     }
 
     public Asn1Encodable getValue() {

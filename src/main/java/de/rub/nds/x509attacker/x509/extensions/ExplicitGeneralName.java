@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Choice;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 
 /**
  *
@@ -17,9 +18,10 @@ import de.rub.nds.asn1.model.Asn1Choice;
  */
 public class ExplicitGeneralName extends Asn1Choice {
 
+    @HoldsModifiableVariable
     private GeneralName generalName;
 
-    private ExplicitGeneralName(String identifier) {
+    public ExplicitGeneralName(String identifier) {
         super(identifier);
     }
 

@@ -12,6 +12,7 @@ package de.rub.nds.x509attacker.x509.extensions;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,8 +25,10 @@ public class PolicyQualifierInfo extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @HoldsModifiableVariable
     private Asn1ObjectIdentifier policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
     // id-qt-unotice )
+    @HoldsModifiableVariable
     private Asn1Encodable qualifier;
 
     public PolicyQualifierInfo(String identifier) {

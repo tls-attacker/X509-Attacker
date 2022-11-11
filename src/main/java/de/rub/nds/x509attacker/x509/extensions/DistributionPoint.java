@@ -10,6 +10,7 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,9 +23,14 @@ import org.apache.logging.log4j.Logger;
 public class DistributionPoint extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
+    
+    @HoldsModifiableVariable
     private DistributionPointName distributionPointName;
+    
+    @HoldsModifiableVariable
     private ReasonFlags reasons;
+    
+    @HoldsModifiableVariable
     private GeneralNames cRLIssuer;
 
     private DistributionPoint(String identifier) {

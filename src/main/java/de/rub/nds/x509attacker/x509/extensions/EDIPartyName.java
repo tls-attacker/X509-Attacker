@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.x509attacker.x509.base.DirectoryString;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,7 +23,10 @@ public class EDIPartyName extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @HoldsModifiableVariable
     private DirectoryString nameAssigner;
+    
+    @HoldsModifiableVariable
     private DirectoryString partyName;
 
     public EDIPartyName(String identifier) {

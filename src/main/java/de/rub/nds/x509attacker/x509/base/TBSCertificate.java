@@ -6,11 +6,11 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bouncycastle.asn1.ASN1BitString;
@@ -19,15 +19,34 @@ public class TBSCertificate extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @HoldsModifiableVariable
     private Version version;
+
+    @HoldsModifiableVariable
     private Asn1Integer serialNumber;
+
+    @HoldsModifiableVariable
     private AlgorithmIdentifier signature;
+
+    @HoldsModifiableVariable
     private Name issuer;
+
+    @HoldsModifiableVariable
     private Validity validity;
+
+    @HoldsModifiableVariable
     private Name subject;
+
+    @HoldsModifiableVariable
     private SubjectPublicKeyInfo subjectPublicKeyInfo;
+
+    @HoldsModifiableVariable
     private ASN1BitString issuerUniqueID;
+
+    @HoldsModifiableVariable
     private ASN1BitString subjecUniqueID;
+
+    @HoldsModifiableVariable
     private Extensions extensions;
 
     public TBSCertificate(String identifier) {

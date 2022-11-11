@@ -6,9 +6,9 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
 
@@ -17,30 +17,9 @@ import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
  * Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime }
  *
  */
-public class Time {
-
-    private Asn1PrimitiveUtcTime utcTime;
-    private Asn1PrimitiveGeneralizedTime generalizedTime;
-
-    private final String identifier;
+public class Time extends Asn1Choice {
 
     public Time(String identifier) {
-        this.identifier = identifier;
-    }
-
-    public Asn1PrimitiveUtcTime getUtcTime() {
-        return utcTime;
-    }
-
-    public void setUtcTime(Asn1PrimitiveUtcTime utcTime) {
-        this.utcTime = utcTime;
-    }
-
-    public Asn1PrimitiveGeneralizedTime getGeneralizedTime() {
-        return generalizedTime;
-    }
-
-    public void setGeneralizedTime(Asn1PrimitiveGeneralizedTime generalizedTime) {
-        this.generalizedTime = generalizedTime;
+        super(identifier, new Asn1PrimitiveUtcTime("utcTime"), new Asn1PrimitiveGeneralizedTime(identifier));
     }
 }

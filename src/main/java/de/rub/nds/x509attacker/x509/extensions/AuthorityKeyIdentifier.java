@@ -6,19 +6,20 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
  *
- * AuthorityKeyIdentifier ::= SEQUENCE { keyIdentifier [0] KeyIdentifier OPTIONAL, authorityCertIssuer [1] GeneralNames
- * OPTIONAL, authorityCertSerialNumber [2] CertificateSerialNumber OPTIONAL }
+ * AuthorityKeyIdentifier ::= SEQUENCE { keyIdentifier [0] KeyIdentifier
+ * OPTIONAL, authorityCertIssuer [1] GeneralNames OPTIONAL,
+ * authorityCertSerialNumber [2] CertificateSerialNumber OPTIONAL }
  *
  * KeyIdentifier ::= OCTET STRING
  *
@@ -29,8 +30,13 @@ public class AuthorityKeyIdentifier extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    @HoldsModifiableVariable
     private Asn1PrimitiveOctetString keyIdentifier;
+
+    @HoldsModifiableVariable
     private GeneralNames authorityCertIssuer;
+    
+    @HoldsModifiableVariable
     private Asn1Integer authorityCertSerialNumber;
 
     public AuthorityKeyIdentifier(String identifier) {
