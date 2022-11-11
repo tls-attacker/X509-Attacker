@@ -15,10 +15,13 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-/**
- *
- * @author robertmerget
- */
-public class X509CertificatePreparator {
+import de.rub.nds.asn1.preparator.Preparator;
+
+public class X509CertificatePreparator extends Preparator{
+
+    @Override
+    public void prepare() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     
 }
