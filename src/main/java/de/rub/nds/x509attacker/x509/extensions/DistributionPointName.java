@@ -10,6 +10,7 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Choice;
+import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 
 /**
@@ -22,6 +23,12 @@ public class DistributionPointName extends Asn1Choice {
 
     public DistributionPointName(String identifier) {
         super(identifier, new GeneralNames(identifier), new RelativeDistinguishedName(identifier));
+    }
+
+    @Override
+    public Preparator getPreparator() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

@@ -35,7 +35,7 @@ public class AlgorithmIdentifier extends Asn1Sequence {
         parameters = new Asn1Any("parameters");
         addChild(algorithm);
         addChild(parameters);
-        
+
     }
 
     public Asn1ObjectIdentifier getAlgorithm() {

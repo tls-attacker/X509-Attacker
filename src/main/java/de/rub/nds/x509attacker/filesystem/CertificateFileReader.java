@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.filesystem;
 
 import java.io.File;
@@ -30,9 +31,9 @@ public class CertificateFileReader {
         byte[] bytes = stream.readAllBytes();
         String certificateFileContent = new String(bytes);
         if (certificateFileContent.contains(CERTIFICATE_PEM_PREFIX)
-                && certificateFileContent.contains(CERTIFICATE_PEM_SUFFIX)) {
+            && certificateFileContent.contains(CERTIFICATE_PEM_SUFFIX)) {
             String base64Str = certificateFileContent.replace("\\n", "").replace("\n", "").replace("\r", "")
-                    .replace(CERTIFICATE_PEM_PREFIX, "").replace(CERTIFICATE_PEM_SUFFIX, "").trim();
+                .replace(CERTIFICATE_PEM_PREFIX, "").replace(CERTIFICATE_PEM_SUFFIX, "").trim();
             bytes = Base64.getDecoder().decode(base64Str);
         }
         if (bytes == null) {

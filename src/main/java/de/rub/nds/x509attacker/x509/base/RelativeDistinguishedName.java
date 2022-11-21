@@ -40,7 +40,8 @@ public class RelativeDistinguishedName extends Asn1Set {
         attributeTypeAndValueList = new LinkedList<>();
         for (Pair<X500AttributeType, String> pair : attributeList) {
             AttributeTypeAndValue attributeTypeAndValue =
-                new AttributeTypeAndValue(pair.getKey().getHumanReadableName().concat("=").concat(pair.getValue()));
+                new AttributeTypeAndValue(pair.getKey().getHumanReadableName().concat("=").concat(pair.getValue()),
+                    pair.getKey(), pair.getValue());
             attributeTypeAndValueList.add(attributeTypeAndValue);
         }
 

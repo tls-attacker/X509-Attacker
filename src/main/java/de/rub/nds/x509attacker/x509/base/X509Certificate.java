@@ -12,12 +12,12 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bouncycastle.asn1.ASN1BitString;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -34,9 +34,9 @@ public class X509Certificate extends Asn1Sequence {
     @HoldsModifiableVariable
     private Asn1PrimitiveBitString signature;
 
-    public X509Certificate(String identifier) {
+    public X509Certificate(String identifier, X509CertificateConfig certificateConfig) {
         super(identifier);
-        tbsCertificate = new TbsCertificate("tbsCertificate");
+        tbsCertificate = new TbsCertificate("tbsCertificate", certificateConfig);
         signatureAlgorithm = new AlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1PrimitiveBitString("signature");
         addChild(tbsCertificate);

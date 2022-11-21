@@ -59,7 +59,7 @@ public class TbsCertificate extends Asn1Sequence {
         issuer = new Name("issuer", config.getIssuer());
         validity = new Validity("validity");
         subject = new Name("subject", config.getSubject());
-        subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
+        subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
         issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
         subjectUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
         extensions = new Extensions("extensions");

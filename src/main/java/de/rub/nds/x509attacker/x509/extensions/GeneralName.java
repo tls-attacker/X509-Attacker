@@ -10,6 +10,7 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Choice;
+import de.rub.nds.asn1.preparator.Preparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +27,12 @@ public class GeneralName extends Asn1Choice {
 
     public GeneralName(String identifier) {
         super(identifier);
+    }
+
+    @Override
+    public Preparator getPreparator() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

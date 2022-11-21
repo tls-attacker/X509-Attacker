@@ -12,6 +12,7 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitivePrintableString;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
+import de.rub.nds.asn1.preparator.Preparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -29,5 +30,11 @@ public class DirectoryString extends Asn1Choice {
     public DirectoryString(String identifier) {
         super(identifier, new Asn1PrimitiveUtf8String("utf8String"),
             new Asn1PrimitivePrintableString("printableString"));
+    }
+
+    @Override
+    public Preparator getPreparator() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
