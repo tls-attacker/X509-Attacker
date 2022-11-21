@@ -6,8 +6,10 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.signatureengine.SignatureEngine;
@@ -35,7 +37,7 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
         prepareSubcomponent(this.certificate.getTbsCertificate(), config);
         prepareSignatureAlgorithm();
         prepareSignature();
-        certificate.getGenericPreparator().prepare();
+        certificate.setEncodedChildren(encodedChildren(certificate.getChildren()));
         return certificate.getEncodedChildren().getValue();
     }
 
@@ -43,12 +45,14 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
         X509SignatureAlgorithm signatureAlgorithm = config.getSignatureAlgorithm();
         certificate.getSignatureAlgorithm().getAlgorithm().setValue(signatureAlgorithm.getOid().toString());
         prepareSubcomponent(certificate.getSignatureAlgorithm().getAlgorithm());
+        certificate.getSignatureAlgorithm().instantiateParameters(new Asn1Null("null")); // PARAMETERS
+        prepareSubcomponent(certificate.getSignatureAlgorithm());
     }
 
     private void prepareSignature() {
         byte[] encodedSignatureAlgorithm = certificate.getSignatureAlgorithm().getContent().getValue();
-        X509SignatureAlgorithm signatureAlgorithm
-                = X509SignatureAlgorithm.decodeFromOidBytes(encodedSignatureAlgorithm);
+        X509SignatureAlgorithm signatureAlgorithm =
+            X509SignatureAlgorithm.decodeFromOidBytes(encodedSignatureAlgorithm);
         if (signatureAlgorithm == null) {
             LOGGER.warn("Could not decode signature algorithm, using defaultSignatureAlgorithm");
             signatureAlgorithm = config.getSignatureAlgorithm();
@@ -69,15 +73,15 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
 
             case ECDSA:
                 throw new UnsupportedOperationException(
-                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
+                    "The keytype \"" + keyType.name() + "\" is not implemented yet");
             case RSA:
                 return new CustomRsaPrivateKey(config.getRsaModulus(), config.getRsaPrivateKey());
             case DSA:
                 throw new UnsupportedOperationException(
-                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
+                    "The keytype \"" + keyType.name() + "\" is not implemented yet");
             default:
                 throw new UnsupportedOperationException(
-                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
+                    "The keytype \"" + keyType.name() + "\" is not implemented yet");
         }
     }
 }

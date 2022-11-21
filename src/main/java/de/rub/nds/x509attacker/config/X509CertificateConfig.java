@@ -58,7 +58,7 @@ public class X509CertificateConfig {
 
     private boolean includeSubjectUniqueId = false;
 
-    private boolean includeExtensions = true;
+    private boolean includeExtensions = false;
 
     private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;
 

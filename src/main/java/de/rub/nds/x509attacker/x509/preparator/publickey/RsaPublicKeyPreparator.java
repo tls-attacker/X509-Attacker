@@ -19,12 +19,13 @@ public class RsaPublicKeyPreparator extends X509ComponentPreparator<RsaPublicKey
         super(instance, config);
     }
 
-    
     @Override
     protected byte[] encodeContent() {
         instance.getModulus().setValue(config.getRsaModulus());
+        prepareSubcomponent(instance.getModulus());
         instance.getPublicExponent().setValue(config.getRsaPublicKey());
-        instance.getGenericPreparator().prepare();
+        prepareSubcomponent(instance.getPublicExponent());
+        instance.setEncodedChildren(encodedChildren(instance.getChildren()));
         return instance.getEncodedChildren().getValue();
     }
 

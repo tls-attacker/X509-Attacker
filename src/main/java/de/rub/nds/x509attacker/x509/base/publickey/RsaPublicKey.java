@@ -24,10 +24,10 @@ public class RsaPublicKey extends Asn1Sequence implements X509Component {
 
     public RsaPublicKey() {
         super("rsaPublicKey");
-        modulus = new Asn1Integer("modulus");
-        publicExponent = new Asn1Integer("publicExponent");
-        addChild(modulus);
-        addChild(publicExponent);
+        this.modulus = new Asn1Integer("modulus");
+        this.publicExponent = new Asn1Integer("publicExponent");
+        addChild(this.modulus);
+        addChild(this.publicExponent);
     }
 
     public Asn1Integer getModulus() {
@@ -55,5 +55,4 @@ public class RsaPublicKey extends Asn1Sequence implements X509Component {
     public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
         return new RsaPublicKeyPreparator(this, config);
     }
-
 }

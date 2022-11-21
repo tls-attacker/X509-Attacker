@@ -64,8 +64,10 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         subject = new Name("subject", config.getSubject());
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
         issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
-        subjectUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
-        extensions = new Extensions("extensions");
+        subjectUniqueID = new Asn1PrimitiveBitString("subjectUniqueID");
+        if (config.isIncludeExtensions()) {
+            extensions = new Extensions("extensions");
+        }
         addChild(version);
         addChild(serialNumber);
         addChild(signature);
@@ -75,7 +77,9 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         addChild(subjectPublicKeyInfo);
         addChild(issuerUniqueID);
         addChild(subjectUniqueID);
-        addChild(extensions);
+        if (extensions != null) {
+            addChild(extensions);
+        }
     }
 
     public Version getVersion() {

@@ -6,11 +6,9 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
-import de.rub.nds.asn1.model.Asn1EncapsulatingBitString;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Null;
@@ -50,7 +48,6 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         this.tbsCertificate = tbsCertificate;
     }
 
-    
     @Override
     protected byte[] encodeContent() {
         prepareVersion();
@@ -63,12 +60,13 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         prepareIssuerUniqueId();
         prepareSubjectUniqueId();
         prepareExtensions();
-        tbsCertificate.getGenericPreparator().prepare();
+        tbsCertificate.setEncodedChildren(encodedChildren(tbsCertificate.getChildren()));
         return tbsCertificate.getEncodedChildren().getValue();
     }
 
     private void prepareVersion() {
-
+        tbsCertificate.getVersion().setValue(config.getVersion().getValue());
+        prepareSubcomponent(tbsCertificate.getVersion());
     }
 
     private void prepareSerialNumber() {
@@ -105,6 +103,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         for (AttributeTypeAndValue typeAndValue : attributeTypeAndValueList) {
             typeAndValue.getPreparator(config).prepare();
         }
+        prepareSubcomponent(issuer);
 
     }
 
@@ -112,32 +111,33 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         Validity validity = tbsCertificate.getValidity();
         Time notAfter = validity.getNotAfter();
         encodeValidity(config.getNotAfter(), notAfter, config.getDefaultNotAfterEncoding(),
-            config.getNotAfterAccurracy(), config.getTimezoneOffsetInMinutes());
+                config.getNotAfterAccurracy(), config.getTimezoneOffsetInMinutes());
         prepareSubcomponent(notAfter);
         Time notBefore = validity.getNotBefore();
         encodeValidity(config.getNotBefore(), notBefore, config.getDefaultNotBeforeEncoding(),
-            config.getNotBeforeAccurracy(), config.getTimezoneOffsetInMinutes());
+                config.getNotBeforeAccurracy(), config.getTimezoneOffsetInMinutes());
         prepareSubcomponent(notBefore);
+        prepareSubcomponent(validity);
     }
 
     private void encodeValidity(DateTime date, Time time, ValidityEncoding encoding, TimeAccurracy accurracy,
-        int timezoneInMinutes) {
+            int timezoneInMinutes) {
         Asn1Field timeField;
         switch (encoding) {
             case GENERALIZED_TIME_DIFFERENTIAL:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                    .setValue(TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(date, accurracy, timezoneInMinutes));
+                        .setValue(TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(date, accurracy, timezoneInMinutes));
                 break;
             case GENERALIZED_TIME_LOCAL:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                    .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
+                        .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
                 break;
             case GENERALIZED_TIME_UTC:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                    .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
+                        .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
                 break;
             case UTC:
                 timeField = new Asn1PrimitiveUtcTime("utcTime");
@@ -146,7 +146,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             case UTC_DIFFERENTIAL:
                 timeField = new Asn1PrimitiveUtcTime("utcTime");
                 ((Asn1PrimitiveUtcTime) timeField)
-                    .setValue(TimeEncoder.encodeUtcWithDifferential(date, accurracy, timezoneInMinutes));
+                        .setValue(TimeEncoder.encodeUtcWithDifferential(date, accurracy, timezoneInMinutes));
                 break;
             default:
                 throw new UnsupportedOperationException("Unsupported validity encoding:" + encoding.name());
@@ -162,6 +162,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         for (AttributeTypeAndValue typeAndValue : attributeTypeAndValueList) {
             typeAndValue.getGenericPreparator().prepare();
         }
+        prepareSubcomponent(subject);
     }
 
     private void prepareSubjectPublicKeyInfo() {
@@ -180,15 +181,14 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
         prepareSubcomponent(subjectPublicKeyInfo);
-        Asn1EncapsulatingBitString subjectPublicKeyBitString = subjectPublicKeyInfo.getSubjectPublicKeyBitString();
-        subjectPublicKeyBitString.setContent(createPublicKeyBitString(subjectPublicKeyInfo.getSubjectPublicKey()));
 
     }
 
     private void prepareIssuerUniqueId() {
         if (tbsCertificate.getIssuerUniqueID() != null) {
             // IssuerUniqueID is an optional field
-            tbsCertificate.getIssuerUniqueID().setContent(config.getDefaultIssuerUniqueId());
+            tbsCertificate.getIssuerUniqueID().setValue(config.getDefaultIssuerUniqueId());
+            tbsCertificate.getIssuerUniqueID().setUnusedBits((byte) 0);
             prepareSubcomponent(tbsCertificate.getIssuerUniqueID());
         }
     }
@@ -196,7 +196,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     private void prepareSubjectUniqueId() {
         if (tbsCertificate.getSubjectUniqueID() != null) {
             // IssuerUniqueID is an optional field
-            tbsCertificate.getSubjectUniqueID().setContent(config.getDefaultSubjectUniqueId());
+            tbsCertificate.getSubjectUniqueID().setValue(config.getDefaultSubjectUniqueId());
+            tbsCertificate.getSubjectUniqueID().setUnusedBits((byte) 0);
             prepareSubcomponent(tbsCertificate.getSubjectUniqueID());
         }
     }

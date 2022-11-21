@@ -15,7 +15,6 @@ import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -27,7 +26,7 @@ public class AlgorithmIdentifier extends Asn1Sequence {
     private Asn1ObjectIdentifier algorithm;
 
     @HoldsModifiableVariable
-    private Asn1Any parameters;
+    private final Asn1Any parameters;
 
     public AlgorithmIdentifier(String identifier) {
         super(identifier);
