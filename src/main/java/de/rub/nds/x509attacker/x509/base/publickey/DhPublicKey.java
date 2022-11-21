@@ -19,7 +19,7 @@ public class DhPublicKey extends Asn1Integer implements SubjectPublicKey {
     }
 
     @Override
-    public Preparator getPreparator() {
+    public Preparator getGenericPreparator() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

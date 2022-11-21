@@ -27,13 +27,13 @@ public class Time extends Asn1Choice {
     }
 
     @Override
-    public Asn1FieldSerializer getSerializer() {
-        return super.getSerializer(); // Generated from
+    public Asn1FieldSerializer getGenericSerializer() {
+        return super.getGenericSerializer(); // Generated from
                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
 
     @Override
-    public Preparator getPreparator() {
+    public Preparator getGenericPreparator() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
                                                                        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }

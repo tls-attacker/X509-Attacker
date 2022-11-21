@@ -17,7 +17,6 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
 import de.rub.nds.asn1.time.TimeEncoder;
-import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.x509.base.AlgorithmIdentifier;
@@ -87,7 +86,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
         List<AttributeTypeAndValue> attributeTypeAndValueList = rdn.getAttributeTypeAndValueList();
         for (AttributeTypeAndValue typeAndValue : attributeTypeAndValueList) {
-            typeAndValue.getPreparator().prepare();
+            typeAndValue.getGenericPreparator().prepare();
         }
 
     }
@@ -142,7 +141,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         RelativeDistinguishedName rdn = subject.getRelativeDistinguishedName();
         List<AttributeTypeAndValue> attributeTypeAndValueList = rdn.getAttributeTypeAndValueList();
         for (AttributeTypeAndValue typeAndValue : attributeTypeAndValueList) {
-            typeAndValue.getPreparator().prepare();
+            typeAndValue.getGenericPreparator().prepare();
         }
     }
 

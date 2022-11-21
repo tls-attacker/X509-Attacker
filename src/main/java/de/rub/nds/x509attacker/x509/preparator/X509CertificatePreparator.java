@@ -16,6 +16,7 @@ import de.rub.nds.x509attacker.signatureengine.SignatureEngineFactory;
 import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 import de.rub.nds.x509attacker.signatureengine.privatekey.CustomRsaPrivateKey;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import de.rub.nds.x509attacker.x509.base.X509Component;
 import java.security.PrivateKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -33,7 +34,7 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
 
     @Override
     public void prepareContent() {
-        prepareSubcomponent(this.certificate.getTbsCertificate());
+        prepareSubcomponent((X509Component)this.certificate.getTbsCertificate());
         prepareSignatureAlgorithm();
         prepareSignature();
     }
@@ -54,7 +55,7 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
         }
         SignatureEngine signatureEngine = SignatureEngineFactory.getEngine(signatureAlgorithm);
         PrivateKey privateKey = getPrivateKeyForAlgorithm(signatureAlgorithm);
-        byte[] toBeSigned = this.certificate.getTbsCertificate().getSerializer().serialize();
+        byte[] toBeSigned = this.certificate.getTbsCertificate().getGenericSerializer().serialize();
         byte[] signature = signatureEngine.sign(privateKey, toBeSigned);
         certificate.getSignature().setValue(signature);
         certificate.getSignature().setUnusedBits((byte) 0);
