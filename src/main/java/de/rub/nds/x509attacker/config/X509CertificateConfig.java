@@ -60,15 +60,15 @@ public class X509CertificateConfig {
 
     private boolean includeExtensions = true;
 
-    private X509PublicKeyType publicKeyType;
+    private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;
 
-    private BigInteger rsaModulus;
+    private BigInteger rsaModulus = new BigInteger("00c8820d6c3ce84c8430f6835abfc7d7a912e1664f44578751f376501a8c68476c3072d919c5d39bd0dbe080e71db83bd4ab2f2f9bde3dffb0080f510a5f6929c196551f2b3c369be051054c877573195558fd282035934dc86edab8d4b1b7f555e5b2fee7275384a756ef86cb86793b5d1333f0973203cb96966766e655cd2cccae1940e4494b8e9fb5279593b75afd0b378243e51a88f6eb88def522a8cd5c6c082286a04269a2879760fcba45005d7f2672dd228809d47274f0fe0ea5531c2bd95366c05bf69edc0f3c3189866edca0c57adcca93250ae78d9eaca0393a95ff9952fc47fb7679dd3803e6a7a6fa771861e3d99e4b551a4084668b111b7eef7d", 16);
 
-    private BigInteger rsaPrivateKey;
+    private BigInteger rsaPrivateKey = new BigInteger("7dc0cb485a3edb56811aeab12cdcda8e48b023298dd453a37b4d75d9e0bbba27c98f0e4852c16fd52341ffb673f64b580b7111abf14bf323e53a2dfa92727364ddb34f541f74a478a077f15277c013606aea839307e6f5fec23fdd72506feea7cbe362697949b145fe8945823a39a898ac6583fc5fbaefa1e77cbc95b3b475e66106e92b906bdbb214b87bcc94020f317fc1c056c834e9cee0ad21951fbdca088274c4ef9d8c2004c6294f49b370fb249c1e2431fb80ce5d3dc9e342914501ef4c162e54e1ee4fed9369b82afc00821a29f4979a647e60935420d44184d98f9cb75122fb604642c6d1ff2b3a51dc32eefdc57d9a9407ad6a06d10e83e2965481", 16);;
 
-    private BigInteger dsaPrivateKey;
+    private BigInteger dsaPrivateKey = new BigInteger("FFFF", 16);;
 
-    private BigInteger ecPrivateKey;
+    private BigInteger ecPrivateKey = new BigInteger("03", 16);;
 
     private Boolean includeDhValidationParameters = false;
 
