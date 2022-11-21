@@ -16,6 +16,7 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
 import de.rub.nds.asn1.time.TimeEncoder;
+import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.x509.base.AlgorithmIdentifier;
@@ -141,25 +142,46 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     private void prepareSubjectPublicKeyInfo() {
         SubjectPublicKeyInfo subjectPublicKeyInfo = tbsCertificate.getSubjectPublicKeyInfo();
         AlgorithmIdentifier algorithm = subjectPublicKeyInfo.getAlgorithm();
+        algorithm.getParameters().setIdentifier(config.getPublicKeyType().getOid().toString());
+        algorithm.instantiateParameters(createPublicKeyParameters());
+        prepareSubcomponent(subjectPublicKeyInfo);
         Asn1EncapsulatingBitString subjectPublicKey = subjectPublicKeyInfo.getSubjectPublicKeyBitString();
-        
+        subjectPublicKey.setContent(createPublicKeyBitString());
+
     }
 
     private void prepareIssuerUniqueId() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (tbsCertificate.getIssuerUniqueID() != null) {
+            //IssuerUniqueID is an optional field
+            tbsCertificate.getIssuerUniqueID().setContent(config.getDefaultIssuerUniqueId());
+            prepareSubcomponent(tbsCertificate.getIssuerUniqueID());
+        }
     }
 
     private void prepareSubjectUniqueId() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (tbsCertificate.getSubjectUniqueID() != null) {
+            //IssuerUniqueID is an optional field
+            tbsCertificate.getSubjectUniqueID().setContent(config.getDefaultSubjectUniqueId());
+            prepareSubcomponent(tbsCertificate.getSubjectUniqueID());
+        }
     }
 
     private void prepareExtensions() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        if (tbsCertificate.getExtensions() != null) {
+            throw new UnsupportedOperationException("Extensions not supported yet");
+        }
     }
 
     private Asn1Field createSignatureParameters() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private Asn1Field createPublicKeyParameters() {
+        throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    private byte[] createPublicKeyBitString() {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
 }

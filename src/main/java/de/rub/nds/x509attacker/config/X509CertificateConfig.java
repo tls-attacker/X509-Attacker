@@ -15,6 +15,7 @@ import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509Version;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import java.math.BigInteger;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
@@ -48,9 +49,13 @@ public class X509CertificateConfig {
 
     private int timezoneOffsetInMinutes = 0;
 
-    private boolean includeIssuerUniqueId = true;
+    private byte[] defaultIssuerUniqueId = new byte[16];
 
-    private boolean includeSubjectUniqueId = true;
+    private byte[] defaultSubjectUniqueId = new byte[16];
+
+    private boolean includeIssuerUniqueId = false;
+
+    private boolean includeSubjectUniqueId = false;
 
     private boolean includeExtensions = true;
 
@@ -74,6 +79,22 @@ public class X509CertificateConfig {
         subject = new LinkedList<>();
         issuer.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         issuer.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+    }
+
+    public byte[] getDefaultIssuerUniqueId() {
+        return Arrays.copyOf(defaultIssuerUniqueId, defaultIssuerUniqueId.length);
+    }
+
+    public void setDefaultIssuerUniqueId(byte[] defaultIssuerUniqueId) {
+        this.defaultIssuerUniqueId = Arrays.copyOf(defaultIssuerUniqueId, defaultIssuerUniqueId.length);
+    }
+
+    public byte[] getDefaultSubjectUniqueId() {
+        return Arrays.copyOf(defaultSubjectUniqueId, defaultSubjectUniqueId.length);
+    }
+
+    public void setDefaultSubjectUniqueId(byte[] defaultSubjectUniqueId) {
+        this.defaultSubjectUniqueId = Arrays.copyOf(defaultSubjectUniqueId, defaultSubjectUniqueId.length);
     }
 
     public Boolean getIncludeDhValidationParameters() {
