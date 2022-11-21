@@ -9,10 +9,15 @@
 
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import de.rub.nds.x509attacker.x509.preparator.publickey.DhPublicKeyPreparator;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.preparator.Preparator;
+import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
-public class DhPublicKey extends Asn1Integer implements SubjectPublicKey {
+public class DhPublicKey extends Asn1Integer implements X509Component {
 
     public DhPublicKey() {
         super("dhPublicKey");
@@ -22,4 +27,15 @@ public class DhPublicKey extends Asn1Integer implements SubjectPublicKey {
     public Preparator getGenericPreparator() {
         throw new UnsupportedOperationException("Not supported yet.");
     }
+
+    @Override
+    public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
+        return new DhPublicKeyPreparator(this, config);
+    }
+
+    @Override
+    public Asn1FieldSerializer getSerializer() {
+        return super.getGenericSerializer();
+    }
+
 }

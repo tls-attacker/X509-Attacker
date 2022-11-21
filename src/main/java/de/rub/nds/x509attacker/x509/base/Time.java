@@ -12,8 +12,6 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
-import de.rub.nds.asn1.preparator.Preparator;
-import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 
 /**
  *
@@ -24,18 +22,6 @@ public class Time extends Asn1Choice {
 
     public Time(String identifier) {
         super(identifier, new Asn1PrimitiveUtcTime("utcTime"), new Asn1PrimitiveGeneralizedTime(identifier));
-    }
-
-    @Override
-    public Asn1FieldSerializer getGenericSerializer() {
-        return super.getGenericSerializer(); // Generated from
-                                      // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
-    }
-
-    @Override
-    public Preparator getGenericPreparator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

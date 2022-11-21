@@ -7,8 +7,8 @@
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
 
-package de.rub.nds.x509attacker.x509.base.publickey;
+package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 
-public interface SubjectPublicKey {
+public interface PublicParameters {
 
 }

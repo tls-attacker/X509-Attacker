@@ -13,7 +13,7 @@ import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 
-public class DhValidationParms extends Asn1Sequence {
+public class DhValidationParms extends Asn1Sequence implements PublicParameters {
 
     private Asn1PrimitiveBitString seed;
     private Asn1Integer pgenCounter;

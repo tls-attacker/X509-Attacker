@@ -10,11 +10,26 @@
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
+import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
-public class EcdhPublicKey extends Asn1PrimitiveBitString implements SubjectPublicKey {
+public class EcdhPublicKey extends Asn1PrimitiveBitString implements X509Component {
 
     public EcdhPublicKey() {
         super("ecdhPublicKey");
+    }
+
+    @Override
+    public Asn1FieldSerializer getSerializer() {
+        return super.getGenericSerializer();
+    }
+
+    @Override
+    public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
 }

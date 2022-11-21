@@ -14,9 +14,12 @@ import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.preparator.Preparator;
+import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
+import de.rub.nds.x509attacker.x509.preparator.AttributeTypeAndValuePreparator;
+import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +37,7 @@ import org.apache.logging.log4j.Logger;
  *
  *
  */
-public class AttributeTypeAndValue extends Asn1Sequence {
+public class AttributeTypeAndValue extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -83,7 +86,7 @@ public class AttributeTypeAndValue extends Asn1Sequence {
     }
 
     public Asn1Encodable getValue() {
-        return value;
+        return value.getInstantiation();
     }
 
     public void instantiateValue(Asn1Field value) {
@@ -91,9 +94,12 @@ public class AttributeTypeAndValue extends Asn1Sequence {
     }
 
     @Override
-    public Preparator getGenericPreparator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
+        return new AttributeTypeAndValuePreparator(this, config);
     }
 
+    @Override
+    public Asn1FieldSerializer getSerializer() {
+        return super.getGenericSerializer();
+    }
 }

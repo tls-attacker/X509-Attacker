@@ -13,12 +13,14 @@ import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.asn1.model.Asn1EncapsulatingBitString;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
 import de.rub.nds.asn1.time.TimeEncoder;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.AlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.base.Name;
@@ -27,6 +29,11 @@ import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
 import de.rub.nds.x509attacker.x509.base.TbsCertificate;
 import de.rub.nds.x509attacker.x509.base.Time;
 import de.rub.nds.x509attacker.x509.base.Validity;
+import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.DssParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -43,8 +50,9 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         this.tbsCertificate = tbsCertificate;
     }
 
+    
     @Override
-    public void prepareContent() {
+    protected byte[] encodeContent() {
         prepareVersion();
         prepareSerialNumber();
         prepareSignature();
@@ -55,6 +63,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         prepareIssuerUniqueId();
         prepareSubjectUniqueId();
         prepareExtensions();
+        tbsCertificate.getGenericPreparator().prepare();
+        return tbsCertificate.getEncodedChildren().getValue();
     }
 
     private void prepareVersion() {
@@ -75,7 +85,14 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         /**
          * Prepare signature parameters
          */
-        signature.instantiateParameters(createSignatureParameters());
+        PublicParameters signatureParameters = createSignatureParameters();
+        if (signatureParameters == null) {
+            signature.instantiateParameters(new Asn1Null("parameters"));
+        } else if (signatureParameters instanceof Asn1Field) {
+            signature.instantiateParameters((Asn1Field) signatureParameters);
+        } else {
+            throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
+        }
         prepareSubcomponent(signature.getParameters());
         prepareSubcomponent(signature);
     }
@@ -86,7 +103,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
         List<AttributeTypeAndValue> attributeTypeAndValueList = rdn.getAttributeTypeAndValueList();
         for (AttributeTypeAndValue typeAndValue : attributeTypeAndValueList) {
-            typeAndValue.getGenericPreparator().prepare();
+            typeAndValue.getPreparator(config).prepare();
         }
 
     }
@@ -105,34 +122,36 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
     private void encodeValidity(DateTime date, Time time, ValidityEncoding encoding, TimeAccurracy accurracy,
         int timezoneInMinutes) {
-        Asn1Field field;
+        Asn1Field timeField;
         switch (encoding) {
             case GENERALIZED_TIME_DIFFERENTIAL:
-                field = new Asn1PrimitiveGeneralizedTime("generalizedTime");
-                ((Asn1PrimitiveGeneralizedTime) field)
+                timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
+                ((Asn1PrimitiveGeneralizedTime) timeField)
                     .setValue(TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(date, accurracy, timezoneInMinutes));
                 break;
             case GENERALIZED_TIME_LOCAL:
-                field = new Asn1PrimitiveGeneralizedTime("generalizedTime");
-                ((Asn1PrimitiveGeneralizedTime) field)
+                timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
+                ((Asn1PrimitiveGeneralizedTime) timeField)
                     .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
                 break;
             case GENERALIZED_TIME_UTC:
-                field = new Asn1PrimitiveGeneralizedTime("generalizedTime");
-                ((Asn1PrimitiveGeneralizedTime) field).setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
+                timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
+                ((Asn1PrimitiveGeneralizedTime) timeField)
+                    .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
                 break;
             case UTC:
-                field = new Asn1PrimitiveUtcTime("utcTime");
-                ((Asn1PrimitiveUtcTime) field).setValue(TimeEncoder.encodeFullUtc(date, accurracy));
+                timeField = new Asn1PrimitiveUtcTime("utcTime");
+                ((Asn1PrimitiveUtcTime) timeField).setValue(TimeEncoder.encodeFullUtc(date, accurracy));
                 break;
             case UTC_DIFFERENTIAL:
-                field = new Asn1PrimitiveUtcTime("utcTime");
-                ((Asn1PrimitiveUtcTime) field)
+                timeField = new Asn1PrimitiveUtcTime("utcTime");
+                ((Asn1PrimitiveUtcTime) timeField)
                     .setValue(TimeEncoder.encodeUtcWithDifferential(date, accurracy, timezoneInMinutes));
                 break;
             default:
                 throw new UnsupportedOperationException("Unsupported validity encoding:" + encoding.name());
         }
+        time.setSelectedChoice(timeField);
 
     }
 
@@ -148,11 +167,21 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     private void prepareSubjectPublicKeyInfo() {
         SubjectPublicKeyInfo subjectPublicKeyInfo = tbsCertificate.getSubjectPublicKeyInfo();
         AlgorithmIdentifier algorithm = subjectPublicKeyInfo.getAlgorithm();
+        algorithm.getAlgorithm().setValue(config.getPublicKeyType().getOid().toString());
+
         algorithm.getParameters().setIdentifier(config.getPublicKeyType().getOid().toString());
-        algorithm.instantiateParameters(createPublicKeyParameters());
+
+        PublicParameters publicKeyParameters = createPublicKeyParameters();
+        if (publicKeyParameters == null) {
+            algorithm.instantiateParameters(new Asn1Null("parameters"));
+        } else if (publicKeyParameters instanceof Asn1Field) {
+            algorithm.instantiateParameters((Asn1Field) publicKeyParameters);
+        } else {
+            throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
+        }
         prepareSubcomponent(subjectPublicKeyInfo);
-        Asn1EncapsulatingBitString subjectPublicKey = subjectPublicKeyInfo.getSubjectPublicKeyBitString();
-        subjectPublicKey.setContent(createPublicKeyBitString());
+        Asn1EncapsulatingBitString subjectPublicKeyBitString = subjectPublicKeyInfo.getSubjectPublicKeyBitString();
+        subjectPublicKeyBitString.setContent(createPublicKeyBitString(subjectPublicKeyInfo.getSubjectPublicKey()));
 
     }
 
@@ -178,16 +207,37 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         }
     }
 
-    private Asn1Field createSignatureParameters() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private PublicParameters createSignatureParameters() {
+        X509PublicKeyType publicKeyType = config.getPublicKeyType();
+        switch (publicKeyType) {
+            case DH:
+                return new DhParameters("dhParameters", config);
+            case DSA:
+                return new DssParameters("dssParameters");
+            case ECDH_ECDSA:
+                return new EcNamedCurveParameters("ecNamedCurve");
+            default:
+                return null;
+        }
     }
 
-    private Asn1Field createPublicKeyParameters() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private PublicParameters createPublicKeyParameters() {
+        X509PublicKeyType publicKeyType = config.getPublicKeyType();
+        switch (publicKeyType) {
+            case DH:
+                return new DhParameters("dhParameters", config);
+            case DSA:
+                return new DssParameters("dssParameters");
+            case ECDH_ECDSA:
+                return new EcNamedCurveParameters("ecNamedCurve");
+            default:
+                return null;
+        }
     }
 
-    private byte[] createPublicKeyBitString() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    private byte[] createPublicKeyBitString(X509Component subjectPublicKey) {
+        subjectPublicKey.getPreparator(config).prepare();
+        return subjectPublicKey.getSerializer().serialize();
     }
 
 }

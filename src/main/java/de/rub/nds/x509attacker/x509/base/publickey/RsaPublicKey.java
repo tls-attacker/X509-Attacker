@@ -11,9 +11,13 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.preparator.Preparator;
+import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
+import de.rub.nds.x509attacker.x509.preparator.publickey.RsaPublicKeyPreparator;
 
-public class RsaPublicKey extends Asn1Sequence implements SubjectPublicKey {
+public class RsaPublicKey extends Asn1Sequence implements X509Component {
 
     private Asn1Integer modulus;
     private Asn1Integer publicExponent;
@@ -43,8 +47,13 @@ public class RsaPublicKey extends Asn1Sequence implements SubjectPublicKey {
     }
 
     @Override
-    public Preparator getGenericPreparator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public Asn1FieldSerializer getSerializer() {
+        return super.getGenericSerializer();
     }
+
+    @Override
+    public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
+        return new RsaPublicKeyPreparator(this, config);
+    }
+
 }

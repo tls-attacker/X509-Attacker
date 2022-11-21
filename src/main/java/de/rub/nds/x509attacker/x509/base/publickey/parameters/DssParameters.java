@@ -12,7 +12,7 @@ package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 
-public class DssParameters extends Asn1Sequence {
+public class DssParameters extends Asn1Sequence implements PublicParameters {
 
     private Asn1Integer p;
     private Asn1Integer q;

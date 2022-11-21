@@ -22,14 +22,17 @@ public class AttributeTypeAndValuePreparator extends X509ComponentPreparator {
         this.instance = instance;
     }
 
+    
     @Override
-    protected void prepareContent() {
+    protected byte[] encodeContent() {
         instance.getType().setValue(instance.getAttributeTypeConfig().getOid().toString());
         instance.instantiateValue(new Asn1PrimitiveUtf8String("value"));
         ((Asn1PrimitiveUtf8String) instance.getValue()).setValue(instance.getValueConfig());
         // TODO This allows more than asn1 primitive utf8 for now we only do that.
         prepareSubcomponent(instance.getType());
         prepareSubcomponent(instance.getValue());
+        instance.getGenericPreparator().prepare();
+        return instance.getEncodedChildren().getValue();
     }
 
 }

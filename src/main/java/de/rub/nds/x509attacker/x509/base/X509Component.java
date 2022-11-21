@@ -9,15 +9,13 @@
 
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.x509attacker.x509.parser.X509ComponentParser;
+import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
-import de.rub.nds.x509attacker.x509.serializer.X509ComponentSerializer;
 
 public interface X509Component {
 
-    public abstract X509ComponentPreparator getPreparator();
+    public abstract X509ComponentPreparator getPreparator(X509CertificateConfig config);
 
-    public abstract X509ComponentParser getParser();
-
-    public abstract X509ComponentSerializer getSerializer();
+    public abstract Asn1FieldSerializer getSerializer();
 }

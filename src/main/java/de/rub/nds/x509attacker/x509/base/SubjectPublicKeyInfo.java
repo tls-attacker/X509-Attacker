@@ -23,7 +23,6 @@ import de.rub.nds.x509attacker.x509.base.publickey.EcdhPublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.Ed25519PublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.Ed448PublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.RsaPublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.SubjectPublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.X25519PublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.X448PublicKey;
 
@@ -46,7 +45,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
      * need to be ASN.1 anymore (in practice it is).
      */
     @HoldsModifiableVariable
-    private SubjectPublicKey subjectPublicKey;
+    private X509Component subjectPublicKey;
 
     public SubjectPublicKeyInfo(String identifier, X509CertificateConfig config) {
         super(identifier);
@@ -74,15 +73,15 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
         this.subjectPublicKeyBitString = subjectPublicKeyBitString;
     }
 
-    public SubjectPublicKey getSubjectPublicKey() {
+    public X509Component getSubjectPublicKey() {
         return subjectPublicKey;
     }
 
-    public void setSubjectPublicKey(SubjectPublicKey subjectPublicKey) {
+    public void setSubjectPublicKey(X509Component subjectPublicKey) {
         this.subjectPublicKey = subjectPublicKey;
     }
 
-    private SubjectPublicKey createSubjectPublicKeyStruct(X509PublicKeyType publicKeyType) {
+    private X509Component createSubjectPublicKeyStruct(X509PublicKeyType publicKeyType) {
         switch (publicKeyType) {
             case DH:
                 return new DhPublicKey();
