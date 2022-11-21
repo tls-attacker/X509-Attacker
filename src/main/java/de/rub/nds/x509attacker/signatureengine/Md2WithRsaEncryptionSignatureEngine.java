@@ -9,11 +9,12 @@
 
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
+import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 
 public class Md2WithRsaEncryptionSignatureEngine extends JavaSignatureEngine {
 
     public Md2WithRsaEncryptionSignatureEngine() {
-        super(KeyType.RSA, "1.2.840.113549.1.1.1.2", "RSAwithMD2", "MD2withRSA");
+        super(X509SignatureAlgorithm.MD2_WITH_RSA_ENCRYPTION, "MD2withRSA");
     }
 }

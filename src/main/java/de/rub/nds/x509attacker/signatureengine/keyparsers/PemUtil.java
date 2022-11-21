@@ -191,17 +191,17 @@ public class PemUtil {
         }
     }
 
-    public static KeyType getKeyType(File f) {
+    public static SignatureKeyType getKeyType(File f) {
         PrivateKey privKey = readPrivateKey(f);
         String algo = privKey.getAlgorithm();
         switch (algo) {
             case "RSA":
-                return KeyType.RSA;
+                return SignatureKeyType.RSA;
             case "DSA":
-                return KeyType.DSA;
+                return SignatureKeyType.DSA;
             case "ECDSA":
             case "EC":
-                return KeyType.ECDSA;
+                return SignatureKeyType.ECDSA;
             default:
                 LOGGER.warn("getKeyType(): no KeyType defined for: " + algo);
                 return null;

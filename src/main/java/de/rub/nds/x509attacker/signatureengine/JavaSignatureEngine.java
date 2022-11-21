@@ -9,24 +9,21 @@
 
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import java.security.*;
 
 public abstract class JavaSignatureEngine extends SignatureEngine {
 
-    private final String signatureAlgorithm;
+    private final String javaName;
 
     /**
      *
-     * @param keyType
-     * @param oid
-     * @param name
      * @param signatureAlgorithm
+     * @param javaName
      */
-    public JavaSignatureEngine(final KeyType keyType, final String oid, final String name,
-        final String signatureAlgorithm) {
-        super(keyType, oid, name);
-        this.signatureAlgorithm = signatureAlgorithm;
+    public JavaSignatureEngine(X509SignatureAlgorithm signatureAlgorithm, final String javaName) {
+        super(signatureAlgorithm);
+        this.javaName = javaName;
     }
 
     /**
@@ -40,7 +37,7 @@ public abstract class JavaSignatureEngine extends SignatureEngine {
     @Override
     public byte[] sign(final PrivateKey privateKey, final byte[] toBeSigned) throws SignatureEngineException {
         try {
-            Signature signatureObj = Signature.getInstance(signatureAlgorithm);
+            Signature signatureObj = Signature.getInstance(javaName);
             signatureObj.initSign(privateKey);
             signatureObj.update(toBeSigned);
             return signatureObj.sign();

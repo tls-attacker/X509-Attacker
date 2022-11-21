@@ -1,52 +1,135 @@
+/**
+ * X.509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 package de.rub.nds.x509attacker.config;
 
+import de.rub.nds.asn1.constants.TimeAccurracy;
+import de.rub.nds.x509attacker.constants.ValidityEncoding;
+import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509Version;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import java.math.BigInteger;
-import java.util.Date;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.commons.lang3.tuple.ImmutablePair;
+import org.apache.commons.lang3.tuple.Pair;
+import org.joda.time.DateTime;
 
 public class X509CertificateConfig {
 
-    private X509SignatureAlgorithm signatureAlgorithm;
+    private X509SignatureAlgorithm signatureAlgorithm = X509SignatureAlgorithm.SHA256_WITH_RSA_ENCRYPTION;
 
-    private X509Version version;
+    private X509Version version = X509Version.V3;
 
-    private byte[] serialNumber;
+    private BigInteger serialNumber = new BigInteger("FFFFFFFFFFFFFFFF", 16);
 
-    private String issuer; //TODO this should not be a string
+    private List<Pair<X500AttributeType, String>> issuer;
 
-    private String subject; //TODO this should not be a string
+    private List<Pair<X500AttributeType, String>> subject;
 
-    private Date notBefore;
+    private DateTime notBefore = new DateTime(1640980800l); // 1.1.2022
 
-    private Date notAfter;
+    private TimeAccurracy notBeforeAccurracy = TimeAccurracy.SECONDS;
 
-    private boolean includeIssuerUniqueId;
+    private ValidityEncoding defaultNotBeforeEncoding = ValidityEncoding.GENERALIZED_TIME_UTC;
 
-    private boolean includeSubjectUniqueId;
+    private DateTime notAfter = new DateTime(1704052800l); // 1.1.2024
 
-    private boolean includeExtensions;
+    private TimeAccurracy notAfterAccurracy = TimeAccurracy.SECONDS;
+
+    private ValidityEncoding defaultNotAfterEncoding = ValidityEncoding.GENERALIZED_TIME_UTC;
+
+    private int timezoneOffsetInMinutes = 0;
+
+    private boolean includeIssuerUniqueId = true;
+
+    private boolean includeSubjectUniqueId = true;
+
+    private boolean includeExtensions = true;
 
     private X509PublicKeyType publicKeyType;
 
-    private BigInteger rsaModular;
-    
+    private BigInteger rsaModulus;
+
     private BigInteger rsaPrivateKey;
 
     private BigInteger dsaPrivateKey;
 
     private BigInteger ecPrivateKey;
 
+    private Boolean includeDhValidationParameters = false;
+
     public X509CertificateConfig() {
+        issuer = new LinkedList<>();
+        issuer.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "Attacker CA - Global Insecurity Provider"));
+        issuer.add(new ImmutablePair<>(X500AttributeType.COUNTRY_NAME, "Global"));
+        issuer.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+        subject = new LinkedList<>();
+        issuer.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
+        issuer.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
     }
 
-    public BigInteger getRsaModular() {
-        return rsaModular;
+    public Boolean getIncludeDhValidationParameters() {
+        return includeDhValidationParameters;
     }
 
-    public void setRsaModular(BigInteger rsaModular) {
-        this.rsaModular = rsaModular;
+    public void setIncludeDhValidationParameters(Boolean includeDhValidationParameters) {
+        this.includeDhValidationParameters = includeDhValidationParameters;
+    }
+
+    public int getTimezoneOffsetInMinutes() {
+        return timezoneOffsetInMinutes;
+    }
+
+    public void setTimezoneOffsetInMinutes(int timezoneOffsetInMinutes) {
+        this.timezoneOffsetInMinutes = timezoneOffsetInMinutes;
+    }
+
+    public void setNotBeforeAccurracy(TimeAccurracy notBeforeAccurracy) {
+        this.notBeforeAccurracy = notBeforeAccurracy;
+    }
+
+    public void setNotAfterAccurracy(TimeAccurracy notAfterAccurracy) {
+        this.notAfterAccurracy = notAfterAccurracy;
+    }
+
+    public TimeAccurracy getNotBeforeAccurracy() {
+        return notBeforeAccurracy;
+    }
+
+    public TimeAccurracy getNotAfterAccurracy() {
+        return notAfterAccurracy;
+    }
+
+    public ValidityEncoding getDefaultNotBeforeEncoding() {
+        return defaultNotBeforeEncoding;
+    }
+
+    public void setDefaultNotBeforeEncoding(ValidityEncoding defaultNotBeforeEncoding) {
+        this.defaultNotBeforeEncoding = defaultNotBeforeEncoding;
+    }
+
+    public ValidityEncoding getDefaultNotAfterEncoding() {
+        return defaultNotAfterEncoding;
+    }
+
+    public void setDefaultNotAfterEncoding(ValidityEncoding defaultNotAfterEncoding) {
+        this.defaultNotAfterEncoding = defaultNotAfterEncoding;
+    }
+
+    public BigInteger getRsaModulus() {
+        return rsaModulus;
+    }
+
+    public void setRsaModulus(BigInteger rsaModulus) {
+        this.rsaModulus = rsaModulus;
     }
 
     public X509SignatureAlgorithm getSignatureAlgorithm() {
@@ -65,43 +148,43 @@ public class X509CertificateConfig {
         this.version = version;
     }
 
-    public byte[] getSerialNumber() {
+    public BigInteger getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(byte[] serialNumber) {
+    public void setSerialNumber(BigInteger serialNumber) {
         this.serialNumber = serialNumber;
     }
 
-    public String getIssuer() {
-        return issuer;
+    public List<Pair<X500AttributeType, String>> getIssuer() {
+        return Collections.unmodifiableList(issuer);
     }
 
-    public void setIssuer(String issuer) {
+    public void setIssuer(List<Pair<X500AttributeType, String>> issuer) {
         this.issuer = issuer;
     }
 
-    public String getSubject() {
-        return subject;
+    public List<Pair<X500AttributeType, String>> getSubject() {
+        return Collections.unmodifiableList(subject);
     }
 
-    public void setSubject(String subject) {
+    public void setSubject(List<Pair<X500AttributeType, String>> subject) {
         this.subject = subject;
     }
 
-    public Date getNotBefore() {
+    public DateTime getNotBefore() {
         return notBefore;
     }
 
-    public void setNotBefore(Date notBefore) {
+    public void setNotBefore(DateTime notBefore) {
         this.notBefore = notBefore;
     }
 
-    public Date getNotAfter() {
+    public DateTime getNotAfter() {
         return notAfter;
     }
 
-    public void setNotAfter(Date notAfter) {
+    public void setNotAfter(DateTime notAfter) {
         this.notAfter = notAfter;
     }
 

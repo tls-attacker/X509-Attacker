@@ -29,7 +29,7 @@ public class PolicyInformation extends Asn1Sequence {
 
     @HoldsModifiableVariable
     private Asn1ObjectIdentifier policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
-    
+
     @HoldsModifiableVariable
     private PolicyQualifiers policyQualifiers;
 

@@ -9,11 +9,11 @@
 
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 
 public class Sha256WithRsaEncryptionSignatureEngine extends JavaSignatureEngine {
 
     public Sha256WithRsaEncryptionSignatureEngine() {
-        super(KeyType.RSA, "1.2.840.113549.1.1.11", "RSAwithSHA256", "SHA256withRSA");
+        super(X509SignatureAlgorithm.SHA256_WITH_RSA_ENCRYPTION, "SHA256withRSA");
     }
 }

@@ -9,7 +9,9 @@
 
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
+import de.rub.nds.x509attacker.oid.ObjectIdentifier;
+import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Modifier;
@@ -27,25 +29,15 @@ public class SignatureEngineFactory {
     private static final Logger LOGGER = LogManager.getLogger();
 
     /**
-     * Maps OID's to signature engines
+     * Maps SignatureAlgorithms to signature Engines
      */
-    private final static Map<String, SignatureEngine> OID_ENGINE_MAP;
-    /**
-     * Maps names to signature engines
-     */
-    private final static Map<String, SignatureEngine> NAME_ENGINE_MAP;
-
-    private final static List<SignatureEngine> SIGNATURE_ENGINE_LIST;
+    private final static Map<X509SignatureAlgorithm, SignatureEngine> signatureEngineMap;
 
     static {
-        OID_ENGINE_MAP = new HashMap<>();
-        NAME_ENGINE_MAP = new HashMap<>();
-        // TODO Reflection magic to find signature engines and add them to the maps
-        SIGNATURE_ENGINE_LIST = new LinkedList<>();
-        // TODO add to list
+        signatureEngineMap = new HashMap<>();
 
         Reflections reflections = new Reflections("de.rub.nds");// TODO this could be tighter to imrprove performance a
-                                                                // little bit
+        // little bit
         Set<Class<? extends SignatureEngine>> signatureEngineClasses = reflections.getSubTypesOf(SignatureEngine.class);
         for (Class<? extends SignatureEngine> engineClass : signatureEngineClasses) {
             if (Modifier.isAbstract(engineClass.getModifiers())) {
@@ -57,13 +49,7 @@ public class SignatureEngineFactory {
                         try {
                             // this is the default constructor
                             SignatureEngine engine = (SignatureEngine) constructor.newInstance();
-                            if (engine.getOid() != null) {
-                                OID_ENGINE_MAP.put(engine.getOid(), engine);
-                            }
-                            if (engine.getName() != null) {
-                                OID_ENGINE_MAP.put(engine.getName(), engine);
-                            }
-                            SIGNATURE_ENGINE_LIST.add(engine);
+                            signatureEngineMap.put(engine.getSignatureAlgorithm(), engine);
                         } catch (InstantiationException | IllegalAccessException | IllegalArgumentException
                             | InvocationTargetException ex) {
                             LOGGER.error("Could not create signature engine instance");
@@ -74,21 +60,13 @@ public class SignatureEngineFactory {
         }
     }
 
-    public static SignatureEngine getEngineForOid(final String oid) {
-        return OID_ENGINE_MAP.get(oid);
+    public static SignatureEngine getEngineForOid(final String oidString) {
+        ObjectIdentifier oid = new ObjectIdentifier(oidString);
+        X509SignatureAlgorithm signatureAlgorithm = X509SignatureAlgorithm.decodeFromOidBytes(oid.getEncoded());
+        return signatureEngineMap.get(signatureAlgorithm);
     }
 
-    public static SignatureEngine getEngineForName(final String name) {
-        return NAME_ENGINE_MAP.get(name);
-    }
-
-    public static List<SignatureEngine> getEnginesForKeyType(final KeyType keyType) {
-        List<SignatureEngine> listOfCompatibleEngines = new LinkedList<>();
-        for (SignatureEngine engine : SIGNATURE_ENGINE_LIST) {
-            if (engine.getKeyType().equals(keyType)) {
-                listOfCompatibleEngines.add(engine);
-            }
-        }
-        return listOfCompatibleEngines;
+    public static SignatureEngine getEngine(X509SignatureAlgorithm signatureAlgorithm) {
+        return signatureEngineMap.get(signatureAlgorithm);
     }
 }

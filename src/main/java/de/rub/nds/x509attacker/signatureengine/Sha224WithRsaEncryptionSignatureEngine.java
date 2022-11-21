@@ -9,11 +9,11 @@
 
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 
 public class Sha224WithRsaEncryptionSignatureEngine extends JavaSignatureEngine {
 
     public Sha224WithRsaEncryptionSignatureEngine() {
-        super(KeyType.RSA, "1.2.840.113549.1.1.14", "RSAwithSHA224", "SHA224withRSA");
+        super(X509SignatureAlgorithm.SHA224_WITH_RSA_ENCRYPTION, "SHA224withRSA");
     }
 }

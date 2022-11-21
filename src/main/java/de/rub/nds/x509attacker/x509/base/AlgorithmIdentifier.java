@@ -6,13 +6,16 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Null;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -24,14 +27,15 @@ public class AlgorithmIdentifier extends Asn1Sequence {
     private Asn1ObjectIdentifier algorithm;
 
     @HoldsModifiableVariable
-    private Asn1Encodable parameters;
+    private Asn1Any parameters;
 
     public AlgorithmIdentifier(String identifier) {
         super(identifier);
         algorithm = new Asn1ObjectIdentifier("algorithm");
-        parameters = new Asn1Null("parameters");
+        parameters = new Asn1Any("parameters");
         addChild(algorithm);
         addChild(parameters);
+        
     }
 
     public Asn1ObjectIdentifier getAlgorithm() {
@@ -46,7 +50,7 @@ public class AlgorithmIdentifier extends Asn1Sequence {
         return parameters;
     }
 
-    public void setParameters(Asn1Encodable parameters) {
-        this.parameters = parameters;
+    public void instantiateParameters(Asn1Field encodable) {
+        parameters.setInstantiation(encodable);
     }
 }

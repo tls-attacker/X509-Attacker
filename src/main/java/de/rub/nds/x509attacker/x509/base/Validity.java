@@ -21,7 +21,7 @@ public class Validity extends Asn1Sequence {
 
     @HoldsModifiableVariable
     private Time notBefore;
-    
+
     @HoldsModifiableVariable
     private Time notAfter;
 

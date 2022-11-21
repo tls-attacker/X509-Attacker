@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
@@ -25,7 +26,7 @@ public class X509Certificate extends Asn1Sequence {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @HoldsModifiableVariable
-    private TBSCertificate tbsCertificate;
+    private TbsCertificate tbsCertificate;
 
     @HoldsModifiableVariable
     private AlgorithmIdentifier signatureAlgorithm;
@@ -35,7 +36,7 @@ public class X509Certificate extends Asn1Sequence {
 
     public X509Certificate(String identifier) {
         super(identifier);
-        tbsCertificate = new TBSCertificate("tbsCertificate");
+        tbsCertificate = new TbsCertificate("tbsCertificate");
         signatureAlgorithm = new AlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1PrimitiveBitString("signature");
         addChild(tbsCertificate);
@@ -43,11 +44,11 @@ public class X509Certificate extends Asn1Sequence {
         addChild(signature);
     }
 
-    public TBSCertificate getTbsCertificate() {
+    public TbsCertificate getTbsCertificate() {
         return tbsCertificate;
     }
 
-    public void setTbsCertificate(TBSCertificate tbsCertificate) {
+    public void setTbsCertificate(TbsCertificate tbsCertificate) {
         this.tbsCertificate = tbsCertificate;
     }
 

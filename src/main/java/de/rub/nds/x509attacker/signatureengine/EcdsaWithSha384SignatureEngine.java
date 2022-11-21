@@ -9,11 +9,12 @@
 
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
+import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 
 public class EcdsaWithSha384SignatureEngine extends JavaSignatureEngine {
 
     public EcdsaWithSha384SignatureEngine() {
-        super(KeyType.ECDSA, "1.2.840.10045.4.3.3", "ECDSAwithSHA384", "ECDSAwithSHA384");
+        super(X509SignatureAlgorithm.ECDSA_WITH_SHA384, "ECDSAwithSHA384");
     }
 }

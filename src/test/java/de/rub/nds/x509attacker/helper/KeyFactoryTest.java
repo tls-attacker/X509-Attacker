@@ -9,7 +9,7 @@
 
 package de.rub.nds.x509attacker.helper;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 import java.io.File;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -51,7 +51,7 @@ public class KeyFactoryTest {
      */
     @Test
     public void testGetRandomKeyFileFromFolder_File_KeyType() throws Exception {
-        File result = KeyFactory.getRandomKeyFileFromFolder(keyFolder, KeyType.RSA);
+        File result = KeyFactory.getRandomKeyFileFromFolder(keyFolder, SignatureKeyType.RSA);
         assertNotNull(result);
         assertTrue(result.getAbsolutePath().contains(keyFolder.getAbsolutePath()));
     }

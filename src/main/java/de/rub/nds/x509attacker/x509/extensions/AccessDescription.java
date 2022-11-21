@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
@@ -16,8 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 /**
  *
- * AccessDescription ::= SEQUENCE { accessMethod OBJECT IDENTIFIER,
- * accessLocation GeneralName }
+ * AccessDescription ::= SEQUENCE { accessMethod OBJECT IDENTIFIER, accessLocation GeneralName }
  */
 public class AccessDescription extends Asn1Sequence {
 
@@ -25,7 +25,7 @@ public class AccessDescription extends Asn1Sequence {
 
     @HoldsModifiableVariable
     private Asn1ObjectIdentifier accessMethod;
-    
+
     @HoldsModifiableVariable
     private GeneralName accessLocation;
 

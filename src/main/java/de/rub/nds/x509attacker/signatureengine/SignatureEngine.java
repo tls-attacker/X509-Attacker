@@ -9,37 +9,19 @@
 
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import java.security.PrivateKey;
 
 public abstract class SignatureEngine {
 
-    private final KeyType keyType;
+    private final X509SignatureAlgorithm signatureAlgorithm;
 
-    final String oid;
-
-    private final String name;
-
-    public SignatureEngine(KeyType keyType, String oid, String name) {
-        this.keyType = keyType;
-        this.oid = oid;
-        this.name = name;
-    }
-
-    public String getOid() {
-        return oid;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public KeyType getKeyType() {
-        return keyType;
+    public SignatureEngine(X509SignatureAlgorithm signatureAlgorithm) {
+        this.signatureAlgorithm = signatureAlgorithm;
     }
 
     /**
-     * Signs the given data and returns the signature value.Cannot be called before the signature engine is initialized.
+     * Signs the given data and returns the signature value.
      *
      * @param  privateKey
      * @param  toBeSigned
@@ -50,4 +32,7 @@ public abstract class SignatureEngine {
      */
     public abstract byte[] sign(PrivateKey privateKey, final byte[] toBeSigned) throws SignatureEngineException;
 
+    public X509SignatureAlgorithm getSignatureAlgorithm() {
+        return signatureAlgorithm;
+    }
 }

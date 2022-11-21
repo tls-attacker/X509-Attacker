@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
@@ -18,8 +19,8 @@ import org.apache.logging.log4j.Logger;
 
 /**
  *
- * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId,
- * qualifier ANY DEFINED BY policyQualifierId } }
+ * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId, qualifier ANY DEFINED BY policyQualifierId }
+ * }
  */
 public class PolicyQualifierInfo extends Asn1Sequence {
 

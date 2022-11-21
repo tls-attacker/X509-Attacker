@@ -9,10 +9,13 @@
 
 package de.rub.nds.x509attacker.x509.parser;
 
-/**
- *
- * @author robertmerget
- */
-public class X509ComponentParser {
+import de.rub.nds.asn1.parser.Asn1Parser;
+import java.io.InputStream;
+
+public abstract class X509ComponentParser extends Asn1Parser {
+
+    public X509ComponentParser(InputStream inputStream) {
+        super(inputStream);
+    }
 
 }

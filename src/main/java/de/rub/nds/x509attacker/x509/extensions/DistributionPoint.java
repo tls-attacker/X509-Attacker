@@ -17,19 +17,19 @@ import org.apache.logging.log4j.Logger;
 /**
  *
  * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons [1] ReasonFlags
- OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
+ * OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
  *
  */
 public class DistributionPoint extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
-    
+
     @HoldsModifiableVariable
     private DistributionPointName distributionPointName;
-    
+
     @HoldsModifiableVariable
     private ReasonFlags reasons;
-    
+
     @HoldsModifiableVariable
     private GeneralNames crlIssuer;
 

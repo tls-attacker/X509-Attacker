@@ -27,7 +27,7 @@ public class OtherName extends Asn1Sequence {
 
     @HoldsModifiableVariable
     private Asn1ObjectIdentifier typeId;
-    
+
     @HoldsModifiableVariable
     private Asn1Encodable value;
 

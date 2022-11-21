@@ -9,11 +9,12 @@
 
 package de.rub.nds.x509attacker.signatureengine;
 
-import de.rub.nds.x509attacker.signatureengine.keyparsers.KeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
+import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 
 public class DsaWithSha224SignatureEngine extends JavaSignatureEngine {
 
     public DsaWithSha224SignatureEngine() {
-        super(KeyType.DSA, "2.16.840.1.101.3.4.3.1", "DSAwithSHA224", "SHA224withDSA");
+        super(X509SignatureAlgorithm.DSA_WITH_SHA224, "SHA224withDSA");
     }
 }

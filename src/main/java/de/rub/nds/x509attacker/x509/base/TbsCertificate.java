@@ -6,17 +6,18 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.bouncycastle.asn1.ASN1BitString;
 
-public class TBSCertificate extends Asn1Sequence {
+public class TbsCertificate extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -50,14 +51,14 @@ public class TBSCertificate extends Asn1Sequence {
     @HoldsModifiableVariable
     private Extensions extensions;
 
-    public TBSCertificate(String identifier) {
+    public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
         version = new Version("version");
         serialNumber = new Asn1Integer("serialNumber");
         signature = new AlgorithmIdentifier("signature");
-        issuer = new Name("issuer");
+        issuer = new Name("issuer", config.getIssuer());
         validity = new Validity("validity");
-        subject = new Name("subject");
+        subject = new Name("subject", config.getSubject());
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
         issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
         subjectUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");

@@ -25,7 +25,7 @@ public class EDIPartyName extends Asn1Sequence {
 
     @HoldsModifiableVariable
     private DirectoryString nameAssigner;
-    
+
     @HoldsModifiableVariable
     private DirectoryString partyName;
 

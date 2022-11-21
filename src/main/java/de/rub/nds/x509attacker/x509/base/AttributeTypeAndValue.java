@@ -9,11 +9,14 @@
 
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Null;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.constants.X500AttributeType;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -37,16 +40,38 @@ public class AttributeTypeAndValue extends Asn1Sequence {
 
     @HoldsModifiableVariable
     private Asn1ObjectIdentifier type;
-    
-    @HoldsModifiableVariable
-    private Asn1Encodable value;
 
-    public AttributeTypeAndValue(String identifier) {
+    @HoldsModifiableVariable
+    private Asn1Any value;
+
+    private X500AttributeType attributeTypeConfig;
+
+    private String valueConfig;
+
+    public AttributeTypeAndValue(String identifier, X500AttributeType attributeTypeConfig, String valueConfig) {
         super(identifier);
+        this.attributeTypeConfig = attributeTypeConfig;
+        this.valueConfig = valueConfig;
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Null("value");
+        value = new Asn1Any("value");
         addChild(type);
         addChild(value);
+    }
+
+    public X500AttributeType getAttributeTypeConfig() {
+        return attributeTypeConfig;
+    }
+
+    public void setAttributeTypeConfig(X500AttributeType attributeTypeConfig) {
+        this.attributeTypeConfig = attributeTypeConfig;
+    }
+
+    public String getValueConfig() {
+        return valueConfig;
+    }
+
+    public void setValueConfig(String valueConfig) {
+        this.valueConfig = valueConfig;
     }
 
     public Asn1ObjectIdentifier getType() {
@@ -61,7 +86,14 @@ public class AttributeTypeAndValue extends Asn1Sequence {
         return value;
     }
 
-    public void setValue(Asn1Encodable value) {
-        this.value = value;
+    public void instantiateValue(Asn1Field value) {
+        this.value.setInstantiation(value);
     }
+
+    @Override
+    public Preparator getPreparator() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
 }
