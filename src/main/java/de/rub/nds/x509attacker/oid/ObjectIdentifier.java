@@ -6,13 +6,13 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.oid;
 
 import de.rub.nds.asn1.parser.ParserException;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -114,14 +114,23 @@ public class ObjectIdentifier {
         byte moreFlag = 0x00;
         do {
             try {
-                stream.write(new byte[] { (byte) (moreFlag | (idValue & 0x7F)) });
+                stream.write(new byte[]{(byte) (moreFlag | (idValue & 0x7F))});
             } catch (IOException ex) {
                 throw new RuntimeException(ex);
             }
             idValue >>= 7;
             moreFlag = (byte) 0x80;
         } while (idValue > 0);
-        return stream.toByteArray();
+        //we encoded the byte array in reverse order - we have to flip it again
+        return reverse(stream.toByteArray());
 
+    }
+
+    private byte[] reverse(byte[] array) {
+        byte[] newArray = new byte[array.length];
+        for (int i = 0; i < array.length; i++) {
+            newArray[i] = array[array.length - (i + 1)];
+        }
+        return newArray;
     }
 }

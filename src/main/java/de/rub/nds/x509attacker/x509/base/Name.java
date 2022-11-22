@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -17,7 +16,8 @@ import org.apache.commons.lang3.tuple.Pair;
 
 /**
  *
- * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
+ * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence
+ * }
  *
  * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
  *
@@ -30,11 +30,14 @@ public class Name extends Asn1Sequence {
     public Name(String identifier) {
         super(identifier);
         relativeDistinguishedName = new RelativeDistinguishedName("relativeDistinguishedName");
+        addChild(relativeDistinguishedName);
     }
 
     public Name(String identifier, List<Pair<X500AttributeType, String>> attributeList) {
         super(identifier);
         relativeDistinguishedName = new RelativeDistinguishedName("relativeDistinguishedName", attributeList);
+        addChild(relativeDistinguishedName);
+
     }
 
     public RelativeDistinguishedName getRelativeDistinguishedName() {

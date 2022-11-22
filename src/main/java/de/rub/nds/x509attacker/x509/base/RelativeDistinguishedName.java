@@ -25,33 +25,18 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public class RelativeDistinguishedName extends Asn1Set {
 
-    @XmlElementWrapper
-    @XmlElementRef
-    @HoldsModifiableVariable
-    private List<AttributeTypeAndValue> attributeTypeAndValueList;
-
     public RelativeDistinguishedName(String identifier) {
         super(identifier);
-        attributeTypeAndValueList = new LinkedList<>();
     }
 
     public RelativeDistinguishedName(String identifier, List<Pair<X500AttributeType, String>> attributeList) {
         super(identifier);
-        attributeTypeAndValueList = new LinkedList<>();
         for (Pair<X500AttributeType, String> pair : attributeList) {
             AttributeTypeAndValue attributeTypeAndValue =
                 new AttributeTypeAndValue(pair.getKey().getHumanReadableName().concat("=").concat(pair.getValue()),
                     pair.getKey(), pair.getValue());
-            attributeTypeAndValueList.add(attributeTypeAndValue);
+            addChild(attributeTypeAndValue);
         }
 
-    }
-
-    public List<AttributeTypeAndValue> getAttributeTypeAndValueList() {
-        return attributeTypeAndValueList;
-    }
-
-    public void setAttributeTypeAndValueList(List<AttributeTypeAndValue> attributeTypeAndValueList) {
-        this.attributeTypeAndValueList = attributeTypeAndValueList;
     }
 }

@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Null;
@@ -20,7 +21,6 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.AlgorithmIdentifier;
-import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.base.Name;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
@@ -32,7 +32,7 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.DssParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
-import java.util.List;
+import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
@@ -65,7 +65,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     }
 
     private void prepareVersion() {
-        tbsCertificate.getVersion().setValue(config.getVersion().getValue());
+        ((Asn1Integer) (tbsCertificate.getVersion().getChild())).setValue(config.getVersion().getValue());
         prepareSubcomponent(tbsCertificate.getVersion());
     }
 
@@ -99,10 +99,11 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         Name issuer = tbsCertificate.getIssuer();
         RelativeDistinguishedName rdn = issuer.getRelativeDistinguishedName();
 
-        List<AttributeTypeAndValue> attributeTypeAndValueList = rdn.getAttributeTypeAndValueList();
-        for (AttributeTypeAndValue typeAndValue : attributeTypeAndValueList) {
-            typeAndValue.getPreparator(config).prepare();
+        Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
+        for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
+            ((X509Component)typeAndValue).getPreparator(config).prepare(); //TODO unfortunate cast
         }
+        prepareSubcomponent(rdn);
         prepareSubcomponent(issuer);
 
     }
@@ -158,10 +159,11 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     private void prepareSubject() {
         Name subject = tbsCertificate.getSubject();
         RelativeDistinguishedName rdn = subject.getRelativeDistinguishedName();
-        List<AttributeTypeAndValue> attributeTypeAndValueList = rdn.getAttributeTypeAndValueList();
-        for (AttributeTypeAndValue typeAndValue : attributeTypeAndValueList) {
-            typeAndValue.getGenericPreparator().prepare();
+        Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
+        for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
+            ((X509Component)typeAndValue).getPreparator(config).prepare(); //TODO unfortunate cast
         }
+        prepareSubcomponent(rdn);
         prepareSubcomponent(subject);
     }
 
@@ -169,9 +171,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         SubjectPublicKeyInfo subjectPublicKeyInfo = tbsCertificate.getSubjectPublicKeyInfo();
         AlgorithmIdentifier algorithm = subjectPublicKeyInfo.getAlgorithm();
         algorithm.getAlgorithm().setValue(config.getPublicKeyType().getOid().toString());
-
         algorithm.getParameters().setIdentifier(config.getPublicKeyType().getOid().toString());
-
+        prepareSubcomponent(algorithm.getAlgorithm());
         PublicParameters publicKeyParameters = createPublicKeyParameters();
         if (publicKeyParameters == null) {
             algorithm.instantiateParameters(new Asn1Null("parameters"));
@@ -180,6 +181,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
+        prepareSubcomponent(algorithm.getParameters());
+        subjectPublicKeyInfo.getSubjectPublicKeyBitString().getPreparator(config).prepare();
         prepareSubcomponent(subjectPublicKeyInfo);
 
     }

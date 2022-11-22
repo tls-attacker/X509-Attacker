@@ -23,6 +23,7 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 
 public class X509CertificateConfig {
 
@@ -30,19 +31,19 @@ public class X509CertificateConfig {
 
     private X509Version version = X509Version.V3;
 
-    private BigInteger serialNumber = new BigInteger("FFFFFFFFFFFFFFFF", 16);
+    private BigInteger serialNumber = new BigInteger("1122334455667788990000998877665544332211", 16);
 
     private List<Pair<X500AttributeType, String>> issuer;
 
     private List<Pair<X500AttributeType, String>> subject;
 
-    private DateTime notBefore = new DateTime(1640980800l); // 1.1.2022
+    private DateTime notBefore = new DateTime(2022, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
 
     private TimeAccurracy notBeforeAccurracy = TimeAccurracy.SECONDS;
 
     private ValidityEncoding defaultNotBeforeEncoding = ValidityEncoding.GENERALIZED_TIME_UTC;
 
-    private DateTime notAfter = new DateTime(1704052800l); // 1.1.2024
+    private DateTime notAfter = new DateTime(2024, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2024
 
     private TimeAccurracy notAfterAccurracy = TimeAccurracy.SECONDS;
 
@@ -84,8 +85,8 @@ public class X509CertificateConfig {
         issuer.add(new ImmutablePair<>(X500AttributeType.COUNTRY_NAME, "Global"));
         issuer.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
         subject = new LinkedList<>();
-        issuer.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
-        issuer.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+        subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
+        subject.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
     }
 
     public BigInteger getRsaPublicKey() {

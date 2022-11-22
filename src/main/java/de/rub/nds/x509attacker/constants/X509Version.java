@@ -12,9 +12,9 @@ package de.rub.nds.x509attacker.constants;
 import java.math.BigInteger;
 
 public enum X509Version {
-    V1(new BigInteger("1")),
-    V2(new BigInteger("2")),
-    V3(new BigInteger("3"));
+    V1(new BigInteger("0")),
+    V2(new BigInteger("1")),
+    V3(new BigInteger("2"));
 
     private final BigInteger value;
 

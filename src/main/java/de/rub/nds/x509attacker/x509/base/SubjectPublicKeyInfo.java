@@ -6,12 +6,11 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.model.Asn1EncapsulatingBitString;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
+import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -22,13 +21,15 @@ import de.rub.nds.x509attacker.x509.base.publickey.EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.EcdhPublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.Ed25519PublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.Ed448PublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.base.publickey.RsaPublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.X25519PublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.X448PublicKey;
 
 /**
  *
- * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier, subjectPublicKeyBitString BIT STRING }
+ * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier,
+ * subjectPublicKeyBitString BIT STRING }
  *
  */
 public class SubjectPublicKeyInfo extends Asn1Sequence {
@@ -37,24 +38,15 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
     private AlgorithmIdentifier algorithm;
 
     @HoldsModifiableVariable
-    private Asn1EncapsulatingBitString subjectPublicKeyBitString;
-
-    /**
-     * This is NOT an individual field in the asn sequence but is encoded within the Asn1EncapsulatingBitString. You can
-     * imagine this as a byte[] that contains and encoded public key - but the encoded public key does not necessarily
-     * need to be ASN.1 anymore (in practice it is).
-     */
-    @HoldsModifiableVariable
-    private X509Component subjectPublicKey;
+    private PublicKeyBitString subjectPublicKeyBitString;
 
     public SubjectPublicKeyInfo(String identifier, X509CertificateConfig config) {
         super(identifier);
         algorithm = new AlgorithmIdentifier("algorithm");
-        subjectPublicKeyBitString = new Asn1EncapsulatingBitString("subjectPublicKey");
+        subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring", createSubjectPublicKeyStruct(config.getPublicKeyType()));
+        initPublicKeyParameters(config);
         addChild(algorithm);
         addChild(subjectPublicKeyBitString);
-        subjectPublicKey = createSubjectPublicKeyStruct(config.getPublicKeyType());
-        initPublicKeyParameters(config);
     }
 
     public AlgorithmIdentifier getAlgorithm() {
@@ -65,20 +57,12 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
         this.algorithm = algorithm;
     }
 
-    public Asn1EncapsulatingBitString getSubjectPublicKeyBitString() {
+    public PublicKeyBitString getSubjectPublicKeyBitString() {
         return subjectPublicKeyBitString;
     }
 
-    public void setSubjectPublicKeyBitString(Asn1EncapsulatingBitString subjectPublicKeyBitString) {
+    public void setSubjectPublicKeyBitString(PublicKeyBitString subjectPublicKeyBitString) {
         this.subjectPublicKeyBitString = subjectPublicKeyBitString;
-    }
-
-    public X509Component getSubjectPublicKey() {
-        return subjectPublicKey;
-    }
-
-    public void setSubjectPublicKey(X509Component subjectPublicKey) {
-        this.subjectPublicKey = subjectPublicKey;
     }
 
     private X509Component createSubjectPublicKeyStruct(X509PublicKeyType publicKeyType) {
@@ -115,7 +99,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
                 return new X448PublicKey();
             default:
                 throw new UnsupportedOperationException(
-                    "PublicKeyType: " + publicKeyType.getHumanReadableName() + " is not supported.");
+                        "PublicKeyType: " + publicKeyType.getHumanReadableName() + " is not supported.");
         }
     }
 
@@ -144,7 +128,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
                 break;
             default:
                 throw new UnsupportedOperationException(
-                    "PublicKeyType: " + config.getPublicKeyType().getHumanReadableName() + " is not supported");
+                        "PublicKeyType: " + config.getPublicKeyType().getHumanReadableName() + " is not supported");
         }
         if (field != null) {
             algorithm.instantiateParameters(field);

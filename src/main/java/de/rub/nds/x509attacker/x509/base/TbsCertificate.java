@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Integer;
@@ -63,8 +62,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         validity = new Validity("validity");
         subject = new Name("subject", config.getSubject());
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
-        issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
-        subjectUniqueID = new Asn1PrimitiveBitString("subjectUniqueID");
+        if (config.isIncludeIssuerUniqueId()) {
+            issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
+        }
+        if (config.isIncludeSubjectUniqueId()) {
+            subjectUniqueID = new Asn1PrimitiveBitString("subjectUniqueID");
+        }
         if (config.isIncludeExtensions()) {
             extensions = new Extensions("extensions");
         }
@@ -75,8 +78,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         addChild(validity);
         addChild(subject);
         addChild(subjectPublicKeyInfo);
-        addChild(issuerUniqueID);
-        addChild(subjectUniqueID);
+        if (issuerUniqueID != null) {
+            addChild(issuerUniqueID);
+        }
+        if (subjectUniqueID != null) {
+            addChild(subjectUniqueID);
+        }
         if (extensions != null) {
             addChild(extensions);
         }
