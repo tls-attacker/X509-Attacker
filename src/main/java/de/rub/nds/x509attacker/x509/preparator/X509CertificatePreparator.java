@@ -75,7 +75,7 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
                 throw new UnsupportedOperationException(
                     "The keytype \"" + keyType.name() + "\" is not implemented yet");
             case RSA:
-                return new CustomRsaPrivateKey(config.getRsaModulus(), config.getRsaPrivateKey());
+                return new CustomRsaPrivateKey(config.getRsaSignatureModulus(), config.getRsaSignaturePrivateKey());
             case DSA:
                 throw new UnsupportedOperationException(
                     "The keytype \"" + keyType.name() + "\" is not implemented yet");
