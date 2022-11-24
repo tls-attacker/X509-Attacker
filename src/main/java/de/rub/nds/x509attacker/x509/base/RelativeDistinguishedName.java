@@ -9,8 +9,10 @@
 
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.x509attacker.x509.parser.RelativeDistinguishedNameParser;
 import de.rub.nds.asn1.model.Asn1Set;
 import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
@@ -35,6 +37,11 @@ public class RelativeDistinguishedName extends Asn1Set {
             addChild(attributeTypeAndValue);
         }
 
+    }
+
+    @Override
+    public Asn1Parser<?> getParser() {
+        return new RelativeDistinguishedNameParser(this);
     }
 
 }

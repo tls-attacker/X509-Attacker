@@ -63,6 +63,14 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         addChild(value);
     }
 
+    public AttributeTypeAndValue(String identifier) {
+        super(identifier);
+        type = new Asn1ObjectIdentifier("type");
+        value = new Asn1Any("value");
+        addChild(type);
+        addChild(value);
+    }
+
     public X500AttributeType getAttributeTypeConfig() {
         return attributeTypeConfig;
     }

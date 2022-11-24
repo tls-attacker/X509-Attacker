@@ -12,13 +12,11 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
-import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,9 +65,11 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
         if (config.isIncludeIssuerUniqueId()) {
             issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
+            issuerUniqueID.setOptional(true);
         }
         if (config.isIncludeSubjectUniqueId()) {
             subjectUniqueID = new Asn1PrimitiveBitString("subjectUniqueID");
+            subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
             extensions = new Extensions("extensions");
@@ -114,15 +114,9 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         addChild(validity);
         addChild(subject);
         addChild(subjectPublicKeyInfo);
-        if (issuerUniqueID != null) {
-            addChild(issuerUniqueID);
-        }
-        if (subjectUniqueID != null) {
-            addChild(subjectUniqueID);
-        }
-        if (extensions != null) {
-            addChild(extensions);
-        }
+        addChild(issuerUniqueID);
+        addChild(subjectUniqueID);
+        addChild(extensions);
     }
 
     public Version getVersion() {

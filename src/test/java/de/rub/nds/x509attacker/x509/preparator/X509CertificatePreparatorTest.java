@@ -15,10 +15,14 @@ import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import java.io.ByteArrayInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class X509CertificatePreparatorTest {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private X509CertificatePreparator instance;
 
@@ -32,6 +36,7 @@ public class X509CertificatePreparatorTest {
         instance = new X509CertificatePreparator(x509Certificate, config);
         instance.prepare();
         byte[] serializedCertificate = x509Certificate.getGenericSerializer().serialize();
+        LOGGER.info(ArrayConverter.bytesToHexString(serializedCertificate));
         X509Certificate secondX509Certificate = new X509Certificate("x509Certificate");
         secondX509Certificate.getParser().parse(new ByteArrayInputStream(serializedCertificate));
         byte[] secondSerialization = secondX509Certificate.getGenericSerializer().serialize();
