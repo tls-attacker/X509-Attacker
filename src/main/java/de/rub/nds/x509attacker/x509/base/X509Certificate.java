@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
@@ -15,7 +14,6 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.x509.parser.X509CertificateParser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -46,7 +44,7 @@ public class X509Certificate extends Asn1Sequence {
         addChild(signatureAlgorithm);
         addChild(signature);
     }
-    
+
     public X509Certificate(String identifier) {
         super(identifier);
     }
@@ -73,10 +71,5 @@ public class X509Certificate extends Asn1Sequence {
 
     public void setSignature(Asn1PrimitiveBitString signature) {
         this.signature = signature;
-    }
-
-    @Override
-    public Asn1FieldParser<Asn1Encodable> getParser() {
-        return new X509CertificateParser(this);
     }
 }
