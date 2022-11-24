@@ -65,4 +65,5 @@ public class Extension extends Asn1Sequence {
     public void setExtnValue(Asn1PrimitiveOctetString extnValue) {
         this.extnValue = extnValue;
     }
+
 }

@@ -6,7 +6,6 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Integer;
@@ -30,7 +29,6 @@ public class DsaPublicKey extends Asn1Integer implements X509Component {
     @Override
     public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
-                                                                       // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-
 }

@@ -9,7 +9,7 @@
 
 package de.rub.nds.x509attacker.constants;
 
-import de.rub.nds.x509attacker.oid.ObjectIdentifier;
+import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 import java.util.HashMap;
 import java.util.Map;

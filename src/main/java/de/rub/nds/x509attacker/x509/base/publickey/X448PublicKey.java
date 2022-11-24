@@ -31,4 +31,5 @@ public class X448PublicKey extends Asn1PrimitiveBitString implements X509Compone
     public Asn1FieldSerializer getSerializer() {
         return super.getGenericSerializer();
     }
+
 }

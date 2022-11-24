@@ -14,12 +14,14 @@ import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.preparator.AttributeTypeAndValuePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
+import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -102,4 +104,5 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     public Asn1FieldSerializer getSerializer() {
         return super.getGenericSerializer();
     }
+
 }

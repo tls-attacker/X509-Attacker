@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 
 public class DhParameters extends Asn1Sequence implements PublicParameters {
@@ -78,5 +79,4 @@ public class DhParameters extends Asn1Sequence implements PublicParameters {
     public void setValidationParms(DhValidationParms validationParms) {
         this.validationParms = validationParms;
     }
-
 }

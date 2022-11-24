@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import java.util.List;
@@ -47,4 +48,5 @@ public class Name extends Asn1Sequence {
     public void setRelativeDistinguishedName(RelativeDistinguishedName relativeDistinguishedName) {
         this.relativeDistinguishedName = relativeDistinguishedName;
     }
+
 }

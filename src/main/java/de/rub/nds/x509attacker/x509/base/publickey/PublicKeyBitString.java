@@ -16,6 +16,10 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString implements X509Co
         this.publicKey = publicKey;
     }
 
+    public PublicKeyBitString(String identifier) {
+        super(identifier);
+    }
+
     public void setPublicKey(X509Component publicKey) {
         this.publicKey = publicKey;
     }

@@ -10,11 +10,8 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Set;
-import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
-import jakarta.xml.bind.annotation.XmlElementRef;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -39,4 +36,5 @@ public class RelativeDistinguishedName extends Asn1Set {
         }
 
     }
+
 }

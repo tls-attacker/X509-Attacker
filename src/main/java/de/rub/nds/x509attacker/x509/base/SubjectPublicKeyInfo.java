@@ -10,7 +10,6 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
-import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -45,6 +44,14 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
         algorithm = new AlgorithmIdentifier("algorithm");
         subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring", createSubjectPublicKeyStruct(config.getPublicKeyType()));
         initPublicKeyParameters(config);
+        addChild(algorithm);
+        addChild(subjectPublicKeyBitString);
+    }
+
+    public SubjectPublicKeyInfo(String identifier) {
+        super(identifier);
+        algorithm = new AlgorithmIdentifier("algorithm");
+        subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring");
         addChild(algorithm);
         addChild(subjectPublicKeyBitString);
     }

@@ -10,7 +10,7 @@
 package de.rub.nds.x509attacker.signatureengine;
 
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
-import de.rub.nds.x509attacker.oid.ObjectIdentifier;
+import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;

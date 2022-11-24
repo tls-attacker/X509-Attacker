@@ -11,11 +11,13 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
+import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -71,6 +73,39 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         if (config.isIncludeExtensions()) {
             extensions = new Extensions("extensions");
         }
+        addChild(version);
+        addChild(serialNumber);
+        addChild(signature);
+        addChild(issuer);
+        addChild(validity);
+        addChild(subject);
+        addChild(subjectPublicKeyInfo);
+        if (issuerUniqueID != null) {
+            addChild(issuerUniqueID);
+        }
+        if (subjectUniqueID != null) {
+            addChild(subjectUniqueID);
+        }
+        if (extensions != null) {
+            addChild(extensions);
+        }
+    }
+
+    public TbsCertificate(String identifier) {
+        super(identifier);
+        version = new Version("version");
+        serialNumber = new Asn1Integer("serialNumber");
+        signature = new AlgorithmIdentifier("signature");
+        issuer = new Name("issuer");
+        validity = new Validity("validity");
+        subject = new Name("subject");
+        subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
+        issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
+        issuerUniqueID.setOptional(true);
+        subjectUniqueID = new Asn1PrimitiveBitString("subjectUniqueID");
+        subjectUniqueID.setOptional(true);
+        extensions = new Extensions("extensions");
+        extensions.setOptional(true);
         addChild(version);
         addChild(serialNumber);
         addChild(signature);
@@ -178,5 +213,4 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     public Asn1FieldSerializer getSerializer() {
         return super.getGenericSerializer();
     }
-
 }

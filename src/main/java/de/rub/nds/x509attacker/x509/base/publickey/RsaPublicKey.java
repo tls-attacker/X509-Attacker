@@ -6,16 +6,17 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.RsaPublicKeyPreparator;
+import java.io.InputStream;
 
 public class RsaPublicKey extends Asn1Sequence implements X509Component {
 

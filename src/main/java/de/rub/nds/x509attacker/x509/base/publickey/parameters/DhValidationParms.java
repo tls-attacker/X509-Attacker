@@ -12,6 +12,7 @@ package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 
 public class DhValidationParms extends Asn1Sequence implements PublicParameters {
 
@@ -41,4 +42,5 @@ public class DhValidationParms extends Asn1Sequence implements PublicParameters 
     public void setPgenCounter(Asn1Integer pgenCounter) {
         this.pgenCounter = pgenCounter;
     }
+
 }
