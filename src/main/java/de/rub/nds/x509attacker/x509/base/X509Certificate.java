@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
@@ -47,6 +48,12 @@ public class X509Certificate extends Asn1Sequence {
 
     public X509Certificate(String identifier) {
         super(identifier);
+        tbsCertificate = new TbsCertificate("tbsCertificate");
+        signatureAlgorithm = new AlgorithmIdentifier("signatureAlgorithm");
+        signature = new Asn1PrimitiveBitString("signature");
+        addChild(tbsCertificate);
+        addChild(signatureAlgorithm);
+        addChild(signature);
     }
 
     public TbsCertificate getTbsCertificate() {

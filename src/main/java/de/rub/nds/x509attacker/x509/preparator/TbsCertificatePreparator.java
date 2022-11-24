@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
@@ -101,7 +102,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
         Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
         for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-            ((X509Component)typeAndValue).getPreparator(config).prepare(); //TODO unfortunate cast
+            ((X509Component) typeAndValue).getPreparator(config).prepare(); // TODO unfortunate cast
         }
         prepareSubcomponent(rdn);
         prepareSubcomponent(issuer);
@@ -112,33 +113,33 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         Validity validity = tbsCertificate.getValidity();
         Time notAfter = validity.getNotAfter();
         encodeValidity(config.getNotAfter(), notAfter, config.getDefaultNotAfterEncoding(),
-                config.getNotAfterAccurracy(), config.getTimezoneOffsetInMinutes());
+            config.getNotAfterAccurracy(), config.getTimezoneOffsetInMinutes());
         prepareSubcomponent(notAfter);
         Time notBefore = validity.getNotBefore();
         encodeValidity(config.getNotBefore(), notBefore, config.getDefaultNotBeforeEncoding(),
-                config.getNotBeforeAccurracy(), config.getTimezoneOffsetInMinutes());
+            config.getNotBeforeAccurracy(), config.getTimezoneOffsetInMinutes());
         prepareSubcomponent(notBefore);
         prepareSubcomponent(validity);
     }
 
     private void encodeValidity(DateTime date, Time time, ValidityEncoding encoding, TimeAccurracy accurracy,
-            int timezoneInMinutes) {
+        int timezoneInMinutes) {
         Asn1Field timeField;
         switch (encoding) {
             case GENERALIZED_TIME_DIFFERENTIAL:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                        .setValue(TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(date, accurracy, timezoneInMinutes));
+                    .setValue(TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(date, accurracy, timezoneInMinutes));
                 break;
             case GENERALIZED_TIME_LOCAL:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                        .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
+                    .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
                 break;
             case GENERALIZED_TIME_UTC:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                        .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
+                    .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
                 break;
             case UTC:
                 timeField = new Asn1PrimitiveUtcTime("utcTime");
@@ -147,7 +148,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             case UTC_DIFFERENTIAL:
                 timeField = new Asn1PrimitiveUtcTime("utcTime");
                 ((Asn1PrimitiveUtcTime) timeField)
-                        .setValue(TimeEncoder.encodeUtcWithDifferential(date, accurracy, timezoneInMinutes));
+                    .setValue(TimeEncoder.encodeUtcWithDifferential(date, accurracy, timezoneInMinutes));
                 break;
             default:
                 throw new UnsupportedOperationException("Unsupported validity encoding:" + encoding.name());
@@ -161,7 +162,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         RelativeDistinguishedName rdn = subject.getRelativeDistinguishedName();
         Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
         for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-            ((X509Component)typeAndValue).getPreparator(config).prepare(); //TODO unfortunate cast
+            ((X509Component) typeAndValue).getPreparator(config).prepare(); // TODO unfortunate cast
         }
         prepareSubcomponent(rdn);
         prepareSubcomponent(subject);

@@ -6,6 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
+
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -17,8 +18,7 @@ import org.apache.commons.lang3.tuple.Pair;
 
 /**
  *
- * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence
- * }
+ * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
  *
  * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
  *
