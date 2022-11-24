@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.x509attacker.x509.parser.ExtensionsParser;
 
 /**
  *
@@ -23,4 +24,10 @@ public class Extensions extends Asn1Sequence {
     public Extensions(String identifier) {
         super(identifier);
     }
+
+    @Override
+    public Asn1FieldParser<Asn1Sequence> getParser() {
+        return new ExtensionsParser(this);
+    }
+
 }

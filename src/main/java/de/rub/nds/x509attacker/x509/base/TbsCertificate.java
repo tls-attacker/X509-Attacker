@@ -9,6 +9,7 @@
 
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -52,11 +53,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     private Asn1PrimitiveBitString subjectUniqueID;
 
     @HoldsModifiableVariable
-    private Extensions extensions;
+    private Asn1Explicit extensionExplicit;
 
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
         version = new Version("version");
+        version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new AlgorithmIdentifier("signature");
         issuer = new Name("issuer", config.getIssuer());
@@ -72,7 +74,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
             subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            extensions = new Extensions("extensions");
+            extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);
@@ -87,14 +89,15 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         if (subjectUniqueID != null) {
             addChild(subjectUniqueID);
         }
-        if (extensions != null) {
-            addChild(extensions);
+        if (extensionExplicit != null) {
+            addChild(extensionExplicit);
         }
     }
 
     public TbsCertificate(String identifier) {
         super(identifier);
         version = new Version("version");
+        version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new AlgorithmIdentifier("signature");
         issuer = new Name("issuer");
@@ -105,8 +108,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         issuerUniqueID.setOptional(true);
         subjectUniqueID = new Asn1PrimitiveBitString("subjectUniqueID");
         subjectUniqueID.setOptional(true);
-        extensions = new Extensions("extensions");
-        extensions.setOptional(true);
+        extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
+        extensionExplicit.setOptional(true);
         addChild(version);
         addChild(serialNumber);
         addChild(signature);
@@ -116,7 +119,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         addChild(subjectPublicKeyInfo);
         addChild(issuerUniqueID);
         addChild(subjectUniqueID);
-        addChild(extensions);
+        addChild(extensionExplicit);
     }
 
     public Version getVersion() {
@@ -191,12 +194,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         this.subjectUniqueID = subjectUniqueID;
     }
 
-    public Extensions getExtensions() {
-        return extensions;
+    public Asn1Explicit getExtensionExplicit() {
+        return extensionExplicit;
     }
 
-    public void setExtensions(Extensions extensions) {
-        this.extensions = extensions;
+    public void setExtensionExplicit(Asn1Explicit extensionExplicit) {
+        this.extensionExplicit = extensionExplicit;
     }
 
     @Override

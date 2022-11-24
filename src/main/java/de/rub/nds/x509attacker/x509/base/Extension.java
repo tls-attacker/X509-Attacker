@@ -36,6 +36,7 @@ public class Extension extends Asn1Sequence {
         super(identifier);
         extnID = new Asn1ObjectIdentifier(identifier);
         critical = new Asn1Boolean(identifier);
+        critical.setOptional(true);
         extnValue = new Asn1PrimitiveOctetString(identifier);
         addChild(extnID);
         addChild(critical);

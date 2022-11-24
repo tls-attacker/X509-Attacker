@@ -207,7 +207,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     }
 
     private void prepareExtensions() {
-        if (tbsCertificate.getExtensions() != null) {
+        if (tbsCertificate.getExtensionExplicit() != null) {
             throw new UnsupportedOperationException("Extensions not supported yet");
         }
     }
