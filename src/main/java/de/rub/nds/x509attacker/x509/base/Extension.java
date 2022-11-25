@@ -34,10 +34,10 @@ public class Extension extends Asn1Sequence {
 
     public Extension(String identifier) {
         super(identifier);
-        extnID = new Asn1ObjectIdentifier(identifier);
-        critical = new Asn1Boolean(identifier);
+        extnID = new Asn1ObjectIdentifier("extensionId");
+        critical = new Asn1Boolean("critical");
         critical.setOptional(true);
-        extnValue = new Asn1PrimitiveOctetString(identifier);
+        extnValue = new Asn1PrimitiveOctetString("extensionValue");
         addChild(extnID);
         addChild(critical);
         addChild(extnValue);
