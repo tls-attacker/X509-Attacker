@@ -16,6 +16,7 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import org.apache.logging.log4j.LogManager;
@@ -201,5 +202,11 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     @Override
     public Asn1FieldSerializer getSerializer() {
         return super.getGenericSerializer();
+    }
+
+    @Override
+    public X509Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.PublicKeyBitStringPreparator;
 
@@ -44,5 +45,11 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString implements X509Co
     @Override
     public Asn1FieldSerializer getSerializer() {
         return getGenericSerializer();
+    }
+
+    @Override
+    public X509Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
