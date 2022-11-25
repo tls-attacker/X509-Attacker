@@ -18,7 +18,6 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.AttributeTypeAndValueParser;
 import de.rub.nds.x509attacker.x509.preparator.AttributeTypeAndValuePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
@@ -113,6 +112,4 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     public Asn1FieldParser<Asn1Sequence> getParser() {
         return new AttributeTypeAndValueParser(this);
     }
-    
-    
 }

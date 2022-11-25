@@ -11,18 +11,25 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Component;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.PublicKeyBitStringPreparator;
 
-public class PublicKeyBitString extends Asn1PrimitiveBitString implements X509Component {
+public class PublicKeyBitString extends Asn1PrimitiveBitString
+        implements X509Component, X509PublicKey {
 
     private X509Component publicKey;
+
+    private X509PublicKey x509PublicKey;
 
     public PublicKeyBitString(String identifier, X509Component publicKey) {
         super(identifier);
         this.publicKey = publicKey;
+        if (publicKey instanceof X509PublicKey) {
+            x509PublicKey = (X509PublicKey) publicKey;
+        }
     }
 
     public PublicKeyBitString(String identifier) {
@@ -31,6 +38,13 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString implements X509Co
 
     public void setPublicKey(X509Component publicKey) {
         this.publicKey = publicKey;
+        if (publicKey instanceof X509PublicKey) {
+            x509PublicKey = (X509PublicKey) publicKey;
+        }
+    }
+
+    public X509PublicKey getX509PublicKey() {
+        return x509PublicKey;
     }
 
     public X509Component getPublicKey() {
@@ -45,5 +59,11 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString implements X509Co
     @Override
     public Asn1FieldSerializer getSerializer() {
         return getGenericSerializer();
+    }
+
+    @Override
+    public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -12,12 +12,14 @@ import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
+import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Component;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.RsaPublicKeyPreparator;
 
-public class RsaPublicKey extends Asn1Sequence implements X509Component {
+public class RsaPublicKey extends Asn1Sequence implements X509Component, X509PublicKey {
 
     private Asn1Integer modulus;
     private Asn1Integer publicExponent;
@@ -54,5 +56,12 @@ public class RsaPublicKey extends Asn1Sequence implements X509Component {
     @Override
     public X509ComponentPreparator getPreparator(X509Chooser chooser) {
         return new RsaPublicKeyPreparator(this, chooser);
+    }
+
+    @Override
+    public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
+        context.setIssuerPublicKeyType(X509PublicKeyType.RSA);
+        context.setIssuerRsaModulus(modulus.getValue().getValue());
+        context.setIssuerRsaPrivateKey(config.getRsaPrivateKey());
     }
 }

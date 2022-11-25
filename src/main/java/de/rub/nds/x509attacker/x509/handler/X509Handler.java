@@ -19,5 +19,4 @@ public abstract class X509Handler {
     }
 
     public abstract void adjustContext();
-
 }

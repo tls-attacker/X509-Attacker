@@ -11,7 +11,6 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
 public interface X509Component {
@@ -21,5 +20,4 @@ public interface X509Component {
     public abstract Asn1FieldSerializer getSerializer();
 
     public abstract Asn1FieldParser getParser();
-
 }

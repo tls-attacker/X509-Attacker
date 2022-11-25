@@ -16,7 +16,6 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import org.apache.logging.log4j.LogManager;
@@ -26,35 +25,25 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private Version version;
+    @HoldsModifiableVariable private Version version;
 
-    @HoldsModifiableVariable
-    private Asn1Integer serialNumber;
+    @HoldsModifiableVariable private Asn1Integer serialNumber;
 
-    @HoldsModifiableVariable
-    private AlgorithmIdentifier signature;
+    @HoldsModifiableVariable private AlgorithmIdentifier signature;
 
-    @HoldsModifiableVariable
-    private Name issuer;
+    @HoldsModifiableVariable private Name issuer;
 
-    @HoldsModifiableVariable
-    private Validity validity;
+    @HoldsModifiableVariable private Validity validity;
 
-    @HoldsModifiableVariable
-    private Name subject;
+    @HoldsModifiableVariable private Name subject;
 
-    @HoldsModifiableVariable
-    private SubjectPublicKeyInfo subjectPublicKeyInfo;
+    @HoldsModifiableVariable private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
-    @HoldsModifiableVariable
-    private Asn1PrimitiveBitString issuerUniqueID;
+    @HoldsModifiableVariable private Asn1PrimitiveBitString issuerUniqueID;
 
-    @HoldsModifiableVariable
-    private Asn1PrimitiveBitString subjectUniqueID;
+    @HoldsModifiableVariable private Asn1PrimitiveBitString subjectUniqueID;
 
-    @HoldsModifiableVariable
-    private Asn1Explicit extensionExplicit;
+    @HoldsModifiableVariable private Asn1Explicit extensionExplicit;
 
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
@@ -75,8 +64,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
             subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            extensionExplicit
-                    = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
+            extensionExplicit =
+                    new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);
@@ -213,5 +202,4 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     public Asn1FieldSerializer getSerializer() {
         return super.getGenericSerializer();
     }
-
 }

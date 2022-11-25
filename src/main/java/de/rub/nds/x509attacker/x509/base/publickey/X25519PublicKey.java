@@ -11,11 +11,13 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Component;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
-public class X25519PublicKey extends Asn1PrimitiveBitString implements X509Component {
+public class X25519PublicKey extends Asn1PrimitiveBitString
+        implements X509Component, X509PublicKey {
 
     public X25519PublicKey() {
         super("x25519PublicKey");
@@ -29,5 +31,11 @@ public class X25519PublicKey extends Asn1PrimitiveBitString implements X509Compo
     @Override
     public Asn1FieldSerializer getSerializer() {
         return super.getGenericSerializer();
+    }
+
+    @Override
+    public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

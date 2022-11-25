@@ -18,16 +18,13 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
- * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence
- * }
+ * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
  *
- * <p>
- * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+ * <p>RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
  */
 public class Name extends Asn1Sequence {
 
-    @HoldsModifiableVariable
-    private RelativeDistinguishedName relativeDistinguishedName;
+    @HoldsModifiableVariable private RelativeDistinguishedName relativeDistinguishedName;
 
     public Name(String identifier) {
         super(identifier);
@@ -37,8 +34,8 @@ public class Name extends Asn1Sequence {
 
     public Name(String identifier, List<Pair<X500AttributeType, String>> attributeList) {
         super(identifier);
-        relativeDistinguishedName
-                = new RelativeDistinguishedName("relativeDistinguishedName", attributeList);
+        relativeDistinguishedName =
+                new RelativeDistinguishedName("relativeDistinguishedName", attributeList);
         addChild(relativeDistinguishedName);
     }
 

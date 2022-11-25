@@ -84,12 +84,13 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         algorithm.setValue(chooser.getSignatureAlgorithm().getOid().toString());
         prepareSubcomponent(algorithm);
 
-        //TODO Updating context, this should probably happen in a handler
-        chooser.getContext().setSignatureAlgorithm(X509SignatureAlgorithm.decodeFromOidBytes(algorithm.getContent().getValue()));
+        // TODO Updating context, this should probably happen in a handler
+        chooser.getContext()
+                .setSignatureAlgorithm(
+                        X509SignatureAlgorithm.decodeFromOidBytes(
+                                algorithm.getContent().getValue()));
 
-        /**
-         * Prepare signature parameters
-         */
+        /** Prepare signature parameters */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             signature.instantiateParameters(new Asn1Null("parameters"));
@@ -194,7 +195,6 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         prepareSubcomponent(subject);
         SubjectNameHandler handler = new SubjectNameHandler(rdn, chooser);
         handler.adjustContext();
-
     }
 
     private void prepareSubjectPublicKeyInfo() {
@@ -235,9 +235,11 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             tbsCertificate.getSubjectUniqueID().setValue(chooser.getConfig().getSubjectUniqueId());
             tbsCertificate.getSubjectUniqueID().setUnusedBits((byte) 0);
             prepareSubcomponent(tbsCertificate.getSubjectUniqueID());
+
+            // TODO this should probably happen within a handler
+            chooser.getContext()
+                    .setIssuerUniqueId(tbsCertificate.getSubjectUniqueID().getValue().getValue());
         }
-        //TODO this should probably happen within a handler
-        chooser.getContext().setIssuerUniqueId(tbsCertificate.getSubjectUniqueID().getValue().getValue());
     }
 
     private void prepareExtensions() {

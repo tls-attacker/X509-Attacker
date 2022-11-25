@@ -11,11 +11,12 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Component;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
-public class Ed448PublicKey extends Asn1PrimitiveBitString implements X509Component {
+public class Ed448PublicKey extends Asn1PrimitiveBitString implements X509Component, X509PublicKey {
 
     public Ed448PublicKey() {
         super("ed448PublicKey");
@@ -29,5 +30,11 @@ public class Ed448PublicKey extends Asn1PrimitiveBitString implements X509Compon
     @Override
     public X509ComponentPreparator getPreparator(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
+    }
+
+    @Override
+    public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }
