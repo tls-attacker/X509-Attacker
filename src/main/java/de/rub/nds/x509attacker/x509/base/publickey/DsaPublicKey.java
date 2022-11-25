@@ -30,10 +30,4 @@ public class DsaPublicKey extends Asn1Integer implements X509Component {
     public X509ComponentPreparator getPreparator(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    @Override
-    public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

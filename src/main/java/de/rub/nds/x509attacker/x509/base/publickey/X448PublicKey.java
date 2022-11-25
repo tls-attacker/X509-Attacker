@@ -30,10 +30,4 @@ public class X448PublicKey extends Asn1PrimitiveBitString implements X509Compone
     public Asn1FieldSerializer getSerializer() {
         return super.getGenericSerializer();
     }
-
-    @Override
-    public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

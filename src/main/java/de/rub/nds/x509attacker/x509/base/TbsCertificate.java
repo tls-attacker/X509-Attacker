@@ -26,25 +26,35 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Version version;
+    @HoldsModifiableVariable
+    private Version version;
 
-    @HoldsModifiableVariable private Asn1Integer serialNumber;
+    @HoldsModifiableVariable
+    private Asn1Integer serialNumber;
 
-    @HoldsModifiableVariable private AlgorithmIdentifier signature;
+    @HoldsModifiableVariable
+    private AlgorithmIdentifier signature;
 
-    @HoldsModifiableVariable private Name issuer;
+    @HoldsModifiableVariable
+    private Name issuer;
 
-    @HoldsModifiableVariable private Validity validity;
+    @HoldsModifiableVariable
+    private Validity validity;
 
-    @HoldsModifiableVariable private Name subject;
+    @HoldsModifiableVariable
+    private Name subject;
 
-    @HoldsModifiableVariable private SubjectPublicKeyInfo subjectPublicKeyInfo;
+    @HoldsModifiableVariable
+    private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString issuerUniqueID;
+    @HoldsModifiableVariable
+    private Asn1PrimitiveBitString issuerUniqueID;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString subjectUniqueID;
+    @HoldsModifiableVariable
+    private Asn1PrimitiveBitString subjectUniqueID;
 
-    @HoldsModifiableVariable private Asn1Explicit extensionExplicit;
+    @HoldsModifiableVariable
+    private Asn1Explicit extensionExplicit;
 
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
@@ -65,8 +75,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
             subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            extensionExplicit =
-                    new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
+            extensionExplicit
+                    = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);
@@ -204,9 +214,4 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         return super.getGenericSerializer();
     }
 
-    @Override
-    public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

@@ -20,6 +20,7 @@ import de.rub.nds.asn1.time.TimeEncoder;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.base.AlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.base.Name;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
@@ -32,6 +33,7 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.DssParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
+import de.rub.nds.x509attacker.x509.handler.SubjectNameHandler;
 import java.util.Collection;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -81,7 +83,13 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         Asn1ObjectIdentifier algorithm = signature.getAlgorithm();
         algorithm.setValue(chooser.getSignatureAlgorithm().getOid().toString());
         prepareSubcomponent(algorithm);
-        /** Prepare signature parameters */
+
+        //TODO Updating context, this should probably happen in a handler
+        chooser.getContext().setSignatureAlgorithm(X509SignatureAlgorithm.decodeFromOidBytes(algorithm.getContent().getValue()));
+
+        /**
+         * Prepare signature parameters
+         */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             signature.instantiateParameters(new Asn1Null("parameters"));
@@ -184,6 +192,9 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         }
         prepareSubcomponent(rdn);
         prepareSubcomponent(subject);
+        SubjectNameHandler handler = new SubjectNameHandler(rdn, chooser);
+        handler.adjustContext();
+
     }
 
     private void prepareSubjectPublicKeyInfo() {
@@ -225,6 +236,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             tbsCertificate.getSubjectUniqueID().setUnusedBits((byte) 0);
             prepareSubcomponent(tbsCertificate.getSubjectUniqueID());
         }
+        //TODO this should probably happen within a handler
+        chooser.getContext().setIssuerUniqueId(tbsCertificate.getSubjectUniqueID().getValue().getValue());
     }
 
     private void prepareExtensions() {

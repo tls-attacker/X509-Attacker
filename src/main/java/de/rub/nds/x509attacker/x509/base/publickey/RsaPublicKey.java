@@ -55,10 +55,4 @@ public class RsaPublicKey extends Asn1Sequence implements X509Component {
     public X509ComponentPreparator getPreparator(X509Chooser chooser) {
         return new RsaPublicKeyPreparator(this, chooser);
     }
-
-    @Override
-    public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }

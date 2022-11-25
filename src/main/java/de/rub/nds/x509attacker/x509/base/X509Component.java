@@ -22,5 +22,4 @@ public interface X509Component {
 
     public abstract Asn1FieldParser getParser();
 
-    public abstract X509Handler getHandler(X509Chooser chooser);
 }

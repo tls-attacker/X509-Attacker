@@ -30,10 +30,4 @@ public class Ed448PublicKey extends Asn1PrimitiveBitString implements X509Compon
     public X509ComponentPreparator getPreparator(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
-
-    @Override
-    public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 }
