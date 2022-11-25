@@ -17,7 +17,7 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
 import de.rub.nds.asn1.time.TimeEncoder;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.AlgorithmIdentifier;
@@ -43,8 +43,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
     private final TbsCertificate tbsCertificate;
 
-    public TbsCertificatePreparator(TbsCertificate tbsCertificate, X509CertificateConfig config) {
-        super(tbsCertificate, config);
+    public TbsCertificatePreparator(TbsCertificate tbsCertificate, X509Chooser chooser) {
+        super(tbsCertificate, chooser);
         this.tbsCertificate = tbsCertificate;
     }
 
@@ -66,22 +66,24 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
     private void prepareVersion() {
         ((Asn1Integer) (tbsCertificate.getVersion().getChild()))
-                .setValue(config.getVersion().getValue());
+                .setValue(chooser.getConfig().getVersion().getValue());
         prepareSubcomponent(tbsCertificate.getVersion());
     }
 
     private void prepareSerialNumber() {
         Asn1Integer serialNumber = tbsCertificate.getSerialNumber();
-        serialNumber.setValue(config.getSerialNumber());
+        serialNumber.setValue(chooser.getConfig().getSerialNumber());
         prepareSubcomponent(serialNumber);
     }
 
     private void prepareSignature() {
         AlgorithmIdentifier signature = tbsCertificate.getSignature();
         Asn1ObjectIdentifier algorithm = signature.getAlgorithm();
-        algorithm.setValue(config.getSignatureAlgorithm().getOid().toString());
+        algorithm.setValue(chooser.getSignatureAlgorithm().getOid().toString());
         prepareSubcomponent(algorithm);
-        /** Prepare signature parameters */
+        /**
+         * Prepare signature parameters
+         */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             signature.instantiateParameters(new Asn1Null("parameters"));
@@ -100,7 +102,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
         Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
         for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-            ((X509Component) typeAndValue).getPreparator(config).prepare(); // TODO unfortunate cast
+            ((X509Component) typeAndValue).getPreparator(chooser).prepare(); // TODO unfortunate cast
         }
         prepareSubcomponent(rdn);
         prepareSubcomponent(issuer);
@@ -110,19 +112,19 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         Validity validity = tbsCertificate.getValidity();
         Time notAfter = validity.getNotAfter();
         encodeValidity(
-                config.getNotAfter(),
+                chooser.getConfig().getNotAfter(),
                 notAfter,
-                config.getDefaultNotAfterEncoding(),
-                config.getNotAfterAccurracy(),
-                config.getTimezoneOffsetInMinutes());
+                chooser.getConfig().getDefaultNotAfterEncoding(),
+                chooser.getConfig().getNotAfterAccurracy(),
+                chooser.getConfig().getTimezoneOffsetInMinutes());
         prepareSubcomponent(notAfter);
         Time notBefore = validity.getNotBefore();
         encodeValidity(
-                config.getNotBefore(),
+                chooser.getConfig().getNotBefore(),
                 notBefore,
-                config.getDefaultNotBeforeEncoding(),
-                config.getNotBeforeAccurracy(),
-                config.getTimezoneOffsetInMinutes());
+                chooser.getConfig().getDefaultNotBeforeEncoding(),
+                chooser.getConfig().getNotBeforeAccurracy(),
+                chooser.getConfig().getTimezoneOffsetInMinutes());
         prepareSubcomponent(notBefore);
         prepareSubcomponent(validity);
     }
@@ -176,7 +178,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         RelativeDistinguishedName rdn = subject.getRelativeDistinguishedName();
         Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
         for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-            ((X509Component) typeAndValue).getPreparator(config).prepare(); // TODO unfortunate cast
+            ((X509Component) typeAndValue).getPreparator(chooser).prepare(); // TODO unfortunate cast
         }
         prepareSubcomponent(rdn);
         prepareSubcomponent(subject);
@@ -185,8 +187,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     private void prepareSubjectPublicKeyInfo() {
         SubjectPublicKeyInfo subjectPublicKeyInfo = tbsCertificate.getSubjectPublicKeyInfo();
         AlgorithmIdentifier algorithm = subjectPublicKeyInfo.getAlgorithm();
-        algorithm.getAlgorithm().setValue(config.getPublicKeyType().getOid().toString());
-        algorithm.getParameters().setIdentifier(config.getPublicKeyType().getOid().toString());
+        algorithm.getAlgorithm().setValue(chooser.getConfig().getPublicKeyType().getOid().toString());
+        algorithm.getParameters().setIdentifier(chooser.getConfig().getPublicKeyType().getOid().toString());
         prepareSubcomponent(algorithm.getAlgorithm());
         PublicParameters publicKeyParameters = createPublicKeyParameters();
         if (publicKeyParameters == null) {
@@ -197,14 +199,14 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
         prepareSubcomponent(algorithm.getParameters());
-        subjectPublicKeyInfo.getSubjectPublicKeyBitString().getPreparator(config).prepare();
+        subjectPublicKeyInfo.getSubjectPublicKeyBitString().getPreparator(chooser).prepare();
         prepareSubcomponent(subjectPublicKeyInfo);
     }
 
     private void prepareIssuerUniqueId() {
         if (tbsCertificate.getIssuerUniqueID() != null) {
             // IssuerUniqueID is an optional field
-            tbsCertificate.getIssuerUniqueID().setValue(config.getDefaultIssuerUniqueId());
+            tbsCertificate.getIssuerUniqueID().setValue(chooser.getIssuerUniqueId());
             tbsCertificate.getIssuerUniqueID().setUnusedBits((byte) 0);
             prepareSubcomponent(tbsCertificate.getIssuerUniqueID());
         }
@@ -213,7 +215,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     private void prepareSubjectUniqueId() {
         if (tbsCertificate.getSubjectUniqueID() != null) {
             // IssuerUniqueID is an optional field
-            tbsCertificate.getSubjectUniqueID().setValue(config.getDefaultSubjectUniqueId());
+            tbsCertificate.getSubjectUniqueID().setValue(chooser.getConfig().getSubjectUniqueId());
             tbsCertificate.getSubjectUniqueID().setUnusedBits((byte) 0);
             prepareSubcomponent(tbsCertificate.getSubjectUniqueID());
         }
@@ -226,10 +228,10 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     }
 
     private PublicParameters createSignatureParameters() {
-        X509PublicKeyType publicKeyType = config.getPublicKeyType();
+        X509PublicKeyType publicKeyType = chooser.getIssuerPublicKeyType();
         switch (publicKeyType) {
             case DH:
-                return new DhParameters("dhParameters", config);
+                return new DhParameters("dhParameters", chooser.getConfig());
             case DSA:
                 return new DssParameters("dssParameters");
             case ECDH_ECDSA:
@@ -240,10 +242,10 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     }
 
     private PublicParameters createPublicKeyParameters() {
-        X509PublicKeyType publicKeyType = config.getPublicKeyType();
+        X509PublicKeyType publicKeyType = chooser.getConfig().getPublicKeyType();
         switch (publicKeyType) {
             case DH:
-                return new DhParameters("dhParameters", config);
+                return new DhParameters("dhParameters", chooser.getConfig());
             case DSA:
                 return new DssParameters("dssParameters");
             case ECDH_ECDSA:
@@ -253,8 +255,4 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         }
     }
 
-    private byte[] createPublicKeyBitString(X509Component subjectPublicKey) {
-        subjectPublicKey.getPreparator(config).prepare();
-        return subjectPublicKey.getSerializer().serialize();
-    }
 }

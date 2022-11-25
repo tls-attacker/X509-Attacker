@@ -26,27 +26,27 @@ import org.joda.time.DateTimeZone;
 
 public class X509CertificateConfig {
 
-    private X509SignatureAlgorithm signatureAlgorithm =
-            X509SignatureAlgorithm.SHA256_WITH_RSA_ENCRYPTION;
+    private X509SignatureAlgorithm signatureAlgorithm
+            = X509SignatureAlgorithm.SHA256_WITH_RSA_ENCRYPTION;
 
     private X509Version version = X509Version.V3;
 
-    private BigInteger serialNumber =
-            new BigInteger("1122334455667788990000998877665544332211", 16);
+    private BigInteger serialNumber
+            = new BigInteger("1122334455667788990000998877665544332211", 16);
 
-    private List<Pair<X500AttributeType, String>> issuer;
+    private List<Pair<X500AttributeType, String>> defaultIssuer;
 
     private List<Pair<X500AttributeType, String>> subject;
 
-    private DateTime notBefore =
-            new DateTime(2022, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
+    private DateTime notBefore
+            = new DateTime(2022, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
 
     private TimeAccurracy notBeforeAccurracy = TimeAccurracy.SECONDS;
 
     private ValidityEncoding defaultNotBeforeEncoding = ValidityEncoding.GENERALIZED_TIME_UTC;
 
-    private DateTime notAfter =
-            new DateTime(2024, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2024
+    private DateTime notAfter
+            = new DateTime(2024, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2024
 
     private TimeAccurracy notAfterAccurracy = TimeAccurracy.SECONDS;
 
@@ -56,7 +56,7 @@ public class X509CertificateConfig {
 
     private byte[] defaultIssuerUniqueId = new byte[16];
 
-    private byte[] defaultSubjectUniqueId = new byte[16];
+    private byte[] subjectUniqueId = new byte[16];
 
     private boolean includeIssuerUniqueId = false;
 
@@ -66,80 +66,100 @@ public class X509CertificateConfig {
 
     private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;
 
-    private BigInteger rsaModulus =
-            new BigInteger(
+    private X509PublicKeyType defaultIssuerPublicKeyType = X509PublicKeyType.RSA;
+
+    private BigInteger rsaModulus
+            = new BigInteger(
                     "00c8820d6c3ce84c8430f6835abfc7d7a912e1664f44578751f376501a8c68476c3072d919c5d39bd0dbe080e71db83bd4ab2f2f9bde3dffb0080f510a5f6929c196551f2b3c369be051054c877573195558fd282035934dc86edab8d4b1b7f555e5b2fee7275384a756ef86cb86793b5d1333f0973203cb96966766e655cd2cccae1940e4494b8e9fb5279593b75afd0b378243e51a88f6eb88def522a8cd5c6c082286a04269a2879760fcba45005d7f2672dd228809d47274f0fe0ea5531c2bd95366c05bf69edc0f3c3189866edca0c57adcca93250ae78d9eaca0393a95ff9952fc47fb7679dd3803e6a7a6fa771861e3d99e4b551a4084668b111b7eef7d",
                     16);
 
-    private BigInteger rsaSignatureModulus =
-            new BigInteger(
+    private BigInteger defaultIssuerRsaModulus
+            = new BigInteger(
                     "00c8820d6c3ce84c8430f6835abfc7d7a912e1664f44578751f376501a8c68476c3072d919c5d39bd0dbe080e71db83bd4ab2f2f9bde3dffb0080f510a5f6929c196551f2b3c369be051054c877573195558fd282035934dc86edab8d4b1b7f555e5b2fee7275384a756ef86cb86793b5d1333f0973203cb96966766e655cd2cccae1940e4494b8e9fb5279593b75afd0b378243e51a88f6eb88def522a8cd5c6c082286a04269a2879760fcba45005d7f2672dd228809d47274f0fe0ea5531c2bd95366c05bf69edc0f3c3189866edca0c57adcca93250ae78d9eaca0393a95ff9952fc47fb7679dd3803e6a7a6fa771861e3d99e4b551a4084668b111b7eef7d",
                     16);
 
-    private BigInteger rsaPrivateKey =
-            new BigInteger(
+    private BigInteger rsaPrivateKey
+            = new BigInteger(
                     "7dc0cb485a3edb56811aeab12cdcda8e48b023298dd453a37b4d75d9e0bbba27c98f0e4852c16fd52341ffb673f64b580b7111abf14bf323e53a2dfa92727364ddb34f541f74a478a077f15277c013606aea839307e6f5fec23fdd72506feea7cbe362697949b145fe8945823a39a898ac6583fc5fbaefa1e77cbc95b3b475e66106e92b906bdbb214b87bcc94020f317fc1c056c834e9cee0ad21951fbdca088274c4ef9d8c2004c6294f49b370fb249c1e2431fb80ce5d3dc9e342914501ef4c162e54e1ee4fed9369b82afc00821a29f4979a647e60935420d44184d98f9cb75122fb604642c6d1ff2b3a51dc32eefdc57d9a9407ad6a06d10e83e2965481",
                     16);
 
     private BigInteger rsaPublicKey = new BigInteger("65537", 10);
 
+    private BigInteger defaultIssuerRsaPublicKey = new BigInteger("65537", 10);
+
     private BigInteger dsaPrivateKey = new BigInteger("FFFF", 16);
 
     private BigInteger ecPrivateKey = new BigInteger("03", 16);
 
-    private BigInteger rsaSignaturePrivateKey =
-            new BigInteger(
+    private BigInteger defaultIssuerRsaPrivateKey
+            = new BigInteger(
                     "7dc0cb485a3edb56811aeab12cdcda8e48b023298dd453a37b4d75d9e0bbba27c98f0e4852c16fd52341ffb673f64b580b7111abf14bf323e53a2dfa92727364ddb34f541f74a478a077f15277c013606aea839307e6f5fec23fdd72506feea7cbe362697949b145fe8945823a39a898ac6583fc5fbaefa1e77cbc95b3b475e66106e92b906bdbb214b87bcc94020f317fc1c056c834e9cee0ad21951fbdca088274c4ef9d8c2004c6294f49b370fb249c1e2431fb80ce5d3dc9e342914501ef4c162e54e1ee4fed9369b82afc00821a29f4979a647e60935420d44184d98f9cb75122fb604642c6d1ff2b3a51dc32eefdc57d9a9407ad6a06d10e83e2965481",
                     16);
 
-    private BigInteger dsaSignaturePrivateKey = new BigInteger("FFFF", 16);
+    private BigInteger defaultIssuerDsaPrivateKey = new BigInteger("FFFF", 16);
 
-    private BigInteger ecSignaturePrivateKey = new BigInteger("03", 16);
+    private BigInteger defaultIssuerEcPrivateKey = new BigInteger("03", 16);
 
     private Boolean includeDhValidationParameters = false;
 
     public X509CertificateConfig() {
-        issuer = new LinkedList<>();
-        issuer.add(
+        defaultIssuer = new LinkedList<>();
+        defaultIssuer.add(
                 new ImmutablePair<>(
                         X500AttributeType.COMMON_NAME, "Attacker CA - Global Insecurity Provider"));
-        issuer.add(new ImmutablePair<>(X500AttributeType.COUNTRY_NAME, "Global"));
-        issuer.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+        defaultIssuer.add(new ImmutablePair<>(X500AttributeType.COUNTRY_NAME, "Global"));
+        defaultIssuer.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
         subject = new LinkedList<>();
         subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
     }
 
-    public BigInteger getRsaSignatureModulus() {
-        return rsaSignatureModulus;
+    public X509PublicKeyType getDefaultIssuerPublicKeyType() {
+        return defaultIssuerPublicKeyType;
     }
 
-    public void setRsaSignatureModulus(BigInteger rsaSignatureModulus) {
-        this.rsaSignatureModulus = rsaSignatureModulus;
+    public void setDefaultIssuerPublicKeyType(X509PublicKeyType defaultIssuerPublicKeyType) {
+        this.defaultIssuerPublicKeyType = defaultIssuerPublicKeyType;
     }
 
-    public BigInteger getRsaSignaturePrivateKey() {
-        return rsaSignaturePrivateKey;
+    public BigInteger getDefaultIssuerRsaPublicKey() {
+        return defaultIssuerRsaPublicKey;
     }
 
-    public void setRsaSignaturePrivateKey(BigInteger rsaSignaturePrivateKey) {
-        this.rsaSignaturePrivateKey = rsaSignaturePrivateKey;
+    public void setDefaultIssuerRsaPublicKey(BigInteger defaultIssuerRsaPublicKey) {
+        this.defaultIssuerRsaPublicKey = defaultIssuerRsaPublicKey;
     }
 
-    public BigInteger getDsaSignaturePrivateKey() {
-        return dsaSignaturePrivateKey;
+    public BigInteger getDefaultIssuerRsaModulus() {
+        return defaultIssuerRsaModulus;
     }
 
-    public void setDsaSignaturePrivateKey(BigInteger dsaSignaturePrivateKey) {
-        this.dsaSignaturePrivateKey = dsaSignaturePrivateKey;
+    public void setDefaultIssuerRsaModulus(BigInteger defaultIssuerRsaModulus) {
+        this.defaultIssuerRsaModulus = defaultIssuerRsaModulus;
     }
 
-    public BigInteger getEcSignaturePrivateKey() {
-        return ecSignaturePrivateKey;
+    public BigInteger getDefaultIssuerRsaPrivateKey() {
+        return defaultIssuerRsaPrivateKey;
     }
 
-    public void setEcSignaturePrivateKey(BigInteger ecSignaturePrivateKey) {
-        this.ecSignaturePrivateKey = ecSignaturePrivateKey;
+    public void setDefaultIssuerRsaPrivateKey(BigInteger defaultIssuerRsaPrivateKey) {
+        this.defaultIssuerRsaPrivateKey = defaultIssuerRsaPrivateKey;
+    }
+
+    public BigInteger getDefaultIssuerDsaPrivateKey() {
+        return defaultIssuerDsaPrivateKey;
+    }
+
+    public void setDefaultIssuerDsaPrivateKey(BigInteger defaultIssuerDsaPrivateKey) {
+        this.defaultIssuerDsaPrivateKey = defaultIssuerDsaPrivateKey;
+    }
+
+    public BigInteger getDefaultIssuerEcPrivateKey() {
+        return defaultIssuerEcPrivateKey;
+    }
+
+    public void setDefaultIssuerEcPrivateKey(BigInteger defaultIssuerEcPrivateKey) {
+        this.defaultIssuerEcPrivateKey = defaultIssuerEcPrivateKey;
     }
 
     public BigInteger getRsaPublicKey() {
@@ -155,17 +175,17 @@ public class X509CertificateConfig {
     }
 
     public void setDefaultIssuerUniqueId(byte[] defaultIssuerUniqueId) {
-        this.defaultIssuerUniqueId =
-                Arrays.copyOf(defaultIssuerUniqueId, defaultIssuerUniqueId.length);
+        this.defaultIssuerUniqueId
+                = Arrays.copyOf(defaultIssuerUniqueId, defaultIssuerUniqueId.length);
     }
 
-    public byte[] getDefaultSubjectUniqueId() {
-        return Arrays.copyOf(defaultSubjectUniqueId, defaultSubjectUniqueId.length);
+    public byte[] getSubjectUniqueId() {
+        return Arrays.copyOf(subjectUniqueId, subjectUniqueId.length);
     }
 
-    public void setDefaultSubjectUniqueId(byte[] defaultSubjectUniqueId) {
-        this.defaultSubjectUniqueId =
-                Arrays.copyOf(defaultSubjectUniqueId, defaultSubjectUniqueId.length);
+    public void setSubjectUniqueId(byte[] subjectUniqueId) {
+        this.subjectUniqueId
+                = Arrays.copyOf(subjectUniqueId, subjectUniqueId.length);
     }
 
     public Boolean getIncludeDhValidationParameters() {
@@ -224,7 +244,7 @@ public class X509CertificateConfig {
         this.rsaModulus = rsaModulus;
     }
 
-    public X509SignatureAlgorithm getSignatureAlgorithm() {
+    public X509SignatureAlgorithm getDefaultSignatureAlgorithm() {
         return signatureAlgorithm;
     }
 
@@ -248,12 +268,12 @@ public class X509CertificateConfig {
         this.serialNumber = serialNumber;
     }
 
-    public List<Pair<X500AttributeType, String>> getIssuer() {
-        return Collections.unmodifiableList(issuer);
+    public List<Pair<X500AttributeType, String>> getDefaultIssuer() {
+        return Collections.unmodifiableList(defaultIssuer);
     }
 
-    public void setIssuer(List<Pair<X500AttributeType, String>> issuer) {
-        this.issuer = issuer;
+    public void setDefaultIssuer(List<Pair<X500AttributeType, String>> defaultIssuer) {
+        this.defaultIssuer = defaultIssuer;
     }
 
     public List<Pair<X500AttributeType, String>> getSubject() {

@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.PublicKeyBitStringPreparator;
@@ -37,8 +37,8 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString implements X509Co
     }
 
     @Override
-    public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
-        return new PublicKeyBitStringPreparator(this, config);
+    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
+        return new PublicKeyBitStringPreparator(this, chooser);
     }
 
     @Override

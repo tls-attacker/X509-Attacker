@@ -9,13 +9,14 @@
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1Null;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.signatureengine.SignatureEngine;
 import de.rub.nds.x509attacker.signatureengine.SignatureEngineFactory;
 import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 import de.rub.nds.x509attacker.signatureengine.privatekey.CustomRsaPrivateKey;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import de.rub.nds.x509attacker.x509.base.X509Component;
 import java.security.PrivateKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -26,14 +27,14 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public X509CertificatePreparator(X509Certificate certificate, X509CertificateConfig config) {
-        super(certificate, config);
+    public X509CertificatePreparator(X509Certificate certificate, X509Chooser chooser) {
+        super(certificate, chooser);
         this.certificate = certificate;
     }
 
     @Override
     protected byte[] encodeContent() {
-        prepareSubcomponent(this.certificate.getTbsCertificate(), config);
+        prepareSubcomponent((X509Component) this.certificate.getTbsCertificate());
         prepareSignatureAlgorithm();
         prepareSignature();
         certificate.setEncodedChildren(encodedChildren(certificate.getChildren()));
@@ -41,7 +42,7 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
     }
 
     private void prepareSignatureAlgorithm() {
-        X509SignatureAlgorithm signatureAlgorithm = config.getSignatureAlgorithm();
+        X509SignatureAlgorithm signatureAlgorithm = chooser.getSignatureAlgorithm();
         certificate
                 .getSignatureAlgorithm()
                 .getAlgorithm()
@@ -54,13 +55,13 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
     }
 
     private void prepareSignature() {
-        byte[] encodedSignatureAlgorithm =
-                certificate.getSignatureAlgorithm().getContent().getValue();
-        X509SignatureAlgorithm signatureAlgorithm =
-                X509SignatureAlgorithm.decodeFromOidBytes(encodedSignatureAlgorithm);
+        byte[] encodedSignatureAlgorithm
+                = certificate.getSignatureAlgorithm().getContent().getValue();
+        X509SignatureAlgorithm signatureAlgorithm
+                = X509SignatureAlgorithm.decodeFromOidBytes(encodedSignatureAlgorithm);
         if (signatureAlgorithm == null) {
             LOGGER.warn("Could not decode signature algorithm, using defaultSignatureAlgorithm");
-            signatureAlgorithm = config.getSignatureAlgorithm();
+            signatureAlgorithm = chooser.getSignatureAlgorithm();
         }
         SignatureEngine signatureEngine = SignatureEngineFactory.getEngine(signatureAlgorithm);
         PrivateKey privateKey = getPrivateKeyForAlgorithm(signatureAlgorithm);
@@ -79,7 +80,7 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
                         "The keytype \"" + keyType.name() + "\" is not implemented yet");
             case RSA:
                 return new CustomRsaPrivateKey(
-                        config.getRsaSignatureModulus(), config.getRsaSignaturePrivateKey());
+                        chooser.getIssuerRsaModulus(), chooser.getIssuerRsaPrivateKey());
             case DSA:
                 throw new UnsupportedOperationException(
                         "The keytype \"" + keyType.name() + "\" is not implemented yet");

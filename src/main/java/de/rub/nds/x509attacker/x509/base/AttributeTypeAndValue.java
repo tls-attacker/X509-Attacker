@@ -15,7 +15,7 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.preparator.AttributeTypeAndValuePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
@@ -23,23 +23,30 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue }
+ * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue
+ * }
  *
- * <p>AttributeType ::= OBJECT IDENTIFIER
+ * <p>
+ * AttributeType ::= OBJECT IDENTIFIER
  *
- * <p>AttributeValue ::= ANY -- DEFINED BY AttributeType
+ * <p>
+ * AttributeValue ::= ANY -- DEFINED BY AttributeType
  *
- * <p>DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)), printableString
- * PrintableString (SIZE (1..MAX)), universalString UniversalString (SIZE (1..MAX)), utf8String
- * UTF8String (SIZE (1..MAX)), bmpString BMPString (SIZE (1..MAX)) }
+ * <p>
+ * DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)),
+ * printableString PrintableString (SIZE (1..MAX)), universalString
+ * UniversalString (SIZE (1..MAX)), utf8String UTF8String (SIZE (1..MAX)),
+ * bmpString BMPString (SIZE (1..MAX)) }
  */
 public class AttributeTypeAndValue extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier type;
+    @HoldsModifiableVariable
+    private Asn1ObjectIdentifier type;
 
-    @HoldsModifiableVariable private Asn1Any value;
+    @HoldsModifiableVariable
+    private Asn1Any value;
 
     private X500AttributeType attributeTypeConfig;
 
@@ -97,8 +104,8 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     }
 
     @Override
-    public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
-        return new AttributeTypeAndValuePreparator(this, config);
+    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
+        return new AttributeTypeAndValuePreparator(this, chooser);
     }
 
     @Override

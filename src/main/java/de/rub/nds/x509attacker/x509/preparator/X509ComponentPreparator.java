@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import java.io.ByteArrayOutputStream;
@@ -24,19 +25,19 @@ public abstract class X509ComponentPreparator<T extends Asn1Field> extends Asn1F
     private static final Logger LOGGER = LogManager.getLogger();
 
     protected final T instance;
-    protected final X509CertificateConfig config;
+    protected final X509Chooser chooser;
 
-    public X509ComponentPreparator(T t, X509CertificateConfig config) {
+    public X509ComponentPreparator(T t, X509Chooser chooser) {
         super(t);
         this.instance = t;
-        this.config = config;
+        this.chooser = chooser;
     }
 
-    protected void prepareSubcomponent(X509Component subComponent, X509CertificateConfig config) {
+    protected void prepareSubcomponent(X509Component subComponent) {
         if (subComponent == null) {
             LOGGER.warn("Not preparing null subcomponent");
         } else {
-            subComponent.getPreparator(config).prepare();
+            subComponent.getPreparator(chooser).prepare();
         }
     }
 

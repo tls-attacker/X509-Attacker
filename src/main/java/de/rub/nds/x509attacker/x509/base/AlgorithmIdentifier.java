@@ -29,6 +29,7 @@ public class AlgorithmIdentifier extends Asn1Sequence {
         super(identifier);
         algorithm = new Asn1ObjectIdentifier("algorithm");
         parameters = new Asn1Any("parameters");
+        parameters.setOptional(true);
         addChild(algorithm);
         addChild(parameters);
     }

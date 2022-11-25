@@ -8,14 +8,14 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.Ed448PublicKey;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
-public class Ed448PublicKeyPreparator1 extends X509ComponentPreparator<Ed448PublicKey> {
+public class Ed448PublicKeyPreparator extends X509ComponentPreparator<Ed448PublicKey> {
 
-    public Ed448PublicKeyPreparator1(Ed448PublicKey instance, X509CertificateConfig config) {
-        super(instance, config);
+    public Ed448PublicKeyPreparator(Ed448PublicKey instance, X509Chooser chooser) {
+        super(instance, chooser);
     }
 
     @Override

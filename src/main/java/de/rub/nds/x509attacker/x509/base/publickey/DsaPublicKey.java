@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
@@ -26,8 +26,7 @@ public class DsaPublicKey extends Asn1Integer implements X509Component {
     }
 
     @Override
-    public X509ComponentPreparator getPreparator(X509CertificateConfig config) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
