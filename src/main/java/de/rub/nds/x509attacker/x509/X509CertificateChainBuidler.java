@@ -16,10 +16,9 @@ import de.rub.nds.x509attacker.x509.base.X509CertificateChain;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 
 public class X509CertificateChainBuidler {
-    
-    public X509CertificateChainBuidler() {
-    }
-    
+
+    public X509CertificateChainBuidler() {}
+
     public X509CertificateChain buildChain(X509CertificateConfig... certificateConfigs) {
         X509CertificateChain chain = new X509CertificateChain();
         X509Context context = new X509Context();
@@ -30,8 +29,8 @@ public class X509CertificateChainBuidler {
             }
             X509Certificate certificate = new X509Certificate("certiciate_" + counter, config);
             X509Chooser chooser = new X509Chooser(config, context);
-            X509CertificatePreparator preparator
-                    = new X509CertificatePreparator(certificate, chooser);
+            X509CertificatePreparator preparator =
+                    new X509CertificatePreparator(certificate, chooser);
             preparator.prepare();
             chain.addCertificate(certificate);
             counter++;

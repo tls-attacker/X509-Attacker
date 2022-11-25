@@ -59,7 +59,9 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
         SignatureEngine signatureEngine = SignatureEngineFactory.getEngine(signatureAlgorithm);
         PrivateKey privateKey = getPrivateKeyForAlgorithm(signatureAlgorithm);
         byte[] toBeSigned = this.certificate.getTbsCertificate().getGenericSerializer().serialize();
+        LOGGER.debug("To be signed: {}", toBeSigned);
         byte[] signature = signatureEngine.sign(privateKey, toBeSigned);
+        LOGGER.debug("Signature: {}", signature);
         certificate.getSignature().setValue(signature);
         certificate.getSignature().setUnusedBits((byte) 0);
         prepareSubcomponent(certificate.getSignature());

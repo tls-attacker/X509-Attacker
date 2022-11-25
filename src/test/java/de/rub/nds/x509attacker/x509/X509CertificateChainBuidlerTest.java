@@ -28,9 +28,7 @@ public class X509CertificateChainBuidlerTest {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    /**
-     * Test of buildChain method, of class X509CertificateChainBuidler.
-     */
+    /** Test of buildChain method, of class X509CertificateChainBuidler. */
     @Test
     public void testBuildChain() {
         X509CertificateConfig rootConfig = new X509CertificateConfig();
@@ -41,8 +39,8 @@ public class X509CertificateChainBuidlerTest {
         rootConfig.setRsaPrivateKey(new BigInteger("12345"));
         rootConfig.setNotBefore(new DateTime(1990, 9, 14, 3, 24, DateTimeZone.UTC));
         rootConfig.setNotAfter(new DateTime(2040, 9, 14, 3, 24, DateTimeZone.UTC));
-        byte[] serialNumber
-                = ArrayConverter.hexStringToByteArray("FFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAA");
+        byte[] serialNumber =
+                ArrayConverter.hexStringToByteArray("FFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAA");
         rootConfig.setSerialNumber(new BigInteger(serialNumber));
         rootConfig.setRsaModulus(new BigInteger("AABBCCAABBCCAABBCC", 16));
         rootConfig.setRsaPublicKey(new BigInteger("03", 16));
@@ -55,8 +53,8 @@ public class X509CertificateChainBuidlerTest {
         intermediateConfig.setRsaPrivateKey(new BigInteger("54321"));
         intermediateConfig.setNotBefore(new DateTime(2022, 1, 1, 12, 13, DateTimeZone.UTC));
         intermediateConfig.setNotAfter(new DateTime(2030, 9, 4, 3, 13, DateTimeZone.UTC));
-        serialNumber
-                = ArrayConverter.hexStringToByteArray("2211221122112211221122112211221122112211");
+        serialNumber =
+                ArrayConverter.hexStringToByteArray("2211221122112211221122112211221122112211");
         intermediateConfig.setSerialNumber(new BigInteger(serialNumber));
         intermediateConfig.setRsaModulus(
                 new BigInteger(
@@ -71,8 +69,8 @@ public class X509CertificateChainBuidlerTest {
         leafConfig.setRsaPrivateKey(new BigInteger("33333"));
         leafConfig.setNotBefore(new DateTime(2021, 7, 5, 22, 30, DateTimeZone.UTC));
         leafConfig.setNotAfter(new DateTime(2023, 7, 5, 22, 30, DateTimeZone.UTC));
-        serialNumber
-                = ArrayConverter.hexStringToByteArray("FF11FF11FF11FF11FF11FF11FF11FF11FF11FF11");
+        serialNumber =
+                ArrayConverter.hexStringToByteArray("FF11FF11FF11FF11FF11FF11FF11FF11FF11FF11");
         leafConfig.setSerialNumber(new BigInteger(serialNumber));
         leafConfig.setRsaModulus(
                 new BigInteger(
