@@ -18,12 +18,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 public class CertificateRewriter {
-    
+
     private static final Logger LOGGER = LogManager.getLogger();
-    
-    public CertificateRewriter() {
-    }
-    
+
+    public CertificateRewriter() {}
+
     public void fixateNonContainerContent(Asn1Container container) {
         for (Asn1Encodable encodable : container.getChildren()) {
             if (encodable instanceof Asn1Container) {
@@ -43,14 +42,13 @@ public class CertificateRewriter {
             }
         }
     }
-    
+
     private void fixateAsn1Field(Asn1Encodable encodable) {
         if (((Asn1Field) encodable).getContent() != null
                 && ((Asn1Field) encodable).getContent().getValue() != null) {
             ((Asn1Field) encodable)
                     .setContent(
-                            Modifiable.explicit(
-                                    ((Asn1Field) encodable).getContent().getValue()));
+                            Modifiable.explicit(((Asn1Field) encodable).getContent().getValue()));
         }
     }
 }

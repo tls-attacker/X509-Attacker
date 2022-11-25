@@ -20,8 +20,7 @@ public class AttributeTypeAndValuePreparator extends X509ComponentPreparator {
 
     private final AttributeTypeAndValue instance;
 
-    public AttributeTypeAndValuePreparator(
-            AttributeTypeAndValue instance, X509Chooser chooser) {
+    public AttributeTypeAndValuePreparator(AttributeTypeAndValue instance, X509Chooser chooser) {
         super(instance, chooser);
         this.instance = instance;
     }
@@ -54,5 +53,4 @@ public class AttributeTypeAndValuePreparator extends X509ComponentPreparator {
         }
         prepareSubcomponent(instance.getType());
     }
-
 }

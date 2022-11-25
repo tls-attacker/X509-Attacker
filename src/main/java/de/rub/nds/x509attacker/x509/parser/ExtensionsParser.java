@@ -1,5 +1,4 @@
 /*
-/*
  * X509-Attacker - A tool for creating arbitrary certificates
  *
  * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH

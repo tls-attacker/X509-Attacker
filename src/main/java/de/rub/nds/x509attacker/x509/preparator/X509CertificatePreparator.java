@@ -55,14 +55,7 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
     }
 
     private void prepareSignature() {
-        byte[] encodedSignatureAlgorithm
-                = certificate.getSignatureAlgorithm().getContent().getValue();
-        X509SignatureAlgorithm signatureAlgorithm
-                = X509SignatureAlgorithm.decodeFromOidBytes(encodedSignatureAlgorithm);
-        if (signatureAlgorithm == null) {
-            LOGGER.warn("Could not decode signature algorithm, using defaultSignatureAlgorithm");
-            signatureAlgorithm = chooser.getSignatureAlgorithm();
-        }
+        X509SignatureAlgorithm signatureAlgorithm = chooser.getSignatureAlgorithm();
         SignatureEngine signatureEngine = SignatureEngineFactory.getEngine(signatureAlgorithm);
         PrivateKey privateKey = getPrivateKeyForAlgorithm(signatureAlgorithm);
         byte[] toBeSigned = this.certificate.getTbsCertificate().getGenericSerializer().serialize();

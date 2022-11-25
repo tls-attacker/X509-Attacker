@@ -23,30 +23,23 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue
- * }
+ * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue }
  *
- * <p>
- * AttributeType ::= OBJECT IDENTIFIER
+ * <p>AttributeType ::= OBJECT IDENTIFIER
  *
- * <p>
- * AttributeValue ::= ANY -- DEFINED BY AttributeType
+ * <p>AttributeValue ::= ANY -- DEFINED BY AttributeType
  *
- * <p>
- * DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)),
- * printableString PrintableString (SIZE (1..MAX)), universalString
- * UniversalString (SIZE (1..MAX)), utf8String UTF8String (SIZE (1..MAX)),
- * bmpString BMPString (SIZE (1..MAX)) }
+ * <p>DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)), printableString
+ * PrintableString (SIZE (1..MAX)), universalString UniversalString (SIZE (1..MAX)), utf8String
+ * UTF8String (SIZE (1..MAX)), bmpString BMPString (SIZE (1..MAX)) }
  */
 public class AttributeTypeAndValue extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier type;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier type;
 
-    @HoldsModifiableVariable
-    private Asn1Any value;
+    @HoldsModifiableVariable private Asn1Any value;
 
     private X500AttributeType attributeTypeConfig;
 

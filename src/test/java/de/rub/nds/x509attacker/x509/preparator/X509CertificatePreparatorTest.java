@@ -32,7 +32,8 @@ public class X509CertificatePreparatorTest {
     public void testCreationSerialisationParsingSerialisationEquality() {
         X509CertificateConfig config = new X509CertificateConfig();
         X509Chooser chooser = new X509Chooser(config, new X509Context());
-        X509Certificate x509Certificate = new X509Certificate("leafCertificate", chooser.getConfig());
+        X509Certificate x509Certificate =
+                new X509Certificate("leafCertificate", chooser.getConfig());
         instance = new X509CertificatePreparator(x509Certificate, chooser);
         instance.prepare();
         byte[] serializedCertificate = x509Certificate.getGenericSerializer().serialize();

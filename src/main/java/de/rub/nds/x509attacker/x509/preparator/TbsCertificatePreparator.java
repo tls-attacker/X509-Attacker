@@ -81,9 +81,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         Asn1ObjectIdentifier algorithm = signature.getAlgorithm();
         algorithm.setValue(chooser.getSignatureAlgorithm().getOid().toString());
         prepareSubcomponent(algorithm);
-        /**
-         * Prepare signature parameters
-         */
+        /** Prepare signature parameters */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             signature.instantiateParameters(new Asn1Null("parameters"));
@@ -102,7 +100,9 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
         Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
         for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-            ((X509Component) typeAndValue).getPreparator(chooser).prepare(); // TODO unfortunate cast
+            ((X509Component) typeAndValue)
+                    .getPreparator(chooser)
+                    .prepare(); // TODO unfortunate cast
         }
         prepareSubcomponent(rdn);
         prepareSubcomponent(issuer);
@@ -178,7 +178,9 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         RelativeDistinguishedName rdn = subject.getRelativeDistinguishedName();
         Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
         for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-            ((X509Component) typeAndValue).getPreparator(chooser).prepare(); // TODO unfortunate cast
+            ((X509Component) typeAndValue)
+                    .getPreparator(chooser)
+                    .prepare(); // TODO unfortunate cast
         }
         prepareSubcomponent(rdn);
         prepareSubcomponent(subject);
@@ -187,8 +189,12 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     private void prepareSubjectPublicKeyInfo() {
         SubjectPublicKeyInfo subjectPublicKeyInfo = tbsCertificate.getSubjectPublicKeyInfo();
         AlgorithmIdentifier algorithm = subjectPublicKeyInfo.getAlgorithm();
-        algorithm.getAlgorithm().setValue(chooser.getConfig().getPublicKeyType().getOid().toString());
-        algorithm.getParameters().setIdentifier(chooser.getConfig().getPublicKeyType().getOid().toString());
+        algorithm
+                .getAlgorithm()
+                .setValue(chooser.getConfig().getPublicKeyType().getOid().toString());
+        algorithm
+                .getParameters()
+                .setIdentifier(chooser.getConfig().getPublicKeyType().getOid().toString());
         prepareSubcomponent(algorithm.getAlgorithm());
         PublicParameters publicKeyParameters = createPublicKeyParameters();
         if (publicKeyParameters == null) {
@@ -254,5 +260,4 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
                 return null;
         }
     }
-
 }

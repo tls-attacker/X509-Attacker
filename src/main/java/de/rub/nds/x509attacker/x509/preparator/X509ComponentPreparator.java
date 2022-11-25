@@ -12,7 +12,6 @@ import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
