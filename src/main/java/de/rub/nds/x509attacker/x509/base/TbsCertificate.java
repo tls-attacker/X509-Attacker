@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Explicit;
@@ -25,35 +24,25 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private Version version;
+    @HoldsModifiableVariable private Version version;
 
-    @HoldsModifiableVariable
-    private Asn1Integer serialNumber;
+    @HoldsModifiableVariable private Asn1Integer serialNumber;
 
-    @HoldsModifiableVariable
-    private AlgorithmIdentifier signature;
+    @HoldsModifiableVariable private AlgorithmIdentifier signature;
 
-    @HoldsModifiableVariable
-    private Name issuer;
+    @HoldsModifiableVariable private Name issuer;
 
-    @HoldsModifiableVariable
-    private Validity validity;
+    @HoldsModifiableVariable private Validity validity;
 
-    @HoldsModifiableVariable
-    private Name subject;
+    @HoldsModifiableVariable private Name subject;
 
-    @HoldsModifiableVariable
-    private SubjectPublicKeyInfo subjectPublicKeyInfo;
+    @HoldsModifiableVariable private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
-    @HoldsModifiableVariable
-    private Asn1PrimitiveBitString issuerUniqueID;
+    @HoldsModifiableVariable private Asn1PrimitiveBitString issuerUniqueID;
 
-    @HoldsModifiableVariable
-    private Asn1PrimitiveBitString subjectUniqueID;
+    @HoldsModifiableVariable private Asn1PrimitiveBitString subjectUniqueID;
 
-    @HoldsModifiableVariable
-    private Asn1Explicit extensionExplicit;
+    @HoldsModifiableVariable private Asn1Explicit extensionExplicit;
 
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
@@ -74,7 +63,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
             subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
+            extensionExplicit =
+                    new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);

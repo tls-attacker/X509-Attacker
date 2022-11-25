@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Field;
@@ -27,23 +26,22 @@ import de.rub.nds.x509attacker.x509.base.publickey.X25519PublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.X448PublicKey;
 
 /**
- *
- * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier, subjectPublicKeyBitString BIT STRING }
- *
+ * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier, subjectPublicKeyBitString BIT
+ * STRING }
  */
 public class SubjectPublicKeyInfo extends Asn1Sequence {
 
-    @HoldsModifiableVariable
-    private AlgorithmIdentifier algorithm;
+    @HoldsModifiableVariable private AlgorithmIdentifier algorithm;
 
-    @HoldsModifiableVariable
-    private PublicKeyBitString subjectPublicKeyBitString;
+    @HoldsModifiableVariable private PublicKeyBitString subjectPublicKeyBitString;
 
     public SubjectPublicKeyInfo(String identifier, X509CertificateConfig config) {
         super(identifier);
         algorithm = new AlgorithmIdentifier("algorithm");
-        subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring",
-            createSubjectPublicKeyStruct(config.getPublicKeyType()));
+        subjectPublicKeyBitString =
+                new PublicKeyBitString(
+                        "subjectPublicKeyBitstring",
+                        createSubjectPublicKeyStruct(config.getPublicKeyType()));
         initPublicKeyParameters(config);
         addChild(algorithm);
         addChild(subjectPublicKeyBitString);
@@ -107,7 +105,9 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
                 return new X448PublicKey();
             default:
                 throw new UnsupportedOperationException(
-                    "PublicKeyType: " + publicKeyType.getHumanReadableName() + " is not supported.");
+                        "PublicKeyType: "
+                                + publicKeyType.getHumanReadableName()
+                                + " is not supported.");
         }
     }
 
@@ -136,7 +136,9 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
                 break;
             default:
                 throw new UnsupportedOperationException(
-                    "PublicKeyType: " + config.getPublicKeyType().getHumanReadableName() + " is not supported");
+                        "PublicKeyType: "
+                                + config.getPublicKeyType().getHumanReadableName()
+                                + " is not supported");
         }
         if (field != null) {
             algorithm.instantiateParameters(field);
@@ -144,5 +146,4 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
             algorithm.instantiateParameters(new Asn1Null("parameters"));
         }
     }
-
 }

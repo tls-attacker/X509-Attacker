@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
@@ -66,7 +65,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     }
 
     private void prepareVersion() {
-        ((Asn1Integer) (tbsCertificate.getVersion().getChild())).setValue(config.getVersion().getValue());
+        ((Asn1Integer) (tbsCertificate.getVersion().getChild()))
+                .setValue(config.getVersion().getValue());
         prepareSubcomponent(tbsCertificate.getVersion());
     }
 
@@ -81,9 +81,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         Asn1ObjectIdentifier algorithm = signature.getAlgorithm();
         algorithm.setValue(config.getSignatureAlgorithm().getOid().toString());
         prepareSubcomponent(algorithm);
-        /**
-         * Prepare signature parameters
-         */
+        /** Prepare signature parameters */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             signature.instantiateParameters(new Asn1Null("parameters"));
@@ -106,55 +104,71 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         }
         prepareSubcomponent(rdn);
         prepareSubcomponent(issuer);
-
     }
 
     private void prepareValidity() {
         Validity validity = tbsCertificate.getValidity();
         Time notAfter = validity.getNotAfter();
-        encodeValidity(config.getNotAfter(), notAfter, config.getDefaultNotAfterEncoding(),
-            config.getNotAfterAccurracy(), config.getTimezoneOffsetInMinutes());
+        encodeValidity(
+                config.getNotAfter(),
+                notAfter,
+                config.getDefaultNotAfterEncoding(),
+                config.getNotAfterAccurracy(),
+                config.getTimezoneOffsetInMinutes());
         prepareSubcomponent(notAfter);
         Time notBefore = validity.getNotBefore();
-        encodeValidity(config.getNotBefore(), notBefore, config.getDefaultNotBeforeEncoding(),
-            config.getNotBeforeAccurracy(), config.getTimezoneOffsetInMinutes());
+        encodeValidity(
+                config.getNotBefore(),
+                notBefore,
+                config.getDefaultNotBeforeEncoding(),
+                config.getNotBeforeAccurracy(),
+                config.getTimezoneOffsetInMinutes());
         prepareSubcomponent(notBefore);
         prepareSubcomponent(validity);
     }
 
-    private void encodeValidity(DateTime date, Time time, ValidityEncoding encoding, TimeAccurracy accurracy,
-        int timezoneInMinutes) {
+    private void encodeValidity(
+            DateTime date,
+            Time time,
+            ValidityEncoding encoding,
+            TimeAccurracy accurracy,
+            int timezoneInMinutes) {
         Asn1Field timeField;
         switch (encoding) {
             case GENERALIZED_TIME_DIFFERENTIAL:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                    .setValue(TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(date, accurracy, timezoneInMinutes));
+                        .setValue(
+                                TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(
+                                        date, accurracy, timezoneInMinutes));
                 break;
             case GENERALIZED_TIME_LOCAL:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                    .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
+                        .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
                 break;
             case GENERALIZED_TIME_UTC:
                 timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
                 ((Asn1PrimitiveGeneralizedTime) timeField)
-                    .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
+                        .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
                 break;
             case UTC:
                 timeField = new Asn1PrimitiveUtcTime("utcTime");
-                ((Asn1PrimitiveUtcTime) timeField).setValue(TimeEncoder.encodeFullUtc(date, accurracy));
+                ((Asn1PrimitiveUtcTime) timeField)
+                        .setValue(TimeEncoder.encodeFullUtc(date, accurracy));
                 break;
             case UTC_DIFFERENTIAL:
                 timeField = new Asn1PrimitiveUtcTime("utcTime");
                 ((Asn1PrimitiveUtcTime) timeField)
-                    .setValue(TimeEncoder.encodeUtcWithDifferential(date, accurracy, timezoneInMinutes));
+                        .setValue(
+                                TimeEncoder.encodeUtcWithDifferential(
+                                        date, accurracy, timezoneInMinutes));
                 break;
             default:
-                throw new UnsupportedOperationException("Unsupported validity encoding:" + encoding.name());
+                throw new UnsupportedOperationException(
+                        "Unsupported validity encoding:" + encoding.name());
         }
         time.setSelectedChoice(timeField);
-
     }
 
     private void prepareSubject() {
@@ -185,7 +199,6 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         prepareSubcomponent(algorithm.getParameters());
         subjectPublicKeyInfo.getSubjectPublicKeyBitString().getPreparator(config).prepare();
         prepareSubcomponent(subjectPublicKeyInfo);
-
     }
 
     private void prepareIssuerUniqueId() {
@@ -244,5 +257,4 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         subjectPublicKey.getPreparator(config).prepare();
         return subjectPublicKey.getSerializer().serialize();
     }
-
 }

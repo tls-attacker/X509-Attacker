@@ -1,18 +1,15 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -27,14 +24,11 @@ public class X509Certificate extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private TbsCertificate tbsCertificate;
+    @HoldsModifiableVariable private TbsCertificate tbsCertificate;
 
-    @HoldsModifiableVariable
-    private AlgorithmIdentifier signatureAlgorithm;
+    @HoldsModifiableVariable private AlgorithmIdentifier signatureAlgorithm;
 
-    @HoldsModifiableVariable
-    private Asn1PrimitiveBitString signature;
+    @HoldsModifiableVariable private Asn1PrimitiveBitString signature;
 
     public X509Certificate(String identifier, X509CertificateConfig certificateConfig) {
         super(identifier);

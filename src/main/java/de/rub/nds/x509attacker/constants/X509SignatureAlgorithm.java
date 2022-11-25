@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.constants;
 
 import de.rub.nds.asn1.oid.ObjectIdentifier;
@@ -15,15 +14,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum X509SignatureAlgorithm {
-
     MD2_WITH_RSA_ENCRYPTION("md2WithRSAEncryption", "1.2.840.113549.1.1.2", SignatureKeyType.RSA),
     MD4_WITH_RSA_ENCRYPTION("md4WithRSAEncryption", "1.2.840.113549.1.1.3", SignatureKeyType.RSA),
     MD5_WITH_RSA_ENCRYPTION("md5WithRSAEncryption", "1.2.840.113549.1.1.4", SignatureKeyType.RSA),
     SHA1_WITH_RSA_ENCRYPTION("sha1WithRSAEncryption", "1.2.840.113549.1.1.5", SignatureKeyType.RSA),
-    SHA256_WITH_RSA_ENCRYPTION("sha256WithRSAEncryption", "1.2.840.113549.1.1.11", SignatureKeyType.RSA),
-    SHA384_WITH_RSA_ENCRYPTION("sha384WithRSAEncryption", "1.2.840.113549.1.1.12", SignatureKeyType.RSA),
-    SHA512_WITH_RSA_ENCRYPTION("sha512WithRSAEncryption", "1.2.840.113549.1.1.13", SignatureKeyType.RSA),
-    SHA224_WITH_RSA_ENCRYPTION("sha224WithRSAEncryption", "1.2.840.113549.1.1.14", SignatureKeyType.RSA),
+    SHA256_WITH_RSA_ENCRYPTION(
+            "sha256WithRSAEncryption", "1.2.840.113549.1.1.11", SignatureKeyType.RSA),
+    SHA384_WITH_RSA_ENCRYPTION(
+            "sha384WithRSAEncryption", "1.2.840.113549.1.1.12", SignatureKeyType.RSA),
+    SHA512_WITH_RSA_ENCRYPTION(
+            "sha512WithRSAEncryption", "1.2.840.113549.1.1.13", SignatureKeyType.RSA),
+    SHA224_WITH_RSA_ENCRYPTION(
+            "sha224WithRSAEncryption", "1.2.840.113549.1.1.14", SignatureKeyType.RSA),
     DSA_WITH_SHA1("DSAwithSHA1", "1.2.840.10040.4.3", SignatureKeyType.DSA),
     DSA_WITH_SHA224("DSAwithSHA224", "2.16.840.1.101.3.4.3.1", SignatureKeyType.DSA),
     DSA_WITH_SHA256("DSAwithSHA256", "2.16.840.1.101.3.4.3.2", SignatureKeyType.DSA),

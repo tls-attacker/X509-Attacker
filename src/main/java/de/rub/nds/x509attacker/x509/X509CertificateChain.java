@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -21,8 +20,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Represent one X509CertificateChain containing multiple X509Certificates and provides an API for accessing and
- * modifying the chain.
+ * Represent one X509CertificateChain containing multiple X509Certificates and provides an API for
+ * accessing and modifying the chain.
  */
 @XmlRootElement(name = "X509CertificateChain")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -35,8 +34,7 @@ public class X509CertificateChain {
     @HoldsModifiableVariable
     private List<X509Certificate> certificateList = new LinkedList<>();
 
-    public X509CertificateChain() {
-    }
+    public X509CertificateChain() {}
 
     public X509CertificateChain(List<X509Certificate> certChain) {
         this.certificateList = certChain;

@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
@@ -18,18 +17,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
  * OtherName ::= SEQUENCE { type-id OBJECT IDENTIFIER, value [0] EXPLICIT ANY DEFINED BY type-id } }
  */
 public class OtherName extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier typeId;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier typeId;
 
-    @HoldsModifiableVariable
-    private Asn1Encodable value;
+    @HoldsModifiableVariable private Asn1Encodable value;
 
     public OtherName(String identifier) {
         super(identifier);

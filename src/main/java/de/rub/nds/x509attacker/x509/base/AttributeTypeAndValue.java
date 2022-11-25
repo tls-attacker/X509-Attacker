@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Any;
@@ -14,46 +13,40 @@ import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.preparator.AttributeTypeAndValuePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
-import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
  * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue }
  *
- * AttributeType ::= OBJECT IDENTIFIER
+ * <p>AttributeType ::= OBJECT IDENTIFIER
  *
- * AttributeValue ::= ANY -- DEFINED BY AttributeType
+ * <p>AttributeValue ::= ANY -- DEFINED BY AttributeType
  *
- * DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)), printableString PrintableString (SIZE
- * (1..MAX)), universalString UniversalString (SIZE (1..MAX)), utf8String UTF8String (SIZE (1..MAX)), bmpString
- * BMPString (SIZE (1..MAX)) }
- *
- *
+ * <p>DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)), printableString
+ * PrintableString (SIZE (1..MAX)), universalString UniversalString (SIZE (1..MAX)), utf8String
+ * UTF8String (SIZE (1..MAX)), bmpString BMPString (SIZE (1..MAX)) }
  */
 public class AttributeTypeAndValue extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier type;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier type;
 
-    @HoldsModifiableVariable
-    private Asn1Any value;
+    @HoldsModifiableVariable private Asn1Any value;
 
     private X500AttributeType attributeTypeConfig;
 
     private String valueConfig;
 
-    public AttributeTypeAndValue(String identifier, X500AttributeType attributeTypeConfig, String valueConfig) {
+    public AttributeTypeAndValue(
+            String identifier, X500AttributeType attributeTypeConfig, String valueConfig) {
         super(identifier);
         this.attributeTypeConfig = attributeTypeConfig;
         this.valueConfig = valueConfig;
@@ -112,5 +105,4 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     public Asn1FieldSerializer getSerializer() {
         return super.getGenericSerializer();
     }
-
 }

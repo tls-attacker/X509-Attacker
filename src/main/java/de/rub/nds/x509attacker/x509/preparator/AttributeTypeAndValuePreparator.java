@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
@@ -17,7 +16,8 @@ public class AttributeTypeAndValuePreparator extends X509ComponentPreparator {
 
     private final AttributeTypeAndValue instance;
 
-    public AttributeTypeAndValuePreparator(AttributeTypeAndValue instance, X509CertificateConfig config) {
+    public AttributeTypeAndValuePreparator(
+            AttributeTypeAndValue instance, X509CertificateConfig config) {
         super(instance, config);
         this.instance = instance;
     }
@@ -33,5 +33,4 @@ public class AttributeTypeAndValuePreparator extends X509ComponentPreparator {
         instance.setEncodedChildren(encodedChildren(instance.getChildren()));
         return instance.getEncodedChildren().getValue();
     }
-
 }

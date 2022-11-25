@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.filesystem;
 
 import java.io.File;
@@ -29,7 +28,9 @@ public class CertificateFileWriter {
 
     public void writeCertificate(final byte[] certificateBytes) throws IOException {
         this.writeCertificate(
-            new String(Base64.getMimeEncoder(64, "\r\n".getBytes()).encode(certificateBytes), StandardCharsets.UTF_8));
+                new String(
+                        Base64.getMimeEncoder(64, "\r\n".getBytes()).encode(certificateBytes),
+                        StandardCharsets.UTF_8));
     }
 
     public void writeCertificate(final String certificateBase64String) throws IOException {

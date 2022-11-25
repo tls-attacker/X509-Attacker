@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1Null;
@@ -43,16 +42,22 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
 
     private void prepareSignatureAlgorithm() {
         X509SignatureAlgorithm signatureAlgorithm = config.getSignatureAlgorithm();
-        certificate.getSignatureAlgorithm().getAlgorithm().setValue(signatureAlgorithm.getOid().toString());
+        certificate
+                .getSignatureAlgorithm()
+                .getAlgorithm()
+                .setValue(signatureAlgorithm.getOid().toString());
         prepareSubcomponent(certificate.getSignatureAlgorithm().getAlgorithm());
-        certificate.getSignatureAlgorithm().instantiateParameters(new Asn1Null("null")); // PARAMETERS
+        certificate
+                .getSignatureAlgorithm()
+                .instantiateParameters(new Asn1Null("null")); // PARAMETERS
         prepareSubcomponent(certificate.getSignatureAlgorithm());
     }
 
     private void prepareSignature() {
-        byte[] encodedSignatureAlgorithm = certificate.getSignatureAlgorithm().getContent().getValue();
+        byte[] encodedSignatureAlgorithm =
+                certificate.getSignatureAlgorithm().getContent().getValue();
         X509SignatureAlgorithm signatureAlgorithm =
-            X509SignatureAlgorithm.decodeFromOidBytes(encodedSignatureAlgorithm);
+                X509SignatureAlgorithm.decodeFromOidBytes(encodedSignatureAlgorithm);
         if (signatureAlgorithm == null) {
             LOGGER.warn("Could not decode signature algorithm, using defaultSignatureAlgorithm");
             signatureAlgorithm = config.getSignatureAlgorithm();
@@ -64,24 +69,23 @@ public class X509CertificatePreparator extends X509ComponentPreparator {
         certificate.getSignature().setValue(signature);
         certificate.getSignature().setUnusedBits((byte) 0);
         prepareSubcomponent(certificate.getSignature());
-
     }
 
     private PrivateKey getPrivateKeyForAlgorithm(X509SignatureAlgorithm signatureAlgorithm) {
         SignatureKeyType keyType = signatureAlgorithm.getKeyType();
         switch (keyType) {
-
             case ECDSA:
                 throw new UnsupportedOperationException(
-                    "The keytype \"" + keyType.name() + "\" is not implemented yet");
+                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
             case RSA:
-                return new CustomRsaPrivateKey(config.getRsaSignatureModulus(), config.getRsaSignaturePrivateKey());
+                return new CustomRsaPrivateKey(
+                        config.getRsaSignatureModulus(), config.getRsaSignaturePrivateKey());
             case DSA:
                 throw new UnsupportedOperationException(
-                    "The keytype \"" + keyType.name() + "\" is not implemented yet");
+                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
             default:
                 throw new UnsupportedOperationException(
-                    "The keytype \"" + keyType.name() + "\" is not implemented yet");
+                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
         }
     }
 }

@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -15,23 +14,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
- * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons [1] ReasonFlags
- * OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
- *
+ * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons
+ * [1] ReasonFlags OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
  */
 public class DistributionPoint extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private DistributionPointName distributionPointName;
+    @HoldsModifiableVariable private DistributionPointName distributionPointName;
 
-    @HoldsModifiableVariable
-    private ReasonFlags reasons;
+    @HoldsModifiableVariable private ReasonFlags reasons;
 
-    @HoldsModifiableVariable
-    private GeneralNames crlIssuer;
+    @HoldsModifiableVariable private GeneralNames crlIssuer;
 
     private DistributionPoint(String identifier) {
         super(identifier);
@@ -66,5 +60,4 @@ public class DistributionPoint extends Asn1Sequence {
     public void setCrlIssuer(GeneralNames crlIssuer) {
         this.crlIssuer = crlIssuer;
     }
-
 }

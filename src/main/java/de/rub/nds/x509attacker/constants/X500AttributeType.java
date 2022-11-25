@@ -1,24 +1,20 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.constants;
 
 import de.rub.nds.asn1.oid.ObjectIdentifier;
-import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
 import java.util.HashMap;
 import java.util.Map;
 
 public enum X500AttributeType {
 
-    /**
-     * https://www.alvestrand.no/objectid/2.5.4.html
-     */
+    /** https://www.alvestrand.no/objectid/2.5.4.html */
     COMMON_NAME("commonName", "2.5.4.3"),
     COUNTRY_NAME("country", "2.5.4.6"),
     LOCALITY("locality", "2.5.4.7"),

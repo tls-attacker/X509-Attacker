@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Boolean;
@@ -17,19 +16,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- *
- * BasicConstraints ::= SEQUENCE { cA BOOLEAN DEFAULT FALSE, pathLenConstraint INTEGER (0..MAX) OPTIONAL }
- *
+ * BasicConstraints ::= SEQUENCE { cA BOOLEAN DEFAULT FALSE, pathLenConstraint INTEGER (0..MAX)
+ * OPTIONAL }
  */
 public class BasicConstraints extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private Asn1Boolean ca;
+    @HoldsModifiableVariable private Asn1Boolean ca;
 
-    @HoldsModifiableVariable
-    private Asn1Integer pathLenConstraint;
+    @HoldsModifiableVariable private Asn1Integer pathLenConstraint;
 
     public BasicConstraints(String identifier) {
         super(identifier);
@@ -54,5 +50,4 @@ public class BasicConstraints extends Asn1Sequence {
     public void setPathLenConstraint(Asn1Integer pathLenConstraint) {
         this.pathLenConstraint = pathLenConstraint;
     }
-
 }

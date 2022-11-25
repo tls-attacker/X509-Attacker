@@ -1,12 +1,11 @@
-/**
- * X.509-Attacker - A tool for creating arbitrary certificates
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, Hackmanit GmbH
+ * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-
 package de.rub.nds.x509attacker.signatureengine.keyparsers;
 
 import java.io.ByteArrayOutputStream;
@@ -22,8 +21,6 @@ import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.Collection;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import org.apache.logging.log4j.LogManager;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
@@ -40,8 +37,7 @@ public class PemUtil {
 
     private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
-    private PemUtil() {
-    }
+    private PemUtil() {}
 
     public static void writePublicKey(PublicKey key, File targetFile) {
         PemObject pemObject = new PemObject("PublicKey", key.getEncoded());
@@ -84,20 +80,26 @@ public class PemUtil {
     }
 
     public static Certificate readCertificate(InputStream stream)
-        throws FileNotFoundException, CertificateException, IOException {
+            throws FileNotFoundException, CertificateException, IOException {
         CertificateFactory certFactory = CertificateFactory.getInstance("X.509");
-        Collection<? extends java.security.cert.Certificate> certs = certFactory.generateCertificates(stream);
-        java.security.cert.Certificate sunCert = (java.security.cert.Certificate) certs.toArray()[0];
+        Collection<? extends java.security.cert.Certificate> certs =
+                certFactory.generateCertificates(stream);
+        java.security.cert.Certificate sunCert =
+                (java.security.cert.Certificate) certs.toArray()[0];
         byte[] certBytes = sunCert.getEncoded();
         ASN1Primitive asn1Cert = TlsUtils.readASN1Object(certBytes);
-        org.bouncycastle.asn1.x509.Certificate cert = org.bouncycastle.asn1.x509.Certificate.getInstance(asn1Cert);
-        org.bouncycastle.asn1.x509.Certificate[] certs2 = new org.bouncycastle.asn1.x509.Certificate[1];
+        org.bouncycastle.asn1.x509.Certificate cert =
+                org.bouncycastle.asn1.x509.Certificate.getInstance(asn1Cert);
+        org.bouncycastle.asn1.x509.Certificate[] certs2 =
+                new org.bouncycastle.asn1.x509.Certificate[1];
         certs2[0] = cert;
-        org.bouncycastle.crypto.tls.Certificate tlsCerts = new org.bouncycastle.crypto.tls.Certificate(certs2);
+        org.bouncycastle.crypto.tls.Certificate tlsCerts =
+                new org.bouncycastle.crypto.tls.Certificate(certs2);
         return tlsCerts;
     }
 
-    public static Certificate readCertificate(File f) throws FileNotFoundException, CertificateException, IOException {
+    public static Certificate readCertificate(File f)
+            throws FileNotFoundException, CertificateException, IOException {
         return readCertificate(new FileInputStream(f));
     }
 
@@ -206,7 +208,5 @@ public class PemUtil {
                 LOGGER.warn("getKeyType(): no KeyType defined for: " + algo);
                 return null;
         }
-
     }
-
 }
