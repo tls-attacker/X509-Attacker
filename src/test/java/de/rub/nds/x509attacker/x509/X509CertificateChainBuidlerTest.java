@@ -45,6 +45,11 @@ public class X509CertificateChainBuidlerTest {
         rootConfig.setRsaModulus(new BigInteger("AABBCCAABBCCAABBCC", 16));
         rootConfig.setRsaPublicKey(new BigInteger("03", 16));
 
+        
+        
+        
+        
+        
         X509CertificateConfig intermediateConfig = new X509CertificateConfig();
         subject = new LinkedList<>();
         subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker Inter. CA"));
@@ -62,6 +67,8 @@ public class X509CertificateChainBuidlerTest {
                         16));
         intermediateConfig.setRsaPublicKey(new BigInteger("FFFFFF", 16));
 
+        
+        
         X509CertificateConfig leafConfig = new X509CertificateConfig();
         subject = new LinkedList<>();
         subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tii.ae"));
