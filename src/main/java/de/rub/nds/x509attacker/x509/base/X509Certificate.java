@@ -10,10 +10,14 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.publickey.X509PublicKey;
+import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
+import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -22,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509Certificate extends Asn1Sequence {
+public class X509Certificate extends Asn1Sequence implements X509Component  {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -87,5 +91,15 @@ public class X509Certificate extends Asn1Sequence {
         } else {
             LOGGER.warn("Could not adjust public key for next certificate");
         }
+    }
+
+    @Override
+    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
+        return new X509CertificatePreparator(this, chooser);
+    }
+
+    @Override
+    public Asn1FieldSerializer getSerializer() {
+        return new Asn1FieldSerializer(this);
     }
 }
