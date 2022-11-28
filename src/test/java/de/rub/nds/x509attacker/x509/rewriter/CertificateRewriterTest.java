@@ -15,6 +15,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import java.io.ByteArrayInputStream;
 import org.apache.logging.log4j.LogManager;
@@ -50,7 +51,7 @@ public class CertificateRewriterTest {
         Assertions.assertArrayEquals(originalCertificate, serializedCertificate);
 
         x509Certificate.getSignature().getContent().setModification(null);
-        x509Certificate.getTbsCertificate().getSubjectPublicKeyInfo().getSubjectPublicKeyBitString().getContent().setModification(null);
+        x509Certificate.getTbsCertificate().getSubjectPublicKeyInfo().setSubjectPublicKeyBitString(new PublicKeyBitString("subjectPublicKey"));
         preparator
                 = new X509CertificatePreparator(x509Certificate, chooser);
         preparator.prepare();
