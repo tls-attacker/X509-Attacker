@@ -90,7 +90,9 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
                         X509SignatureAlgorithm.decodeFromOidBytes(
                                 algorithm.getContent().getValue()));
 
-        /** Prepare signature parameters */
+        /**
+         * Prepare signature parameters
+         */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             signature.instantiateParameters(new Asn1Null("parameters"));
@@ -145,41 +147,46 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             TimeAccurracy accurracy,
             int timezoneInMinutes) {
         Asn1Field timeField;
-        switch (encoding) {
-            case GENERALIZED_TIME_DIFFERENTIAL:
-                timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
-                ((Asn1PrimitiveGeneralizedTime) timeField)
-                        .setValue(
-                                TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(
-                                        date, accurracy, timezoneInMinutes));
-                break;
-            case GENERALIZED_TIME_LOCAL:
-                timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
-                ((Asn1PrimitiveGeneralizedTime) timeField)
-                        .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
-                break;
-            case GENERALIZED_TIME_UTC:
-                timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
-                ((Asn1PrimitiveGeneralizedTime) timeField)
-                        .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
-                break;
-            case UTC:
-                timeField = new Asn1PrimitiveUtcTime("utcTime");
-                ((Asn1PrimitiveUtcTime) timeField)
-                        .setValue(TimeEncoder.encodeFullUtc(date, accurracy));
-                break;
-            case UTC_DIFFERENTIAL:
-                timeField = new Asn1PrimitiveUtcTime("utcTime");
-                ((Asn1PrimitiveUtcTime) timeField)
-                        .setValue(
-                                TimeEncoder.encodeUtcWithDifferential(
-                                        date, accurracy, timezoneInMinutes));
-                break;
-            default:
-                throw new UnsupportedOperationException(
-                        "Unsupported validity encoding:" + encoding.name());
+        if (time.getSelectedChoice() == null) {
+            switch (encoding) {
+                case GENERALIZED_TIME_DIFFERENTIAL:
+                    timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
+                    ((Asn1PrimitiveGeneralizedTime) timeField)
+                            .setValue(
+                                    TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(
+                                            date, accurracy, timezoneInMinutes));
+                    break;
+                case GENERALIZED_TIME_LOCAL:
+                    timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
+                    ((Asn1PrimitiveGeneralizedTime) timeField)
+                            .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
+                    break;
+                case GENERALIZED_TIME_UTC:
+                    timeField = new Asn1PrimitiveGeneralizedTime("generalizedTime");
+                    ((Asn1PrimitiveGeneralizedTime) timeField)
+                            .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
+                    break;
+                case UTC:
+                    timeField = new Asn1PrimitiveUtcTime("utcTime");
+                    ((Asn1PrimitiveUtcTime) timeField)
+                            .setValue(TimeEncoder.encodeFullUtc(date, accurracy));
+                    break;
+                case UTC_DIFFERENTIAL:
+                    timeField = new Asn1PrimitiveUtcTime("utcTime");
+                    ((Asn1PrimitiveUtcTime) timeField)
+                            .setValue(
+                                    TimeEncoder.encodeUtcWithDifferential(
+                                            date, accurracy, timezoneInMinutes));
+                    break;
+                default:
+                    throw new UnsupportedOperationException(
+                            "Unsupported validity encoding:" + encoding.name());
+            }
+            time.setSelectedChoice(timeField);
+        } else {
+            //There is aready a selection, respect it
+            //TODO 
         }
-        time.setSelectedChoice(timeField);
     }
 
     private void prepareSubject() {
@@ -244,7 +251,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
     private void prepareExtensions() {
         if (tbsCertificate.getExtensionExplicit() != null) {
-            throw new UnsupportedOperationException("Extensions not supported yet");
+            LOGGER.warn("Extensions not supported yet");
         }
     }
 

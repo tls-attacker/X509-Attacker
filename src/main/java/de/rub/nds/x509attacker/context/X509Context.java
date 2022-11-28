@@ -85,7 +85,11 @@ public class X509Context {
     }
 
     public byte[] getIssuerUniqueId() {
-        return Arrays.copyOf(issuerUniqueId, issuerUniqueId.length);
+        if (issuerUniqueId != null) {
+            return Arrays.copyOf(issuerUniqueId, issuerUniqueId.length);
+        } else {
+            return null;
+        }
     }
 
     public void setIssuerUniqueId(byte[] issuerUniqueId) {

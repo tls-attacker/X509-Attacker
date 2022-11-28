@@ -26,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509Certificate extends Asn1Sequence implements X509Component  {
+public class X509Certificate extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
