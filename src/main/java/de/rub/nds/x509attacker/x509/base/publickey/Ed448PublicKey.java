@@ -37,7 +37,7 @@ public class Ed448PublicKey extends Asn1PrimitiveBitString implements X509Compon
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
         // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public boolean isEllipticCurve() {
         return true;

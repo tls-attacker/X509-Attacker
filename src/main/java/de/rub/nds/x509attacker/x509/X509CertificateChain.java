@@ -20,8 +20,8 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * Represent one X509CertificateChain containing multiple X509Certificates and
- * provides an API for accessing and modifying the chain.
+ * Represent one X509CertificateChain containing multiple X509Certificates and provides an API for
+ * accessing and modifying the chain.
  */
 @XmlRootElement(name = "X509CertificateChain")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -34,8 +34,7 @@ public class X509CertificateChain {
     @HoldsModifiableVariable
     private List<X509Certificate> certificateList = new LinkedList<>();
 
-    public X509CertificateChain() {
-    }
+    public X509CertificateChain() {}
 
     public X509CertificateChain(List<X509Certificate> certChain) {
         this.certificateList = certChain;

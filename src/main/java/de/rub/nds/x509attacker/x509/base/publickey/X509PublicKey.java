@@ -14,6 +14,6 @@ import de.rub.nds.x509attacker.context.X509Context;
 public interface X509PublicKey {
 
     public abstract void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config);
-    
+
     public boolean isEllipticCurve();
 }

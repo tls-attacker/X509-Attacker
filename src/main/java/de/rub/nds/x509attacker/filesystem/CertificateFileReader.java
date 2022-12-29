@@ -25,41 +25,48 @@ public class CertificateFileReader {
 
     public static final String CERTIFICATE_PEM_SUFFIX = "-----END CERTIFICATE-----";
 
-    private CertificateFileReader() {
-    }
+    private CertificateFileReader() {}
 
     public static X509CertificateChain readBytes(File file) throws IOException {
         BufferedReader reader = new BufferedReader(new FileReader(file));
 
         X509CertificateChain chain = new X509CertificateChain();
-        reader.lines().forEach(new Consumer<String>() {
-            private ByteArrayOutputStream stream = null;
+        reader.lines()
+                .forEach(
+                        new Consumer<String>() {
+                            private ByteArrayOutputStream stream = null;
 
-            @Override
-            public void accept(String line) {
-                if (line.contains(CERTIFICATE_PEM_PREFIX)) {
-                    stream = new ByteArrayOutputStream();
-                } else if (line.contains(CERTIFICATE_PEM_SUFFIX)) {
-                    if (stream == null) {
-                        throw new RuntimeException("Could not parse certificate chain");
-                    }
-                    byte[] certificateBytes = Base64.getDecoder().decode(stream.toByteArray());
-                    X509Certificate x509Certificate = new X509Certificate("x509Certificate");
-                    x509Certificate.getParser().parse(new ByteArrayInputStream(certificateBytes));
-                    chain.addCertificate(x509Certificate);
-                    stream = null;
-                } else {
-                    try {
-                        if (stream == null) {
-                            throw new RuntimeException("Could not parse certificate chain");
-                        }
-                        stream.write(line.strip().getBytes());
-                    } catch (IOException ex) {
-                        throw new RuntimeException(ex);
-                    }
-                }
-            }
-        });
+                            @Override
+                            public void accept(String line) {
+                                if (line.contains(CERTIFICATE_PEM_PREFIX)) {
+                                    stream = new ByteArrayOutputStream();
+                                } else if (line.contains(CERTIFICATE_PEM_SUFFIX)) {
+                                    if (stream == null) {
+                                        throw new RuntimeException(
+                                                "Could not parse certificate chain");
+                                    }
+                                    byte[] certificateBytes =
+                                            Base64.getDecoder().decode(stream.toByteArray());
+                                    X509Certificate x509Certificate =
+                                            new X509Certificate("x509Certificate");
+                                    x509Certificate
+                                            .getParser()
+                                            .parse(new ByteArrayInputStream(certificateBytes));
+                                    chain.addCertificate(x509Certificate);
+                                    stream = null;
+                                } else {
+                                    try {
+                                        if (stream == null) {
+                                            throw new RuntimeException(
+                                                    "Could not parse certificate chain");
+                                        }
+                                        stream.write(line.strip().getBytes());
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
+                                }
+                            }
+                        });
         return chain;
     }
 }

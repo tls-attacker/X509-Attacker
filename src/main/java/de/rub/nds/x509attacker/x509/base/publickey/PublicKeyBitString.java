@@ -66,7 +66,7 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
         // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
-    
+
     @Override
     public boolean isEllipticCurve() {
         return x509PublicKey.isEllipticCurve();

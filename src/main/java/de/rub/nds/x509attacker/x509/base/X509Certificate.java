@@ -102,6 +102,4 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     public Asn1FieldSerializer getSerializer() {
         return new Asn1FieldSerializer(this);
     }
-    
-    
 }
