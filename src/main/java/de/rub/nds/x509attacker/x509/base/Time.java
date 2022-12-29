@@ -12,9 +12,7 @@ import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
 
-/**
- * Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime }
- */
+/** Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime } */
 public class Time extends Asn1Choice {
 
     public Time(String identifier) {

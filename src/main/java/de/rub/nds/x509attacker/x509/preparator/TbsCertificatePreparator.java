@@ -90,9 +90,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
                         X509SignatureAlgorithm.decodeFromOidBytes(
                                 algorithm.getContent().getValue()));
 
-        /**
-         * Prepare signature parameters
-         */
+        /** Prepare signature parameters */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             signature.instantiateParameters(new Asn1Null("parameters"));
@@ -184,8 +182,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             }
             time.setSelectedChoice(timeField);
         } else {
-            //There is aready a selection, respect it
-            //TODO 
+            // There is aready a selection, respect it
+            // TODO
         }
     }
 

@@ -21,8 +21,7 @@ public class CertificateRewriter {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public CertificateRewriter() {
-    }
+    public CertificateRewriter() {}
 
     public void fixateNonContainerContent(Asn1Container container) {
         for (Asn1Encodable encodable : container.getChildren()) {
@@ -50,7 +49,9 @@ public class CertificateRewriter {
             ((Asn1Field) encodable)
                     .setContent(
                             Modifiable.explicit(((Asn1Field) encodable).getContent().getValue()));
-        } else if ((((Asn1Field) encodable).getContent() == null || ((Asn1Field) encodable).getContent().getValue() == null) && encodable.isOptional()) {
+        } else if ((((Asn1Field) encodable).getContent() == null
+                        || ((Asn1Field) encodable).getContent().getValue() == null)
+                && encodable.isOptional()) {
             Asn1Field field = (Asn1Field) encodable;
             field.setContent(Modifiable.explicit(new byte[0]));
             field.setTagOctets(Modifiable.explicit(new byte[0]));
