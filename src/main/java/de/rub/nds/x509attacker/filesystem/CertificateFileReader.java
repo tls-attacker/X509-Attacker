@@ -14,21 +14,27 @@ import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
-import java.io.FileReader;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Base64;
 import java.util.function.Consumer;
 
 public class CertificateFileReader {
 
-    public static final String CERTIFICATE_PEM_PREFIX = "-----BEGIN CERTIFICATE-----";
+    private static final String CERTIFICATE_PEM_PREFIX = "-----BEGIN CERTIFICATE-----";
 
-    public static final String CERTIFICATE_PEM_SUFFIX = "-----END CERTIFICATE-----";
+    private static final String CERTIFICATE_PEM_SUFFIX = "-----END CERTIFICATE-----";
 
     private CertificateFileReader() {}
 
-    public static X509CertificateChain readBytes(File file) throws IOException {
-        BufferedReader reader = new BufferedReader(new FileReader(file));
+    public static X509CertificateChain readChain(File file) throws IOException {
+        return readChain(new FileInputStream(file));
+    }
+
+    public static X509CertificateChain readChain(InputStream inputStream) throws IOException {
+        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
 
         X509CertificateChain chain = new X509CertificateChain();
         reader.lines()
