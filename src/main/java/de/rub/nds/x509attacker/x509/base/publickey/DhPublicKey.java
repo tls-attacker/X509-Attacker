@@ -44,4 +44,9 @@ public class DhPublicKey extends Asn1Integer implements X509Component, X509Publi
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
         // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public boolean isEllipticCurve() {
+        return false;
+    }
 }

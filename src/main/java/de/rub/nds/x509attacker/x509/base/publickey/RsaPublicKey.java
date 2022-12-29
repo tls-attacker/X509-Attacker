@@ -64,4 +64,9 @@ public class RsaPublicKey extends Asn1Sequence implements X509Component, X509Pub
         context.setIssuerRsaModulus(modulus.getValue().getValue());
         context.setIssuerRsaPrivateKey(config.getRsaPrivateKey());
     }
+
+    @Override
+    public boolean isEllipticCurve() {
+        return false;
+    }
 }

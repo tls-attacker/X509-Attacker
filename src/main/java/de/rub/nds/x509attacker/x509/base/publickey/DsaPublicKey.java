@@ -37,4 +37,9 @@ public class DsaPublicKey extends Asn1Integer implements X509Component, X509Publ
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
         // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public boolean isEllipticCurve() {
+        return false;
+    }
 }
