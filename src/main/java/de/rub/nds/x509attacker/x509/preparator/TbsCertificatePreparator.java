@@ -35,6 +35,7 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParame
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.handler.SubjectNameHandler;
 import java.util.Collection;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
@@ -105,15 +106,16 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
     private void prepareIssuer() {
         Name issuer = tbsCertificate.getIssuer();
-        RelativeDistinguishedName rdn = issuer.getRelativeDistinguishedName();
-
-        Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
-        for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-            ((X509Component) typeAndValue)
-                    .getPreparator(chooser)
-                    .prepare(); // TODO unfortunate cast
+        List<RelativeDistinguishedName> rdnSequence = issuer.getRelativeDistinguishedNames();
+        for (RelativeDistinguishedName rdn : rdnSequence) {
+            Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
+            for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
+                ((X509Component) typeAndValue)
+                        .getPreparator(chooser)
+                        .prepare(); // TODO unfortunate cast
+            }
+            prepareSubcomponent(rdn);
         }
-        prepareSubcomponent(rdn);
         prepareSubcomponent(issuer);
     }
 
@@ -189,16 +191,19 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
 
     private void prepareSubject() {
         Name subject = tbsCertificate.getSubject();
-        RelativeDistinguishedName rdn = subject.getRelativeDistinguishedName();
-        Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
-        for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-            ((X509Component) typeAndValue)
-                    .getPreparator(chooser)
-                    .prepare(); // TODO unfortunate cast
+        List<RelativeDistinguishedName> rdnSequence = subject.getRelativeDistinguishedNames();
+        for (RelativeDistinguishedName rdn : rdnSequence) {
+
+            Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
+            for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
+                ((X509Component) typeAndValue)
+                        .getPreparator(chooser)
+                        .prepare(); // TODO unfortunate cast
+            }
+            prepareSubcomponent(rdn);
         }
-        prepareSubcomponent(rdn);
         prepareSubcomponent(subject);
-        SubjectNameHandler handler = new SubjectNameHandler(rdn, chooser);
+        SubjectNameHandler handler = new SubjectNameHandler(rdnSequence, chooser);
         handler.adjustContext();
     }
 

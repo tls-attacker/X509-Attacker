@@ -9,11 +9,14 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.handler.SubjectNameHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.NameParser;
+import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
@@ -24,30 +27,39 @@ import org.apache.commons.lang3.tuple.Pair;
  */
 public class Name extends Asn1Sequence {
 
-    @HoldsModifiableVariable private RelativeDistinguishedName relativeDistinguishedName;
+    @HoldsModifiableVariable private List<RelativeDistinguishedName> relativeDistinguishedNames;
 
     public Name(String identifier) {
         super(identifier);
-        relativeDistinguishedName = new RelativeDistinguishedName("relativeDistinguishedName");
-        addChild(relativeDistinguishedName);
+        relativeDistinguishedNames = new LinkedList<>();
     }
 
     public Name(String identifier, List<Pair<X500AttributeType, String>> attributeList) {
         super(identifier);
-        relativeDistinguishedName =
-                new RelativeDistinguishedName("relativeDistinguishedName", attributeList);
-        addChild(relativeDistinguishedName);
+        relativeDistinguishedNames = new LinkedList<>();
+        for (Pair<X500AttributeType, String> attributePair : attributeList) {
+            RelativeDistinguishedName relativeDistinguishedName =
+                    new RelativeDistinguishedName("relativeDistinguishedName", attributePair);
+            relativeDistinguishedNames.add(relativeDistinguishedName);
+            addChild(relativeDistinguishedName);
+        }
     }
 
-    public RelativeDistinguishedName getRelativeDistinguishedName() {
-        return relativeDistinguishedName;
+    public List<RelativeDistinguishedName> getRelativeDistinguishedNames() {
+        return relativeDistinguishedNames;
     }
 
-    public void setRelativeDistinguishedName(RelativeDistinguishedName relativeDistinguishedName) {
-        this.relativeDistinguishedName = relativeDistinguishedName;
+    public void setRelativeDistinguishedNames(
+            List<RelativeDistinguishedName> relativeDistinguishedNames) {
+        this.relativeDistinguishedNames = relativeDistinguishedNames;
     }
 
     public X509Handler getSubjectNameHandler(X509Chooser chooser) {
-        return new SubjectNameHandler(relativeDistinguishedName, chooser);
+        return new SubjectNameHandler(relativeDistinguishedNames, chooser);
+    }
+
+    @Override
+    public Asn1FieldParser<Asn1Sequence> getParser() {
+        return new NameParser(this);
     }
 }

@@ -9,12 +9,17 @@
 package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.parser.Asn1Parser;
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
@@ -27,9 +32,9 @@ public class SubjectNameHandler extends X509Handler {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private RelativeDistinguishedName rdnSequence;
+    private List<RelativeDistinguishedName> rdnSequence;
 
-    public SubjectNameHandler(RelativeDistinguishedName rdnSequence, X509Chooser chooser) {
+    public SubjectNameHandler(List<RelativeDistinguishedName> rdnSequence, X509Chooser chooser) {
         super(chooser);
         this.rdnSequence = rdnSequence;
     }
@@ -38,24 +43,50 @@ public class SubjectNameHandler extends X509Handler {
     public void adjustContext() {
         try {
             LOGGER.debug("Reparsing RDN to update context");
-            RelativeDistinguishedName parsedRdnSequence =
-                    new RelativeDistinguishedName("parsedRdn");
-            parsedRdnSequence
-                    .getParser()
-                    .parseIndividualContentFields(
-                            new ByteArrayInputStream(rdnSequence.getContent().getValue()));
+            List<RelativeDistinguishedName> parsedRdnSequence = new LinkedList<>();
+            InputStream rdnByteInputStream = getRdnByteInputStream();
+            while (rdnByteInputStream.available() > 0) {
+                RelativeDistinguishedName relativeDistinguishedName =
+                        new RelativeDistinguishedName("parsedRdn");
+                Asn1Parser<?> parser = relativeDistinguishedName.getParser();
+                parser.parseTagOctets(rdnByteInputStream);
+                byte[] lengthBytes = parser.parseLengthOctets(rdnByteInputStream);
+                BigInteger length = parser.parseLength(lengthBytes);
+                parser.parseIndividualContentFields(
+                        new ByteArrayInputStream(rdnByteInputStream.readNBytes(length.intValue())));
+            }
             List<Pair<X500AttributeType, String>> rdnList = new LinkedList<>();
-            for (Asn1Encodable encodable : parsedRdnSequence.getChildren()) {
-                if (encodable instanceof AttributeTypeAndValue) {
-                    rdnList.add(
-                            new ImmutablePair<>(
-                                    ((AttributeTypeAndValue) encodable).getAttributeTypeConfig(),
-                                    ((AttributeTypeAndValue) encodable).getValueConfig()));
+            for (RelativeDistinguishedName parsedRdn : parsedRdnSequence) {
+                for (Asn1Encodable encodable : parsedRdn.getChildren()) {
+                    if (encodable instanceof AttributeTypeAndValue) {
+                        rdnList.add(
+                                new ImmutablePair<>(
+                                        ((AttributeTypeAndValue) encodable)
+                                                .getAttributeTypeConfig(),
+                                        ((AttributeTypeAndValue) encodable).getValueConfig()));
+                    }
                 }
             }
             chooser.getContext().setIssuer(rdnList);
         } catch (IOException ex) {
-            LOGGER.warn("Problem adjust context");
+            LOGGER.warn("Problem adjusting context");
         }
+    }
+
+    private InputStream getRdnByteInputStream() {
+        LOGGER.debug("Creating RdnByteInputStream");
+        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        for (RelativeDistinguishedName name : rdnSequence) {
+            LOGGER.debug("Adding {}", name.getIdentifier());
+            try {
+                outputStream.write(name.getGenericSerializer().serialize());
+            } catch (IOException ex) {
+                LOGGER.error(ex);
+            }
+        }
+        LOGGER.debug(
+                "Serialized RDN Sequence: {}",
+                ArrayConverter.bytesToHexString(outputStream.toByteArray()));
+        return new ByteArrayInputStream(outputStream.toByteArray());
     }
 }

@@ -38,6 +38,22 @@ public class RelativeDistinguishedName extends Asn1Set {
         }
     }
 
+    public RelativeDistinguishedName(
+            String identifier, Pair<X500AttributeType, String>... attributes) {
+        super(identifier);
+        for (Pair<X500AttributeType, String> pair : attributes) {
+            AttributeTypeAndValue attributeTypeAndValue =
+                    new AttributeTypeAndValue(
+                            pair.getKey()
+                                    .getHumanReadableName()
+                                    .concat("=")
+                                    .concat(pair.getValue()),
+                            pair.getKey(),
+                            pair.getValue());
+            addChild(attributeTypeAndValue);
+        }
+    }
+
     @Override
     public Asn1Parser<?> getParser() {
         return new RelativeDistinguishedNameParser(this);
