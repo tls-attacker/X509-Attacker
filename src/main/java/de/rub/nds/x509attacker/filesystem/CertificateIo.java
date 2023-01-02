@@ -1,7 +1,7 @@
 /*
  * X509-Attacker - A tool for creating arbitrary certificates
  *
- * Copyright 2014-2022 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
+ * Copyright 2014-2023 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
  *
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
@@ -19,8 +19,10 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.security.cert.CertificateEncodingException;
 import java.util.Base64;
 import java.util.function.Consumer;
+import org.bouncycastle.crypto.tls.Certificate;
 
 public class CertificateIo {
 
@@ -28,8 +30,7 @@ public class CertificateIo {
 
     private static final String CERTIFICATE_PEM_SUFFIX = "-----END CERTIFICATE-----";
 
-    private CertificateIo() {
-    }
+    private CertificateIo() {}
 
     public static X509CertificateChain readPemChain(File file) throws IOException {
         return readPemChain(new FileInputStream(file));
@@ -42,65 +43,110 @@ public class CertificateIo {
         reader.lines()
                 .forEach(
                         new Consumer<String>() {
-                    private ByteArrayOutputStream stream = null;
+                            private ByteArrayOutputStream stream = null;
 
-                    @Override
-                    public void accept(String line) {
-                        if (line.contains(CERTIFICATE_PEM_PREFIX)) {
-                            stream = new ByteArrayOutputStream();
-                        } else if (line.contains(CERTIFICATE_PEM_SUFFIX)) {
-                            if (stream == null) {
-                                throw new RuntimeException(
-                                        "Could not parse certificate chain");
-                            }
-                            byte[] certificateBytes
-                                    = Base64.getDecoder().decode(stream.toByteArray());
-                            X509Certificate x509Certificate
-                                    = new X509Certificate("x509Certificate");
-                            x509Certificate
-                                    .getParser()
-                                    .parse(new ByteArrayInputStream(certificateBytes));
-                            chain.addCertificate(x509Certificate);
-                            stream = null;
-                        } else {
-                            try {
-                                if (stream == null) {
-                                    throw new RuntimeException(
-                                            "Could not parse certificate chain");
+                            @Override
+                            public void accept(String line) {
+                                if (line.contains(CERTIFICATE_PEM_PREFIX)) {
+                                    stream = new ByteArrayOutputStream();
+                                } else if (line.contains(CERTIFICATE_PEM_SUFFIX)) {
+                                    if (stream == null) {
+                                        throw new RuntimeException(
+                                                "Could not parse certificate chain");
+                                    }
+                                    byte[] certificateBytes =
+                                            Base64.getDecoder().decode(stream.toByteArray());
+                                    X509Certificate x509Certificate =
+                                            new X509Certificate("x509Certificate");
+                                    x509Certificate
+                                            .getParser()
+                                            .parse(new ByteArrayInputStream(certificateBytes));
+                                    chain.addCertificate(x509Certificate);
+                                    stream = null;
+                                } else {
+                                    try {
+                                        if (stream == null) {
+                                            throw new RuntimeException(
+                                                    "Could not parse certificate chain");
+                                        }
+                                        stream.write(line.strip().getBytes());
+                                    } catch (IOException ex) {
+                                        throw new RuntimeException(ex);
+                                    }
                                 }
-                                stream.write(line.strip().getBytes());
-                            } catch (IOException ex) {
-                                throw new RuntimeException(ex);
                             }
-                        }
-                    }
-                });
+                        });
         return chain;
     }
 
     public static X509CertificateChain readRawChain(InputStream inputStream) throws IOException {
         X509CertificateChain chain = new X509CertificateChain();
 
-        //Outer length field
+        // Outer length field
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int outLength = ArrayConverter.bytesToInt(lengthField);
-        ByteArrayInputStream subCertificateListStream = new ByteArrayInputStream(inputStream.readNBytes(outLength));
+        ByteArrayInputStream subCertificateListStream =
+                new ByteArrayInputStream(inputStream.readNBytes(outLength));
         while (subCertificateListStream.available() > 0) {
-            chain.addCertificate(readRawCertificate(inputStream));
+            chain.addCertificate(readRawCertificate(subCertificateListStream));
         }
         return chain;
     }
 
-    public static X509Certificate readRawCertificate(InputStream inputStream) throws IOException {
-        X509CertificateChain chain = new X509CertificateChain();
-
+    public static X509CertificateChain readRawCertificateAsChain(InputStream inputStream)
+            throws IOException {
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
-        ByteArrayInputStream certificateInputStream = new ByteArrayInputStream(inputStream.readNBytes(length));
+        ByteArrayInputStream certificateInputStream =
+                new ByteArrayInputStream(inputStream.readNBytes(length));
+        X509Certificate certificate = new X509Certificate("certificate");
+        certificate.getParser().parse(certificateInputStream);
+        X509CertificateChain chain = new X509CertificateChain();
+        chain.addCertificate(certificate);
+        return chain;
+    }
+
+    public static X509Certificate readRawCertificate(InputStream inputStream) throws IOException {
+        byte[] lengthField = new byte[3];
+        inputStream.read(lengthField);
+        int length = ArrayConverter.bytesToInt(lengthField);
+        ByteArrayInputStream certificateInputStream =
+                new ByteArrayInputStream(inputStream.readNBytes(length));
         X509Certificate certificate = new X509Certificate("certificate");
         certificate.getParser().parse(certificateInputStream);
         return certificate;
+    }
+
+    public static X509CertificateChain convert(Certificate certificateList) {
+        try {
+            X509CertificateChain chain = new X509CertificateChain();
+            for (org.bouncycastle.asn1.x509.Certificate certificate :
+                    certificateList.getCertificateList()) {
+                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                certificate.encodeTo(outputStream);
+                X509Certificate x509Certificate = new X509Certificate("certificate");
+                x509Certificate
+                        .getParser()
+                        .parse(new ByteArrayInputStream(outputStream.toByteArray()));
+                chain.addCertificate(x509Certificate);
+            }
+            return chain;
+        } catch (IOException ex) {
+            throw new RuntimeException("Could not convert certificate");
+        }
+    }
+
+    public static X509CertificateChain convert(java.security.cert.Certificate certificate) {
+        try {
+            X509CertificateChain chain = new X509CertificateChain();
+            X509Certificate x509Certificate = new X509Certificate("certificate");
+            x509Certificate.getParser().parse(new ByteArrayInputStream(certificate.getEncoded()));
+            chain.addCertificate(x509Certificate);
+            return chain;
+        } catch (CertificateEncodingException ex) {
+            throw new RuntimeException("Could not convert certificate");
+        }
     }
 }
