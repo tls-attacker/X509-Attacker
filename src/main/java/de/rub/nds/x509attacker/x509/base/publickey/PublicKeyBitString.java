@@ -16,12 +16,15 @@ import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.PublicKeyBitStringPreparator;
+import jakarta.xml.bind.annotation.XmlAnyElement;
 
 public class PublicKeyBitString extends Asn1PrimitiveBitString
         implements X509Component, X509PublicKey {
 
+    @XmlAnyElement(lax = true)
     private X509Component publicKey;
 
+    @XmlAnyElement(lax = true)
     private X509PublicKey x509PublicKey;
 
     public PublicKeyBitString(String identifier, X509Component publicKey) {
