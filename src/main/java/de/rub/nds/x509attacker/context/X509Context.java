@@ -22,6 +22,8 @@ public class X509Context {
 
     private BigInteger issuerRsaModulus = null;
 
+    private BigInteger issuerDsaPublicKeyY = null;
+
     private BigInteger issuerDsaPrivateKey = null;
 
     private BigInteger issuerEcPrivateKey = null;
@@ -34,7 +36,16 @@ public class X509Context {
 
     private byte[] issuerUniqueId = null;
 
-    public X509Context() {}
+    public X509Context() {
+    }
+
+    public BigInteger getIssuerDsaPublicKeyY() {
+        return issuerDsaPublicKeyY;
+    }
+
+    public void setIssuerDsaPublicKeyY(BigInteger issuerDsaPublicKeyY) {
+        this.issuerDsaPublicKeyY = issuerDsaPublicKeyY;
+    }
 
     public X509SignatureAlgorithm getSignatureAlgorithm() {
         return signatureAlgorithm;

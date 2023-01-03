@@ -20,6 +20,8 @@ public class DsaPublicKeyPreparator extends X509ComponentPreparator<DsaPublicKey
 
     @Override
     protected byte[] encodeContent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        instance.setY(chooser.getConfig().getDefaultIssuerDsaPublicKeyY());
+        instance.getGenericPreparator().prepare();
+        return instance.getGenericSerializer().serialize(); //TODO not sure this is correct
     }
 }
