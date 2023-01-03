@@ -22,6 +22,6 @@ public class DsaPublicKeyPreparator extends X509ComponentPreparator<DsaPublicKey
     protected byte[] encodeContent() {
         instance.setY(chooser.getConfig().getDefaultIssuerDsaPublicKeyY());
         instance.getGenericPreparator().prepare();
-        return instance.getGenericSerializer().serialize(); //TODO not sure this is correct
+        return instance.getGenericSerializer().serialize(); // TODO not sure this is correct
     }
 }

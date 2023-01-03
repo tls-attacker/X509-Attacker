@@ -56,6 +56,11 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
         addChild(signature);
     }
 
+    /** Default constructor to please JAXB */
+    private X509Certificate() {
+        super(null);
+    }
+
     public TbsCertificate getTbsCertificate() {
         return tbsCertificate;
     }

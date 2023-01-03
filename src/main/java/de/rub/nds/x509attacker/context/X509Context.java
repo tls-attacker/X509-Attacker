@@ -36,8 +36,7 @@ public class X509Context {
 
     private byte[] issuerUniqueId = null;
 
-    public X509Context() {
-    }
+    public X509Context() {}
 
     public BigInteger getIssuerDsaPublicKeyY() {
         return issuerDsaPublicKeyY;

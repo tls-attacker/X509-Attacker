@@ -10,7 +10,6 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
-import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
