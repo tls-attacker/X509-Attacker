@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.filesystem;
 
+import de.rub.nds.asn1.printer.Asn1Printer;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import de.rub.nds.x509attacker.x509.base.X509CertificateChain;
@@ -76,6 +77,9 @@ public class CertificateIo {
                                 }
                             }
                         });
+        StringBuilder builder = new StringBuilder();
+        Asn1Printer.print(builder, chain.getLeaf(), 0);
+        System.out.println(builder);
         return chain;
     }
 

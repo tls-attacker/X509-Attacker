@@ -9,11 +9,13 @@
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.parser.PublicKeyBitStringParser;
 import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.PublicKeyBitStringPreparator;
 import jakarta.xml.bind.annotation.XmlAnyElement;
@@ -66,12 +68,16 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString
 
     @Override
     public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
     public boolean isEllipticCurve() {
         return x509PublicKey.isEllipticCurve();
+    }
+
+    @Override
+    public Asn1FieldParser<PublicKeyBitString> getParser() {
+        return new PublicKeyBitStringParser(this);
     }
 }

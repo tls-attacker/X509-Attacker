@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.base;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -146,4 +147,11 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
             algorithm.instantiateParameters(new Asn1Null("parameters"));
         }
     }
+
+    @Override
+    public Asn1FieldParser<Asn1Sequence> getParser() {
+        return super.getParser(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+    }
+    
+    
 }

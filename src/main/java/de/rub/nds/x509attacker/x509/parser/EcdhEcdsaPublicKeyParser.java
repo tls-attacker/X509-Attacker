@@ -9,19 +9,20 @@
 package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.parser.Asn1FieldParser;
-import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
+import de.rub.nds.x509attacker.x509.base.publickey.EcdhEcdsaPublicKey;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class PublicKeyBitStringParser extends Asn1FieldParser<PublicKeyBitString> {
+public class EcdhEcdsaPublicKeyParser extends Asn1FieldParser<EcdhEcdsaPublicKey> {
 
-    public PublicKeyBitStringParser(PublicKeyBitString publicKeyBitString) {
-        super(publicKeyBitString);
+    public EcdhEcdsaPublicKeyParser(EcdhEcdsaPublicKey ecdhEcdsaPublicKey) {
+        super(ecdhEcdsaPublicKey);
     }
 
     @Override
     public void parseIndividualContentFields(InputStream inputStream) throws IOException {
         encodable.setValue(inputStream.readAllBytes()); // TODO fix unused bits
         encodable.setUnusedBits((byte) 0); // TODO not correct
+        // TODO Decode PublicKey
     }
 }
