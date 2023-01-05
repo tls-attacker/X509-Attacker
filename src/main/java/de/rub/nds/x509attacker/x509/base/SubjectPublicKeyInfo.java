@@ -150,8 +150,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence {
 
     @Override
     public Asn1FieldParser<Asn1Sequence> getParser() {
-        return super.getParser(); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        return super.getParser(); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
     }
-    
-    
 }

@@ -8,10 +8,14 @@
  */
 package de.rub.nds.x509attacker.filesystem;
 
+import static org.junit.jupiter.api.Assertions.fail;
+
 import de.rub.nds.x509attacker.x509.base.X509CertificateChain;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import java.io.IOException;
 import java.util.stream.Stream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
@@ -19,22 +23,30 @@ import org.junit.jupiter.params.provider.MethodSource;
 
 public class CertificateIoTest {
 
+    private static final Logger LOGGER = LogManager.getLogger();
+
     public CertificateIoTest() {}
 
     @ParameterizedTest
     @MethodSource("testCertsProvider")
     void testWithTestData(String resourcePath) throws IOException {
-
-        X509CertificateChain chain =
-                CertificateIo.readPemChain(getClass().getResourceAsStream(resourcePath));
-        X509Component publicKey =
-                chain.getLeaf()
-                        .getTbsCertificate()
-                        .getSubjectPublicKeyInfo()
-                        .getSubjectPublicKeyBitString()
-                        .getPublicKey();
-        Assertions.assertNotNull(
-                publicKey, "Each certificate has a public key that should be readable");
+        LOGGER.debug("Testing: " + resourcePath);
+        try {
+            X509CertificateChain chain =
+                    CertificateIo.readPemChain(getClass().getResourceAsStream(resourcePath));
+            X509Component publicKey =
+                    chain.getLeaf()
+                            .getTbsCertificate()
+                            .getSubjectPublicKeyInfo()
+                            .getSubjectPublicKeyBitString()
+                            .getPublicKey();
+            Assertions.assertNotNull(
+                    publicKey,
+                    "Each certificate has a public key that should be readable: " + resourcePath);
+        } catch (Exception E) {
+            LOGGER.debug("Problem", E);
+            fail(resourcePath, E);
+        }
     }
 
     static Stream<Arguments> testCertsProvider() {
