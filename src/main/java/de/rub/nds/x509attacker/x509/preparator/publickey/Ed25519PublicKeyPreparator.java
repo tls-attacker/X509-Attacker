@@ -10,16 +10,16 @@ package de.rub.nds.x509attacker.x509.preparator.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.Ed25519PublicKey;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
-public class Ed25519PublicKeyPreparator extends X509ComponentPreparator<Ed25519PublicKey> {
+public class Ed25519PublicKeyPreparator extends X509PublicKeyContentPreparator<Ed25519PublicKey> {
 
-    public Ed25519PublicKeyPreparator(Ed25519PublicKey instance, X509Chooser chooser) {
-        super(instance, chooser);
+    public Ed25519PublicKeyPreparator(X509Chooser chooser, Ed25519PublicKey instance) {
+        super(chooser, instance);
     }
 
     @Override
-    protected byte[] encodeContent() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void prepare() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

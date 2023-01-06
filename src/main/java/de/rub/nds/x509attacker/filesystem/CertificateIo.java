@@ -10,6 +10,9 @@ package de.rub.nds.x509attacker.filesystem;
 
 import de.rub.nds.asn1.printer.Asn1Printer;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import de.rub.nds.x509attacker.x509.base.X509CertificateChain;
 import java.io.BufferedReader;
@@ -39,7 +42,7 @@ public class CertificateIo {
 
     public static X509CertificateChain readPemChain(InputStream inputStream) throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-
+        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
         X509CertificateChain chain = new X509CertificateChain();
         reader.lines()
                 .forEach(
@@ -60,7 +63,7 @@ public class CertificateIo {
                                     X509Certificate x509Certificate =
                                             new X509Certificate("x509Certificate");
                                     x509Certificate
-                                            .getParser()
+                                            .getParser(chooser)
                                             .parse(new ByteArrayInputStream(certificateBytes));
                                     chain.addCertificate(x509Certificate);
                                     stream = null;
@@ -100,30 +103,33 @@ public class CertificateIo {
 
     public static X509CertificateChain readRawCertificateAsChain(InputStream inputStream)
             throws IOException {
+        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
         ByteArrayInputStream certificateInputStream =
                 new ByteArrayInputStream(inputStream.readNBytes(length));
         X509Certificate certificate = new X509Certificate("certificate");
-        certificate.getParser().parse(certificateInputStream);
+        certificate.getParser(chooser).parse(certificateInputStream);
         X509CertificateChain chain = new X509CertificateChain();
         chain.addCertificate(certificate);
         return chain;
     }
 
     public static X509Certificate readRawCertificate(InputStream inputStream) throws IOException {
+        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
         ByteArrayInputStream certificateInputStream =
                 new ByteArrayInputStream(inputStream.readNBytes(length));
         X509Certificate certificate = new X509Certificate("certificate");
-        certificate.getParser().parse(certificateInputStream);
+        certificate.getParser(chooser).parse(certificateInputStream);
         return certificate;
     }
 
     public static X509CertificateChain convert(Certificate certificateList) {
+        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
         try {
             X509CertificateChain chain = new X509CertificateChain();
             for (org.bouncycastle.asn1.x509.Certificate certificate :
@@ -132,7 +138,7 @@ public class CertificateIo {
                 certificate.encodeTo(outputStream);
                 X509Certificate x509Certificate = new X509Certificate("certificate");
                 x509Certificate
-                        .getParser()
+                        .getParser(chooser)
                         .parse(new ByteArrayInputStream(outputStream.toByteArray()));
                 chain.addCertificate(x509Certificate);
             }
@@ -143,10 +149,13 @@ public class CertificateIo {
     }
 
     public static X509CertificateChain convert(java.security.cert.Certificate certificate) {
+        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
         try {
             X509CertificateChain chain = new X509CertificateChain();
             X509Certificate x509Certificate = new X509Certificate("certificate");
-            x509Certificate.getParser().parse(new ByteArrayInputStream(certificate.getEncoded()));
+            x509Certificate
+                    .getParser(chooser)
+                    .parse(new ByteArrayInputStream(certificate.getEncoded()));
             chain.addCertificate(x509Certificate);
             return chain;
         } catch (CertificateEncodingException ex) {

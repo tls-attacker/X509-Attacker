@@ -10,13 +10,14 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.parser.Asn1SequenceOfParser;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.Extension;
 import de.rub.nds.x509attacker.x509.base.Extensions;
 
-public class ExtensionsParser extends Asn1SequenceOfParser {
+public class ExtensionsParser extends Asn1SequenceOfParser<X509Chooser> {
 
-    public ExtensionsParser(Extensions extensions) {
-        super(extensions);
+    public ExtensionsParser(X509Chooser chooser, Extensions extensions) {
+        super(chooser, extensions);
     }
 
     @Override

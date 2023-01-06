@@ -9,12 +9,12 @@
 package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
+import de.rub.nds.x509attacker.x509.parser.RelativeDistinguishedNameParser;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
@@ -48,7 +48,8 @@ public class SubjectNameHandler extends X509Handler {
             while (rdnByteInputStream.available() > 0) {
                 RelativeDistinguishedName relativeDistinguishedName =
                         new RelativeDistinguishedName("parsedRdn");
-                Asn1Parser<?> parser = relativeDistinguishedName.getParser();
+                RelativeDistinguishedNameParser parser =
+                        relativeDistinguishedName.getParser(chooser);
                 parser.parseTagOctets(rdnByteInputStream);
                 byte[] lengthBytes = parser.parseLengthOctets(rdnByteInputStream);
                 BigInteger length = parser.parseLength(lengthBytes);
@@ -79,7 +80,7 @@ public class SubjectNameHandler extends X509Handler {
         for (RelativeDistinguishedName name : rdnSequence) {
             LOGGER.debug("Adding {}", name.getIdentifier());
             try {
-                outputStream.write(name.getGenericSerializer().serialize());
+                outputStream.write(name.getSerializer().serialize());
             } catch (IOException ex) {
                 LOGGER.error(ex);
             }

@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.filesystem;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import de.rub.nds.x509attacker.x509.base.X509CertificateChain;
-import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.base.publickey.X509PublicKeyContent;
 import java.io.IOException;
 import java.util.stream.Stream;
 import org.apache.logging.log4j.LogManager;
@@ -34,12 +34,12 @@ public class CertificateIoTest {
         try {
             X509CertificateChain chain =
                     CertificateIo.readPemChain(getClass().getResourceAsStream(resourcePath));
-            X509Component publicKey =
+            X509PublicKeyContent publicKey =
                     chain.getLeaf()
                             .getTbsCertificate()
                             .getSubjectPublicKeyInfo()
                             .getSubjectPublicKeyBitString()
-                            .getPublicKey();
+                            .getX509PublicKeyContent();
             Assertions.assertNotNull(
                     publicKey,
                     "Each certificate has a public key that should be readable: " + resourcePath);

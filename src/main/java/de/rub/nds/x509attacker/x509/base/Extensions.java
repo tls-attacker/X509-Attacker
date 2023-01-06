@@ -9,18 +9,19 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.asn1.parser.Asn1SequenceParser;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.parser.ExtensionsParser;
 
 /** Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension */
-public class Extensions extends Asn1Sequence {
+public class Extensions extends Asn1Sequence<X509Chooser> {
 
     public Extensions(String identifier) {
         super(identifier);
     }
 
     @Override
-    public Asn1FieldParser<Asn1Sequence> getParser() {
-        return new ExtensionsParser(this);
+    public Asn1SequenceParser getParser(X509Chooser chooser) {
+        return new ExtensionsParser(chooser, this);
     }
 }

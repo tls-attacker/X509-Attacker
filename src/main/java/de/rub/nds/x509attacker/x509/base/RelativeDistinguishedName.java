@@ -9,14 +9,14 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Set;
-import de.rub.nds.asn1.parser.Asn1Parser;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.parser.RelativeDistinguishedNameParser;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 /** RelativeDistinguishedName ::= SET SIZE (1..MAX) OF AttributeTypeAndValue */
-public class RelativeDistinguishedName extends Asn1Set {
+public class RelativeDistinguishedName extends Asn1Set<X509Chooser> {
 
     public RelativeDistinguishedName(String identifier) {
         super(identifier);
@@ -55,7 +55,7 @@ public class RelativeDistinguishedName extends Asn1Set {
     }
 
     @Override
-    public Asn1Parser<?> getParser() {
-        return new RelativeDistinguishedNameParser(this);
+    public RelativeDistinguishedNameParser getParser(X509Chooser chooser) {
+        return new RelativeDistinguishedNameParser(chooser, this);
     }
 }

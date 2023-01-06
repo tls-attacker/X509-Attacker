@@ -17,11 +17,10 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class TbsCertificate extends Asn1Sequence implements X509Component {
+public class TbsCertificate extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -194,12 +193,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     }
 
     @Override
-    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
-        return new TbsCertificatePreparator(this, chooser);
+    public TbsCertificatePreparator getPreparator(X509Chooser chooser) {
+        return new TbsCertificatePreparator(chooser, this);
     }
 
     @Override
     public Asn1FieldSerializer getSerializer() {
-        return super.getGenericSerializer();
+        return super.getSerializer();
     }
 }

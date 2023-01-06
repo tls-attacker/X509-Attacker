@@ -15,9 +15,8 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
-import de.rub.nds.x509attacker.x509.base.publickey.X509PublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509PublicKeyContent;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -26,7 +25,7 @@ import org.apache.logging.log4j.Logger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509Certificate extends Asn1Sequence implements X509Component {
+public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -86,11 +85,11 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public void adjustContext(X509Context context, X509CertificateConfig config) {
-        X509PublicKey x509PublicKey =
+        X509PublicKeyContent x509PublicKey =
                 tbsCertificate
                         .getSubjectPublicKeyInfo()
                         .getSubjectPublicKeyBitString()
-                        .getX509PublicKey();
+                        .getX509PublicKeyContent();
         if (x509PublicKey != null) {
             x509PublicKey.adjustKeyAsIssuer(context, config);
         } else {
@@ -99,12 +98,17 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     @Override
-    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
-        return new X509CertificatePreparator(this, chooser);
+    public X509CertificatePreparator getPreparator(X509Chooser chooser) {
+        return new X509CertificatePreparator(chooser, this);
     }
 
     @Override
     public Asn1FieldSerializer getSerializer() {
         return new Asn1FieldSerializer(this);
+    }
+
+    public void getParser() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

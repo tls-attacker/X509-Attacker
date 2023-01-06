@@ -10,18 +10,16 @@ package de.rub.nds.x509attacker.x509.preparator.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.DsaPublicKey;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 
-public class DsaPublicKeyPreparator extends X509ComponentPreparator<DsaPublicKey> {
+public class DsaPublicKeyPreparator extends X509PublicKeyContentPreparator<DsaPublicKey> {
 
     public DsaPublicKeyPreparator(DsaPublicKey instance, X509Chooser chooser) {
-        super(instance, chooser);
+        super(chooser, instance);
     }
 
     @Override
-    protected byte[] encodeContent() {
-        instance.setY(chooser.getConfig().getDefaultIssuerDsaPublicKeyY());
-        instance.getGenericPreparator().prepare();
-        return instance.getGenericSerializer().serialize(); // TODO not sure this is correct
+    public void prepare() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -8,76 +8,105 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.DH;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.DSA;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ECDH_ECDSA;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ECDH_ONLY;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ECMQV;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ED25519;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ED448;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.GOST_R3411_2001;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.GOST_R3411_94;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.KEA;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.RSA;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.RSAES_OAEP;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.RSASSA_PSS;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.X25519;
+import static de.rub.nds.x509attacker.constants.X509PublicKeyType.X448;
+
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
-import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.context.X509Context;
-import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.parser.PublicKeyBitStringParser;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.PublicKeyBitStringPreparator;
 import jakarta.xml.bind.annotation.XmlAnyElement;
 
-public class PublicKeyBitString extends Asn1PrimitiveBitString
-        implements X509Component, X509PublicKey {
+public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
 
     @XmlAnyElement(lax = true)
-    private X509Component publicKey;
+    private X509PublicKeyContent x509PublicKeyContent;
 
-    @XmlAnyElement(lax = true)
-    private X509PublicKey x509PublicKey;
-
-    public PublicKeyBitString(String identifier, X509Component publicKey) {
+    public PublicKeyBitString(String identifier, X509CertificateConfig config) {
         super(identifier);
-        this.publicKey = publicKey;
-        if (publicKey instanceof X509PublicKey) {
-            x509PublicKey = (X509PublicKey) publicKey;
-        }
+        this.x509PublicKeyContent = createX509PublicKeyContent(config.getPublicKeyType());
     }
 
     public PublicKeyBitString(String identifier) {
         super(identifier);
     }
 
-    public void setPublicKey(X509Component publicKey) {
-        this.publicKey = publicKey;
-        if (publicKey instanceof X509PublicKey) {
-            x509PublicKey = (X509PublicKey) publicKey;
-        }
+    public void setX509PublicKeyContent(X509PublicKeyContent x509PublicKeyContent) {
+        this.x509PublicKeyContent = x509PublicKeyContent;
     }
 
-    public X509PublicKey getX509PublicKey() {
-        return x509PublicKey;
-    }
-
-    public X509Component getPublicKey() {
-        return publicKey;
+    public X509PublicKeyContent getX509PublicKeyContent() {
+        return x509PublicKeyContent;
     }
 
     @Override
-    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
-        return new PublicKeyBitStringPreparator(this, chooser);
+    public PublicKeyBitStringPreparator getPreparator(X509Chooser chooser) {
+        return new PublicKeyBitStringPreparator(chooser, this);
     }
 
     @Override
     public Asn1FieldSerializer getSerializer() {
-        return getGenericSerializer();
+        return super.getSerializer();
     }
 
     @Override
-    public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public PublicKeyBitStringParser getParser(X509Chooser chooser) {
+        return new PublicKeyBitStringParser(chooser, this);
     }
 
-    @Override
-    public boolean isEllipticCurve() {
-        return x509PublicKey.isEllipticCurve();
-    }
-
-    @Override
-    public Asn1FieldParser<PublicKeyBitString> getParser() {
-        return new PublicKeyBitStringParser(this);
+    public X509PublicKeyContent createX509PublicKeyContent(X509PublicKeyType publicKeyType) {
+        switch (publicKeyType) {
+            case DH:
+                return new DhPublicKey();
+            case DSA:
+                return new DsaPublicKey();
+            case ECDH_ECDSA:
+                return new EcdhEcdsaPublicKey();
+            case ECDH_ONLY:
+                return new EcdhPublicKey();
+            case ECMQV:
+                throw new UnsupportedOperationException("ECMQV no supported");
+            case ED25519:
+                return new Ed25519PublicKey();
+            case ED448:
+                return new Ed448PublicKey();
+            case GOST_R3411_2001:
+                throw new UnsupportedOperationException("GOST_R3411_2001 no supported");
+            case GOST_R3411_94:
+                throw new UnsupportedOperationException("GOST_R3411_94 no supported");
+            case KEA:
+                throw new UnsupportedOperationException("KEA no supported");
+            case RSA:
+                return new RsaPublicKey();
+            case RSAES_OAEP:
+                throw new UnsupportedOperationException("RSAoaep no supported");
+            case RSASSA_PSS:
+                throw new UnsupportedOperationException("RSASSA_PSS no supported");
+            case X25519:
+                return new X25519PublicKey();
+            case X448:
+                return new X448PublicKey();
+            default:
+                throw new UnsupportedOperationException(
+                        "PublicKeyType: "
+                                + publicKeyType.getHumanReadableName()
+                                + " is not supported.");
+        }
     }
 }

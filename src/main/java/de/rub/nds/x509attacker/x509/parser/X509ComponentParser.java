@@ -10,10 +10,12 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 
-public abstract class X509ComponentParser<Field extends Asn1Field> extends Asn1FieldParser<Field> {
+public abstract class X509ComponentParser<Field extends Asn1Field<X509Chooser>>
+        extends Asn1FieldParser<X509Chooser, Field> {
 
-    public X509ComponentParser(Field field) {
-        super(field);
+    public X509ComponentParser(X509Chooser chooser, Field field) {
+        super(chooser, field);
     }
 }

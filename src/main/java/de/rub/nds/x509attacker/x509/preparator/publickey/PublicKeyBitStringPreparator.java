@@ -8,32 +8,33 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
+import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PublicKeyBitStringPreparator extends X509ComponentPreparator<PublicKeyBitString> {
+public class PublicKeyBitStringPreparator
+        extends Asn1FieldPreparator<X509Chooser, PublicKeyBitString> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     public PublicKeyBitStringPreparator(
-            PublicKeyBitString publicKeyBitString, X509Chooser chooser) {
-        super(publicKeyBitString, chooser);
+            X509Chooser chooser, PublicKeyBitString publicKeyBitString) {
+        super(chooser, publicKeyBitString);
     }
 
     @Override
     protected byte[] encodeContent() {
-        if (field.getPublicKey() != null) {
-            field.getPublicKey().getPreparator(chooser).prepare();
-            instance.setUnusedBits((byte) 0);
-            instance.setValue(instance.getPublicKey().getSerializer().serialize());
-            return instance.getValue().getValue();
+        if (field.getX509PublicKeyContent() != null) {
+            field.getX509PublicKeyContent().getPreparator(chooser).prepare();
+            field.setUnusedBits((byte) 0);
+            field.setValue(field.getX509PublicKeyContent().getSerializer().serialize());
+            return field.getValue().getValue();
         } else {
             LOGGER.warn("Could not encode public key. Encoding: new byte[0] instead");
-            instance.setUnusedBits((byte) 0);
-            instance.setValue(new byte[0]);
+            field.setUnusedBits((byte) 0);
+            field.setValue(new byte[0]);
             return new byte[0];
         }
     }

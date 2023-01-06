@@ -14,6 +14,7 @@ import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.modifiablevariable.util.Modifiable;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -23,7 +24,7 @@ public class CertificateRewriter {
 
     public CertificateRewriter() {}
 
-    public void fixateNonContainerContent(Asn1Container container) {
+    public void fixateNonContainerContent(Asn1Container<X509Chooser> container) {
         for (Asn1Encodable encodable : container.getChildren()) {
             if (encodable instanceof Asn1Container) {
                 fixateNonContainerContent((Asn1Container) encodable);

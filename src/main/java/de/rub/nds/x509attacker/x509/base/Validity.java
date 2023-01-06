@@ -10,9 +10,10 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 
 /** Validity ::= SEQUENCE { notBefore Time, notAfter Time } */
-public class Validity extends Asn1Sequence {
+public class Validity extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private Time notBefore;
 

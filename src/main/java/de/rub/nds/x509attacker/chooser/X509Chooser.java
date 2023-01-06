@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.chooser;
 
+import de.rub.nds.asn1.context.AbstractChooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -17,7 +18,7 @@ import java.math.BigInteger;
 import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
-public class X509Chooser {
+public class X509Chooser extends AbstractChooser {
 
     private final X509CertificateConfig config;
 
@@ -97,6 +98,14 @@ public class X509Chooser {
             return context.getIssuerUniqueId();
         } else {
             return config.getDefaultIssuerUniqueId();
+        }
+    }
+
+    public X509PublicKeyType getSubjectPublicKeyType() {
+        if (context.getSubjectPublicKeyType() != null) {
+            return context.getSubjectPublicKeyType();
+        } else {
+            return config.getPublicKeyType();
         }
     }
 }

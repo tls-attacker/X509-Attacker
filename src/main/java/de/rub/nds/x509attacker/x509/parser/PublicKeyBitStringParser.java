@@ -8,20 +8,33 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.asn1.parser.Asn1PrimitiveBitStringParser;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class PublicKeyBitStringParser extends Asn1FieldParser<PublicKeyBitString> {
+public class PublicKeyBitStringParser extends Asn1PrimitiveBitStringParser<X509Chooser> {
 
-    public PublicKeyBitStringParser(PublicKeyBitString publicKeyBitString) {
-        super(publicKeyBitString);
+    private PublicKeyBitString publicKeyBitString;
+
+    public PublicKeyBitStringParser(X509Chooser chooser, PublicKeyBitString publicKeyBitString) {
+        super(chooser, publicKeyBitString);
+        this.publicKeyBitString = publicKeyBitString;
     }
 
     @Override
     public void parseIndividualContentFields(InputStream inputStream) throws IOException {
-        encodable.setValue(inputStream.readAllBytes()); // TODO fix unused bits
-        encodable.setUnusedBits((byte) 0); // TODO not correct
+        super.parseIndividualContentFields(inputStream);
+        if (publicKeyBitString.getX509PublicKeyContent() == null) {
+            publicKeyBitString.setX509PublicKeyContent(
+                    publicKeyBitString.createX509PublicKeyContent(
+                            chooser.getSubjectPublicKeyType()));
+        }
+        publicKeyBitString
+                .getX509PublicKeyContent()
+                .getParser(chooser)
+                .parse(new ByteArrayInputStream(encodable.getValue().getValue()));
     }
 }

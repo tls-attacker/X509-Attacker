@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons
  * [1] ReasonFlags OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
  */
-public class DistributionPoint extends Asn1Sequence {
+public class DistributionPoint extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

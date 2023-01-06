@@ -8,21 +8,30 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.asn1.parser.Asn1Parser;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.EcdhEcdsaPublicKey;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class EcdhEcdsaPublicKeyParser extends Asn1FieldParser<EcdhEcdsaPublicKey> {
+public class EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, EcdhEcdsaPublicKey> {
 
-    public EcdhEcdsaPublicKeyParser(EcdhEcdsaPublicKey ecdhEcdsaPublicKey) {
-        super(ecdhEcdsaPublicKey);
+    public EcdhEcdsaPublicKeyParser(X509Chooser chooser, EcdhEcdsaPublicKey ecdhEcdsaPublicKey) {
+        super(chooser, ecdhEcdsaPublicKey);
     }
 
     @Override
-    public void parseIndividualContentFields(InputStream inputStream) throws IOException {
-        encodable.setValue(inputStream.readAllBytes()); // TODO fix unused bits
-        encodable.setUnusedBits((byte) 0); // TODO not correct
-        // TODO Decode PublicKey
+    public void parse(InputStream inputStream) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
+
+    @Override
+    public void parseWithoutTag(InputStream inputStream, byte[] tagOctets) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from
+        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void parseIndividualContentFields(InputStream inputStream) throws IOException {}
 }

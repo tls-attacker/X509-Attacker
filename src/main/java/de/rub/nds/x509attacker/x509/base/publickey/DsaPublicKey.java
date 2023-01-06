@@ -9,47 +9,59 @@
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
-import de.rub.nds.x509attacker.x509.base.X509Component;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.DsaPublicKeyPreparator;
 import java.math.BigInteger;
 
-public class DsaPublicKey extends Asn1Integer implements X509Component, X509PublicKey {
+public class DsaPublicKey extends X509PublicKeyContent {
+
+    private Asn1Integer<X509Chooser> publicKeyY;
 
     public DsaPublicKey() {
         super("dsaPublicKey");
+        publicKeyY = new Asn1Integer<>("y");
     }
 
     @Override
     public Asn1FieldSerializer getSerializer() {
-        return super.getGenericSerializer();
+        return publicKeyY.getSerializer();
     }
 
     @Override
-    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
+    public DsaPublicKeyPreparator getPreparator(X509Chooser chooser) {
         return new DsaPublicKeyPreparator(this, chooser);
     }
 
     @Override
     public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
-        context.setIssuerDsaPublicKeyY(getValue().getValue());
+        context.setIssuerDsaPublicKeyY(publicKeyY.getValue().getValue());
         context.setIssuerDsaPrivateKey(config.getDsaPrivateKey());
     }
 
     public void setY(BigInteger y) {
-        setValue(y);
+        publicKeyY.setValue(y);
     }
 
     public BigInteger getY() {
-        return getValue().getValue();
+        return publicKeyY.getValue().getValue();
     }
 
     @Override
     public boolean isEllipticCurve() {
         return false;
+    }
+
+    @Override
+    public Asn1Parser<?, ?> getParser(X509Chooser chooser) {
+        return publicKeyY.getParser(chooser);
+    }
+
+    @Override
+    public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
+        return publicKeyY.isCompatible(tagNumber, constructed, classType);
     }
 }

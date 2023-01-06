@@ -11,12 +11,13 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1SequenceOfParser;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 
-public class NameParser extends Asn1SequenceOfParser {
+public class NameParser extends Asn1SequenceOfParser<X509Chooser> {
 
-    public NameParser(Asn1Sequence asn1Sequence) {
-        super(asn1Sequence);
+    public NameParser(X509Chooser chooser, Asn1Sequence asn1Sequence) {
+        super(chooser, asn1Sequence);
     }
 
     @Override

@@ -8,8 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -34,20 +33,23 @@ public class X509CertificatePreparatorTest {
         X509Chooser chooser = new X509Chooser(config, new X509Context());
         X509Certificate x509Certificate =
                 new X509Certificate("leafCertificate", chooser.getConfig());
-        instance = new X509CertificatePreparator(x509Certificate, chooser);
+        instance = new X509CertificatePreparator(chooser, x509Certificate);
         instance.prepare();
-        byte[] serializedCertificate = x509Certificate.getGenericSerializer().serialize();
+        byte[] serializedCertificate = x509Certificate.getSerializer().serialize();
         LOGGER.info(ArrayConverter.bytesToHexString(serializedCertificate));
         X509Certificate secondX509Certificate = new X509Certificate("x509Certificate");
-        secondX509Certificate.getParser().parse(new ByteArrayInputStream(serializedCertificate));
-        byte[] secondSerialization = secondX509Certificate.getGenericSerializer().serialize();
+        secondX509Certificate
+                .getParser(chooser)
+                .parse(new ByteArrayInputStream(serializedCertificate));
+        byte[] secondSerialization = secondX509Certificate.getSerializer().serialize();
         Assertions.assertArrayEquals(serializedCertificate, secondSerialization);
     }
 
     @Test
     public void testPublicCertificateParsing() {
+        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
-        Asn1FieldParser<Asn1Sequence> parser = x509Certificate.getParser();
+        Asn1SequenceParser parser = x509Certificate.getParser(chooser);
         parser.parse(
                 new ByteArrayInputStream(
                         ArrayConverter.hexStringToByteArray(
@@ -56,8 +58,9 @@ public class X509CertificatePreparatorTest {
 
     @Test
     public void testPublicCertificateEcdsaParsing() {
+        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
-        Asn1FieldParser<Asn1Sequence> parser = x509Certificate.getParser();
+        Asn1SequenceParser parser = x509Certificate.getParser(chooser);
         parser.parse(
                 new ByteArrayInputStream(
                         ArrayConverter.hexStringToByteArray(

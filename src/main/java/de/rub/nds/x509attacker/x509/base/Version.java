@@ -10,11 +10,12 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** Version ::= INTEGER {v1(0), v2(1), v3(2) } */
-public class Version extends Asn1Explicit {
+public class Version extends Asn1Explicit<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

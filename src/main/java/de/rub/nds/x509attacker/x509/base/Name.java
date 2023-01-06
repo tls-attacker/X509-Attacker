@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
@@ -25,7 +25,7 @@ import org.apache.commons.lang3.tuple.Pair;
  *
  * <p>RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
  */
-public class Name extends Asn1Sequence {
+public class Name extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private List<RelativeDistinguishedName> relativeDistinguishedNames;
 
@@ -59,7 +59,7 @@ public class Name extends Asn1Sequence {
     }
 
     @Override
-    public Asn1FieldParser<Asn1Sequence> getParser() {
-        return new NameParser(this);
+    public Asn1SequenceParser getParser(X509Chooser chooser) {
+        return new NameParser(chooser, this);
     }
 }

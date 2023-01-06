@@ -30,7 +30,7 @@ public class X509CertificateChainBuidler {
             X509Certificate certificate = new X509Certificate("certiciate_" + counter, config);
             X509Chooser chooser = new X509Chooser(config, context);
             X509CertificatePreparator preparator =
-                    new X509CertificatePreparator(certificate, chooser);
+                    new X509CertificatePreparator(chooser, certificate);
             preparator.prepare();
             chain.addCertificate(certificate);
             counter++;

@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.extensions;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import java.util.LinkedList;
@@ -23,7 +24,7 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>KeyPurposeId ::= OBJECT IDENTIFIER
  */
-public class ExtKeyUsage extends Asn1Sequence {
+public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

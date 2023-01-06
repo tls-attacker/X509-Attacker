@@ -36,6 +36,8 @@ public class X509Context {
 
     private byte[] issuerUniqueId = null;
 
+    private X509PublicKeyType subjectPublicKeyType = null;
+
     public X509Context() {}
 
     public BigInteger getIssuerDsaPublicKeyY() {
@@ -44,6 +46,14 @@ public class X509Context {
 
     public void setIssuerDsaPublicKeyY(BigInteger issuerDsaPublicKeyY) {
         this.issuerDsaPublicKeyY = issuerDsaPublicKeyY;
+    }
+
+    public X509PublicKeyType getSubjectPublicKeyType() {
+        return subjectPublicKeyType;
+    }
+
+    public void setSubjectPublicKeyType(X509PublicKeyType subjectPublicKeyType) {
+        this.subjectPublicKeyType = subjectPublicKeyType;
     }
 
     public X509SignatureAlgorithm getSignatureAlgorithm() {

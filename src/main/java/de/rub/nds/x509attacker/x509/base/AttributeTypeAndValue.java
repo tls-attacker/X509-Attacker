@@ -13,14 +13,12 @@ import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.parser.AttributeTypeAndValueParser;
 import de.rub.nds.x509attacker.x509.preparator.AttributeTypeAndValuePreparator;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -35,13 +33,13 @@ import org.apache.logging.log4j.Logger;
  * PrintableString (SIZE (1..MAX)), universalString UniversalString (SIZE (1..MAX)), utf8String
  * UTF8String (SIZE (1..MAX)), bmpString BMPString (SIZE (1..MAX)) }
  */
-public class AttributeTypeAndValue extends Asn1Sequence implements X509Component {
+public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier type;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> type;
 
-    @HoldsModifiableVariable private Asn1Any value;
+    @HoldsModifiableVariable private Asn1Any<X509Chooser> value;
 
     private X500AttributeType attributeTypeConfig;
 
@@ -52,8 +50,8 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         super(identifier);
         this.attributeTypeConfig = attributeTypeConfig;
         this.valueConfig = valueConfig;
-        type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Any("value");
+        type = new Asn1ObjectIdentifier<>("type");
+        value = new Asn1Any<>("value");
         addChild(type);
         addChild(value);
     }
@@ -99,17 +97,17 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     }
 
     @Override
-    public X509ComponentPreparator getPreparator(X509Chooser chooser) {
-        return new AttributeTypeAndValuePreparator(this, chooser);
+    public AttributeTypeAndValuePreparator getPreparator(X509Chooser chooser) {
+        return new AttributeTypeAndValuePreparator(chooser, this);
     }
 
     @Override
     public Asn1FieldSerializer getSerializer() {
-        return super.getGenericSerializer();
+        return super.getSerializer();
     }
 
     @Override
-    public Asn1FieldParser<Asn1Sequence> getParser() {
-        return new AttributeTypeAndValueParser(this);
+    public AttributeTypeAndValueParser getParser(X509Chooser chooser) {
+        return new AttributeTypeAndValueParser(chooser, this);
     }
 }

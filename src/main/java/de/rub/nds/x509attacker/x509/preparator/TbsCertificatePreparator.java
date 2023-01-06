@@ -16,6 +16,7 @@ import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
+import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
 import de.rub.nds.asn1.time.TimeEncoder;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
@@ -28,7 +29,6 @@ import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
 import de.rub.nds.x509attacker.x509.base.TbsCertificate;
 import de.rub.nds.x509attacker.x509.base.Time;
 import de.rub.nds.x509attacker.x509.base.Validity;
-import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.DssParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
@@ -40,14 +40,14 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
-public class TbsCertificatePreparator extends X509ComponentPreparator {
+public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final TbsCertificate tbsCertificate;
 
-    public TbsCertificatePreparator(TbsCertificate tbsCertificate, X509Chooser chooser) {
-        super(tbsCertificate, chooser);
+    public TbsCertificatePreparator(X509Chooser chooser, TbsCertificate tbsCertificate) {
+        super(chooser, tbsCertificate);
         this.tbsCertificate = tbsCertificate;
     }
 
@@ -70,20 +70,20 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
     private void prepareVersion() {
         ((Asn1Integer) (tbsCertificate.getVersion().getChild()))
                 .setValue(chooser.getConfig().getVersion().getValue());
-        prepareSubcomponent(tbsCertificate.getVersion());
+        tbsCertificate.getVersion().getPreparator(chooser).prepare();
     }
 
     private void prepareSerialNumber() {
         Asn1Integer serialNumber = tbsCertificate.getSerialNumber();
         serialNumber.setValue(chooser.getConfig().getSerialNumber());
-        prepareSubcomponent(serialNumber);
+        serialNumber.getPreparator(chooser).prepare();
     }
 
     private void prepareSignature() {
         AlgorithmIdentifier signature = tbsCertificate.getSignature();
         Asn1ObjectIdentifier algorithm = signature.getAlgorithm();
         algorithm.setValue(chooser.getSignatureAlgorithm().getOid().toString());
-        prepareSubcomponent(algorithm);
+        algorithm.getPreparator(chooser).prepare();
 
         // TODO Updating context, this should probably happen in a handler
         chooser.getContext()
@@ -100,23 +100,21 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
-        prepareSubcomponent(signature.getParameters());
-        prepareSubcomponent(signature);
+        signature.getParameters().getPreparator(chooser).prepare();
+        signature.getPreparator(chooser).prepare();
     }
 
     private void prepareIssuer() {
         Name issuer = tbsCertificate.getIssuer();
         List<RelativeDistinguishedName> rdnSequence = issuer.getRelativeDistinguishedNames();
         for (RelativeDistinguishedName rdn : rdnSequence) {
-            Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
+            Collection<Asn1Encodable<X509Chooser>> attributeTypeAndValueList = rdn.getChildren();
             for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-                ((X509Component) typeAndValue)
-                        .getPreparator(chooser)
-                        .prepare(); // TODO unfortunate cast
+                typeAndValue.getPreparator(chooser).prepare();
             }
-            prepareSubcomponent(rdn);
+            rdn.getPreparator(chooser).prepare();
         }
-        prepareSubcomponent(issuer);
+        issuer.getPreparator(chooser).prepare();
     }
 
     private void prepareValidity() {
@@ -128,7 +126,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
                 chooser.getConfig().getDefaultNotAfterEncoding(),
                 chooser.getConfig().getNotAfterAccurracy(),
                 chooser.getConfig().getTimezoneOffsetInMinutes());
-        prepareSubcomponent(notAfter);
+        notAfter.getPreparator(chooser).prepare();
         Time notBefore = validity.getNotBefore();
         encodeValidity(
                 chooser.getConfig().getNotBefore(),
@@ -136,8 +134,8 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
                 chooser.getConfig().getDefaultNotBeforeEncoding(),
                 chooser.getConfig().getNotBeforeAccurracy(),
                 chooser.getConfig().getTimezoneOffsetInMinutes());
-        prepareSubcomponent(notBefore);
-        prepareSubcomponent(validity);
+        notBefore.getPreparator(chooser).prepare();
+        validity.getPreparator(chooser).prepare();
     }
 
     private void encodeValidity(
@@ -194,15 +192,13 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         List<RelativeDistinguishedName> rdnSequence = subject.getRelativeDistinguishedNames();
         for (RelativeDistinguishedName rdn : rdnSequence) {
 
-            Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
+            Collection<Asn1Encodable<X509Chooser>> attributeTypeAndValueList = rdn.getChildren();
             for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
-                ((X509Component) typeAndValue)
-                        .getPreparator(chooser)
-                        .prepare(); // TODO unfortunate cast
+                typeAndValue.getPreparator(chooser).prepare();
             }
-            prepareSubcomponent(rdn);
+            rdn.getPreparator(chooser).prepare();
         }
-        prepareSubcomponent(subject);
+        subject.getPreparator(chooser).prepare();
         SubjectNameHandler handler = new SubjectNameHandler(rdnSequence, chooser);
         handler.adjustContext();
     }
@@ -216,7 +212,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         algorithm
                 .getParameters()
                 .setIdentifier(chooser.getConfig().getPublicKeyType().getOid().toString());
-        prepareSubcomponent(algorithm.getAlgorithm());
+        algorithm.getAlgorithm().getPreparator(chooser).prepare();
         PublicParameters publicKeyParameters = createPublicKeyParameters();
         if (publicKeyParameters == null) {
             algorithm.instantiateParameters(new Asn1Null("parameters"));
@@ -225,9 +221,9 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
-        prepareSubcomponent(algorithm.getParameters());
+        algorithm.getParameters().getPreparator(chooser).prepare();
         subjectPublicKeyInfo.getSubjectPublicKeyBitString().getPreparator(chooser).prepare();
-        prepareSubcomponent(subjectPublicKeyInfo);
+        subjectPublicKeyInfo.getPreparator(chooser).prepare();
     }
 
     private void prepareIssuerUniqueId() {
@@ -235,7 +231,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             // IssuerUniqueID is an optional field
             tbsCertificate.getIssuerUniqueID().setValue(chooser.getIssuerUniqueId());
             tbsCertificate.getIssuerUniqueID().setUnusedBits((byte) 0);
-            prepareSubcomponent(tbsCertificate.getIssuerUniqueID());
+            tbsCertificate.getIssuerUniqueID().getPreparator(chooser).prepare();
         }
     }
 
@@ -244,7 +240,7 @@ public class TbsCertificatePreparator extends X509ComponentPreparator {
             // IssuerUniqueID is an optional field
             tbsCertificate.getSubjectUniqueID().setValue(chooser.getConfig().getSubjectUniqueId());
             tbsCertificate.getSubjectUniqueID().setUnusedBits((byte) 0);
-            prepareSubcomponent(tbsCertificate.getSubjectUniqueID());
+            tbsCertificate.getSubjectUniqueID().getPreparator(chooser).prepare();
 
             // TODO this should probably happen within a handler
             chooser.getContext()

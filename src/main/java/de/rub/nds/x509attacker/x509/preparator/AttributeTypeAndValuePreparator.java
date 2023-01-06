@@ -9,19 +9,20 @@
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
+import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AttributeTypeAndValuePreparator extends X509ComponentPreparator {
+public class AttributeTypeAndValuePreparator extends Asn1SequencePreparator<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final AttributeTypeAndValue instance;
 
-    public AttributeTypeAndValuePreparator(AttributeTypeAndValue instance, X509Chooser chooser) {
-        super(instance, chooser);
+    public AttributeTypeAndValuePreparator(X509Chooser chooser, AttributeTypeAndValue instance) {
+        super(chooser, instance);
         this.instance = instance;
     }
 
@@ -41,7 +42,7 @@ public class AttributeTypeAndValuePreparator extends X509ComponentPreparator {
             LOGGER.warn("AttributeTypeAndValue value config is not set - using an empty string");
             ((Asn1PrimitiveUtf8String) instance.getValue()).setValue("");
         }
-        prepareSubcomponent(instance.getValue());
+        instance.getValue().getPreparator(chooser).prepare();
     }
 
     private void prepareTypeConfig() {
@@ -51,6 +52,6 @@ public class AttributeTypeAndValuePreparator extends X509ComponentPreparator {
             LOGGER.warn("AttributeTypeAndValue type config is not set - Using OID 1.1");
             instance.getType().setValue("1.1");
         }
-        prepareSubcomponent(instance.getType());
+        instance.getType().getPreparator(chooser).prepare();
     }
 }

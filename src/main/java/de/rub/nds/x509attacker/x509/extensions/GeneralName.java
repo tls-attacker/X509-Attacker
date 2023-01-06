@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1Choice;
-import de.rub.nds.asn1.preparator.Preparator;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,17 +19,11 @@ import org.apache.logging.log4j.Logger;
  * uniformResourceIdentifier [6] IA5String, iPAddress [7] OCTET STRING, registeredID [8] OBJECT
  * IDENTIFIER }
  */
-public class GeneralName extends Asn1Choice {
+public class GeneralName extends Asn1Choice<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     public GeneralName(String identifier) {
         super(identifier);
-    }
-
-    @Override
-    public Preparator getGenericPreparator() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

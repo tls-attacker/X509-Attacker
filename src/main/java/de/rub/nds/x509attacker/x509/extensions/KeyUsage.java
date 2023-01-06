@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -17,7 +18,7 @@ import org.apache.logging.log4j.Logger;
  * have -- renamed this bit to contentCommitment keyEncipherment (2), dataEncipherment (3),
  * keyAgreement (4), keyCertSign (5), cRLSign (6), encipherOnly (7), decipherOnly (8) }
  */
-public class KeyUsage extends Asn1PrimitiveBitString {
+public class KeyUsage extends Asn1PrimitiveBitString<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

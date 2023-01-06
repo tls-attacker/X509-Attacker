@@ -10,18 +10,18 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class SubjectPublicKeyInfoParser extends Asn1SequenceParser {
+public class SubjectPublicKeyInfoParser extends Asn1SequenceParser<X509Chooser> {
 
-    public SubjectPublicKeyInfoParser(Asn1Sequence field) {
-        super(field);
+    public SubjectPublicKeyInfoParser(X509Chooser chooser, Asn1Sequence field) {
+        super(chooser, field);
     }
 
     @Override
     public void parseIndividualContentFields(InputStream inputStream) throws IOException {
-        super.parseIndividualContentFields(inputStream); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/OverriddenMethodBody
+        super.parseIndividualContentFields(inputStream);
     }
 }
