@@ -106,8 +106,4 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     public Asn1FieldSerializer getSerializer() {
         return new Asn1FieldSerializer(this);
     }
-
-    public void getParser() {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
 }
