@@ -15,6 +15,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.context.X509Context;
+import de.rub.nds.x509attacker.x509.handler.publickey.RsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.RsaPublicKeyParser;
 import de.rub.nds.x509attacker.x509.preparator.publickey.RsaPublicKeyPreparator;
 
@@ -70,6 +71,6 @@ public class RsaPublicKey extends X509PublicKeyContent {
 
     @Override
     public Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new RsaPublicKeyHandler(chooser, this);
     }
 }

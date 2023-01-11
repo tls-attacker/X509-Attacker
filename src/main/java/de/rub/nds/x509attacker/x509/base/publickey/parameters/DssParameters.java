@@ -12,6 +12,7 @@ import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DssParametersHandler;
 
 public class DssParameters extends Asn1Sequence<X509Chooser> implements PublicParameters {
 
@@ -55,7 +56,6 @@ public class DssParameters extends Asn1Sequence<X509Chooser> implements PublicPa
 
     @Override
     public Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new DssParametersHandler(chooser, this);
     }
 }

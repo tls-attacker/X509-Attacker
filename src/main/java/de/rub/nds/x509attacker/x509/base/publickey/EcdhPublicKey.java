@@ -17,6 +17,7 @@ import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
+import de.rub.nds.x509attacker.x509.handler.publickey.EcdhPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.preparator.publickey.EcdhPublicKeyPreparator;
 
 public class EcdhPublicKey extends X509PublicKeyContent {
@@ -66,6 +67,6 @@ public class EcdhPublicKey extends X509PublicKeyContent {
 
     @Override
     public Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new EcdhPublicKeyHandler(chooser, this);
     }
 }

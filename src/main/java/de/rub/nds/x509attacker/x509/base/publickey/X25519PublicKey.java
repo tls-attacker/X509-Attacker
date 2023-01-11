@@ -15,6 +15,7 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
+import de.rub.nds.x509attacker.x509.handler.publickey.X25519PublicKeyHandler;
 
 public class X25519PublicKey extends X509PublicKeyContent {
 
@@ -59,6 +60,6 @@ public class X25519PublicKey extends X509PublicKeyContent {
 
     @Override
     public Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new X25519PublicKeyHandler(chooser, this);
     }
 }
