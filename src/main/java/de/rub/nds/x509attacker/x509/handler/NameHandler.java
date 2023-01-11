@@ -11,8 +11,10 @@ package de.rub.nds.x509attacker.x509.handler;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
+import de.rub.nds.x509attacker.x509.base.Name;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.parser.RelativeDistinguishedNameParser;
 import java.io.ByteArrayInputStream;
@@ -28,15 +30,15 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** The Subject of a Certificate becomes the issuer of the next certificate */
-public class SubjectNameHandler extends X509Handler {
+public class NameHandler extends X509Handler {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private List<RelativeDistinguishedName> rdnSequence;
+    private Name name;
 
-    public SubjectNameHandler(List<RelativeDistinguishedName> rdnSequence, X509Chooser chooser) {
+    public NameHandler(X509Chooser chooser, Name name) {
         super(chooser);
-        this.rdnSequence = rdnSequence;
+        this.name = name;
     }
 
     @Override
@@ -68,6 +70,13 @@ public class SubjectNameHandler extends X509Handler {
                     }
                 }
             }
+            if (name.getType() == NameType.ISSUER) {
+                context.setIssuer(rdnList);
+            } else if (name.getType() == NameType.SUBJECT) {
+                context.setIssuer(rdnList);
+            } else {
+                throw new RuntimeException("Unknown NameType: " + name.getType().name());
+            }
             chooser.getContext().setIssuer(rdnList);
         } catch (IOException ex) {
             LOGGER.warn("Problem adjusting context");
@@ -77,10 +86,10 @@ public class SubjectNameHandler extends X509Handler {
     private InputStream getRdnByteInputStream() {
         LOGGER.debug("Creating RdnByteInputStream");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        for (RelativeDistinguishedName name : rdnSequence) {
-            LOGGER.debug("Adding {}", name.getIdentifier());
+        for (RelativeDistinguishedName rdnName : name.getRelativeDistinguishedNames()) {
+            LOGGER.debug("Adding {}", rdnName.getIdentifier());
             try {
-                outputStream.write(name.getSerializer().serialize());
+                outputStream.write(rdnName.getSerializer().serialize());
             } catch (IOException ex) {
                 LOGGER.error(ex);
             }

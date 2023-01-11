@@ -13,8 +13,9 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
-import de.rub.nds.x509attacker.x509.handler.SubjectNameHandler;
+import de.rub.nds.x509attacker.x509.handler.NameHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.NameParser;
 import java.util.LinkedList;
@@ -30,13 +31,18 @@ public class Name extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private List<RelativeDistinguishedName> relativeDistinguishedNames;
 
-    public Name(String identifier) {
+    private NameType type;
+
+    public Name(String identifier, NameType type) {
         super(identifier);
+        this.type = type;
         relativeDistinguishedNames = new LinkedList<>();
     }
 
-    public Name(String identifier, List<Pair<X500AttributeType, String>> attributeList) {
+    public Name(
+            String identifier, NameType type, List<Pair<X500AttributeType, String>> attributeList) {
         super(identifier);
+        this.type = type;
         relativeDistinguishedNames = new LinkedList<>();
         for (Pair<X500AttributeType, String> attributePair : attributeList) {
             RelativeDistinguishedName relativeDistinguishedName =
@@ -44,6 +50,10 @@ public class Name extends Asn1Sequence<X509Chooser> {
             relativeDistinguishedNames.add(relativeDistinguishedName);
             addChild(relativeDistinguishedName);
         }
+    }
+
+    public NameType getType() {
+        return type;
     }
 
     public List<RelativeDistinguishedName> getRelativeDistinguishedNames() {
@@ -56,7 +66,7 @@ public class Name extends Asn1Sequence<X509Chooser> {
     }
 
     public X509Handler getSubjectNameHandler(X509Chooser chooser) {
-        return new SubjectNameHandler(relativeDistinguishedNames, chooser);
+        return new NameHandler(chooser, this);
     }
 
     @Override

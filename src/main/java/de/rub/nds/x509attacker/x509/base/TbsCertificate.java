@@ -17,6 +17,7 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -51,9 +52,9 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
-        issuer = new Name("issuer", config.getDefaultIssuer());
+        issuer = new Name("issuer", NameType.ISSUER, config.getDefaultIssuer());
         validity = new Validity("validity");
-        subject = new Name("subject", config.getSubject());
+        subject = new Name("subject", NameType.SUBJECT, config.getSubject());
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
         if (config.isIncludeIssuerUniqueId()) {
             issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
@@ -91,9 +92,9 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
-        issuer = new Name("issuer");
+        issuer = new Name("issuer", NameType.ISSUER);
         validity = new Validity("validity");
-        subject = new Name("subject");
+        subject = new Name("subject", NameType.SUBJECT);
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
         issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
         issuerUniqueID.setOptional(true);

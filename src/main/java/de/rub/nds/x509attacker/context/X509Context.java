@@ -37,6 +37,8 @@ public class X509Context {
 
     private List<Pair<X500AttributeType, String>> issuer = null;
 
+    private List<Pair<X500AttributeType, String>> subject = null;
+
     private BigInteger subjectRsaPrivateKey = null;
 
     private BigInteger subjectRsaModulus = null;
@@ -56,6 +58,14 @@ public class X509Context {
     private BigInteger subjectDhPublicKey = null;
 
     public X509Context() {}
+
+    public List<Pair<X500AttributeType, String>> getSubject() {
+        return subject;
+    }
+
+    public void setSubject(List<Pair<X500AttributeType, String>> subject) {
+        this.subject = subject;
+    }
 
     public BigInteger getSubjectRsaPrivateKey() {
         return subjectRsaPrivateKey;

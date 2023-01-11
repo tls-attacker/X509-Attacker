@@ -33,7 +33,6 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.DssParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
-import de.rub.nds.x509attacker.x509.handler.SubjectNameHandler;
 import java.util.Collection;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -115,6 +114,7 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
             rdn.getPreparator(chooser).prepare();
         }
         issuer.getPreparator(chooser).prepare();
+        issuer.getHandler(chooser).adjustContext();
     }
 
     private void prepareValidity() {
@@ -199,8 +199,7 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
             rdn.getPreparator(chooser).prepare();
         }
         subject.getPreparator(chooser).prepare();
-        SubjectNameHandler handler = new SubjectNameHandler(rdnSequence, chooser);
-        handler.adjustContext();
+        subject.getHandler(chooser).adjustContext();
     }
 
     private void prepareSubjectPublicKeyInfo() {
