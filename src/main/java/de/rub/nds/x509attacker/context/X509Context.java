@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.context;
 
 import de.rub.nds.x509attacker.constants.X500AttributeType;
+import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import java.math.BigInteger;
@@ -38,7 +39,37 @@ public class X509Context {
 
     private X509PublicKeyType subjectPublicKeyType = null;
 
+    private X509NamedCurve subjectNamedCurve = null;
+
+    private X509NamedCurve issuerNamedCurve = null;
+
+    private BigInteger subjectDhPublicKey = null;
+
     public X509Context() {}
+
+    public BigInteger getSubjectDhPublicKey() {
+        return subjectDhPublicKey;
+    }
+
+    public void setSubjectDhPublicKey(BigInteger subjectDhPublicKey) {
+        this.subjectDhPublicKey = subjectDhPublicKey;
+    }
+
+    public X509NamedCurve getIssuerNamedCurve() {
+        return issuerNamedCurve;
+    }
+
+    public void setIssuerNamedCurve(X509NamedCurve issuerNamedCurve) {
+        this.issuerNamedCurve = issuerNamedCurve;
+    }
+
+    public X509NamedCurve getSubjectNamedCurve() {
+        return subjectNamedCurve;
+    }
+
+    public void setSubjectNamedCurve(X509NamedCurve subjectNamedCurve) {
+        this.subjectNamedCurve = subjectNamedCurve;
+    }
 
     public BigInteger getIssuerDsaPublicKeyY() {
         return issuerDsaPublicKeyY;

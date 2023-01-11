@@ -23,7 +23,7 @@ public class DsaPublicKeyHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        context.setIssuerDsaPublicKeyY(publicKey.getY());
+        context.setIssuerDsaPrivateKey(config.getDsaPrivateKey());
     }
 }

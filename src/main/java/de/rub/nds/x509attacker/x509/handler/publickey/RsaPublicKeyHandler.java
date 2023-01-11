@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.handler.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.publickey.RsaPublicKey;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 
@@ -23,7 +24,9 @@ public class RsaPublicKeyHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        context.setIssuerPublicKeyType(X509PublicKeyType.RSA);
+        context.setIssuerRsaModulus(
+                publicKey.getRsaPublicKeyContentSequence().getModulus().getValue().getValue());
+        context.setIssuerRsaPrivateKey(config.getRsaPrivateKey());
     }
 }

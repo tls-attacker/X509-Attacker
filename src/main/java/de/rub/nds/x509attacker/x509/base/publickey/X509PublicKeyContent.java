@@ -10,8 +10,6 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.context.X509Context;
 
 public abstract class X509PublicKeyContent implements Asn1Encodable<X509Chooser> {
 
@@ -20,8 +18,6 @@ public abstract class X509PublicKeyContent implements Asn1Encodable<X509Chooser>
     public X509PublicKeyContent(String identifier) {
         this.identifier = identifier;
     }
-
-    public abstract void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config);
 
     public abstract boolean isEllipticCurve();
 

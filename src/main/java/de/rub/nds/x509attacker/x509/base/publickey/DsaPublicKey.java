@@ -13,8 +13,6 @@ import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.handler.publickey.DsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.preparator.publickey.DsaPublicKeyPreparator;
 import java.math.BigInteger;
@@ -38,10 +36,12 @@ public class DsaPublicKey extends X509PublicKeyContent {
         return new DsaPublicKeyPreparator(this, chooser);
     }
 
-    @Override
-    public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
-        context.setIssuerDsaPublicKeyY(publicKeyY.getValue().getValue());
-        context.setIssuerDsaPrivateKey(config.getDsaPrivateKey());
+    public Asn1Integer<X509Chooser> getPublicKeyY() {
+        return publicKeyY;
+    }
+
+    public void setPublicKeyY(Asn1Integer<X509Chooser> publicKeyY) {
+        this.publicKeyY = publicKeyY;
     }
 
     public void setY(BigInteger y) {

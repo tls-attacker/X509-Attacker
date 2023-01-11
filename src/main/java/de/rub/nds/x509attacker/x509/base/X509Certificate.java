@@ -15,8 +15,6 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.context.X509Context;
-import de.rub.nds.x509attacker.x509.base.publickey.X509PublicKeyContent;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -83,19 +81,6 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     public void setSignature(Asn1PrimitiveBitString signature) {
         this.signature = signature;
-    }
-
-    public void adjustContext(X509Context context, X509CertificateConfig config) {
-        X509PublicKeyContent x509PublicKey =
-                tbsCertificate
-                        .getSubjectPublicKeyInfo()
-                        .getSubjectPublicKeyBitString()
-                        .getX509PublicKeyContent();
-        if (x509PublicKey != null) {
-            x509PublicKey.adjustKeyAsIssuer(context, config);
-        } else {
-            LOGGER.warn("Could not adjust public key for next certificate");
-        }
     }
 
     @Override

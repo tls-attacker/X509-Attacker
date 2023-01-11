@@ -14,8 +14,6 @@ import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.handler.publickey.DhPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.preparator.publickey.DhPublicKeyPreparator;
 
@@ -36,11 +34,6 @@ public class DhPublicKey extends X509PublicKeyContent {
     @Override
     public Asn1FieldSerializer getSerializer() {
         return publicKey.getSerializer();
-    }
-
-    @Override
-    public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override

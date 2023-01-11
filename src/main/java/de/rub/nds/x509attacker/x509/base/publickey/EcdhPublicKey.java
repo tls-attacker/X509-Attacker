@@ -15,8 +15,6 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.handler.publickey.EcdhPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.preparator.publickey.EcdhPublicKeyPreparator;
 
@@ -34,14 +32,41 @@ public class EcdhPublicKey extends X509PublicKeyContent {
         pointOctets = new Asn1PrimitiveOctetString<>("ECPoint");
     }
 
-    @Override
-    public EcdhPublicKeyPreparator getPreparator(X509Chooser chooser) {
-        return new EcdhPublicKeyPreparator(chooser, this);
+    public ModifiableBigInteger getxCoordinate() {
+        return xCoordinate;
+    }
+
+    public void setxCoordinate(ModifiableBigInteger xCoordinate) {
+        this.xCoordinate = xCoordinate;
+    }
+
+    public ModifiableBigInteger getyCoordinate() {
+        return yCoordinate;
+    }
+
+    public void setyCoordinate(ModifiableBigInteger yCoordinate) {
+        this.yCoordinate = yCoordinate;
+    }
+
+    public ModifiableByte getFormatByte() {
+        return formatByte;
+    }
+
+    public void setFormatByte(ModifiableByte formatByte) {
+        this.formatByte = formatByte;
+    }
+
+    public Asn1PrimitiveOctetString<X509Chooser> getPointOctets() {
+        return pointOctets;
+    }
+
+    public void setPointOctets(Asn1PrimitiveOctetString<X509Chooser> pointOctets) {
+        this.pointOctets = pointOctets;
     }
 
     @Override
-    public void adjustKeyAsIssuer(X509Context context, X509CertificateConfig config) {
-        throw new UnsupportedOperationException();
+    public EcdhPublicKeyPreparator getPreparator(X509Chooser chooser) {
+        return new EcdhPublicKeyPreparator(chooser, this);
     }
 
     @Override
