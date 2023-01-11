@@ -62,8 +62,7 @@ public class X509CertificatePreparator extends Asn1SequencePreparator<X509Choose
         LOGGER.debug("To be signed: {}", toBeSigned);
         byte[] signature = signatureEngine.sign(privateKey, toBeSigned);
         LOGGER.debug("Signature: {}", signature);
-        certificate.getSignature().setValue(signature);
-        certificate.getSignature().setUnusedBits((byte) 0);
+        certificate.getSignature().setUsedBits(signature);
         certificate.getSignature().getPreparator(chooser).prepare();
     }
 

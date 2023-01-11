@@ -9,13 +9,18 @@
 package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.parser.Asn1PrimitiveBitStringParser;
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PublicKeyBitStringParser extends Asn1PrimitiveBitStringParser<X509Chooser> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private PublicKeyBitString publicKeyBitString;
 
@@ -32,9 +37,12 @@ public class PublicKeyBitStringParser extends Asn1PrimitiveBitStringParser<X509C
                     publicKeyBitString.createX509PublicKeyContent(
                             chooser.getSubjectPublicKeyType()));
         }
+        LOGGER.debug(
+                "PublicKey content: {}",
+                ArrayConverter.bytesToHexString(publicKeyBitString.getUsedBits().getValue()));
         publicKeyBitString
                 .getX509PublicKeyContent()
                 .getParser(chooser)
-                .parse(new ByteArrayInputStream(encodable.getValue().getValue()));
+                .parse(new ByteArrayInputStream(publicKeyBitString.getUsedBits().getValue()));
     }
 }

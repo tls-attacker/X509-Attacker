@@ -229,8 +229,7 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
     private void prepareIssuerUniqueId() {
         if (tbsCertificate.getIssuerUniqueID() != null) {
             // IssuerUniqueID is an optional field
-            tbsCertificate.getIssuerUniqueID().setValue(chooser.getIssuerUniqueId());
-            tbsCertificate.getIssuerUniqueID().setUnusedBits((byte) 0);
+            tbsCertificate.getIssuerUniqueID().setUsedBits(chooser.getIssuerUniqueId());
             tbsCertificate.getIssuerUniqueID().getPreparator(chooser).prepare();
         }
     }
@@ -238,13 +237,15 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
     private void prepareSubjectUniqueId() {
         if (tbsCertificate.getSubjectUniqueID() != null) {
             // IssuerUniqueID is an optional field
-            tbsCertificate.getSubjectUniqueID().setValue(chooser.getConfig().getSubjectUniqueId());
-            tbsCertificate.getSubjectUniqueID().setUnusedBits((byte) 0);
+            tbsCertificate
+                    .getSubjectUniqueID()
+                    .setUsedBits(chooser.getConfig().getSubjectUniqueId());
             tbsCertificate.getSubjectUniqueID().getPreparator(chooser).prepare();
 
             // TODO this should probably happen within a handler
             chooser.getContext()
-                    .setIssuerUniqueId(tbsCertificate.getSubjectUniqueID().getValue().getValue());
+                    .setIssuerUniqueId(
+                            tbsCertificate.getSubjectUniqueID().getUsedBits().getValue());
         }
     }
 
