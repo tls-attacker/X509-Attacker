@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
@@ -19,7 +18,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
+public abstract class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -50,10 +49,5 @@ public class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
 
     public void instantiateParameters(Asn1Field encodable) {
         parameters.setInstantiation(encodable);
-    }
-
-    @Override
-    public Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

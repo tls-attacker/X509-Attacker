@@ -30,14 +30,14 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private TbsCertificate tbsCertificate;
 
-    @HoldsModifiableVariable private AlgorithmIdentifier signatureAlgorithm;
+    @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signatureAlgorithm;
 
     @HoldsModifiableVariable private Asn1PrimitiveBitString signature;
 
     public X509Certificate(String identifier, X509CertificateConfig certificateConfig) {
         super(identifier);
         tbsCertificate = new TbsCertificate("tbsCertificate", certificateConfig);
-        signatureAlgorithm = new AlgorithmIdentifier("signatureAlgorithm");
+        signatureAlgorithm = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1PrimitiveBitString("signature");
         addChild(tbsCertificate);
         addChild(signatureAlgorithm);
@@ -47,7 +47,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     public X509Certificate(String identifier) {
         super(identifier);
         tbsCertificate = new TbsCertificate("tbsCertificate");
-        signatureAlgorithm = new AlgorithmIdentifier("signatureAlgorithm");
+        signatureAlgorithm = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1PrimitiveBitString("signature");
         addChild(tbsCertificate);
         addChild(signatureAlgorithm);
@@ -67,11 +67,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         this.tbsCertificate = tbsCertificate;
     }
 
-    public AlgorithmIdentifier getSignatureAlgorithm() {
+    public CertificateSignatureAlgorithmIdentifier getSignatureAlgorithm() {
         return signatureAlgorithm;
     }
 
-    public void setSignatureAlgorithm(AlgorithmIdentifier signatureAlgorithm) {
+    public void setSignatureAlgorithm(CertificateSignatureAlgorithmIdentifier signatureAlgorithm) {
         this.signatureAlgorithm = signatureAlgorithm;
     }
 

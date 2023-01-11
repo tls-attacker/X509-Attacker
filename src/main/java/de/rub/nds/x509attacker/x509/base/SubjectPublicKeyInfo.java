@@ -23,13 +23,13 @@ import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
  */
 public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
 
-    @HoldsModifiableVariable private AlgorithmIdentifier algorithm;
+    @HoldsModifiableVariable private SubjectPublicKeyAlgorithmIdentifier algorithm;
 
     @HoldsModifiableVariable private PublicKeyBitString subjectPublicKeyBitString;
 
     public SubjectPublicKeyInfo(String identifier, X509CertificateConfig config) {
         super(identifier);
-        algorithm = new AlgorithmIdentifier("algorithm");
+        algorithm = new SubjectPublicKeyAlgorithmIdentifier("algorithm");
         subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring");
         initPublicKeyParameters(config);
         addChild(algorithm);
@@ -38,17 +38,17 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
 
     public SubjectPublicKeyInfo(String identifier) {
         super(identifier);
-        algorithm = new AlgorithmIdentifier("algorithm");
+        algorithm = new SubjectPublicKeyAlgorithmIdentifier("algorithm");
         subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring");
         addChild(algorithm);
         addChild(subjectPublicKeyBitString);
     }
 
-    public AlgorithmIdentifier getAlgorithm() {
+    public SubjectPublicKeyAlgorithmIdentifier getAlgorithm() {
         return algorithm;
     }
 
-    public void setAlgorithm(AlgorithmIdentifier algorithm) {
+    public void setAlgorithm(SubjectPublicKeyAlgorithmIdentifier algorithm) {
         this.algorithm = algorithm;
     }
 

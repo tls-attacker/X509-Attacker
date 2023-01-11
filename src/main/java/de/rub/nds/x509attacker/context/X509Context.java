@@ -31,21 +31,71 @@ public class X509Context {
 
     private X509PublicKeyType issuerPublicKeyType = null;
 
-    private X509SignatureAlgorithm signatureAlgorithm;
+    private byte[] issuerUniqueId = null;
+
+    private X509NamedCurve issuerNamedCurve = null;
 
     private List<Pair<X500AttributeType, String>> issuer = null;
 
-    private byte[] issuerUniqueId = null;
+    private BigInteger subjectRsaPrivateKey = null;
+
+    private BigInteger subjectRsaModulus = null;
+
+    private BigInteger subjectDsaPublicKeyY = null;
+
+    private BigInteger subjectDsaPrivateKey = null;
+
+    private BigInteger subjectEcPrivateKey = null;
+
+    private X509SignatureAlgorithm subjectSignatureAlgorithm;
 
     private X509PublicKeyType subjectPublicKeyType = null;
 
     private X509NamedCurve subjectNamedCurve = null;
 
-    private X509NamedCurve issuerNamedCurve = null;
-
     private BigInteger subjectDhPublicKey = null;
 
     public X509Context() {}
+
+    public BigInteger getSubjectRsaPrivateKey() {
+        return subjectRsaPrivateKey;
+    }
+
+    public void setSubjectRsaPrivateKey(BigInteger subjectRsaPrivateKey) {
+        this.subjectRsaPrivateKey = subjectRsaPrivateKey;
+    }
+
+    public BigInteger getSubjectRsaModulus() {
+        return subjectRsaModulus;
+    }
+
+    public void setSubjectRsaModulus(BigInteger subjectRsaModulus) {
+        this.subjectRsaModulus = subjectRsaModulus;
+    }
+
+    public BigInteger getSubjectDsaPublicKeyY() {
+        return subjectDsaPublicKeyY;
+    }
+
+    public void setSubjectDsaPublicKeyY(BigInteger subjectDsaPublicKeyY) {
+        this.subjectDsaPublicKeyY = subjectDsaPublicKeyY;
+    }
+
+    public BigInteger getSubjectDsaPrivateKey() {
+        return subjectDsaPrivateKey;
+    }
+
+    public void setSubjectDsaPrivateKey(BigInteger subjectDsaPrivateKey) {
+        this.subjectDsaPrivateKey = subjectDsaPrivateKey;
+    }
+
+    public BigInteger getSubjectEcPrivateKey() {
+        return subjectEcPrivateKey;
+    }
+
+    public void setSubjectEcPrivateKey(BigInteger subjectEcPrivateKey) {
+        this.subjectEcPrivateKey = subjectEcPrivateKey;
+    }
 
     public BigInteger getSubjectDhPublicKey() {
         return subjectDhPublicKey;
@@ -87,12 +137,12 @@ public class X509Context {
         this.subjectPublicKeyType = subjectPublicKeyType;
     }
 
-    public X509SignatureAlgorithm getSignatureAlgorithm() {
-        return signatureAlgorithm;
+    public X509SignatureAlgorithm getSubjectSignatureAlgorithm() {
+        return subjectSignatureAlgorithm;
     }
 
-    public void setSignatureAlgorithm(X509SignatureAlgorithm signatureAlgorithm) {
-        this.signatureAlgorithm = signatureAlgorithm;
+    public void setSubjectSignatureAlgorithm(X509SignatureAlgorithm subjectSignatureAlgorithm) {
+        this.subjectSignatureAlgorithm = subjectSignatureAlgorithm;
     }
 
     public BigInteger getIssuerRsaPrivateKey() {

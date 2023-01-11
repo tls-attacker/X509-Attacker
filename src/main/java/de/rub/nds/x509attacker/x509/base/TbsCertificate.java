@@ -29,7 +29,7 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private Asn1Integer serialNumber;
 
-    @HoldsModifiableVariable private AlgorithmIdentifier signature;
+    @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signature;
 
     @HoldsModifiableVariable private Name issuer;
 
@@ -50,7 +50,7 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
         version = new Version("version");
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
-        signature = new AlgorithmIdentifier("signature");
+        signature = new CertificateSignatureAlgorithmIdentifier("signature");
         issuer = new Name("issuer", config.getDefaultIssuer());
         validity = new Validity("validity");
         subject = new Name("subject", config.getSubject());
@@ -90,7 +90,7 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
         version = new Version("version");
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
-        signature = new AlgorithmIdentifier("signature");
+        signature = new CertificateSignatureAlgorithmIdentifier("signature");
         issuer = new Name("issuer");
         validity = new Validity("validity");
         subject = new Name("subject");
@@ -129,11 +129,11 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
         this.serialNumber = serialNumber;
     }
 
-    public AlgorithmIdentifier getSignature() {
+    public CertificateSignatureAlgorithmIdentifier getSignature() {
         return signature;
     }
 
-    public void setSignature(AlgorithmIdentifier signature) {
+    public void setSignature(CertificateSignatureAlgorithmIdentifier signature) {
         this.signature = signature;
     }
 

@@ -38,8 +38,8 @@ public class X509Chooser extends AbstractChooser {
     }
 
     public X509SignatureAlgorithm getSignatureAlgorithm() {
-        if (context.getSignatureAlgorithm() != null) {
-            return context.getSignatureAlgorithm();
+        if (context.getSubjectSignatureAlgorithm() != null) {
+            return context.getSubjectSignatureAlgorithm();
         } else {
             return config.getDefaultSignatureAlgorithm();
         }

@@ -87,7 +87,7 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
 
         // TODO Updating context, this should probably happen in a handler
         chooser.getContext()
-                .setSignatureAlgorithm(
+                .setSubjectSignatureAlgorithm(
                         X509SignatureAlgorithm.decodeFromOidBytes(
                                 algorithm.getContent().getValue()));
 

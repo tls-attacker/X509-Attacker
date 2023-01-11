@@ -26,6 +26,14 @@ public class DhPublicKey extends X509PublicKeyContent {
         publicKey = new Asn1Integer<>("publicKey");
     }
 
+    public Asn1Integer<X509Chooser> getPublicKey() {
+        return publicKey;
+    }
+
+    public void setPublicKey(Asn1Integer<X509Chooser> publicKey) {
+        this.publicKey = publicKey;
+    }
+
     @Override
     public Preparator getPreparator(X509Chooser chooser) {
         return new DhPublicKeyPreparator(chooser, this);

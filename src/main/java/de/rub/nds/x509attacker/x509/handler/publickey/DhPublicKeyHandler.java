@@ -23,6 +23,6 @@ public class DhPublicKeyHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        context.setSubjectDhPublicKey(publicKey.);
+        context.setSubjectDhPublicKey(publicKey.getPublicKey().getValue().getValue());
     }
 }
