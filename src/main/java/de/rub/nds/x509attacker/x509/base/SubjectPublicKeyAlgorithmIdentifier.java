@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.SubjectPublicKeyAlgorithmIdentifierHandler;
 
 public class SubjectPublicKeyAlgorithmIdentifier extends AlgorithmIdentifier {
 
@@ -19,7 +20,6 @@ public class SubjectPublicKeyAlgorithmIdentifier extends AlgorithmIdentifier {
 
     @Override
     public Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new SubjectPublicKeyAlgorithmIdentifierHandler(chooser, this);
     }
 }

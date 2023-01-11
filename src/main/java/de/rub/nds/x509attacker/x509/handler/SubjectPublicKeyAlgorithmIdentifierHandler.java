@@ -10,23 +10,23 @@ package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
-import de.rub.nds.x509attacker.x509.base.CertificateSignatureAlgorithmIdentifier;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
+import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyAlgorithmIdentifier;
 
-public class CertificateSignatureAlgorithmIdentifierHandler extends X509Handler {
+public class SubjectPublicKeyAlgorithmIdentifierHandler extends X509Handler {
 
-    private final CertificateSignatureAlgorithmIdentifier identifier;
+    private final SubjectPublicKeyAlgorithmIdentifier identifier;
 
-    public CertificateSignatureAlgorithmIdentifierHandler(
-            X509Chooser chooser, CertificateSignatureAlgorithmIdentifier identifier) {
+    public SubjectPublicKeyAlgorithmIdentifierHandler(
+            X509Chooser chooser, SubjectPublicKeyAlgorithmIdentifier identifier) {
         super(chooser);
         this.identifier = identifier;
     }
 
     @Override
     public void adjustContext() {
-        context.setSubjectSignatureAlgorithm(
-                X509SignatureAlgorithm.decodeFromOidBytes(
+        context.setSubjectPublicKeyType(
+                X509PublicKeyType.decodeFromOidBytes(
                         new ObjectIdentifier(identifier.getAlgorithm().getValue().getValue())
                                 .getEncoded()));
     }
