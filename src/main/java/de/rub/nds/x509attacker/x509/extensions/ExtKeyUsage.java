@@ -23,16 +23,13 @@ import org.apache.logging.log4j.Logger;
 /**
  * ExtKeyUsageSyntax ::= SEQUENCE SIZE (1..MAX) OF KeyPurposeId
  *
- * <p>
- * KeyPurposeId ::= OBJECT IDENTIFIER
+ * <p>KeyPurposeId ::= OBJECT IDENTIFIER
  */
 public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @XmlElementWrapper
-    @XmlElementRef
-    @HoldsModifiableVariable
+    @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<Asn1ObjectIdentifier> keyPurposeID;
 
     private ExtKeyUsage(String identifier) {

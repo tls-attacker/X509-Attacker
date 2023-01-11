@@ -39,7 +39,7 @@ public class CRLDistributionPoints extends Asn1Sequence<X509Chooser> {
     public void setDistributionPoint(List<DistributionPoint> distributionPoint) {
         this.distributionPoint = distributionPoint;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

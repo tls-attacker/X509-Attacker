@@ -95,7 +95,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
             algorithm.instantiateParameters(new Asn1Null("parameters"));
         }
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

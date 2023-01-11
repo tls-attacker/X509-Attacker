@@ -41,7 +41,7 @@ public class RsaPublicKeyContentSequence extends Asn1Sequence<X509Chooser> {
     public void setPublicExponent(Asn1Integer publicExponent) {
         this.publicExponent = publicExponent;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

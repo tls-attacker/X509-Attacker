@@ -63,7 +63,7 @@ public class Extension extends Asn1Sequence<X509Chooser> {
     public void setExtnValue(Asn1PrimitiveOctetString extnValue) {
         this.extnValue = extnValue;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

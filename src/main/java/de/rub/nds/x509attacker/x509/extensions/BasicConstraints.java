@@ -52,7 +52,7 @@ public class BasicConstraints extends Asn1Sequence<X509Chooser> {
     public void setPathLenConstraint(Asn1Integer pathLenConstraint) {
         this.pathLenConstraint = pathLenConstraint;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

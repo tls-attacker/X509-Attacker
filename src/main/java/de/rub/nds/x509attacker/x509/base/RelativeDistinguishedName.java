@@ -59,7 +59,7 @@ public class RelativeDistinguishedName extends Asn1Set<X509Chooser> {
     public RelativeDistinguishedNameParser getParser(X509Chooser chooser) {
         return new RelativeDistinguishedNameParser(chooser, this);
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

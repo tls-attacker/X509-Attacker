@@ -14,8 +14,8 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 
 /**
- * DistributionPointName ::= CHOICE { fullName [0] GeneralNames,
- * nameRelativeToCRLIssuer [1] RelativeDistinguishedName }
+ * DistributionPointName ::= CHOICE { fullName [0] GeneralNames, nameRelativeToCRLIssuer [1]
+ * RelativeDistinguishedName }
  */
 public class DistributionPointName extends Asn1Choice<X509Chooser> {
 

@@ -17,14 +17,10 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import java.util.LinkedList;
 import java.util.List;
 
-/**
- * GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName
- */
+/** GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName */
 public class GeneralNames extends Asn1Sequence<X509Chooser> {
 
-    @XmlElementWrapper
-    @XmlElementRef
-    @HoldsModifiableVariable
+    @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<GeneralName> generalName;
 
     public GeneralNames(String identifier) {
@@ -38,7 +34,9 @@ public class GeneralNames extends Asn1Sequence<X509Chooser> {
 
     public void setGeneralName(List<GeneralName> generalName) {
         this.generalName = generalName;
-    }@Override
+    }
+
+    @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }

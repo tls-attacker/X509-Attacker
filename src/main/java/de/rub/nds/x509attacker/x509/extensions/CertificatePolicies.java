@@ -39,7 +39,7 @@ public class CertificatePolicies extends Asn1Sequence<X509Chooser> {
     public void setPolicyInformation(List<PolicyInformation> policyInformation) {
         this.policyInformation = policyInformation;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

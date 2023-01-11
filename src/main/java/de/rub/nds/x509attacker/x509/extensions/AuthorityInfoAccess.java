@@ -39,7 +39,7 @@ public class AuthorityInfoAccess extends Asn1Sequence<X509Chooser> {
     public void setAccessDescription(List<AccessDescription> accessDescription) {
         this.accessDescription = accessDescription;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

@@ -23,7 +23,7 @@ public class Time extends Asn1Choice<X509Chooser> {
                 new Asn1PrimitiveUtcTime<X509Chooser>("utcTime"),
                 new Asn1PrimitiveGeneralizedTime<X509Chooser>("generalizedTime"));
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

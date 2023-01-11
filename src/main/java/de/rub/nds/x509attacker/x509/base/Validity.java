@@ -43,7 +43,7 @@ public class Validity extends Asn1Sequence<X509Chooser> {
     public void setNotAfter(Time notAfter) {
         this.notAfter = notAfter;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

@@ -69,7 +69,7 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
     public void setAuthorityCertSerialNumber(Asn1Integer authorityCertSerialNumber) {
         this.authorityCertSerialNumber = authorityCertSerialNumber;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

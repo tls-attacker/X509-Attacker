@@ -63,7 +63,7 @@ public class Name extends Asn1Sequence<X509Chooser> {
     public Asn1SequenceParser getParser(X509Chooser chooser) {
         return new NameParser(chooser, this);
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

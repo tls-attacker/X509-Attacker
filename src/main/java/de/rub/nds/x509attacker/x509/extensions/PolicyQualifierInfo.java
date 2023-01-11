@@ -19,18 +19,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId,
- * qualifier ANY DEFINED BY policyQualifierId } }
+ * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId, qualifier ANY DEFINED BY
+ * policyQualifierId } }
  */
 public class PolicyQualifierInfo extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     @HoldsModifiableVariable
-    private Asn1ObjectIdentifier policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
+    private Asn1ObjectIdentifier
+            policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
     // id-qt-unotice )
-    @HoldsModifiableVariable
-    private Asn1Encodable qualifier;
+    @HoldsModifiableVariable private Asn1Encodable qualifier;
 
     public PolicyQualifierInfo(String identifier) {
         super(identifier);

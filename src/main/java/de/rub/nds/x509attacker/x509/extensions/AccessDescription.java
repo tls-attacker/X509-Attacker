@@ -48,7 +48,7 @@ public class AccessDescription extends Asn1Sequence<X509Chooser> {
     public void setAccessLocation(GeneralName accessLocation) {
         this.accessLocation = accessLocation;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

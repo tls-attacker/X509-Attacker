@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.handler;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 
-public abstract class X509Handler extends Handler<X509Chooser>{
+public abstract class X509Handler extends Handler<X509Chooser> {
 
     public X509Handler(X509Chooser chooser) {
         super(chooser);

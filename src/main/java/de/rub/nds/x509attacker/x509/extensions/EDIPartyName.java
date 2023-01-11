@@ -51,7 +51,7 @@ public class EDIPartyName extends Asn1Sequence<X509Chooser> {
     public void setPartyName(DirectoryString partyName) {
         this.partyName = partyName;
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

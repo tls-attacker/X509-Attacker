@@ -202,7 +202,7 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
     public Asn1FieldSerializer getSerializer() {
         return super.getSerializer();
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

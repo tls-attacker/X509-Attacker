@@ -16,22 +16,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName
- * OPTIONAL, reasons [1] ReasonFlags OPTIONAL, crlIssuer [2] GeneralNames
- * OPTIONAL }
+ * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons
+ * [1] ReasonFlags OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
  */
 public class DistributionPoint extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private DistributionPointName distributionPointName;
+    @HoldsModifiableVariable private DistributionPointName distributionPointName;
 
-    @HoldsModifiableVariable
-    private ReasonFlags reasons;
+    @HoldsModifiableVariable private ReasonFlags reasons;
 
-    @HoldsModifiableVariable
-    private GeneralNames crlIssuer;
+    @HoldsModifiableVariable private GeneralNames crlIssuer;
 
     private DistributionPoint(String identifier) {
         super(identifier);

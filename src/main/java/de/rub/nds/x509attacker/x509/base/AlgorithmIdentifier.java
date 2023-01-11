@@ -51,7 +51,7 @@ public class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
     public void instantiateParameters(Asn1Field encodable) {
         parameters.setInstantiation(encodable);
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

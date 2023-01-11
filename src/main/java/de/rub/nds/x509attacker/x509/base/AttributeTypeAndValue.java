@@ -111,7 +111,7 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
     public AttributeTypeAndValueParser getParser(X509Chooser chooser) {
         return new AttributeTypeAndValueParser(chooser, this);
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");

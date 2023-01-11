@@ -67,7 +67,7 @@ public class RsaPublicKey extends X509PublicKeyContent {
     public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
         return rsaPublicKeyContentSequence.isCompatible(tagNumber, constructed, classType);
     }
-    
+
     @Override
     public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
