@@ -12,6 +12,7 @@ import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
+import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.constants.X509Version;
@@ -115,6 +116,8 @@ public class X509CertificateConfig {
 
     private Boolean includeDhValidationParameters = false;
 
+    private X509NamedCurve defaultSubjectNamedCurve = X509NamedCurve.SECP256R1;
+
     public X509CertificateConfig() {
         defaultIssuer = new LinkedList<>();
         defaultIssuer.add(
@@ -125,6 +128,14 @@ public class X509CertificateConfig {
         subject = new LinkedList<>();
         subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+    }
+
+    public X509NamedCurve getDefaultSubjectNamedCurve() {
+        return defaultSubjectNamedCurve;
+    }
+
+    public void setDefaultSubjectNamedCurve(X509NamedCurve defaultSubjectNamedCurve) {
+        this.defaultSubjectNamedCurve = defaultSubjectNamedCurve;
     }
 
     public BigInteger getDsaPublicKeyY() {

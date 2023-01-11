@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
@@ -26,6 +27,6 @@ public class Time extends Asn1Choice<X509Chooser> {
 
     @Override
     public Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new EmptyHandler(chooser);
     }
 }

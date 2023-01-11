@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.chooser;
 import de.rub.nds.asn1.context.AbstractChooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
+import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.context.X509Context;
@@ -106,6 +107,14 @@ public class X509Chooser extends AbstractChooser {
             return context.getSubjectPublicKeyType();
         } else {
             return config.getPublicKeyType();
+        }
+    }
+
+    public X509NamedCurve getSubjectNamedCurve() {
+        if (context.getSubjectNamedCurve() != null) {
+            return context.getSubjectNamedCurve();
+        } else {
+            return config.getDefaultSubjectNamedCurve();
         }
     }
 }

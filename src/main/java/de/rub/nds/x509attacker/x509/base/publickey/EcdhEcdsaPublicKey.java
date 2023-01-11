@@ -10,13 +10,15 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
-import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
+import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.EcdhEcdsaPublicKeyHandler;
+import de.rub.nds.x509attacker.x509.parser.EcdhEcdsaPublicKeyParser;
 import de.rub.nds.x509attacker.x509.preparator.publickey.EcdhEcdsaPublicKeyPreparator;
+import java.math.BigInteger;
 
 public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
 
@@ -45,6 +47,10 @@ public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
         this.xCoordinate = xCoordinate;
     }
 
+    public void setxCoordinate(BigInteger xCoordinate) {
+        this.xCoordinate = ModifiableVariableFactory.safelySetValue(this.xCoordinate, xCoordinate);
+    }
+
     public ModifiableBigInteger getyCoordinate() {
         return yCoordinate;
     }
@@ -53,12 +59,20 @@ public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
         this.yCoordinate = yCoordinate;
     }
 
+    public void setyCoordinate(BigInteger yCoordinate) {
+        this.yCoordinate = ModifiableVariableFactory.safelySetValue(this.yCoordinate, yCoordinate);
+    }
+
     public ModifiableByte getFormatByte() {
         return formatByte;
     }
 
     public void setFormatByte(ModifiableByte formatByte) {
         this.formatByte = formatByte;
+    }
+
+    public void setFormatByte(Byte formatByte) {
+        this.formatByte = ModifiableVariableFactory.safelySetValue(this.formatByte, formatByte);
     }
 
     public Asn1PrimitiveOctetString<X509Chooser> getPointOctets() {
@@ -75,9 +89,8 @@ public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
     }
 
     @Override
-    public Asn1Parser<?, ?> getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public EcdhEcdsaPublicKeyParser getParser(X509Chooser chooser) {
+        return new EcdhEcdsaPublicKeyParser(chooser, this);
     }
 
     @Override

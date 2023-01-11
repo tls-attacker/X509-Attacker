@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
@@ -114,6 +115,6 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
 
     @Override
     public Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        return new EmptyHandler(chooser);
     }
 }
