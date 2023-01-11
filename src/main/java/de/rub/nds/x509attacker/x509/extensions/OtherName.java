@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
@@ -18,15 +19,18 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * OtherName ::= SEQUENCE { type-id OBJECT IDENTIFIER, value [0] EXPLICIT ANY DEFINED BY type-id } }
+ * OtherName ::= SEQUENCE { type-id OBJECT IDENTIFIER, value [0] EXPLICIT ANY
+ * DEFINED BY type-id } }
  */
 public class OtherName extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier typeId;
+    @HoldsModifiableVariable
+    private Asn1ObjectIdentifier typeId;
 
-    @HoldsModifiableVariable private Asn1Encodable value;
+    @HoldsModifiableVariable
+    private Asn1Encodable value;
 
     public OtherName(String identifier) {
         super(identifier);
@@ -50,5 +54,10 @@ public class OtherName extends Asn1Sequence<X509Chooser> {
 
     public void setValue(Asn1Encodable value) {
         this.value = value;
+    }
+
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitivePrintableString;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
@@ -36,5 +37,10 @@ public class DirectoryString extends Asn1Choice<X509Chooser> {
     public Preparator getPreparator(X509Chooser context) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
         // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
@@ -105,5 +106,10 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     @Override
     public Asn1FieldSerializer getSerializer() {
         return new Asn1FieldSerializer(this);
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -8,11 +8,14 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 
+import de.rub.nds.asn1.context.AbstractChooser;
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 
-public class DhParameters extends Asn1Sequence implements PublicParameters {
+public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicParameters {
 
     private Asn1Integer p;
     private Asn1Integer q;
@@ -76,5 +79,10 @@ public class DhParameters extends Asn1Sequence implements PublicParameters {
 
     public void setValidationParms(DhValidationParms validationParms) {
         this.validationParms = validationParms;
+    }
+
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 }

@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -37,5 +38,10 @@ public class AuthorityInfoAccess extends Asn1Sequence<X509Chooser> {
 
     public void setAccessDescription(List<AccessDescription> accessDescription) {
         this.accessDescription = accessDescription;
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

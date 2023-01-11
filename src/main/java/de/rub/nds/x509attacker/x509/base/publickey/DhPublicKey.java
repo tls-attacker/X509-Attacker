@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.preparator.Preparator;
@@ -56,5 +57,10 @@ public class DhPublicKey extends X509PublicKeyContent {
     public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
         // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

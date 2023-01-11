@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -16,10 +17,11 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * PolicyInformation ::= SEQUENCE { policyIdentifier CertPolicyId, policyQualifiers SEQUENCE SIZE
- * (1..MAX) OF PolicyQualifierInfo OPTIONAL }
+ * PolicyInformation ::= SEQUENCE { policyIdentifier CertPolicyId,
+ * policyQualifiers SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL }
  *
- * <p>CertPolicyId ::= OBJECT IDENTIFIER
+ * <p>
+ * CertPolicyId ::= OBJECT IDENTIFIER
  */
 public class PolicyInformation extends Asn1Sequence<X509Chooser> {
 
@@ -28,7 +30,8 @@ public class PolicyInformation extends Asn1Sequence<X509Chooser> {
     @HoldsModifiableVariable
     private Asn1ObjectIdentifier policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
 
-    @HoldsModifiableVariable private PolicyQualifiers policyQualifiers;
+    @HoldsModifiableVariable
+    private PolicyQualifiers policyQualifiers;
 
     public PolicyInformation(String identifier) {
         super(identifier);
@@ -52,5 +55,10 @@ public class PolicyInformation extends Asn1Sequence<X509Chooser> {
 
     public void setPolicyQualifiers(PolicyQualifiers policyQualifiers) {
         this.policyQualifiers = policyQualifiers;
+    }
+
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

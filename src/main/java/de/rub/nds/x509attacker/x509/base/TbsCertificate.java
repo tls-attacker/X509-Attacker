@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
@@ -200,5 +201,10 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
     @Override
     public Asn1FieldSerializer getSerializer() {
         return super.getSerializer();
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

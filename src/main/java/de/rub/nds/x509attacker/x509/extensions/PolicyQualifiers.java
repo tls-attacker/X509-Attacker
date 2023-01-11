@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -18,12 +19,16 @@ import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/** policyQualifiers SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL */
+/**
+ * policyQualifiers SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL
+ */
 public class PolicyQualifiers extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
+    @XmlElementWrapper
+    @XmlElementRef
+    @HoldsModifiableVariable
     private List<PolicyQualifierInfo> policyQualifierInfo;
 
     public PolicyQualifiers(String identifier) {
@@ -37,5 +42,10 @@ public class PolicyQualifiers extends Asn1Sequence<X509Chooser> {
 
     public void setPolicyQualifierInfo(List<PolicyQualifierInfo> policyQualifierInfo) {
         this.policyQualifierInfo = policyQualifierInfo;
+    }
+
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -23,5 +24,10 @@ public class Extensions extends Asn1Sequence<X509Chooser> {
     @Override
     public Asn1SequenceParser getParser(X509Chooser chooser) {
         return new ExtensionsParser(chooser, this);
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
@@ -61,5 +62,10 @@ public class Extension extends Asn1Sequence<X509Chooser> {
 
     public void setExtnValue(Asn1PrimitiveOctetString extnValue) {
         this.extnValue = extnValue;
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

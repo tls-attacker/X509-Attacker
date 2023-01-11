@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Set;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
@@ -57,5 +58,10 @@ public class RelativeDistinguishedName extends Asn1Set<X509Chooser> {
     @Override
     public RelativeDistinguishedNameParser getParser(X509Chooser chooser) {
         return new RelativeDistinguishedNameParser(chooser, this);
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

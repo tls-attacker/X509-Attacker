@@ -8,15 +8,12 @@
  */
 package de.rub.nds.x509attacker.x509.handler;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 
-public abstract class X509Handler {
-
-    protected final X509Chooser chooser;
+public abstract class X509Handler extends Handler<X509Chooser>{
 
     public X509Handler(X509Chooser chooser) {
-        this.chooser = chooser;
+        super(chooser);
     }
-
-    public abstract void adjustContext();
 }

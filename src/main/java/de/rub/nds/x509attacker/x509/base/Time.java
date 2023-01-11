@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
@@ -21,5 +22,10 @@ public class Time extends Asn1Choice<X509Chooser> {
                 identifier,
                 new Asn1PrimitiveUtcTime<X509Chooser>("utcTime"),
                 new Asn1PrimitiveGeneralizedTime<X509Chooser>("generalizedTime"));
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

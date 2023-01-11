@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -93,5 +94,10 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
         } else {
             algorithm.instantiateParameters(new Asn1Null("parameters"));
         }
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

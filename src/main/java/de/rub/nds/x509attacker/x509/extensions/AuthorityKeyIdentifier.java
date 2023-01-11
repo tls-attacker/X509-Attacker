@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -67,5 +68,10 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
 
     public void setAuthorityCertSerialNumber(Asn1Integer authorityCertSerialNumber) {
         this.authorityCertSerialNumber = authorityCertSerialNumber;
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

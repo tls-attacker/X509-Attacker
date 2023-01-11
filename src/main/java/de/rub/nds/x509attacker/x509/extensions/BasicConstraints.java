@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -50,5 +51,10 @@ public class BasicConstraints extends Asn1Sequence<X509Chooser> {
 
     public void setPathLenConstraint(Asn1Integer pathLenConstraint) {
         this.pathLenConstraint = pathLenConstraint;
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

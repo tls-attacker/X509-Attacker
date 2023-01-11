@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -39,5 +40,10 @@ public class RsaPublicKeyContentSequence extends Asn1Sequence<X509Chooser> {
 
     public void setPublicExponent(Asn1Integer publicExponent) {
         this.publicExponent = publicExponent;
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

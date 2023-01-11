@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -65,5 +66,10 @@ public class RsaPublicKey extends X509PublicKeyContent {
     @Override
     public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
         return rsaPublicKeyContentSequence.isCompatible(tagNumber, constructed, classType);
+    }
+    
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

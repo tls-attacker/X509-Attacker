@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
@@ -61,5 +62,10 @@ public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
     @Override
     public Asn1FieldSerializer getSerializer() {
         return pointOctets.getSerializer();
+    }
+
+    @Override
+    public Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }
