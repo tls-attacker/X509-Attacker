@@ -31,7 +31,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
     public SubjectPublicKeyInfo(String identifier, X509CertificateConfig config) {
         super(identifier);
         algorithm = new SubjectPublicKeyAlgorithmIdentifier("algorithm");
-        subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring");
+        subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring", config);
         initPublicKeyParameters(config);
         addChild(algorithm);
         addChild(subjectPublicKeyBitString);

@@ -70,7 +70,7 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
         return new PublicKeyBitStringParser(chooser, this);
     }
 
-    public X509PublicKeyContent createX509PublicKeyContent(X509PublicKeyType publicKeyType) {
+    public final X509PublicKeyContent createX509PublicKeyContent(X509PublicKeyType publicKeyType) {
         switch (publicKeyType) {
             case DH:
                 return new DhPublicKey();
