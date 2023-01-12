@@ -14,7 +14,12 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DhParametersHandler;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicParameters {
 
     private Asn1Integer p;
@@ -22,6 +27,10 @@ public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicPar
     private Asn1Integer g;
     private Asn1Integer j;
     private DhValidationParms validationParms;
+
+    private DhParameters() {
+        super(null);
+    }
 
     public DhParameters(String identifier, X509CertificateConfig config) {
         super(identifier);

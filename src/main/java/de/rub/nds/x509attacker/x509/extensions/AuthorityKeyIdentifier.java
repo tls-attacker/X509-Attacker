@@ -14,6 +14,9 @@ import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,6 +29,9 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>CertificateSerialNumber ::= INTEGER
  */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -36,6 +42,10 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private Asn1Integer authorityCertSerialNumber;
 
+    private AuthorityKeyIdentifier() {
+        super(null);
+    }
+    
     public AuthorityKeyIdentifier(String identifier) {
         super(identifier);
         keyIdentifier = new Asn1PrimitiveOctetString("keyIdentifier");

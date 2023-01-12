@@ -12,12 +12,21 @@ import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RsaPublicKeyContentSequence extends Asn1Sequence<X509Chooser> {
 
     private Asn1Integer modulus;
     private Asn1Integer publicExponent;
 
+    private RsaPublicKeyContentSequence() {
+        super(null);
+    }
+    
     public RsaPublicKeyContentSequence(String identifier) {
         super(identifier);
         this.modulus = new Asn1Integer("modulus");

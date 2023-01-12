@@ -10,6 +10,9 @@ package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,10 +21,17 @@ import org.apache.logging.log4j.Logger;
  * (3), superseded (4), cessationOfOperation (5), certificateHold (6), privilegeWithdrawn (7),
  * aACompromise (8) }
  */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ReasonFlags extends Asn1PrimitiveBitString<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private ReasonFlags() {
+        super(null);
+    }
+    
     public ReasonFlags(String identifier) {
         super(identifier);
     }

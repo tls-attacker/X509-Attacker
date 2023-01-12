@@ -15,6 +15,9 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -22,6 +25,9 @@ import org.apache.logging.log4j.Logger;
  * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId, qualifier ANY DEFINED BY
  * policyQualifierId } }
  */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PolicyQualifierInfo extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -32,6 +38,10 @@ public class PolicyQualifierInfo extends Asn1Sequence<X509Chooser> {
     // id-qt-unotice )
     @HoldsModifiableVariable private Asn1Encodable qualifier;
 
+    private PolicyQualifierInfo() {
+        super(null);
+    }
+    
     public PolicyQualifierInfo(String identifier) {
         super(identifier);
         policyQualifierId = new Asn1ObjectIdentifier("policyQualifiersId");

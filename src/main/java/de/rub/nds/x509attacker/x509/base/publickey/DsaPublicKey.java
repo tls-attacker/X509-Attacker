@@ -15,8 +15,13 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.DsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.preparator.publickey.DsaPublicKeyPreparator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.math.BigInteger;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DsaPublicKey extends X509PublicKeyContent {
 
     private Asn1Integer<X509Chooser> publicKeyY;

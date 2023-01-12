@@ -10,6 +10,9 @@ package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -18,10 +21,17 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>KeyIdentifier ::= OCTET STRING
  */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class SubjectKeyIdentifier extends Asn1PrimitiveOctetString<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private SubjectKeyIdentifier() {
+        super(null);
+    }
+    
     private SubjectKeyIdentifier(String identifier) {
         super(identifier);
     }

@@ -17,7 +17,12 @@ import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.EcdhPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.preparator.publickey.EcdhPublicKeyPreparator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EcdhPublicKey extends X509PublicKeyContent {
 
     private ModifiableBigInteger xCoordinate;

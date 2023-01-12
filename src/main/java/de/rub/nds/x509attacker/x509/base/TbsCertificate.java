@@ -20,33 +20,52 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class TbsCertificate extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Version version;
+    @HoldsModifiableVariable
+    private Version version;
 
-    @HoldsModifiableVariable private Asn1Integer serialNumber;
+    @HoldsModifiableVariable
+    private Asn1Integer serialNumber;
 
-    @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signature;
+    @HoldsModifiableVariable
+    private CertificateSignatureAlgorithmIdentifier signature;
 
-    @HoldsModifiableVariable private Name issuer;
+    @HoldsModifiableVariable
+    private Name issuer;
 
-    @HoldsModifiableVariable private Validity validity;
+    @HoldsModifiableVariable
+    private Validity validity;
 
-    @HoldsModifiableVariable private Name subject;
+    @HoldsModifiableVariable
+    private Name subject;
 
-    @HoldsModifiableVariable private SubjectPublicKeyInfo subjectPublicKeyInfo;
+    @HoldsModifiableVariable
+    private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString issuerUniqueID;
+    @HoldsModifiableVariable
+    private Asn1PrimitiveBitString issuerUniqueID;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString subjectUniqueID;
+    @HoldsModifiableVariable
+    private Asn1PrimitiveBitString subjectUniqueID;
 
-    @HoldsModifiableVariable private Asn1Explicit extensionExplicit;
+    @HoldsModifiableVariable
+    private Asn1Explicit extensionExplicit;
 
+    private TbsCertificate() {
+        super(null);
+    }
+    
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
         version = new Version("version");
@@ -66,8 +85,8 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
             subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            extensionExplicit =
-                    new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
+            extensionExplicit
+                    = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);

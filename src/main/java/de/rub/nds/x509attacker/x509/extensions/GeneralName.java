@@ -11,6 +11,9 @@ package de.rub.nds.x509attacker.x509.extensions;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,10 +23,17 @@ import org.apache.logging.log4j.Logger;
  * uniformResourceIdentifier [6] IA5String, iPAddress [7] OCTET STRING, registeredID [8] OBJECT
  * IDENTIFIER }
  */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class GeneralName extends Asn1Choice<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private GeneralName() {
+        super(null);
+    }
+    
     public GeneralName(String identifier) {
         super(identifier);
     }

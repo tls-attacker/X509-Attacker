@@ -15,19 +15,31 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * OtherName ::= SEQUENCE { type-id OBJECT IDENTIFIER, value [0] EXPLICIT ANY DEFINED BY type-id } }
+ * OtherName ::= SEQUENCE { type-id OBJECT IDENTIFIER, value [0] EXPLICIT ANY
+ * DEFINED BY type-id } }
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class OtherName extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier typeId;
+    @HoldsModifiableVariable
+    private Asn1ObjectIdentifier typeId;
 
-    @HoldsModifiableVariable private Asn1Encodable value;
+    @HoldsModifiableVariable
+    private Asn1Encodable value;
+
+    private OtherName() {
+        super(null);
+    }
 
     public OtherName(String identifier) {
         super(identifier);

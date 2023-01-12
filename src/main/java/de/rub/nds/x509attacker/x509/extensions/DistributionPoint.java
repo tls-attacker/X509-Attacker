@@ -12,6 +12,9 @@ import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -19,6 +22,9 @@ import org.apache.logging.log4j.Logger;
  * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons
  * [1] ReasonFlags OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
  */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DistributionPoint extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -29,6 +35,10 @@ public class DistributionPoint extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private GeneralNames crlIssuer;
 
+    private DistributionPoint() {
+        super(null);
+    }
+    
     private DistributionPoint(String identifier) {
         super(identifier);
         distributionPointName = new DistributionPointName(identifier);

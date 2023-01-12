@@ -12,14 +12,20 @@ import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class CertificatePolicies extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -27,6 +33,10 @@ public class CertificatePolicies extends Asn1Sequence<X509Chooser> {
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<PolicyInformation> policyInformation;
 
+    private CertificatePolicies() {
+        super(null);
+    }
+    
     public CertificatePolicies(String identifier) {
         super(identifier);
         policyInformation = new LinkedList<>();

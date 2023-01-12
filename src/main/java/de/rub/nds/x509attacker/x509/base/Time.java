@@ -14,10 +14,20 @@ import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
 /** Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime } */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Time extends Asn1Choice<X509Chooser> {
 
+    private Time() {
+        super(null);
+    }
+    
     public Time(String identifier) {
         super(
                 identifier,

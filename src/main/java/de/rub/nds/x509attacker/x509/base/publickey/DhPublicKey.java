@@ -16,7 +16,12 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.DhPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.preparator.publickey.DhPublicKeyPreparator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DhPublicKey extends X509PublicKeyContent {
 
     private Asn1Integer<X509Chooser> publicKey;

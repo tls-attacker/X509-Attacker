@@ -15,7 +15,12 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.RsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.RsaPublicKeyParser;
 import de.rub.nds.x509attacker.x509.preparator.publickey.RsaPublicKeyPreparator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class RsaPublicKey extends X509PublicKeyContent {
 
     private RsaPublicKeyContentSequence rsaPublicKeyContentSequence;

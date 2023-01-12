@@ -13,6 +13,9 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.DirectoryString;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -20,6 +23,9 @@ import org.apache.logging.log4j.Logger;
  * EDIPartyName ::= SEQUENCE { nameAssigner [0] DirectoryString OPTIONAL, partyName [1]
  * DirectoryString } }
  */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EDIPartyName extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -28,6 +34,10 @@ public class EDIPartyName extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private DirectoryString partyName;
 
+    private EDIPartyName() {
+        super(null);
+    }
+    
     public EDIPartyName(String identifier) {
         super(identifier);
         nameAssigner = new DirectoryString("nameAssigner");

@@ -31,8 +31,13 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.parser.PublicKeyBitStringParser;
 import de.rub.nds.x509attacker.x509.preparator.publickey.PublicKeyBitStringPreparator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
 
     @XmlAnyElement(lax = true)
@@ -45,6 +50,10 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
 
     public PublicKeyBitString(String identifier) {
         super(identifier);
+    }
+    
+    private PublicKeyBitString() {
+        super(null);
     }
 
     public void setX509PublicKeyContent(X509PublicKeyContent x509PublicKeyContent) {
@@ -105,8 +114,8 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
             default:
                 throw new UnsupportedOperationException(
                         "PublicKeyType: "
-                                + publicKeyType.getHumanReadableName()
-                                + " is not supported.");
+                        + publicKeyType.getHumanReadableName()
+                        + " is not supported.");
         }
     }
 }

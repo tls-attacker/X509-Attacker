@@ -21,27 +21,39 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.parser.AttributeTypeAndValueParser;
 import de.rub.nds.x509attacker.x509.preparator.AttributeTypeAndValuePreparator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /**
- * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue }
+ * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue
+ * }
  *
- * <p>AttributeType ::= OBJECT IDENTIFIER
+ * <p>
+ * AttributeType ::= OBJECT IDENTIFIER
  *
- * <p>AttributeValue ::= ANY -- DEFINED BY AttributeType
+ * <p>
+ * AttributeValue ::= ANY -- DEFINED BY AttributeType
  *
- * <p>DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)), printableString
- * PrintableString (SIZE (1..MAX)), universalString UniversalString (SIZE (1..MAX)), utf8String
- * UTF8String (SIZE (1..MAX)), bmpString BMPString (SIZE (1..MAX)) }
+ * <p>
+ * DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)),
+ * printableString PrintableString (SIZE (1..MAX)), universalString
+ * UniversalString (SIZE (1..MAX)), utf8String UTF8String (SIZE (1..MAX)),
+ * bmpString BMPString (SIZE (1..MAX)) }
  */
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> type;
+    @HoldsModifiableVariable
+    private Asn1ObjectIdentifier<X509Chooser> type;
 
-    @HoldsModifiableVariable private Asn1Any<X509Chooser> value;
+    @HoldsModifiableVariable
+    private Asn1Any<X509Chooser> value;
 
     private X500AttributeType attributeTypeConfig;
 
@@ -64,6 +76,10 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
         value = new Asn1Any("value");
         addChild(type);
         addChild(value);
+    }
+
+    private AttributeTypeAndValue() {
+        super(null);
     }
 
     public X500AttributeType getAttributeTypeConfig() {

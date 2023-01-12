@@ -10,13 +10,21 @@ package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public abstract class X509PublicKeyContent implements Asn1Encodable<X509Chooser> {
 
     private String identifier;
 
     public X509PublicKeyContent(String identifier) {
         this.identifier = identifier;
+    }
+
+    private X509PublicKeyContent() {
     }
 
     public abstract boolean isEllipticCurve();

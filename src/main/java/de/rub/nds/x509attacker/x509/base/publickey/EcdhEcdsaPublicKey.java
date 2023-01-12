@@ -18,8 +18,13 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.EcdhEcdsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.EcdhEcdsaPublicKeyParser;
 import de.rub.nds.x509attacker.x509.preparator.publickey.EcdhEcdsaPublicKeyPreparator;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.math.BigInteger;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
 
     private ModifiableBigInteger xCoordinate;

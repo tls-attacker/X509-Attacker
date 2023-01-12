@@ -13,13 +13,22 @@ import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DssParametersHandler;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DssParameters extends Asn1Sequence<X509Chooser> implements PublicParameters {
 
     private Asn1Integer p;
     private Asn1Integer q;
     private Asn1Integer g;
 
+    private DssParameters() {
+        super(null);
+    }
+    
     public DssParameters(String identifier) {
         super(identifier);
         this.p = new Asn1Integer("p");

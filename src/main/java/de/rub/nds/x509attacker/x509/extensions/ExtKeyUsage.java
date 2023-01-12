@@ -13,8 +13,11 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElementRef;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -25,6 +28,9 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>KeyPurposeId ::= OBJECT IDENTIFIER
  */
+
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -32,6 +38,10 @@ public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<Asn1ObjectIdentifier> keyPurposeID;
 
+    private ExtKeyUsage() {
+        super(null);
+    }
+    
     private ExtKeyUsage(String identifier) {
         super(identifier);
         keyPurposeID = new LinkedList<>();

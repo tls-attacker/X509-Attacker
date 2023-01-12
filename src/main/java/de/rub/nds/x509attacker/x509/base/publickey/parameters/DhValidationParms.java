@@ -14,12 +14,21 @@ import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DhValidationParmsHandler;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlRootElement;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class DhValidationParms extends Asn1Sequence<X509Chooser> implements PublicParameters {
 
     private Asn1PrimitiveBitString seed;
     private Asn1Integer pgenCounter;
 
+    private DhValidationParms() {
+        super(null);
+    }
+    
     public DhValidationParms(String identifier) {
         super(identifier);
         seed = new Asn1PrimitiveBitString("seed");
