@@ -23,7 +23,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** CRLDistributionPoints ::= SEQUENCE SIZE (1..MAX) OF DistributionPoint */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CRLDistributionPoints extends Asn1Sequence<X509Chooser> {
@@ -36,7 +35,7 @@ public class CRLDistributionPoints extends Asn1Sequence<X509Chooser> {
     private CRLDistributionPoints() {
         super(null);
     }
-    
+
     public CRLDistributionPoints(String identifier) {
         super(identifier);
         distributionPoint = new LinkedList<>();

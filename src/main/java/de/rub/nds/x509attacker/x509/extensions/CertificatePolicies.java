@@ -23,7 +23,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CertificatePolicies extends Asn1Sequence<X509Chooser> {
@@ -36,7 +35,7 @@ public class CertificatePolicies extends Asn1Sequence<X509Chooser> {
     private CertificatePolicies() {
         super(null);
     }
-    
+
     public CertificatePolicies(String identifier) {
         super(identifier);
         policyInformation = new LinkedList<>();

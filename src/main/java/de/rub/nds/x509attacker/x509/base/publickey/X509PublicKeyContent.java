@@ -24,8 +24,7 @@ public abstract class X509PublicKeyContent implements Asn1Encodable<X509Chooser>
         this.identifier = identifier;
     }
 
-    private X509PublicKeyContent() {
-    }
+    private X509PublicKeyContent() {}
 
     public abstract boolean isEllipticCurve();
 

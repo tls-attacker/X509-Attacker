@@ -27,11 +27,9 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier algorithm;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier algorithm;
 
-    @HoldsModifiableVariable
-    private final Asn1Any parameters;
+    @HoldsModifiableVariable private final Asn1Any parameters;
 
     private AlgorithmIdentifier() {
         super(null);

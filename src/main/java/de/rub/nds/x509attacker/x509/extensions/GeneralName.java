@@ -23,7 +23,6 @@ import org.apache.logging.log4j.Logger;
  * uniformResourceIdentifier [6] IA5String, iPAddress [7] OCTET STRING, registeredID [8] OBJECT
  * IDENTIFIER }
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GeneralName extends Asn1Choice<X509Chooser> {
@@ -33,7 +32,7 @@ public class GeneralName extends Asn1Choice<X509Chooser> {
     private GeneralName() {
         super(null);
     }
-    
+
     public GeneralName(String identifier) {
         super(identifier);
     }

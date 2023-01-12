@@ -17,9 +17,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
-/**
- * Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension
- */
+/** Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Extensions extends Asn1Sequence<X509Chooser> {

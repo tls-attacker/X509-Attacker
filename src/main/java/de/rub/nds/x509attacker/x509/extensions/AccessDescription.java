@@ -20,7 +20,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** AccessDescription ::= SEQUENCE { accessMethod OBJECT IDENTIFIER, accessLocation GeneralName } */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AccessDescription extends Asn1Sequence<X509Chooser> {
@@ -34,7 +33,7 @@ public class AccessDescription extends Asn1Sequence<X509Chooser> {
     private AccessDescription() {
         super(null);
     }
-    
+
     public AccessDescription(String identifier) {
         super(identifier);
         accessMethod = new Asn1ObjectIdentifier("accessMethod");

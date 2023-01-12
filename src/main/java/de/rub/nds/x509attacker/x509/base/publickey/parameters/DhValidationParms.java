@@ -28,7 +28,7 @@ public class DhValidationParms extends Asn1Sequence<X509Chooser> implements Publ
     private DhValidationParms() {
         super(null);
     }
-    
+
     public DhValidationParms(String identifier) {
         super(identifier);
         seed = new Asn1PrimitiveBitString("seed");

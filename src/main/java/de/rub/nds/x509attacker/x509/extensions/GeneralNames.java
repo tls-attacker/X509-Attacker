@@ -21,7 +21,6 @@ import java.util.LinkedList;
 import java.util.List;
 
 /** GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GeneralNames extends Asn1Sequence<X509Chooser> {
@@ -32,7 +31,7 @@ public class GeneralNames extends Asn1Sequence<X509Chooser> {
     private GeneralNames() {
         super(null);
     }
-    
+
     public GeneralNames(String identifier) {
         super(identifier);
         generalName = new LinkedList<>();

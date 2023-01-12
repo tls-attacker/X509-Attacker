@@ -20,7 +20,6 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 /** RelativeDistinguishedName ::= SET SIZE (1..MAX) OF AttributeTypeAndValue */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RelativeDistinguishedName extends Asn1Set<X509Chooser> {
@@ -28,7 +27,7 @@ public class RelativeDistinguishedName extends Asn1Set<X509Chooser> {
     private RelativeDistinguishedName() {
         super(null);
     }
-    
+
     public RelativeDistinguishedName(String identifier) {
         super(identifier);
     }

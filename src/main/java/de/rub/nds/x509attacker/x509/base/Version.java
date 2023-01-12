@@ -17,9 +17,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-/**
- * Version ::= INTEGER {v1(0), v2(1), v3(2) }
- */
+/** Version ::= INTEGER {v1(0), v2(1), v3(2) } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Version extends Asn1Explicit<X509Chooser> {

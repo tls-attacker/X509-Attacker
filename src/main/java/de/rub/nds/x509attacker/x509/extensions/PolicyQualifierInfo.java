@@ -25,7 +25,6 @@ import org.apache.logging.log4j.Logger;
  * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId, qualifier ANY DEFINED BY
  * policyQualifierId } }
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PolicyQualifierInfo extends Asn1Sequence<X509Chooser> {
@@ -41,7 +40,7 @@ public class PolicyQualifierInfo extends Asn1Sequence<X509Chooser> {
     private PolicyQualifierInfo() {
         super(null);
     }
-    
+
     public PolicyQualifierInfo(String identifier) {
         super(identifier);
         policyQualifierId = new Asn1ObjectIdentifier("policyQualifiersId");

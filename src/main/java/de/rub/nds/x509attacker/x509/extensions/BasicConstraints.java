@@ -24,7 +24,6 @@ import org.apache.logging.log4j.Logger;
  * BasicConstraints ::= SEQUENCE { cA BOOLEAN DEFAULT FALSE, pathLenConstraint INTEGER (0..MAX)
  * OPTIONAL }
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BasicConstraints extends Asn1Sequence<X509Chooser> {
@@ -38,7 +37,7 @@ public class BasicConstraints extends Asn1Sequence<X509Chooser> {
     private BasicConstraints() {
         super(null);
     }
-    
+
     public BasicConstraints(String identifier) {
         super(identifier);
         ca = new Asn1Boolean("ca");

@@ -28,7 +28,6 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>KeyPurposeId ::= OBJECT IDENTIFIER
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
@@ -41,7 +40,7 @@ public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
     private ExtKeyUsage() {
         super(null);
     }
-    
+
     private ExtKeyUsage(String identifier) {
         super(identifier);
         keyPurposeID = new LinkedList<>();

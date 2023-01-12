@@ -23,7 +23,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** policyQualifiers SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PolicyQualifiers extends Asn1Sequence<X509Chooser> {
@@ -36,7 +35,7 @@ public class PolicyQualifiers extends Asn1Sequence<X509Chooser> {
     private PolicyQualifiers() {
         super(null);
     }
-    
+
     public PolicyQualifiers(String identifier) {
         super(identifier);
         policyQualifierInfo = new LinkedList<>();

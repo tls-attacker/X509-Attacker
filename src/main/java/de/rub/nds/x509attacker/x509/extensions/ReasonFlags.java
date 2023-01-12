@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
  * (3), superseded (4), cessationOfOperation (5), certificateHold (6), privilegeWithdrawn (7),
  * aACompromise (8) }
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ReasonFlags extends Asn1PrimitiveBitString<X509Chooser> {
@@ -31,7 +30,7 @@ public class ReasonFlags extends Asn1PrimitiveBitString<X509Chooser> {
     private ReasonFlags() {
         super(null);
     }
-    
+
     public ReasonFlags(String identifier) {
         super(identifier);
     }

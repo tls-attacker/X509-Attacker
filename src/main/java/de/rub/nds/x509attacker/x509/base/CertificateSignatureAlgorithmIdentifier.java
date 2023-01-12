@@ -22,7 +22,7 @@ public class CertificateSignatureAlgorithmIdentifier extends AlgorithmIdentifier
     public CertificateSignatureAlgorithmIdentifier(String identifier) {
         super(identifier);
     }
-    
+
     private CertificateSignatureAlgorithmIdentifier() {
         super(null);
     }

@@ -21,7 +21,6 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>KeyIdentifier ::= OCTET STRING
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SubjectKeyIdentifier extends Asn1PrimitiveOctetString<X509Chooser> {
@@ -31,7 +30,7 @@ public class SubjectKeyIdentifier extends Asn1PrimitiveOctetString<X509Chooser> 
     private SubjectKeyIdentifier() {
         super(null);
     }
-    
+
     private SubjectKeyIdentifier(String identifier) {
         super(identifier);
     }

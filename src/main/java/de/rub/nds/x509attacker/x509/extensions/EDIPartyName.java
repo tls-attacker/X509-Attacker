@@ -23,7 +23,6 @@ import org.apache.logging.log4j.Logger;
  * EDIPartyName ::= SEQUENCE { nameAssigner [0] DirectoryString OPTIONAL, partyName [1]
  * DirectoryString } }
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EDIPartyName extends Asn1Sequence<X509Chooser> {
@@ -37,7 +36,7 @@ public class EDIPartyName extends Asn1Sequence<X509Chooser> {
     private EDIPartyName() {
         super(null);
     }
-    
+
     public EDIPartyName(String identifier) {
         super(identifier);
         nameAssigner = new DirectoryString("nameAssigner");

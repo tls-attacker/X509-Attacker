@@ -20,22 +20,19 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * Extension ::= SEQUENCE { extnID OBJECT IDENTIFIER, critical BOOLEAN DEFAULT
- * FALSE, extnValue OCTET STRING -- contains the DER encoding of an ASN.1 value
- * -- corresponding to the extension type identified -- by extnID }
+ * Extension ::= SEQUENCE { extnID OBJECT IDENTIFIER, critical BOOLEAN DEFAULT FALSE, extnValue
+ * OCTET STRING -- contains the DER encoding of an ASN.1 value -- corresponding to the extension
+ * type identified -- by extnID }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Extension extends Asn1Sequence<X509Chooser> {
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier<X509Chooser> extnID;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> extnID;
 
-    @HoldsModifiableVariable
-    private Asn1Boolean<X509Chooser> critical;
+    @HoldsModifiableVariable private Asn1Boolean<X509Chooser> critical;
 
-    @HoldsModifiableVariable
-    private Asn1PrimitiveOctetString<X509Chooser> extnValue;
+    @HoldsModifiableVariable private Asn1PrimitiveOctetString<X509Chooser> extnValue;
 
     private Extension() {
         super(null);

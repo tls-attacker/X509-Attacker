@@ -32,40 +32,30 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable
-    private Version version;
+    @HoldsModifiableVariable private Version version;
 
-    @HoldsModifiableVariable
-    private Asn1Integer serialNumber;
+    @HoldsModifiableVariable private Asn1Integer serialNumber;
 
-    @HoldsModifiableVariable
-    private CertificateSignatureAlgorithmIdentifier signature;
+    @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signature;
 
-    @HoldsModifiableVariable
-    private Name issuer;
+    @HoldsModifiableVariable private Name issuer;
 
-    @HoldsModifiableVariable
-    private Validity validity;
+    @HoldsModifiableVariable private Validity validity;
 
-    @HoldsModifiableVariable
-    private Name subject;
+    @HoldsModifiableVariable private Name subject;
 
-    @HoldsModifiableVariable
-    private SubjectPublicKeyInfo subjectPublicKeyInfo;
+    @HoldsModifiableVariable private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
-    @HoldsModifiableVariable
-    private Asn1PrimitiveBitString issuerUniqueID;
+    @HoldsModifiableVariable private Asn1PrimitiveBitString issuerUniqueID;
 
-    @HoldsModifiableVariable
-    private Asn1PrimitiveBitString subjectUniqueID;
+    @HoldsModifiableVariable private Asn1PrimitiveBitString subjectUniqueID;
 
-    @HoldsModifiableVariable
-    private Asn1Explicit extensionExplicit;
+    @HoldsModifiableVariable private Asn1Explicit extensionExplicit;
 
     private TbsCertificate() {
         super(null);
     }
-    
+
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
         version = new Version("version");
@@ -85,8 +75,8 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
             subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            extensionExplicit
-                    = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
+            extensionExplicit =
+                    new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);

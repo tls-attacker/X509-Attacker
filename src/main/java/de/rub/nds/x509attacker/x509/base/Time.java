@@ -19,7 +19,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /** Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime } */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Time extends Asn1Choice<X509Chooser> {
@@ -27,7 +26,7 @@ public class Time extends Asn1Choice<X509Chooser> {
     private Time() {
         super(null);
     }
-    
+
     public Time(String identifier) {
         super(
                 identifier,

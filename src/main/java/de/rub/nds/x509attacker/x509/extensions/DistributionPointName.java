@@ -20,7 +20,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  * DistributionPointName ::= CHOICE { fullName [0] GeneralNames, nameRelativeToCRLIssuer [1]
  * RelativeDistinguishedName }
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DistributionPointName extends Asn1Choice<X509Chooser> {
@@ -28,7 +27,7 @@ public class DistributionPointName extends Asn1Choice<X509Chooser> {
     private DistributionPointName() {
         super(null);
     }
-    
+
     public DistributionPointName(String identifier) {
         super(identifier, new GeneralNames(identifier), new RelativeDistinguishedName(identifier));
     }

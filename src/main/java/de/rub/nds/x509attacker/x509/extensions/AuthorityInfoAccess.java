@@ -23,7 +23,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** AuthorityInfoAcessSyntax :== SEQUENCE SIZE (1..MAX) OF AccessDescription */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AuthorityInfoAccess extends Asn1Sequence<X509Chooser> {
@@ -36,7 +35,7 @@ public class AuthorityInfoAccess extends Asn1Sequence<X509Chooser> {
     private AuthorityInfoAccess() {
         super(null);
     }
-    
+
     public AuthorityInfoAccess(String identifier) {
         super(identifier);
         accessDescription = new LinkedList<>();

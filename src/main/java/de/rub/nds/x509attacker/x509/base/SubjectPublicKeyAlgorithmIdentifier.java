@@ -22,7 +22,7 @@ public class SubjectPublicKeyAlgorithmIdentifier extends AlgorithmIdentifier {
     private SubjectPublicKeyAlgorithmIdentifier() {
         super(null);
     }
-    
+
     public SubjectPublicKeyAlgorithmIdentifier(String identifier) {
         super(identifier);
     }

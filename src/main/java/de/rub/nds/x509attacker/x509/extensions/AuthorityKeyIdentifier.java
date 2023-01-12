@@ -29,7 +29,6 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>CertificateSerialNumber ::= INTEGER
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
@@ -45,7 +44,7 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
     private AuthorityKeyIdentifier() {
         super(null);
     }
-    
+
     public AuthorityKeyIdentifier(String identifier) {
         super(identifier);
         keyIdentifier = new Asn1PrimitiveOctetString("keyIdentifier");

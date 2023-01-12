@@ -26,18 +26,15 @@ import java.util.List;
 import org.apache.commons.lang3.tuple.Pair;
 
 /**
- * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence
- * }
+ * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
  *
- * <p>
- * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+ * <p>RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Name extends Asn1Sequence<X509Chooser> {
 
-    @HoldsModifiableVariable
-    private List<RelativeDistinguishedName> relativeDistinguishedNames;
+    @HoldsModifiableVariable private List<RelativeDistinguishedName> relativeDistinguishedNames;
 
     private NameType type;
 
@@ -57,8 +54,8 @@ public class Name extends Asn1Sequence<X509Chooser> {
         this.type = type;
         relativeDistinguishedNames = new LinkedList<>();
         for (Pair<X500AttributeType, String> attributePair : attributeList) {
-            RelativeDistinguishedName relativeDistinguishedName
-                    = new RelativeDistinguishedName("relativeDistinguishedName", attributePair);
+            RelativeDistinguishedName relativeDistinguishedName =
+                    new RelativeDistinguishedName("relativeDistinguishedName", attributePair);
             relativeDistinguishedNames.add(relativeDistinguishedName);
             addChild(relativeDistinguishedName);
         }

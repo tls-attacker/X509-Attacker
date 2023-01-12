@@ -22,7 +22,6 @@ import org.apache.logging.log4j.Logger;
  * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons
  * [1] ReasonFlags OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DistributionPoint extends Asn1Sequence<X509Chooser> {
@@ -38,7 +37,7 @@ public class DistributionPoint extends Asn1Sequence<X509Chooser> {
     private DistributionPoint() {
         super(null);
     }
-    
+
     private DistributionPoint(String identifier) {
         super(identifier);
         distributionPointName = new DistributionPointName(identifier);

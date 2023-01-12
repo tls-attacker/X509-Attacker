@@ -28,7 +28,7 @@ public class DssParameters extends Asn1Sequence<X509Chooser> implements PublicPa
     private DssParameters() {
         super(null);
     }
-    
+
     public DssParameters(String identifier) {
         super(identifier);
         this.p = new Asn1Integer("p");

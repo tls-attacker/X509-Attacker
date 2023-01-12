@@ -25,18 +25,16 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier,
- * subjectPublicKeyBitString BIT STRING }
+ * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier, subjectPublicKeyBitString BIT
+ * STRING }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
 
-    @HoldsModifiableVariable
-    private SubjectPublicKeyAlgorithmIdentifier algorithm;
+    @HoldsModifiableVariable private SubjectPublicKeyAlgorithmIdentifier algorithm;
 
-    @HoldsModifiableVariable
-    private PublicKeyBitString subjectPublicKeyBitString;
+    @HoldsModifiableVariable private PublicKeyBitString subjectPublicKeyBitString;
 
     private SubjectPublicKeyInfo() {
         super(null);
@@ -102,8 +100,8 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
             default:
                 throw new UnsupportedOperationException(
                         "PublicKeyType: "
-                        + config.getPublicKeyType().getHumanReadableName()
-                        + " is not supported");
+                                + config.getPublicKeyType().getHumanReadableName()
+                                + " is not supported");
         }
         if (field != null) {
             algorithm.instantiateParameters(field);

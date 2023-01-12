@@ -26,7 +26,7 @@ public class RsaPublicKeyContentSequence extends Asn1Sequence<X509Chooser> {
     private RsaPublicKeyContentSequence() {
         super(null);
     }
-    
+
     public RsaPublicKeyContentSequence(String identifier) {
         super(identifier);
         this.modulus = new Asn1Integer("modulus");

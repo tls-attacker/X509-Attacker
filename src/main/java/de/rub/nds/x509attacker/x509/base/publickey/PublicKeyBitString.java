@@ -51,7 +51,7 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
     public PublicKeyBitString(String identifier) {
         super(identifier);
     }
-    
+
     private PublicKeyBitString() {
         super(null);
     }
@@ -114,8 +114,8 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
             default:
                 throw new UnsupportedOperationException(
                         "PublicKeyType: "
-                        + publicKeyType.getHumanReadableName()
-                        + " is not supported.");
+                                + publicKeyType.getHumanReadableName()
+                                + " is not supported.");
         }
     }
 }

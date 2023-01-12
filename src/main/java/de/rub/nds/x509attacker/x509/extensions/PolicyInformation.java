@@ -25,7 +25,6 @@ import org.apache.logging.log4j.Logger;
  *
  * <p>CertPolicyId ::= OBJECT IDENTIFIER
  */
-
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PolicyInformation extends Asn1Sequence<X509Chooser> {
@@ -40,7 +39,7 @@ public class PolicyInformation extends Asn1Sequence<X509Chooser> {
     private PolicyInformation() {
         super(null);
     }
-    
+
     public PolicyInformation(String identifier) {
         super(identifier);
         policyIdentifier = new Asn1ObjectIdentifier("policyIdentifier");
