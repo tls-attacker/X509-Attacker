@@ -15,8 +15,12 @@ import de.rub.nds.x509attacker.x509.base.publickey.EcdhEcdsaPublicKey;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, EcdhEcdsaPublicKey> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public EcdhEcdsaPublicKeyParser(X509Chooser chooser, EcdhEcdsaPublicKey ecdhEcdsaPublicKey) {
         super(chooser, ecdhEcdsaPublicKey);
@@ -24,7 +28,11 @@ public class EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, EcdhEcdsaP
 
     @Override
     public void parse(InputStream inputStream) {
-        encodable.getPointOctets().getParser(chooser).parse(inputStream);
+        try {
+            encodable.getPointOctets().getParser(chooser).parseIndividualContentFields(inputStream);
+        } catch (IOException ex) {
+            throw new ParserException(ex);
+        }
     }
 
     @Override
@@ -44,10 +52,14 @@ public class EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, EcdhEcdsaP
                     "Currently only supporting uncompressed points");
         } else {
             int byteLength = chooser.getSubjectNamedCurve().getByteLength();
+            LOGGER.debug("Curve: " + chooser.getSubjectNamedCurve().name());
             // There should be two coordinates in the stream so twice the byte length
             if (inputStream.available() != byteLength * 2) {
                 throw new ParserException(
-                        "Not enough bytes in input stream to parse two coordinates");
+                        "Not exact bytes in input stream to parse two coordinates: "
+                                + inputStream.available()
+                                + " should be "
+                                + byteLength * 2);
             } else {
                 byte[] x = inputStream.readNBytes(byteLength);
                 byte[] y = inputStream.readNBytes(byteLength);

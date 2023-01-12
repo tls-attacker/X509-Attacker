@@ -12,8 +12,12 @@ import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyAlgorithmIdentifier;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SubjectPublicKeyAlgorithmIdentifierHandler extends X509Handler {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final SubjectPublicKeyAlgorithmIdentifier identifier;
 
@@ -25,9 +29,10 @@ public class SubjectPublicKeyAlgorithmIdentifierHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
+        ObjectIdentifier objectIdentifier =
+                new ObjectIdentifier(identifier.getAlgorithm().getValue().getValue());
+        LOGGER.debug("ObjectIdentifier: " + objectIdentifier.toString());
         context.setSubjectPublicKeyType(
-                X509PublicKeyType.decodeFromOidBytes(
-                        new ObjectIdentifier(identifier.getAlgorithm().getValue().getValue())
-                                .getEncoded()));
+                X509PublicKeyType.decodeFromOidBytes(objectIdentifier.getEncoded()));
     }
 }

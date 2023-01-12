@@ -13,10 +13,13 @@ import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.parser.SubjectPublicKeyInfoParser;
 
 /**
  * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier, subjectPublicKeyBitString BIT
@@ -69,6 +72,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
             case RSA:
                 break;
             case ECDH_ECDSA:
+                field = new EcNamedCurveParameters("namedCurveParameters");
                 break;
             case ECDH_ONLY:
                 break;
@@ -100,5 +104,10 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
     @Override
     public Handler getHandler(X509Chooser chooser) {
         return new EmptyHandler(chooser);
+    }
+
+    @Override
+    public Asn1SequenceParser getParser(X509Chooser chooser) {
+        return new SubjectPublicKeyInfoParser(chooser, this);
     }
 }
