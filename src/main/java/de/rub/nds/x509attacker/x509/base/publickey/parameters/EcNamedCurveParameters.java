@@ -24,7 +24,7 @@ public class EcNamedCurveParameters extends Asn1ObjectIdentifier<X509Chooser>
     private EcNamedCurveParameters() {
         super(null);
     }
-    
+
     public EcNamedCurveParameters(String identifier) {
         super("namedCurve");
     }
