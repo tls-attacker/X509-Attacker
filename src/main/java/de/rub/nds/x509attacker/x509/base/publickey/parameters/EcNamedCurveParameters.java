@@ -21,6 +21,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class EcNamedCurveParameters extends Asn1ObjectIdentifier<X509Chooser>
         implements PublicParameters {
 
+    private EcNamedCurveParameters() {
+        super(null);
+    }
+    
     public EcNamedCurveParameters(String identifier) {
         super("namedCurve");
     }
