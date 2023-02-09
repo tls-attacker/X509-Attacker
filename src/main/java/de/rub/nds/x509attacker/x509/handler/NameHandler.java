@@ -25,7 +25,6 @@ import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -58,7 +57,7 @@ public class NameHandler extends X509Handler {
                 parser.parseIndividualContentFields(
                         new ByteArrayInputStream(rdnByteInputStream.readNBytes(length.intValue())));
             }
-            List<Pair<X500AttributeType, String>> rdnList = new LinkedList<>();
+            List<ImmutablePair<X500AttributeType, String>> rdnList = new LinkedList<>();
             for (RelativeDistinguishedName parsedRdn : parsedRdnSequence) {
                 for (Asn1Encodable encodable : parsedRdn.getChildren()) {
                     if (encodable instanceof AttributeTypeAndValue) {

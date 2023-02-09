@@ -17,7 +17,7 @@ import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.context.X509Context;
 import java.math.BigInteger;
 import java.util.List;
-import org.apache.commons.lang3.tuple.Pair;
+import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class X509Chooser extends AbstractChooser {
 
@@ -86,7 +86,7 @@ public class X509Chooser extends AbstractChooser {
         }
     }
 
-    public List<Pair<X500AttributeType, String>> getIssuer() {
+    public List<ImmutablePair<X500AttributeType, String>> getIssuer() {
         if (context.getIssuer() != null) {
             return context.getIssuer();
         } else {

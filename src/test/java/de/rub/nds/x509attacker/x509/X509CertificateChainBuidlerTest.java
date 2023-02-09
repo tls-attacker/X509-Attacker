@@ -17,7 +17,6 @@ import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
@@ -32,7 +31,7 @@ public class X509CertificateChainBuidlerTest {
     @Test
     public void testBuildChain() {
         X509CertificateConfig rootConfig = new X509CertificateConfig();
-        List<Pair<X500AttributeType, String>> subject = new LinkedList<>();
+        List<ImmutablePair<X500AttributeType, String>> subject = new LinkedList<>();
         subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker CA"));
         rootConfig.setSubject(subject);
         rootConfig.setDefaultIssuer(subject);

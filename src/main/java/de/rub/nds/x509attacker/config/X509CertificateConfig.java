@@ -10,22 +10,31 @@ package de.rub.nds.x509attacker.config;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.constants.X509Version;
+import de.rub.nds.x509attacker.filesystem.PairAdapter;
+import jakarta.xml.bind.annotation.XmlAccessType;
+import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlElement;
+import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
+@XmlRootElement
+@XmlAccessorType(XmlAccessType.FIELD)
 public class X509CertificateConfig {
 
     private X509SignatureAlgorithm signatureAlgorithm =
@@ -36,9 +45,15 @@ public class X509CertificateConfig {
     private BigInteger serialNumber =
             new BigInteger("1122334455667788990000998877665544332211", 16);
 
-    private List<Pair<X500AttributeType, String>> defaultIssuer;
+    @XmlElement(name = "attributeField")
+    @XmlElementWrapper
+    @XmlJavaTypeAdapter(PairAdapter.class)
+    private List<ImmutablePair<X500AttributeType, String>> defaultIssuer;
 
-    private List<Pair<X500AttributeType, String>> subject;
+    @XmlElement(name = "attributeField")
+    @XmlElementWrapper
+    @XmlJavaTypeAdapter(PairAdapter.class)
+    private List<ImmutablePair<X500AttributeType, String>> subject;
 
     private DateTime notBefore =
             new DateTime(2022, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
@@ -56,8 +71,10 @@ public class X509CertificateConfig {
 
     private int timezoneOffsetInMinutes = 0;
 
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
     private byte[] defaultIssuerUniqueId = new byte[16];
 
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
     private byte[] subjectUniqueId = new byte[16];
 
     private boolean includeIssuerUniqueId = false;
@@ -307,19 +324,19 @@ public class X509CertificateConfig {
         this.serialNumber = serialNumber;
     }
 
-    public List<Pair<X500AttributeType, String>> getDefaultIssuer() {
+    public List<ImmutablePair<X500AttributeType, String>> getDefaultIssuer() {
         return Collections.unmodifiableList(defaultIssuer);
     }
 
-    public void setDefaultIssuer(List<Pair<X500AttributeType, String>> defaultIssuer) {
+    public void setDefaultIssuer(List<ImmutablePair<X500AttributeType, String>> defaultIssuer) {
         this.defaultIssuer = defaultIssuer;
     }
 
-    public List<Pair<X500AttributeType, String>> getSubject() {
+    public List<ImmutablePair<X500AttributeType, String>> getSubject() {
         return Collections.unmodifiableList(subject);
     }
 
-    public void setSubject(List<Pair<X500AttributeType, String>> subject) {
+    public void setSubject(List<ImmutablePair<X500AttributeType, String>> subject) {
         this.subject = subject;
     }
 
