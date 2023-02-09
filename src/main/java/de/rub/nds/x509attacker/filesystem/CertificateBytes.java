@@ -14,9 +14,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
-/**
- * Wrapper class for the Config such that byte arrays get properly serialized.
- */
+/** Wrapper class for the Config such that byte arrays get properly serialized. */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CertificateBytes {
@@ -24,8 +22,7 @@ public class CertificateBytes {
     @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
     private byte[] bytes;
 
-    private CertificateBytes() {
-    }
+    private CertificateBytes() {}
 
     public CertificateBytes(byte[] bytes) {
         this.bytes = bytes;
