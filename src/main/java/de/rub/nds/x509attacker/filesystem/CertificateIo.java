@@ -44,18 +44,21 @@ public class CertificateIo {
     public static X509CertificateChain readPemChain(InputStream inputStream) throws IOException {
         X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
         X509CertificateChain chain = new X509CertificateChain();
-        List<byte[]> byteList = readPemByteArrayList(inputStream);
-        for (byte[] certificateBytes : byteList) {
+        List<CertificateBytes> byteList = readPemCertificateByteList(inputStream);
+        for (CertificateBytes certificateBytes : byteList) {
             X509Certificate x509Certificate = new X509Certificate("x509Certificate");
-            x509Certificate.getParser(chooser).parse(new ByteArrayInputStream(certificateBytes));
+            x509Certificate
+                    .getParser(chooser)
+                    .parse(new ByteArrayInputStream(certificateBytes.getBytes()));
             chain.addCertificate(x509Certificate);
         }
         return chain;
     }
 
-    public static List<byte[]> readPemByteArrayList(InputStream inputStream) throws IOException {
+    public static List<CertificateBytes> readPemCertificateByteList(InputStream inputStream)
+            throws IOException {
         BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
-        List<byte[]> byteList = new LinkedList<>();
+        List<CertificateBytes> byteList = new LinkedList<>();
         reader.lines()
                 .forEach(
                         new Consumer<String>() {
@@ -72,7 +75,7 @@ public class CertificateIo {
                                     }
                                     byte[] certificateBytes =
                                             Base64.getDecoder().decode(stream.toByteArray());
-                                    byteList.add(certificateBytes);
+                                    byteList.add(new CertificateBytes(certificateBytes));
                                     stream = null;
                                 } else {
                                     try {
