@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
@@ -24,7 +25,6 @@ import java.io.InputStream;
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -57,12 +57,12 @@ public class NameHandler extends X509Handler {
                 parser.parseIndividualContentFields(
                         new ByteArrayInputStream(rdnByteInputStream.readNBytes(length.intValue())));
             }
-            List<ImmutablePair<X500AttributeType, String>> rdnList = new LinkedList<>();
+            List<Pair<X500AttributeType, String>> rdnList = new LinkedList<>();
             for (RelativeDistinguishedName parsedRdn : parsedRdnSequence) {
                 for (Asn1Encodable encodable : parsedRdn.getChildren()) {
                     if (encodable instanceof AttributeTypeAndValue) {
                         rdnList.add(
-                                new ImmutablePair<>(
+                                new Pair<>(
                                         ((AttributeTypeAndValue) encodable)
                                                 .getAttributeTypeConfig(),
                                         ((AttributeTypeAndValue) encodable).getValueConfig()));

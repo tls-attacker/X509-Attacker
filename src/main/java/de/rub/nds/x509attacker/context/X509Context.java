@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.context;
 
+import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -15,7 +16,6 @@ import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class X509Context {
 
@@ -35,9 +35,9 @@ public class X509Context {
 
     private X509NamedCurve issuerNamedCurve = null;
 
-    private List<ImmutablePair<X500AttributeType, String>> issuer = null;
+    private List<Pair<X500AttributeType, String>> issuer = null;
 
-    private List<ImmutablePair<X500AttributeType, String>> subject = null;
+    private List<Pair<X500AttributeType, String>> subject = null;
 
     private BigInteger subjectRsaPrivateKey = null;
 
@@ -59,11 +59,11 @@ public class X509Context {
 
     public X509Context() {}
 
-    public List<ImmutablePair<X500AttributeType, String>> getSubject() {
+    public List<Pair<X500AttributeType, String>> getSubject() {
         return subject;
     }
 
-    public void setSubject(List<ImmutablePair<X500AttributeType, String>> subject) {
+    public void setSubject(List<Pair<X500AttributeType, String>> subject) {
         this.subject = subject;
     }
 
@@ -187,11 +187,11 @@ public class X509Context {
         this.issuerEcPrivateKey = issuerEcPrivateKey;
     }
 
-    public List<ImmutablePair<X500AttributeType, String>> getIssuer() {
+    public List<Pair<X500AttributeType, String>> getIssuer() {
         return issuer;
     }
 
-    public void setIssuer(List<ImmutablePair<X500AttributeType, String>> issuer) {
+    public void setIssuer(List<Pair<X500AttributeType, String>> issuer) {
         this.issuer = issuer;
     }
 

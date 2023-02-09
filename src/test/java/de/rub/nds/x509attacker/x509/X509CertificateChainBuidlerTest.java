@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509;
 
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
@@ -16,7 +17,6 @@ import de.rub.nds.x509attacker.x509.base.X509CertificateChain;
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
@@ -31,8 +31,8 @@ public class X509CertificateChainBuidlerTest {
     @Test
     public void testBuildChain() {
         X509CertificateConfig rootConfig = new X509CertificateConfig();
-        List<ImmutablePair<X500AttributeType, String>> subject = new LinkedList<>();
-        subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker CA"));
+        List<Pair<X500AttributeType, String>> subject = new LinkedList<>();
+        subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker CA"));
         rootConfig.setSubject(subject);
         rootConfig.setDefaultIssuer(subject);
         rootConfig.setRsaPrivateKey(new BigInteger("12345"));
@@ -46,7 +46,7 @@ public class X509CertificateChainBuidlerTest {
 
         X509CertificateConfig intermediateConfig = new X509CertificateConfig();
         subject = new LinkedList<>();
-        subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker Inter. CA"));
+        subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker Inter. CA"));
         intermediateConfig.setSubject(subject);
 
         intermediateConfig.setRsaPrivateKey(new BigInteger("54321"));
@@ -63,7 +63,7 @@ public class X509CertificateChainBuidlerTest {
 
         X509CertificateConfig leafConfig = new X509CertificateConfig();
         subject = new LinkedList<>();
-        subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tii.ae"));
+        subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tii.ae"));
         leafConfig.setSubject(subject);
         leafConfig.setRsaPrivateKey(new BigInteger("33333"));
         leafConfig.setNotBefore(new DateTime(2021, 7, 5, 22, 30, DateTimeZone.UTC));

@@ -11,7 +11,8 @@ package de.rub.nds.x509attacker.filesystem;
 import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
-public class PairAdapter extends XmlAdapter<ImmutablePair, ImmutablePair<String, Integer>> {
+public class ImmutablePairAdapter
+        extends XmlAdapter<ImmutablePair, ImmutablePair<String, Integer>> {
 
     @Override
     public ImmutablePair<String, Integer> unmarshal(ImmutablePair v) throws Exception {

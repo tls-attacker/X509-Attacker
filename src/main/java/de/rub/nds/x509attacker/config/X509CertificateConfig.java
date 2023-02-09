@@ -11,29 +11,30 @@ package de.rub.nds.x509attacker.config;
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
+import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.constants.X509Version;
-import de.rub.nds.x509attacker.filesystem.PairAdapter;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
 @XmlRootElement
+@XmlSeeAlso({X500AttributeType.class})
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509CertificateConfig {
 
@@ -47,13 +48,11 @@ public class X509CertificateConfig {
 
     @XmlElement(name = "attributeField")
     @XmlElementWrapper
-    @XmlJavaTypeAdapter(PairAdapter.class)
-    private List<ImmutablePair<X500AttributeType, String>> defaultIssuer;
+    private List<Pair<X500AttributeType, String>> defaultIssuer;
 
     @XmlElement(name = "attributeField")
     @XmlElementWrapper
-    @XmlJavaTypeAdapter(PairAdapter.class)
-    private List<ImmutablePair<X500AttributeType, String>> subject;
+    private List<Pair<X500AttributeType, String>> subject;
 
     private DateTime notBefore =
             new DateTime(2022, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
@@ -138,13 +137,13 @@ public class X509CertificateConfig {
     public X509CertificateConfig() {
         defaultIssuer = new LinkedList<>();
         defaultIssuer.add(
-                new ImmutablePair<>(
+                new Pair<>(
                         X500AttributeType.COMMON_NAME, "Attacker CA - Global Insecurity Provider"));
-        defaultIssuer.add(new ImmutablePair<>(X500AttributeType.COUNTRY_NAME, "Global"));
-        defaultIssuer.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+        defaultIssuer.add(new Pair<>(X500AttributeType.COUNTRY_NAME, "Global"));
+        defaultIssuer.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
         subject = new LinkedList<>();
-        subject.add(new ImmutablePair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
-        subject.add(new ImmutablePair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+        subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
+        subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
     }
 
     public X509NamedCurve getDefaultSubjectNamedCurve() {
@@ -324,19 +323,19 @@ public class X509CertificateConfig {
         this.serialNumber = serialNumber;
     }
 
-    public List<ImmutablePair<X500AttributeType, String>> getDefaultIssuer() {
+    public List<Pair<X500AttributeType, String>> getDefaultIssuer() {
         return Collections.unmodifiableList(defaultIssuer);
     }
 
-    public void setDefaultIssuer(List<ImmutablePair<X500AttributeType, String>> defaultIssuer) {
+    public void setDefaultIssuer(List<Pair<X500AttributeType, String>> defaultIssuer) {
         this.defaultIssuer = defaultIssuer;
     }
 
-    public List<ImmutablePair<X500AttributeType, String>> getSubject() {
+    public List<Pair<X500AttributeType, String>> getSubject() {
         return Collections.unmodifiableList(subject);
     }
 
-    public void setSubject(List<ImmutablePair<X500AttributeType, String>> subject) {
+    public void setSubject(List<Pair<X500AttributeType, String>> subject) {
         this.subject = subject;
     }
 

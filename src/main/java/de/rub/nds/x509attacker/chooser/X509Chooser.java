@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.chooser;
 
 import de.rub.nds.asn1.context.AbstractChooser;
+import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
@@ -17,7 +18,6 @@ import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.context.X509Context;
 import java.math.BigInteger;
 import java.util.List;
-import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class X509Chooser extends AbstractChooser {
 
@@ -86,7 +86,7 @@ public class X509Chooser extends AbstractChooser {
         }
     }
 
-    public List<ImmutablePair<X500AttributeType, String>> getIssuer() {
+    public List<Pair<X500AttributeType, String>> getIssuer() {
         if (context.getIssuer() != null) {
             return context.getIssuer();
         } else {

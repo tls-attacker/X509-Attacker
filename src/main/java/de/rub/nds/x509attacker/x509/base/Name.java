@@ -12,6 +12,7 @@ import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
@@ -23,8 +24,6 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.commons.lang3.tuple.ImmutablePair;
-import org.apache.commons.lang3.tuple.Pair;
 
 /**
  * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
@@ -50,9 +49,7 @@ public class Name extends Asn1Sequence<X509Chooser> {
     }
 
     public Name(
-            String identifier,
-            NameType type,
-            List<ImmutablePair<X500AttributeType, String>> attributeList) {
+            String identifier, NameType type, List<Pair<X500AttributeType, String>> attributeList) {
         super(identifier);
         this.type = type;
         relativeDistinguishedNames = new LinkedList<>();
