@@ -9,6 +9,8 @@
 package de.rub.nds.x509attacker.context;
 
 import de.rub.nds.protocol.xml.Pair;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -57,7 +59,51 @@ public class X509Context {
 
     private BigInteger subjectDhPublicKey = null;
 
-    public X509Context() {}
+    private BigInteger subjectDhModulus = null;
+
+    private BigInteger subjectDhGenerator = null;
+
+    private X509CertificateConfig config;
+
+    private X509Chooser chooser;
+
+    public X509Context() {
+        this(new X509CertificateConfig());
+    }
+
+    public X509Context(X509CertificateConfig config) {
+        this.config = config;
+        this.chooser = new X509Chooser(config, this);
+    }
+
+    public X509CertificateConfig getConfig() {
+        return config;
+    }
+
+    public void setConfig(X509CertificateConfig config) {
+        this.config = config;
+        this.chooser = new X509Chooser(config, this);
+    }
+
+    public X509Chooser getChooser() {
+        return chooser;
+    }
+
+    public BigInteger getSubjectDhModulus() {
+        return subjectDhModulus;
+    }
+
+    public void setSubjectDhModulus(BigInteger subjectDhModulus) {
+        this.subjectDhModulus = subjectDhModulus;
+    }
+
+    public BigInteger getSubjectDhGenerator() {
+        return subjectDhGenerator;
+    }
+
+    public void setSubjectDhGenerator(BigInteger subjectDhGenerator) {
+        this.subjectDhGenerator = subjectDhGenerator;
+    }
 
     public List<Pair<X500AttributeType, String>> getSubject() {
         return subject;

@@ -15,7 +15,7 @@ import java.util.Map;
 public enum X509PublicKeyType {
     RSA("RSA", "1.2.840.113549.1.1.1"), // rfc3279
     DSA("DSA", "1.2.840.10040.4.1"), // rfc3279
-    DH("Diffie-Hellman", "1.2.840.10046.2.1"), // rfc3279
+    DH("Diffie-Hellman", "1.2.840.113549.1.3.1"), // rfc3279
     KEA("Key Exchange Algorithm", "2.16.840.1.101.2.1.1.22"), // rfc3279
     ECDH_ECDSA("Elliptic Curve", "1.2.840.10045.2.1"), // rfc3279, used for ECDH and ECDSA
     RSASSA_PSS("RSA-PSS", "1.2.840.113549.1.1.10"), // rfc4055

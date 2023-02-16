@@ -11,7 +11,6 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import java.io.ByteArrayInputStream;
@@ -29,8 +28,8 @@ public class X509CertificatePreparatorTest {
     /** Test of prepareContent method, of class X509CertificatePreparator. */
     @Test
     public void testCreationSerialisationParsingSerialisationEquality() {
-        X509CertificateConfig config = new X509CertificateConfig();
-        X509Chooser chooser = new X509Chooser(config, new X509Context());
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
         X509Certificate x509Certificate =
                 new X509Certificate("leafCertificate", chooser.getConfig());
 
@@ -48,7 +47,8 @@ public class X509CertificatePreparatorTest {
 
     @Test
     public void testPublicCertificateParsing() {
-        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
         Asn1SequenceParser parser = x509Certificate.getParser(chooser);
         parser.parse(
@@ -59,7 +59,8 @@ public class X509CertificatePreparatorTest {
 
     @Test
     public void testPublicCertificateEcdsaParsing() {
-        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
         Asn1SequenceParser parser = x509Certificate.getParser(chooser);
         parser.parse(

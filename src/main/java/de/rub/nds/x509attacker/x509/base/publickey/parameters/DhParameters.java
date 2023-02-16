@@ -32,6 +32,21 @@ public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicPar
         super(null);
     }
 
+    public DhParameters(String identifier) {
+        super(identifier);
+        this.p = new Asn1Integer("p");
+        this.q = new Asn1Integer("q");
+        this.g = new Asn1Integer("g");
+        this.j = new Asn1Integer("j");
+        this.validationParms = new DhValidationParms("validationParms");
+        validationParms.setOptional(true);
+        addChild(p);
+        addChild(q);
+        addChild(g);
+        addChild(j);
+        addChild(validationParms);
+    }
+
     public DhParameters(String identifier, X509CertificateConfig config) {
         super(identifier);
         this.p = new Asn1Integer("p");

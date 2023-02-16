@@ -23,6 +23,7 @@ public class DhParametersHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        chooser.getContext().setSubjectDhGenerator(parameters.getG().getValue().getValue());
+        chooser.getContext().setSubjectDhModulus(parameters.getP().getValue().getValue());
     }
 }

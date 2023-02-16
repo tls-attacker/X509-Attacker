@@ -18,6 +18,7 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.parser.SubjectPublicKeyInfoParser;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -77,6 +78,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
         Asn1Field field = null;
         switch (config.getPublicKeyType()) {
             case DH:
+                field = new DhParameters("dhParameters");
                 break;
             case RSA:
                 break;

@@ -15,6 +15,7 @@ import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.DhPublicKeyHandler;
+import de.rub.nds.x509attacker.x509.parser.DhPublicKeyParser;
 import de.rub.nds.x509attacker.x509.preparator.publickey.DhPublicKeyPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -51,8 +52,7 @@ public class DhPublicKey extends X509PublicKeyContent {
 
     @Override
     public Asn1Parser<?, ?> getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return new DhPublicKeyParser(chooser, this);
     }
 
     @Override

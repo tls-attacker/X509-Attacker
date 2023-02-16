@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
 import java.io.IOException;
 import java.io.InputStream;
@@ -37,6 +38,9 @@ public class SubjectPublicKeyInfoParser extends Asn1SequenceParser<X509Chooser> 
             case ECDH_ECDSA:
                 LOGGER.debug("Predicted EcNamedCurveParameters");
                 return new EcNamedCurveParameters("EcNamedCurveParameters");
+            case DH:
+                LOGGER.debug("Predicted DhParameters");
+                return new DhParameters("DhParameters");
             default:
                 return null;
         }

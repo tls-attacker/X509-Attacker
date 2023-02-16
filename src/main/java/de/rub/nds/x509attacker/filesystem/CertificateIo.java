@@ -10,7 +10,6 @@ package de.rub.nds.x509attacker.filesystem;
 
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import de.rub.nds.x509attacker.x509.base.X509CertificateChain;
@@ -42,7 +41,8 @@ public class CertificateIo {
     }
 
     public static X509CertificateChain readPemChain(InputStream inputStream) throws IOException {
-        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
         X509CertificateChain chain = new X509CertificateChain();
         List<CertificateBytes> byteList = readPemCertificateByteList(inputStream);
         for (CertificateBytes certificateBytes : byteList) {
@@ -110,7 +110,8 @@ public class CertificateIo {
 
     public static X509CertificateChain readRawCertificateAsChain(InputStream inputStream)
             throws IOException {
-        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
@@ -124,7 +125,8 @@ public class CertificateIo {
     }
 
     public static X509Certificate readRawCertificate(InputStream inputStream) throws IOException {
-        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
@@ -136,7 +138,8 @@ public class CertificateIo {
     }
 
     public static X509CertificateChain convert(Certificate certificateList) {
-        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
         try {
             X509CertificateChain chain = new X509CertificateChain();
             for (org.bouncycastle.asn1.x509.Certificate certificate :
@@ -156,7 +159,8 @@ public class CertificateIo {
     }
 
     public static X509CertificateChain convert(java.security.cert.Certificate certificate) {
-        X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
         try {
             X509CertificateChain chain = new X509CertificateChain();
             X509Certificate x509Certificate = new X509Certificate("certificate");
