@@ -57,6 +57,8 @@ public class X509Context {
 
     private X509NamedCurve subjectNamedCurve = null;
 
+    private BigInteger subjectDhPrivateKey = null;
+
     private BigInteger subjectDhPublicKey = null;
 
     private BigInteger subjectDhModulus = null;
@@ -87,6 +89,14 @@ public class X509Context {
 
     public X509Chooser getChooser() {
         return chooser;
+    }
+
+    public BigInteger getSubjectDhPrivateKey() {
+        return subjectDhPrivateKey;
+    }
+
+    public void setSubjectDhPrivateKey(BigInteger subjectDhPrivateKey) {
+        this.subjectDhPrivateKey = subjectDhPrivateKey;
     }
 
     public BigInteger getSubjectDhModulus() {

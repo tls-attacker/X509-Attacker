@@ -23,9 +23,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicParameters {
 
     private Asn1Integer p;
-    private Asn1Integer q;
+    // private Asn1Integer q;
     private Asn1Integer g;
-    private Asn1Integer j;
+    // private Asn1Integer j;
     private DhValidationParms validationParms;
 
     private DhParameters() {
@@ -35,31 +35,31 @@ public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicPar
     public DhParameters(String identifier) {
         super(identifier);
         this.p = new Asn1Integer("p");
-        this.q = new Asn1Integer("q");
+        // this.q = new Asn1Integer("q");
         this.g = new Asn1Integer("g");
-        this.j = new Asn1Integer("j");
+        // this.j = new Asn1Integer("j");
         this.validationParms = new DhValidationParms("validationParms");
         validationParms.setOptional(true);
         addChild(p);
-        addChild(q);
+        // addChild(q);
         addChild(g);
-        addChild(j);
+        // addChild(j);
         addChild(validationParms);
     }
 
     public DhParameters(String identifier, X509CertificateConfig config) {
         super(identifier);
         this.p = new Asn1Integer("p");
-        this.q = new Asn1Integer("q");
+        // this.q = new Asn1Integer("q");
         this.g = new Asn1Integer("g");
-        this.j = new Asn1Integer("j");
+        // this.j = new Asn1Integer("j");
         if (config.getIncludeDhValidationParameters()) {
             this.validationParms = new DhValidationParms("validationParms");
         }
         addChild(p);
-        addChild(q);
+        // addChild(q);
         addChild(g);
-        addChild(j);
+        // addChild(j);
         if (validationParms != null) {
             addChild(validationParms);
         }
@@ -73,13 +73,13 @@ public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicPar
         this.p = p;
     }
 
-    public Asn1Integer getQ() {
-        return q;
-    }
-
-    public void setQ(Asn1Integer q) {
-        this.q = q;
-    }
+    //    public Asn1Integer getQ() {
+    //        return q;
+    //    }
+    //
+    //    public void setQ(Asn1Integer q) {
+    //        this.q = q;
+    //    }
 
     public Asn1Integer getG() {
         return g;
@@ -89,13 +89,13 @@ public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicPar
         this.g = g;
     }
 
-    public Asn1Integer getJ() {
-        return j;
-    }
-
-    public void setJ(Asn1Integer j) {
-        this.j = j;
-    }
+    //    public Asn1Integer getJ() {
+    //        return j;
+    //    }
+    //
+    //    public void setJ(Asn1Integer j) {
+    //        this.j = j;
+    //    }
 
     public DhValidationParms getValidationParms() {
         return validationParms;

@@ -117,4 +117,20 @@ public class X509Chooser extends AbstractChooser {
             return config.getDefaultSubjectNamedCurve();
         }
     }
+
+    public BigInteger getSubjectDhPrivateKey() {
+        if (context.getSubjectDhPrivateKey() != null) {
+            return context.getSubjectDhPrivateKey();
+        } else {
+            return config.getDhPrivateKey();
+        }
+    }
+
+    public BigInteger getSubjectDhModulus() {
+        if (context.getSubjectDhModulus() != null) {
+            return context.getSubjectDhModulus();
+        } else {
+            return config.getDhModulus();
+        }
+    }
 }

@@ -121,6 +121,20 @@ public class X509CertificateConfig {
 
     private BigInteger ecPrivateKey = new BigInteger("03", 16);
 
+    /**
+     * The dh private key is intentionally chosen to not be super small such that even when the
+     * generator is small and the modulus is big one cannot tell immediately that the private key
+     * was super small
+     */
+    private BigInteger dhPrivateKey = new BigInteger("FFFF", 16);
+
+    private BigInteger dhModulus =
+            new BigInteger(
+                    "5809605995369958062791915965639201402176612226902900533702900882779736177890990861472094774477339581147373410185646378328043729800750470098210924487866935059164371588168047540943981644516632755067501626434556398193186628990071248660819361205119793693985433297036118232914410171876807536457391277857011849897410207519105333355801121109356897459426271845471397952675959440793493071628394122780510124618488232602464649876850458861245784240929258426287699705312584509625419513463605155428017165714465363094021609290561084025893662561222573202082865797821865270991145082200656978177192827024538990239969175546190770645685893438011714430426409338676314743571154537142031573004276428701433036381801705308659830751190352946025482059931306571004727362479688415574702596946457770284148435989129632853918392117997472632693078113129886487399347796982772784615865232621289656944284216824611318709764535152507354116344703769998514148343807",
+                    10);
+
+    private BigInteger dhGenerator = new BigInteger("02", 16);
+
     private BigInteger defaultIssuerRsaPrivateKey =
             new BigInteger(
                     "7dc0cb485a3edb56811aeab12cdcda8e48b023298dd453a37b4d75d9e0bbba27c98f0e4852c16fd52341ffb673f64b580b7111abf14bf323e53a2dfa92727364ddb34f541f74a478a077f15277c013606aea839307e6f5fec23fdd72506feea7cbe362697949b145fe8945823a39a898ac6583fc5fbaefa1e77cbc95b3b475e66106e92b906bdbb214b87bcc94020f317fc1c056c834e9cee0ad21951fbdca088274c4ef9d8c2004c6294f49b370fb249c1e2431fb80ce5d3dc9e342914501ef4c162e54e1ee4fed9369b82afc00821a29f4979a647e60935420d44184d98f9cb75122fb604642c6d1ff2b3a51dc32eefdc57d9a9407ad6a06d10e83e2965481",
@@ -409,5 +423,29 @@ public class X509CertificateConfig {
 
     public void setEcPrivateKey(BigInteger ecPrivateKey) {
         this.ecPrivateKey = ecPrivateKey;
+    }
+
+    public BigInteger getDhPrivateKey() {
+        return dhPrivateKey;
+    }
+
+    public void setDhPrivateKey(BigInteger dhPrivateKey) {
+        this.dhPrivateKey = dhPrivateKey;
+    }
+
+    public BigInteger getDhModulus() {
+        return dhModulus;
+    }
+
+    public void setDhModulus(BigInteger dhModulus) {
+        this.dhModulus = dhModulus;
+    }
+
+    public BigInteger getDhGenerator() {
+        return dhGenerator;
+    }
+
+    public void setDhGenerator(BigInteger dhGenerator) {
+        this.dhGenerator = dhGenerator;
     }
 }

@@ -9,8 +9,10 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.Handler;
+import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.SubjectPublicKeyAlgorithmIdentifierHandler;
+import de.rub.nds.x509attacker.x509.parser.SubjectPublicKeyAlgorithmIdentifierParser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -30,5 +32,10 @@ public class SubjectPublicKeyAlgorithmIdentifier extends AlgorithmIdentifier {
     @Override
     public Handler getHandler(X509Chooser chooser) {
         return new SubjectPublicKeyAlgorithmIdentifierHandler(chooser, this);
+    }
+
+    @Override
+    public Asn1SequenceParser getParser(X509Chooser chooser) {
+        return new SubjectPublicKeyAlgorithmIdentifierParser(chooser, this);
     }
 }
