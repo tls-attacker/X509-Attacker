@@ -23,7 +23,6 @@ public class DhParametersHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        System.out.println("Never called");
         chooser.getContext().setSubjectDhGenerator(parameters.getG().getValue().getValue());
         chooser.getContext().setSubjectDhModulus(parameters.getP().getValue().getValue());
     }
