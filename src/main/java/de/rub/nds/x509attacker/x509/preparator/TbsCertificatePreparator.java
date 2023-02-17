@@ -220,7 +220,6 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
-        System.out.println(algorithm.getParameters().getClass().getSimpleName());
         algorithm.getParameters().getPreparator(chooser).prepare();
         subjectPublicKeyInfo.getSubjectPublicKeyBitString().getPreparator(chooser).prepare();
         subjectPublicKeyInfo.getPreparator(chooser).prepare();
