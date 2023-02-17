@@ -21,7 +21,7 @@ public class X509CertificateChainBuidler {
     public X509CertificateChainBuidler() {}
 
     public X509CertificateChain buildChain(List<X509CertificateConfig> certificateConfigs) {
-        return buildChain((X509CertificateConfig[]) certificateConfigs.toArray());
+        return buildChain(certificateConfigs.toArray(X509CertificateConfig[]::new));
     }
 
     public X509CertificateChain buildChain(X509CertificateConfig... certificateConfigs) {
