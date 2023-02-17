@@ -78,6 +78,10 @@ public class X509CertificateChain {
      * @return
      */
     public X509Certificate getLeaf() {
-        return certificateList.get(0);
+        if (!certificateList.isEmpty()) {
+            return certificateList.get(0);
+        } else {
+            return null;
+        }
     }
 }
