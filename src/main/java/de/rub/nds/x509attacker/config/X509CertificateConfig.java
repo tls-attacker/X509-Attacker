@@ -135,6 +135,24 @@ public class X509CertificateConfig {
 
     private BigInteger dhGenerator = new BigInteger("02", 16);
 
+    private BigInteger dsaPrimeP =
+            new BigInteger(
+                    1,
+                    ArrayConverter.hexStringToByteArray(
+                            "0093c33a88f3af1bacb3b20500fef26e70d08d1591874e9e77f1cc98ba004ae8c04d2022edce758e0ee8ceee9520381a9d4b2dda1c8f7b249aa2c452e8cada51ab57709053184316eb691f3dace9f4b60f8e70c95314b473782f8d6401181945ae83c3befcb9478e0b050ad4e146eedbdd42afb136eef59ec751af958f35466529"));
+
+    private BigInteger dsaPrimeQ =
+            new BigInteger(
+                    1,
+                    ArrayConverter.hexStringToByteArray(
+                            "00ac2ef188503342ec5ccb04541dfa5d5eade8b019"));
+
+    private BigInteger dsaGenerator =
+            new BigInteger(
+                    1,
+                    ArrayConverter.hexStringToByteArray(
+                            "1e813bdd058e57f807aef75c3626dfae3918be6dd87efe5739201b37581d33865b9626aff787aa847e9dbdbf20f57f7d2fce39a5f53c6869254d12fa6b95cfeebc2c1151e69b3d52073d6c23d7cb7c830e2cbb286a624cebbab5648b6d0276dfede31c4717ec03035f13ed81d183a07076a53d79f746f6f67237dbfc6211dc5a"));
+
     private BigInteger defaultIssuerRsaPrivateKey =
             new BigInteger(
                     "7dc0cb485a3edb56811aeab12cdcda8e48b023298dd453a37b4d75d9e0bbba27c98f0e4852c16fd52341ffb673f64b580b7111abf14bf323e53a2dfa92727364ddb34f541f74a478a077f15277c013606aea839307e6f5fec23fdd72506feea7cbe362697949b145fe8945823a39a898ac6583fc5fbaefa1e77cbc95b3b475e66106e92b906bdbb214b87bcc94020f317fc1c056c834e9cee0ad21951fbdca088274c4ef9d8c2004c6294f49b370fb249c1e2431fb80ce5d3dc9e342914501ef4c162e54e1ee4fed9369b82afc00821a29f4979a647e60935420d44184d98f9cb75122fb604642c6d1ff2b3a51dc32eefdc57d9a9407ad6a06d10e83e2965481",
@@ -158,6 +176,30 @@ public class X509CertificateConfig {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+    }
+
+    public BigInteger getDsaPrimeP() {
+        return dsaPrimeP;
+    }
+
+    public void setDsaPrimeP(BigInteger dsaPrimeP) {
+        this.dsaPrimeP = dsaPrimeP;
+    }
+
+    public BigInteger getDsaPrimeQ() {
+        return dsaPrimeQ;
+    }
+
+    public void setDsaPrimeQ(BigInteger dsaPrimeQ) {
+        this.dsaPrimeQ = dsaPrimeQ;
+    }
+
+    public BigInteger getDsaGenerator() {
+        return dsaGenerator;
+    }
+
+    public void setDsaGenerator(BigInteger dsaGenerator) {
+        this.dsaGenerator = dsaGenerator;
     }
 
     public X509NamedCurve getDefaultSubjectNamedCurve() {

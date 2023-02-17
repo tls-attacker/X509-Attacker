@@ -11,8 +11,10 @@ package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DssParametersHandler;
+import de.rub.nds.x509attacker.x509.preparator.publickey.parameters.DssParameterPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -66,5 +68,10 @@ public class DssParameters extends Asn1Sequence<X509Chooser> implements PublicPa
     @Override
     public Handler getHandler(X509Chooser chooser) {
         return new DssParametersHandler(chooser, this);
+    }
+
+    @Override
+    public Preparator getPreparator(X509Chooser chooser) {
+        return new DssParameterPreparator(chooser, this);
     }
 }

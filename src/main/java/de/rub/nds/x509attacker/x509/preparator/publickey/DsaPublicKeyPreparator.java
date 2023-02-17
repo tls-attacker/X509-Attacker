@@ -19,7 +19,7 @@ public class DsaPublicKeyPreparator extends X509PublicKeyContentPreparator<DsaPu
 
     @Override
     public void prepare() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        field.setY(chooser.getConfig().getDsaPublicKeyY());
+        field.getPublicKeyY().getPreparator(chooser).prepare();
     }
 }

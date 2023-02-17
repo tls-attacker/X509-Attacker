@@ -11,9 +11,11 @@ package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DhParametersHandler;
+import de.rub.nds.x509attacker.x509.preparator.publickey.parameters.DhParameterPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -80,7 +82,6 @@ public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicPar
     //    public void setQ(Asn1Integer q) {
     //        this.q = q;
     //    }
-
     public Asn1Integer getG() {
         return g;
     }
@@ -96,7 +97,6 @@ public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicPar
     //    public void setJ(Asn1Integer j) {
     //        this.j = j;
     //    }
-
     public DhValidationParms getValidationParms() {
         return validationParms;
     }
@@ -108,5 +108,10 @@ public class DhParameters extends Asn1Sequence<X509Chooser> implements PublicPar
     @Override
     public Handler getHandler(X509Chooser chooser) {
         return new DhParametersHandler(chooser, this);
+    }
+
+    @Override
+    public Preparator getPreparator(X509Chooser chooser) {
+        return new DhParameterPreparator(chooser, this);
     }
 }
