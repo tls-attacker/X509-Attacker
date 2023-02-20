@@ -133,9 +133,9 @@ public class X509Chooser extends AbstractChooser {
             return config.getDhModulus();
         }
     }
-    
-       public BigInteger getSubjectRsaPublicExponent() {
-        if (context.getSubjectRsaPublicExponent()!= null) {
+
+    public BigInteger getSubjectRsaPublicExponent() {
+        if (context.getSubjectRsaPublicExponent() != null) {
             return context.getSubjectRsaPublicExponent();
         } else {
             return config.getRsaPublicExponent();
