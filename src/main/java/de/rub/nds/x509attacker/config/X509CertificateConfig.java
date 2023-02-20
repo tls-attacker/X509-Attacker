@@ -274,7 +274,7 @@ public class X509CertificateConfig {
         this.defaultIssuerEcPrivateKey = defaultIssuerEcPrivateKey;
     }
 
-    public BigInteger getRsaPublicKey() {
+    public BigInteger getRsaPublicExponent() {
         return rsaPublicKey;
     }
 

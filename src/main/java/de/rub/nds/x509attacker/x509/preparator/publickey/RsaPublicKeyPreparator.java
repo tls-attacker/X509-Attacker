@@ -24,7 +24,7 @@ public class RsaPublicKeyPreparator extends X509PublicKeyContentPreparator<RsaPu
                 .setValue(chooser.getConfig().getRsaModulus());
         field.getRsaPublicKeyContentSequence()
                 .getPublicExponent()
-                .setValue(chooser.getConfig().getRsaPublicKey());
+                .setValue(chooser.getConfig().getRsaPublicExponent());
         field.getRsaPublicKeyContentSequence().getPreparator(chooser).prepare();
     }
 }

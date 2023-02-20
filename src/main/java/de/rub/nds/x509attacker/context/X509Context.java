@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.context;
 
+import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -45,11 +46,15 @@ public class X509Context {
 
     private BigInteger subjectRsaModulus = null;
 
+    private BigInteger subjectRsaPublicExponent = null;
+
     private BigInteger subjectDsaPublicKeyY = null;
 
     private BigInteger subjectDsaPrivateKey = null;
 
     private BigInteger subjectEcPrivateKey = null;
+
+    private Point subjectEcPublicKey = null;
 
     private X509SignatureAlgorithm subjectSignatureAlgorithm;
 
@@ -269,5 +274,21 @@ public class X509Context {
 
     public void setIssuerPublicKeyType(X509PublicKeyType issuerPublicKeyType) {
         this.issuerPublicKeyType = issuerPublicKeyType;
+    }
+
+    public Point getSubjectEcPublicKey() {
+        return subjectEcPublicKey;
+    }
+
+    public void setSubjectEcPublicKey(Point subjectEcPublicKey) {
+        this.subjectEcPublicKey = subjectEcPublicKey;
+    }
+
+    public BigInteger getSubjectRsaPublicExponent() {
+        return subjectRsaPublicExponent;
+    }
+
+    public void setSubjectRsaPublicExponent(BigInteger subjectRsaPublicExponent) {
+        this.subjectRsaPublicExponent = subjectRsaPublicExponent;
     }
 }
