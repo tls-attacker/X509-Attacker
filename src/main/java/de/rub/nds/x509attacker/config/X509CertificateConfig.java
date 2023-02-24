@@ -11,6 +11,8 @@ package de.rub.nds.x509attacker.config;
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
+import de.rub.nds.protocol.crypto.ec.EllipticCurve;
+import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
@@ -121,6 +123,12 @@ public class X509CertificateConfig {
 
     private BigInteger ecPrivateKey = new BigInteger("03", 16);
 
+    private Point ecPublicKey = null;
+
+    private BigInteger dhPublicKey =
+            new BigInteger(
+                    "2043613254509771843465057207078304133427100053346630496863115304729422431506842297554370188431622336168084226893060531474609378481237396107127063278624858982135545329954888129900714249447398611399069380214077491792199889131147659097337451088584054931352640316306698530468089459265836208766829761530786550035554546801263324790398605318443686766315312672983302101280548433287949333943437948214799189911192606949101858307621640886413682299273130735853556255008467704876737231663242842259426239401780891543201358635180397430055997246351872086043137262555233050955216238105392009330462604912891943865361186717249962097299588875409587651544594728203293910128024102640696503192096755401014128136916889018704050784334709496695214785225237421325503031115105974843553040027247097092511319153606298406218024502785451855415341620633845851737579504653807158340552365430158715166515645118698024341396560621615465703434564793715203380646117");
+
     /**
      * The dh private key is intentionally chosen to not be super small such that even when the
      * generator is small and the modulus is big one cannot tell immediately that the private key
@@ -176,6 +184,8 @@ public class X509CertificateConfig {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+        EllipticCurve curve = defaultSubjectNamedCurve.getParameters().getCurve();
+        ecPublicKey = curve.mult(ecPrivateKey, curve.getBasePoint()); // TODO Hardcode this
     }
 
     public BigInteger getDsaPrimeP() {
@@ -489,5 +499,21 @@ public class X509CertificateConfig {
 
     public void setDhGenerator(BigInteger dhGenerator) {
         this.dhGenerator = dhGenerator;
+    }
+
+    public Point getEcPublicKey() {
+        return ecPublicKey;
+    }
+
+    public void setEcPublicKey(Point ecPublicKey) {
+        this.ecPublicKey = ecPublicKey;
+    }
+
+    public BigInteger getDhPublicKey() {
+        return dhPublicKey;
+    }
+
+    public void setDhPublicKey(BigInteger dhPublicKey) {
+        this.dhPublicKey = dhPublicKey;
     }
 }

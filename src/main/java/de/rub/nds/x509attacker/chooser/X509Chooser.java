@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.chooser;
 
 import de.rub.nds.asn1.context.AbstractChooser;
+import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
@@ -134,6 +135,14 @@ public class X509Chooser extends AbstractChooser {
         }
     }
 
+    public BigInteger getSubjectDhGenerator() {
+        if (context.getSubjectDhModulus() != null) {
+            return context.getSubjectDhGenerator();
+        } else {
+            return config.getDhGenerator();
+        }
+    }
+
     public BigInteger getSubjectRsaPublicExponent() {
         if (context.getSubjectRsaPublicExponent() != null) {
             return context.getSubjectRsaPublicExponent();
@@ -147,6 +156,46 @@ public class X509Chooser extends AbstractChooser {
             return context.getSubjectRsaModulus();
         } else {
             return config.getRsaModulus();
+        }
+    }
+
+    public BigInteger getSubjectEcPrivateKey() {
+        if (context.getSubjectEcPrivateKey() != null) {
+            return context.getSubjectEcPrivateKey();
+        } else {
+            return config.getEcPrivateKey();
+        }
+    }
+
+    public Point getSubjectEcPublicKey() {
+        if (context.getSubjectEcPublicKey() != null) {
+            return context.getSubjectEcPublicKey();
+        } else {
+            return config.getEcPublicKey();
+        }
+    }
+
+    public BigInteger getSubjectDsaPrivateKey() {
+        if (context.getSubjectDsaPrivateKey() != null) {
+            return context.getSubjectDsaPrivateKey();
+        } else {
+            return config.getDsaPrivateKey();
+        }
+    }
+
+    public BigInteger getSubjectRsaPrivateKey() {
+        if (context.getSubjectRsaPrivateKey() != null) {
+            return context.getSubjectRsaPrivateKey();
+        } else {
+            return config.getRsaPrivateKey();
+        }
+    }
+
+    public BigInteger getSubjectDhPublicKey() {
+        if (context.getSubjectDhPublicKey() != null) {
+            return context.getSubjectDhPublicKey();
+        } else {
+            return config.getDhPublicKey();
         }
     }
 }

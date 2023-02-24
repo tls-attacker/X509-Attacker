@@ -11,59 +11,60 @@ package de.rub.nds.x509attacker.constants;
 import static de.rub.nds.x509attacker.constants.X500AttributeType.values;
 
 import de.rub.nds.asn1.oid.ObjectIdentifier;
+import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
 import java.util.HashMap;
 import java.util.Map;
 
 public enum X509NamedCurve {
-    SECP112R1("1.3.132.0.6", 112),
-    SECP112R2("1.3.132.0.7", 112),
-    SECP128R1("1.3.132.0.28", 128),
-    SECP128R2("1.3.132.0.29", 128),
-    SECP160K1("1.3.132.0.9", 160),
-    SECP160R1("1.3.132.0.8", 160),
-    SECP160R2("1.3.132.0.30", 160),
-    SECP192R1("1.2.840.10045.3.1.1", 192),
-    SECP192K1("1.3.132.0.31", 192),
-    SECP224K1("1.3.132.0.32", 224),
-    SECP224R1("1.3.132.0.33", 224),
-    SECP256R1("1.2.840.10045.3.1.7", 256),
-    SECP256K1("1.3.132.0.10", 256),
-    SECP384R1("1.3.132.0.34", 384),
-    SECP521R1("1.3.132.0.35", 521),
+    SECP112R1("1.3.132.0.6", NamedEllipticCurveParameters.SECP112R1),
+    SECP112R2("1.3.132.0.7", NamedEllipticCurveParameters.SECP112R2),
+    SECP128R1("1.3.132.0.28", NamedEllipticCurveParameters.SECP128R1),
+    SECP128R2("1.3.132.0.29", NamedEllipticCurveParameters.SECP128R2),
+    SECP160K1("1.3.132.0.9", NamedEllipticCurveParameters.SECP160K1),
+    SECP160R1("1.3.132.0.8", NamedEllipticCurveParameters.SECP160R1),
+    SECP160R2("1.3.132.0.30", NamedEllipticCurveParameters.SECP160R2),
+    SECP192R1("1.2.840.10045.3.1.1", NamedEllipticCurveParameters.SECP192R1),
+    SECP192K1("1.3.132.0.31", NamedEllipticCurveParameters.SECP192K1),
+    SECP224K1("1.3.132.0.32", NamedEllipticCurveParameters.SECP224K1),
+    SECP224R1("1.3.132.0.33", NamedEllipticCurveParameters.SECP224R1),
+    SECP256R1("1.2.840.10045.3.1.7", NamedEllipticCurveParameters.SECP256R1),
+    SECP256K1("1.3.132.0.10", NamedEllipticCurveParameters.SECP256K1),
+    SECP384R1("1.3.132.0.34", NamedEllipticCurveParameters.SECP384R1),
+    SECP521R1("1.3.132.0.35", NamedEllipticCurveParameters.SECP521R1),
 
-    SECT113R1("1.3.132.0.4", 113),
-    SECT113R2("1.3.132.0.5", 113),
-    SECT131R1("1.3.132.0.22", 131),
-    SECT131R2("1.3.132.0.23", 131),
-    SECT163K1("1.3.132.0.1", 163),
-    SECT163R1("1.3.132.0.2", 163),
-    SECT163R2("1.3.132.0.15", 163),
-    SECT193R1("1.3.132.0.24", 193),
-    SECT193R2("1.3.132.0.25", 193),
-    SECT233K1("1.3.132.0.26", 233),
-    SECT233R1("1.3.132.0.27", 233),
-    SECT239K1("1.3.132.0.3", 239),
-    SECT283K1("1.3.132.0.16", 283),
-    SECT283R1("1.3.132.0.17", 283),
-    SECT409K1("1.3.132.0.36", 409),
-    SECT409R1("1.3.132.0.37", 409),
-    SECT571K1("1.3.132.0.38", 571),
-    SECT571R1("1.3.132.0.39", 571),
+    SECT113R1("1.3.132.0.4", NamedEllipticCurveParameters.SECT113R1),
+    SECT113R2("1.3.132.0.5", NamedEllipticCurveParameters.SECT113R2),
+    SECT131R1("1.3.132.0.22", NamedEllipticCurveParameters.SECT131R1),
+    SECT131R2("1.3.132.0.23", NamedEllipticCurveParameters.SECT131R2),
+    SECT163K1("1.3.132.0.1", NamedEllipticCurveParameters.SECT163K1),
+    SECT163R1("1.3.132.0.2", NamedEllipticCurveParameters.SECT163R1),
+    SECT163R2("1.3.132.0.15", NamedEllipticCurveParameters.SECT163R2),
+    SECT193R1("1.3.132.0.24", NamedEllipticCurveParameters.SECT193R1),
+    SECT193R2("1.3.132.0.25", NamedEllipticCurveParameters.SECT193R2),
+    SECT233K1("1.3.132.0.26", NamedEllipticCurveParameters.SECT233K1),
+    SECT233R1("1.3.132.0.27", NamedEllipticCurveParameters.SECT233R1),
+    SECT239K1("1.3.132.0.3", NamedEllipticCurveParameters.SECT239K1),
+    SECT283K1("1.3.132.0.16", NamedEllipticCurveParameters.SECT283K1),
+    SECT283R1("1.3.132.0.17", NamedEllipticCurveParameters.SECT283R1),
+    SECT409K1("1.3.132.0.36", NamedEllipticCurveParameters.SECT409K1),
+    SECT409R1("1.3.132.0.37", NamedEllipticCurveParameters.SECT409R1),
+    SECT571K1("1.3.132.0.38", NamedEllipticCurveParameters.SECT571K1),
+    SECT571R1("1.3.132.0.39", NamedEllipticCurveParameters.SECT571R1),
 
-    BRAINPOOLP160R1("1.3.36.3.3.2.8.1.1.1", 160),
-    BRAINPOOLP160T1("1.3.36.3.3.2.8.1.1.2", 160),
-    BRAINPOOLP192R1("1.3.36.3.3.2.8.1.1.3", 192),
-    BRAINPOOLP192T1("1.3.36.3.3.2.8.1.1.4", 192),
-    BRAINPOOLP224R1("1.3.36.3.3.2.8.1.1.5", 224),
-    BRAINPOOLP224T1("1.3.36.3.3.2.8.1.1.6", 224),
-    BRAINPOOLP256R1("1.3.36.3.3.2.8.1.1.7", 256),
-    BRAINPOOLP256T1("1.3.36.3.3.2.8.1.1.8", 256),
-    BRAINPOOLP320R1("1.3.36.3.3.2.8.1.1.9", 320),
-    BRAINPOOLP320T1("1.3.36.3.3.2.8.1.1.10", 320),
-    BRAINPOOLP384R1("1.3.36.3.3.2.8.1.1.11", 384),
-    BRAINPOOLP384T1("1.3.36.3.3.2.8.1.1.12", 384),
-    BRAINPOOLP512R1("1.3.36.3.3.2.8.1.1.13", 512),
-    BRAINPOOLP512T1("1.3.36.3.3.2.8.1.1.14", 512);
+    BRAINPOOLP160R1("1.3.36.3.3.2.8.1.1.1", NamedEllipticCurveParameters.BRAINPOOLP160R1),
+    BRAINPOOLP160T1("1.3.36.3.3.2.8.1.1.2", NamedEllipticCurveParameters.BRAINPOOLP160T1),
+    BRAINPOOLP192R1("1.3.36.3.3.2.8.1.1.3", NamedEllipticCurveParameters.BRAINPOOLP192R1),
+    BRAINPOOLP192T1("1.3.36.3.3.2.8.1.1.4", NamedEllipticCurveParameters.BRAINPOOLP192T1),
+    BRAINPOOLP224R1("1.3.36.3.3.2.8.1.1.5", NamedEllipticCurveParameters.BRAINPOOLP224R1),
+    BRAINPOOLP224T1("1.3.36.3.3.2.8.1.1.6", NamedEllipticCurveParameters.BRAINPOOLP224T1),
+    BRAINPOOLP256R1("1.3.36.3.3.2.8.1.1.7", NamedEllipticCurveParameters.BRAINPOOLP256R1),
+    BRAINPOOLP256T1("1.3.36.3.3.2.8.1.1.8", NamedEllipticCurveParameters.BRAINPOOLP256T1),
+    BRAINPOOLP320R1("1.3.36.3.3.2.8.1.1.9", NamedEllipticCurveParameters.BRAINPOOLP320R1),
+    BRAINPOOLP320T1("1.3.36.3.3.2.8.1.1.10", NamedEllipticCurveParameters.BRAINPOOLP320T1),
+    BRAINPOOLP384R1("1.3.36.3.3.2.8.1.1.11", NamedEllipticCurveParameters.BRAINPOOLP384R1),
+    BRAINPOOLP384T1("1.3.36.3.3.2.8.1.1.12", NamedEllipticCurveParameters.BRAINPOOLP384T1),
+    BRAINPOOLP512R1("1.3.36.3.3.2.8.1.1.13", NamedEllipticCurveParameters.BRAINPOOLP512R1),
+    BRAINPOOLP512T1("1.3.36.3.3.2.8.1.1.14", NamedEllipticCurveParameters.BRAINPOOLP512T1);
 
     private static final Map<String, X509NamedCurve> oidMap = new HashMap<>();
 
@@ -75,34 +76,23 @@ public enum X509NamedCurve {
 
     private final ObjectIdentifier oid;
 
-    private int bitLength;
+    private NamedEllipticCurveParameters parameters;
 
-    private int byteLength;
-
-    private X509NamedCurve(String oid, int bitLength) {
+    private X509NamedCurve(String oid, NamedEllipticCurveParameters parameters) {
         this.oid = new ObjectIdentifier(oid);
-        this.bitLength = bitLength;
-        this.byteLength = computeByteLength();
+        this.parameters = parameters;
     }
 
     private int computeByteLength() {
-        return (int) Math.ceil(((double) bitLength) / 8);
+        return (int) Math.ceil(((double) getBitLength()) / 8);
     }
 
     public int getBitLength() {
-        return bitLength;
-    }
-
-    public void setBitLength(int bitLength) {
-        this.bitLength = bitLength;
+        return parameters.getBitLength();
     }
 
     public int getByteLength() {
-        return byteLength;
-    }
-
-    public void setByteLength(int byteLength) {
-        this.byteLength = byteLength;
+        return parameters.getBitLength() / 8;
     }
 
     public ObjectIdentifier getOid() {
@@ -112,5 +102,9 @@ public enum X509NamedCurve {
     public static X509NamedCurve decodeFromOidBytes(byte[] oidBytes) {
         ObjectIdentifier objectIdentifier = new ObjectIdentifier(oidBytes);
         return oidMap.get(objectIdentifier.toString());
+    }
+
+    public NamedEllipticCurveParameters getParameters() {
+        return parameters;
     }
 }
