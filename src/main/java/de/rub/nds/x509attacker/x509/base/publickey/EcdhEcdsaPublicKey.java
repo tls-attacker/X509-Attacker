@@ -9,10 +9,10 @@
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.handler.Handler;
-import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
+import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.EcdhEcdsaPublicKeyHandler;
@@ -32,11 +32,10 @@ public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
 
     private ModifiableByte formatByte;
 
-    private Asn1PrimitiveOctetString<X509Chooser> pointOctets;
+    private ModifiableByteArray pointOctets;
 
     public EcdhEcdsaPublicKey() {
         super("ecPublicKey");
-        pointOctets = new Asn1PrimitiveOctetString<>("ECPoint");
     }
 
     @Override
@@ -80,12 +79,16 @@ public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
         this.formatByte = ModifiableVariableFactory.safelySetValue(this.formatByte, formatByte);
     }
 
-    public Asn1PrimitiveOctetString<X509Chooser> getPointOctets() {
+    public ModifiableByteArray getPointOctets() {
         return pointOctets;
     }
 
-    public void setPointOctets(Asn1PrimitiveOctetString<X509Chooser> pointOctets) {
+    public void setPointOctets(ModifiableByteArray pointOctets) {
         this.pointOctets = pointOctets;
+    }
+
+    public void setPointOctets(byte[] pointOctets) {
+        this.pointOctets = ModifiableVariableFactory.safelySetValue(this.pointOctets, pointOctets);
     }
 
     @Override
@@ -100,16 +103,16 @@ public class EcdhEcdsaPublicKey extends X509PublicKeyContent {
 
     @Override
     public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
-        return pointOctets.isCompatible(tagNumber, constructed, classType);
-    }
-
-    @Override
-    public Asn1FieldSerializer getSerializer() {
-        return pointOctets.getSerializer();
+        return true;
     }
 
     @Override
     public Handler getHandler(X509Chooser chooser) {
         return new EcdhEcdsaPublicKeyHandler(chooser, this);
+    }
+
+    @Override
+    public Asn1FieldSerializer getSerializer() {
+        return null;
     }
 }

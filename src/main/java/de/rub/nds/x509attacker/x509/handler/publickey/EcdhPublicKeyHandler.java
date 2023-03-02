@@ -8,7 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.handler.publickey;
 
+import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.x509.base.publickey.EcdhPublicKey;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 
@@ -23,7 +25,12 @@ public class EcdhPublicKeyHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        X509NamedCurve subjectNamedCurve = chooser.getSubjectNamedCurve();
+        EllipticCurve curve = subjectNamedCurve.getParameters().getCurve();
+        chooser.getContext()
+                .setSubjectEcPublicKey(
+                        curve.getPoint(
+                                publicKey.getxCoordinate().getValue(),
+                                publicKey.getyCoordinate().getValue()));
     }
 }

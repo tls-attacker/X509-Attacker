@@ -12,6 +12,7 @@ import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.parser.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.EcdhEcdsaPublicKey;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -29,7 +30,9 @@ public class EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, EcdhEcdsaP
     @Override
     public void parse(InputStream inputStream) {
         try {
-            encodable.getPointOctets().getParser(chooser).parseIndividualContentFields(inputStream);
+            encodable.setPointOctets(inputStream.readAllBytes());
+            parseIndividualContentFields(
+                    new ByteArrayInputStream(encodable.getPointOctets().getValue()));
         } catch (IOException ex) {
             throw new ParserException(ex);
         }
@@ -37,7 +40,7 @@ public class EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, EcdhEcdsaP
 
     @Override
     public void parseWithoutTag(InputStream inputStream, byte[] tagOctets) {
-        encodable.getPointOctets().getParser(chooser).parseWithoutTag(inputStream, tagOctets);
+        parse(inputStream);
     }
 
     @Override

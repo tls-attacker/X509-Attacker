@@ -44,5 +44,7 @@ public class PublicKeyBitStringParser extends Asn1PrimitiveBitStringParser<X509C
                 .getX509PublicKeyContent()
                 .getParser(chooser)
                 .parse(new ByteArrayInputStream(publicKeyBitString.getUsedBits().getValue()));
+
+        publicKeyBitString.getX509PublicKeyContent().getHandler(chooser).adjustContext();
     }
 }
