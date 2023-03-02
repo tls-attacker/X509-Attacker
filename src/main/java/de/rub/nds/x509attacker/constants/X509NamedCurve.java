@@ -31,7 +31,6 @@ public enum X509NamedCurve {
     SECP256K1("1.3.132.0.10", NamedEllipticCurveParameters.SECP256K1),
     SECP384R1("1.3.132.0.34", NamedEllipticCurveParameters.SECP384R1),
     SECP521R1("1.3.132.0.35", NamedEllipticCurveParameters.SECP521R1),
-
     SECT113R1("1.3.132.0.4", NamedEllipticCurveParameters.SECT113R1),
     SECT113R2("1.3.132.0.5", NamedEllipticCurveParameters.SECT113R2),
     SECT131R1("1.3.132.0.22", NamedEllipticCurveParameters.SECT131R1),
@@ -50,7 +49,6 @@ public enum X509NamedCurve {
     SECT409R1("1.3.132.0.37", NamedEllipticCurveParameters.SECT409R1),
     SECT571K1("1.3.132.0.38", NamedEllipticCurveParameters.SECT571K1),
     SECT571R1("1.3.132.0.39", NamedEllipticCurveParameters.SECT571R1),
-
     BRAINPOOLP160R1("1.3.36.3.3.2.8.1.1.1", NamedEllipticCurveParameters.BRAINPOOLP160R1),
     BRAINPOOLP160T1("1.3.36.3.3.2.8.1.1.2", NamedEllipticCurveParameters.BRAINPOOLP160T1),
     BRAINPOOLP192R1("1.3.36.3.3.2.8.1.1.3", NamedEllipticCurveParameters.BRAINPOOLP192R1),
@@ -92,7 +90,9 @@ public enum X509NamedCurve {
     }
 
     public int getByteLength() {
-        return parameters.getBitLength() / 8;
+        return parameters.getBitLength() % 8 == 0
+                ? parameters.getBitLength() / 8
+                : (parameters.getBitLength() / 8) + 1;
     }
 
     public ObjectIdentifier getOid() {
