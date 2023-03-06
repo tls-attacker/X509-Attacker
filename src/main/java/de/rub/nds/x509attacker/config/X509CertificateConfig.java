@@ -393,7 +393,7 @@ public class X509CertificateConfig {
         return Collections.unmodifiableList(defaultIssuer);
     }
 
-    public void setDefaultIssuer(List<Pair<X500AttributeType, String>> defaultIssuer) {
+    public void setIssuer(List<Pair<X500AttributeType, String>> defaultIssuer) {
         this.defaultIssuer = defaultIssuer;
     }
 

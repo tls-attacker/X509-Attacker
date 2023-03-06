@@ -56,7 +56,10 @@ public class NameHandler extends X509Handler {
                 BigInteger length = parser.parseLength(lengthBytes);
                 parser.parseIndividualContentFields(
                         new ByteArrayInputStream(rdnByteInputStream.readNBytes(length.intValue())));
+                parsedRdnSequence.add(relativeDistinguishedName);
             }
+            LOGGER.debug("Parsed {} elements", parsedRdnSequence.size());
+            LOGGER.debug("Converting parsed RDN to context RDN");
             List<Pair<X500AttributeType, String>> rdnList = new LinkedList<>();
             for (RelativeDistinguishedName parsedRdn : parsedRdnSequence) {
                 for (Asn1Encodable encodable : parsedRdn.getChildren()) {
@@ -69,14 +72,14 @@ public class NameHandler extends X509Handler {
                     }
                 }
             }
+            LOGGER.debug("Converted into {} elements", rdnList.size());
             if (name.getType() == NameType.ISSUER) {
                 context.setIssuer(rdnList);
             } else if (name.getType() == NameType.SUBJECT) {
-                context.setIssuer(rdnList);
+                context.setSubject(rdnList);
             } else {
                 throw new RuntimeException("Unknown NameType: " + name.getType().name());
             }
-            chooser.getContext().setIssuer(rdnList);
         } catch (IOException ex) {
             LOGGER.warn("Problem adjusting context");
         }

@@ -29,10 +29,11 @@ public class X509CertificateChainBuidler {
         X509Context context = new X509Context();
         int counter = 1;
         for (X509CertificateConfig config : certificateConfigs) {
-            if (context.getIssuer() != null) {
-                config.setDefaultIssuer(context.getIssuer());
+            if (context.getSubject() != null) {
+                config.setIssuer(context.getSubject());
             }
             X509Certificate certificate = new X509Certificate("certiciate_" + counter, config);
+            context.setConfig(config);
             X509Chooser chooser = new X509Chooser(config, context);
             X509CertificatePreparator preparator =
                     new X509CertificatePreparator(chooser, certificate);

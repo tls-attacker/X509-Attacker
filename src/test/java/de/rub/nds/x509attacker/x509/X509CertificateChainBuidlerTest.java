@@ -34,7 +34,7 @@ public class X509CertificateChainBuidlerTest {
         List<Pair<X500AttributeType, String>> subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker CA"));
         rootConfig.setSubject(subject);
-        rootConfig.setDefaultIssuer(subject);
+        rootConfig.setIssuer(subject);
         rootConfig.setRsaPrivateKey(new BigInteger("12345"));
         rootConfig.setNotBefore(new DateTime(1990, 9, 14, 3, 24, DateTimeZone.UTC));
         rootConfig.setNotAfter(new DateTime(2040, 9, 14, 3, 24, DateTimeZone.UTC));
@@ -63,7 +63,7 @@ public class X509CertificateChainBuidlerTest {
 
         X509CertificateConfig leafConfig = new X509CertificateConfig();
         subject = new LinkedList<>();
-        subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tii.ae"));
+        subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "leaf-cert.ae"));
         leafConfig.setSubject(subject);
         leafConfig.setRsaPrivateKey(new BigInteger("33333"));
         leafConfig.setNotBefore(new DateTime(2021, 7, 5, 22, 30, DateTimeZone.UTC));
