@@ -57,7 +57,7 @@ public class EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, EcdhEcdsaP
             int byteLength = chooser.getSubjectNamedCurve().getByteLength();
             LOGGER.debug("Curve: " + chooser.getSubjectNamedCurve().name());
             // There should be two coordinates in the stream so twice the byte length
-            
+
             if (inputStream.available() != byteLength * 2) {
                 throw new ParserException(
                         "Not exact bytes in input stream to parse two coordinates: "
