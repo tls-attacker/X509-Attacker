@@ -41,7 +41,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
 
     @XmlAnyElement(lax = true)
-    private X509PublicKeyContent x509PublicKeyContent;
+    private PublicKeyContent x509PublicKeyContent;
 
     public PublicKeyBitString(String identifier, X509CertificateConfig config) {
         super(identifier);
@@ -56,11 +56,11 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
         super(null);
     }
 
-    public void setX509PublicKeyContent(X509PublicKeyContent x509PublicKeyContent) {
+    public void setX509PublicKeyContent(PublicKeyContent x509PublicKeyContent) {
         this.x509PublicKeyContent = x509PublicKeyContent;
     }
 
-    public X509PublicKeyContent getX509PublicKeyContent() {
+    public PublicKeyContent getX509PublicKeyContent() {
         return x509PublicKeyContent;
     }
 
@@ -79,22 +79,22 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
         return new PublicKeyBitStringParser(chooser, this);
     }
 
-    public final X509PublicKeyContent createX509PublicKeyContent(X509PublicKeyType publicKeyType) {
+    public final PublicKeyContent createX509PublicKeyContent(X509PublicKeyType publicKeyType) {
         switch (publicKeyType) {
             case DH:
-                return new DhPublicKey();
+                return new X509DhPublicKey();
             case DSA:
-                return new DsaPublicKey();
+                return new X509DsaPublicKey();
             case ECDH_ECDSA:
-                return new EcdhEcdsaPublicKey();
+                return new X509EcdhEcdsaPublicKey();
             case ECDH_ONLY:
-                return new EcdhPublicKey();
+                return new X509EcdhPublicKey();
             case ECMQV:
                 throw new UnsupportedOperationException("ECMQV no supported");
             case ED25519:
-                return new Ed25519PublicKey();
+                return new X509Ed25519PublicKey();
             case ED448:
-                return new Ed448PublicKey();
+                return new X509Ed448PublicKey();
             case GOST_R3411_2001:
                 throw new UnsupportedOperationException("GOST_R3411_2001 no supported");
             case GOST_R3411_94:
@@ -102,15 +102,15 @@ public class PublicKeyBitString extends Asn1PrimitiveBitString<X509Chooser> {
             case KEA:
                 throw new UnsupportedOperationException("KEA no supported");
             case RSA:
-                return new RsaPublicKey();
+                return new X509RsaPublicKey();
             case RSAES_OAEP:
                 throw new UnsupportedOperationException("RSAoaep no supported");
             case RSASSA_PSS:
                 throw new UnsupportedOperationException("RSASSA_PSS no supported");
             case X25519:
-                return new X25519PublicKey();
+                return new X509X25519PublicKey();
             case X448:
-                return new X448PublicKey();
+                return new X509X448PublicKey();
             default:
                 throw new UnsupportedOperationException(
                         "PublicKeyType: "

@@ -29,9 +29,9 @@ import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
 import de.rub.nds.x509attacker.x509.base.TbsCertificate;
 import de.rub.nds.x509attacker.x509.base.Time;
 import de.rub.nds.x509attacker.x509.base.Validity;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.DssParameters;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
 import java.util.Collection;
 import java.util.List;
@@ -258,11 +258,11 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         X509PublicKeyType publicKeyType = chooser.getIssuerPublicKeyType();
         switch (publicKeyType) {
             case DH:
-                return new DhParameters("dhParameters", chooser.getConfig());
+                return new X509DhParameters("dhParameters", chooser.getConfig());
             case DSA:
-                return new DssParameters("dssParameters");
+                return new X509DssParameters("dssParameters");
             case ECDH_ECDSA:
-                return new EcNamedCurveParameters("ecNamedCurve");
+                return new X509EcNamedCurveParameters("ecNamedCurve");
             default:
                 return null;
         }
@@ -272,11 +272,11 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         X509PublicKeyType publicKeyType = chooser.getConfig().getPublicKeyType();
         switch (publicKeyType) {
             case DH:
-                return new DhParameters("dhParameters", chooser.getConfig());
+                return new X509DhParameters("dhParameters", chooser.getConfig());
             case DSA:
-                return new DssParameters("dssParameters");
+                return new X509DssParameters("dssParameters");
             case ECDH_ECDSA:
-                return new EcNamedCurveParameters("ecNamedCurve");
+                return new X509EcNamedCurveParameters("ecNamedCurve");
             default:
                 return null;
         }

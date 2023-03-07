@@ -17,8 +17,8 @@ import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyAlgorithmIdentifier;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -43,10 +43,10 @@ public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParse
         switch (X509PublicKeyType.decodeFromOidBytes(objectIdentifier.getEncoded())) {
             case ECDH_ECDSA:
                 LOGGER.debug("Predicted EcNamedCurveParameters");
-                return new EcNamedCurveParameters("EcNamedCurveParameters");
+                return new X509EcNamedCurveParameters("EcNamedCurveParameters");
             case DH:
                 LOGGER.debug("Predicted DhParameters");
-                return new DhParameters("DhParameters");
+                return new X509DhParameters("DhParameters");
             default:
                 return null;
         }

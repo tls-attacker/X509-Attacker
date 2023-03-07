@@ -6,23 +6,23 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.handler.publickey.parameters;
+package de.rub.nds.x509attacker.x509.handler.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.X509DhPublicKey;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 
-public class DssParametersHandler extends X509Handler {
+public class X509DhPublicKeyHandler extends X509Handler {
 
-    private final X509DssParameters parameters;
+    private final X509DhPublicKey publicKey;
 
-    public DssParametersHandler(X509Chooser chooser, X509DssParameters parameters) {
+    public X509DhPublicKeyHandler(X509Chooser chooser, X509DhPublicKey publicKey) {
         super(chooser);
-        this.parameters = parameters;
+        this.publicKey = publicKey;
     }
 
     @Override
     public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        context.setSubjectDhPublicKey(publicKey.getPublicKey().getValue().getValue());
     }
 }

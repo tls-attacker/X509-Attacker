@@ -10,13 +10,13 @@ package de.rub.nds.x509attacker.x509.preparator.publickey.parameters;
 
 import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.DssParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
 
 public class DssParameterPreparator extends Asn1SequencePreparator<X509Chooser> {
 
-    private DssParameters parameters;
+    private X509DssParameters parameters;
 
-    public DssParameterPreparator(X509Chooser chooser, DssParameters parameters) {
+    public DssParameterPreparator(X509Chooser chooser, X509DssParameters parameters) {
         super(chooser, parameters);
         this.parameters = parameters;
     }

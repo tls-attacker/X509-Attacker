@@ -9,14 +9,14 @@
 package de.rub.nds.x509attacker.x509.handler.publickey.parameters;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 
 public class DhParametersHandler extends X509Handler {
 
-    private final DhParameters parameters;
+    private final X509DhParameters parameters;
 
-    public DhParametersHandler(X509Chooser chooser, DhParameters parameters) {
+    public DhParametersHandler(X509Chooser chooser, X509DhParameters parameters) {
         super(chooser);
         this.parameters = parameters;
     }

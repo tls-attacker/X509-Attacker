@@ -18,8 +18,8 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.DhParameters;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.parser.SubjectPublicKeyInfoParser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -78,12 +78,12 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
         Asn1Field field = null;
         switch (config.getPublicKeyType()) {
             case DH:
-                field = new DhParameters("dhParameters");
+                field = new X509DhParameters("dhParameters");
                 break;
             case RSA:
                 break;
             case ECDH_ECDSA:
-                field = new EcNamedCurveParameters("namedCurveParameters");
+                field = new X509EcNamedCurveParameters("namedCurveParameters");
                 break;
             case ECDH_ONLY:
                 break;

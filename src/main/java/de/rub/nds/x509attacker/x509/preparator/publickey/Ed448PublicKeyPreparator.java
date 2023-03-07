@@ -9,11 +9,11 @@
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.Ed448PublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509Ed448PublicKey;
 
-public class Ed448PublicKeyPreparator extends X509PublicKeyContentPreparator<Ed448PublicKey> {
+public class Ed448PublicKeyPreparator extends X509PublicKeyContentPreparator<X509Ed448PublicKey> {
 
-    public Ed448PublicKeyPreparator(X509Chooser chooser, Ed448PublicKey instance) {
+    public Ed448PublicKeyPreparator(X509Chooser chooser, X509Ed448PublicKey instance) {
         super(chooser, instance);
     }
 

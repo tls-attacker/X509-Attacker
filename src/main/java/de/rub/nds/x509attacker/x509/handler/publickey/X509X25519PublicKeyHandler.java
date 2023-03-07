@@ -6,19 +6,23 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.preparator.publickey;
+package de.rub.nds.x509attacker.x509.handler.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.X509Ed25519PublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509X25519PublicKey;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 
-public class Ed25519PublicKeyPreparator extends X509PublicKeyContentPreparator<X509Ed25519PublicKey> {
+public class X509X25519PublicKeyHandler extends X509Handler {
 
-    public Ed25519PublicKeyPreparator(X509Chooser chooser, X509Ed25519PublicKey instance) {
-        super(chooser, instance);
+    private final X509X25519PublicKey publicKey;
+
+    public X509X25519PublicKeyHandler(X509Chooser chooser, X509X25519PublicKey publicKey) {
+        super(chooser);
+        this.publicKey = publicKey;
     }
 
     @Override
-    public void prepare() {
+    public void adjustContext() {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from
         // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
