@@ -18,7 +18,8 @@ public class EcNamedCurveParametersHandler extends X509Handler {
 
     private final X509EcNamedCurveParameters parameters;
 
-    public EcNamedCurveParametersHandler(X509Chooser chooser, X509EcNamedCurveParameters parameters) {
+    public EcNamedCurveParametersHandler(
+            X509Chooser chooser, X509EcNamedCurveParameters parameters) {
         super(chooser);
         this.parameters = parameters;
     }

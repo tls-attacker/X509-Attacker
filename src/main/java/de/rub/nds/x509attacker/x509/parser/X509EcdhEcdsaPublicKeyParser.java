@@ -23,7 +23,8 @@ public class X509EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, X509Ec
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public X509EcdhEcdsaPublicKeyParser(X509Chooser chooser, X509EcdhEcdsaPublicKey ecdhEcdsaPublicKey) {
+    public X509EcdhEcdsaPublicKeyParser(
+            X509Chooser chooser, X509EcdhEcdsaPublicKey ecdhEcdsaPublicKey) {
         super(chooser, ecdhEcdsaPublicKey);
     }
 

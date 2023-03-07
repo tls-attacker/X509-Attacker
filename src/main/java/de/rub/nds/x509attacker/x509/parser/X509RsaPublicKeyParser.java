@@ -36,7 +36,8 @@ public class X509RsaPublicKeyParser extends Asn1Parser<X509Chooser, X509RsaPubli
 
     @Override
     public void parseIndividualContentFields(InputStream inputStream) throws IOException {
-        X509RsaPublicKeyContentSequence rsaContentSequence = encodable.getRsaPublicKeyContentSequence();
+        X509RsaPublicKeyContentSequence rsaContentSequence =
+                encodable.getRsaPublicKeyContentSequence();
         encodable
                 .getRsaPublicKeyContentSequence()
                 .getParser(chooser)
