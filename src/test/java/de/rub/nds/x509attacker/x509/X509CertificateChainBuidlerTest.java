@@ -13,7 +13,6 @@ import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
-import de.rub.nds.x509attacker.x509.base.X509CertificateChain;
 import java.math.BigInteger;
 import java.util.LinkedList;
 import java.util.List;
