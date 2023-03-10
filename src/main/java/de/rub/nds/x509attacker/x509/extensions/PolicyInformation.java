@@ -32,7 +32,8 @@ public class PolicyInformation extends Asn1Sequence<X509Chooser> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @HoldsModifiableVariable
-    private Asn1ObjectIdentifier policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
+    private Asn1ObjectIdentifier<X509Chooser>
+            policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
 
     @HoldsModifiableVariable private PolicyQualifiers policyQualifiers;
 
@@ -42,17 +43,17 @@ public class PolicyInformation extends Asn1Sequence<X509Chooser> {
 
     public PolicyInformation(String identifier) {
         super(identifier);
-        policyIdentifier = new Asn1ObjectIdentifier("policyIdentifier");
+        policyIdentifier = new Asn1ObjectIdentifier<X509Chooser>("policyIdentifier");
         policyQualifiers = new PolicyQualifiers("policyQualifiers");
         addChild(policyIdentifier);
         addChild(policyQualifiers);
     }
 
-    public Asn1ObjectIdentifier getPolicyIdentifier() {
+    public Asn1ObjectIdentifier<X509Chooser> getPolicyIdentifier() {
         return policyIdentifier;
     }
 
-    public void setPolicyIdentifier(Asn1ObjectIdentifier policyIdentifier) {
+    public void setPolicyIdentifier(Asn1ObjectIdentifier<X509Chooser> policyIdentifier) {
         this.policyIdentifier = policyIdentifier;
     }
 
@@ -65,7 +66,7 @@ public class PolicyInformation extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

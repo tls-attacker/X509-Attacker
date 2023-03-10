@@ -50,7 +50,7 @@ public class X509CertificatePreparator extends Asn1SequencePreparator<X509Choose
         certificate.getSignatureAlgorithm().getAlgorithm().getPreparator(chooser).prepare();
         certificate
                 .getSignatureAlgorithm()
-                .instantiateParameters(new Asn1Null("null")); // PARAMETERS
+                .instantiateParameters(new Asn1Null<>("null")); // PARAMETERS
         certificate.getSignatureAlgorithm().getPreparator(chooser).prepare();
     }
 

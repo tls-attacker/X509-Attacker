@@ -32,10 +32,10 @@ public class PolicyQualifierInfo extends Asn1Sequence<X509Chooser> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @HoldsModifiableVariable
-    private Asn1ObjectIdentifier
+    private Asn1ObjectIdentifier<X509Chooser>
             policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
     // id-qt-unotice )
-    @HoldsModifiableVariable private Asn1Encodable qualifier;
+    @HoldsModifiableVariable private Asn1Encodable<X509Chooser> qualifier;
 
     private PolicyQualifierInfo() {
         super(null);
@@ -43,30 +43,30 @@ public class PolicyQualifierInfo extends Asn1Sequence<X509Chooser> {
 
     public PolicyQualifierInfo(String identifier) {
         super(identifier);
-        policyQualifierId = new Asn1ObjectIdentifier("policyQualifiersId");
-        qualifier = new Asn1Null("qualifier");
+        policyQualifierId = new Asn1ObjectIdentifier<>("policyQualifiersId");
+        qualifier = new Asn1Null<>("qualifier");
         addChild(policyQualifierId);
         addChild(qualifier);
     }
 
-    public Asn1ObjectIdentifier getPolicyQualifierId() {
+    public Asn1ObjectIdentifier<X509Chooser> getPolicyQualifierId() {
         return policyQualifierId;
     }
 
-    public void setPolicyQualifierId(Asn1ObjectIdentifier policyQualifierId) {
+    public void setPolicyQualifierId(Asn1ObjectIdentifier<X509Chooser> policyQualifierId) {
         this.policyQualifierId = policyQualifierId;
     }
 
-    public Asn1Encodable getQualifier() {
+    public Asn1Encodable<X509Chooser> getQualifier() {
         return qualifier;
     }
 
-    public void setQualifier(Asn1Encodable qualifier) {
+    public void setQualifier(Asn1Encodable<X509Chooser> qualifier) {
         this.qualifier = qualifier;
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -35,7 +35,7 @@ public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
     private static final Logger LOGGER = LogManager.getLogger();
 
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
-    private List<Asn1ObjectIdentifier> keyPurposeID;
+    private List<Asn1ObjectIdentifier<X509Chooser>> keyPurposeID;
 
     private ExtKeyUsage() {
         super(null);
@@ -46,16 +46,16 @@ public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
         keyPurposeID = new LinkedList<>();
     }
 
-    public List<Asn1ObjectIdentifier> getKeyPurposeID() {
+    public List<Asn1ObjectIdentifier<X509Chooser>> getKeyPurposeID() {
         return keyPurposeID;
     }
 
-    public void setKeyPurposeID(List<Asn1ObjectIdentifier> keyPurposeID) {
+    public void setKeyPurposeID(List<Asn1ObjectIdentifier<X509Chooser>> keyPurposeID) {
         this.keyPurposeID = keyPurposeID;
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

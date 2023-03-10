@@ -35,7 +35,7 @@ public class Time extends Asn1Choice<X509Chooser> {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
-        return new EmptyHandler(chooser);
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+        return new EmptyHandler<>(chooser);
     }
 }

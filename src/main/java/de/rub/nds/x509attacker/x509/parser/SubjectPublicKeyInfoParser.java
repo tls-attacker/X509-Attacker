@@ -33,7 +33,7 @@ public class SubjectPublicKeyInfoParser extends Asn1SequenceParser<X509Chooser> 
     }
 
     @Override
-    protected Asn1Field chooseInstantiationForAny() {
+    protected Asn1Field<X509Chooser> chooseInstantiationForAny() {
         switch (chooser.getSubjectPublicKeyType()) {
             case ECDH_ECDSA:
                 LOGGER.debug("Predicted EcNamedCurveParameters");

@@ -30,9 +30,9 @@ public class BasicConstraints extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1Boolean ca;
+    @HoldsModifiableVariable private Asn1Boolean<X509Chooser> ca;
 
-    @HoldsModifiableVariable private Asn1Integer pathLenConstraint;
+    @HoldsModifiableVariable private Asn1Integer<X509Chooser> pathLenConstraint;
 
     private BasicConstraints() {
         super(null);
@@ -40,30 +40,30 @@ public class BasicConstraints extends Asn1Sequence<X509Chooser> {
 
     public BasicConstraints(String identifier) {
         super(identifier);
-        ca = new Asn1Boolean("ca");
-        pathLenConstraint = new Asn1Integer("pathLenConstraint");
+        ca = new Asn1Boolean<>("ca");
+        pathLenConstraint = new Asn1Integer<>("pathLenConstraint");
         addChild(ca);
         addChild(pathLenConstraint);
     }
 
-    public Asn1Boolean getCa() {
+    public Asn1Boolean<X509Chooser> getCa() {
         return ca;
     }
 
-    public void setCa(Asn1Boolean ca) {
+    public void setCa(Asn1Boolean<X509Chooser> ca) {
         this.ca = ca;
     }
 
-    public Asn1Integer getPathLenConstraint() {
+    public Asn1Integer<X509Chooser> getPathLenConstraint() {
         return pathLenConstraint;
     }
 
-    public void setPathLenConstraint(Asn1Integer pathLenConstraint) {
+    public void setPathLenConstraint(Asn1Integer<X509Chooser> pathLenConstraint) {
         this.pathLenConstraint = pathLenConstraint;
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

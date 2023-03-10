@@ -25,18 +25,18 @@ public class CertificateRewriter {
     public CertificateRewriter() {}
 
     public void fixateNonContainerContent(Asn1Container<X509Chooser> container) {
-        for (Asn1Encodable encodable : container.getChildren()) {
+        for (Asn1Encodable<X509Chooser> encodable : container.getChildren()) {
             if (encodable instanceof Asn1Container) {
-                fixateNonContainerContent((Asn1Container) encodable);
+                fixateNonContainerContent((Asn1Container<X509Chooser>) encodable);
             } else if (encodable instanceof Asn1Field) {
                 fixateAsn1Field(encodable);
             } else if (encodable instanceof Asn1Any) {
-                if (((Asn1Any) encodable).getInstantiation() != null) {
-                    fixateAsn1Field(((Asn1Any) encodable).getInstantiation());
+                if (((Asn1Any<X509Chooser>) encodable).getInstantiation() != null) {
+                    fixateAsn1Field(((Asn1Any<X509Chooser>) encodable).getInstantiation());
                 }
             } else if (encodable instanceof Asn1Choice) {
-                if (((Asn1Choice) encodable).getSelectedChoice() != null) {
-                    fixateAsn1Field(((Asn1Choice) encodable).getSelectedChoice());
+                if (((Asn1Choice<X509Chooser>) encodable).getSelectedChoice() != null) {
+                    fixateAsn1Field(((Asn1Choice<X509Chooser>) encodable).getSelectedChoice());
                 }
             } else {
                 LOGGER.info("Not sure what to do here: " + encodable.getClass().getSimpleName());
@@ -44,16 +44,17 @@ public class CertificateRewriter {
         }
     }
 
-    private void fixateAsn1Field(Asn1Encodable encodable) {
-        if (((Asn1Field) encodable).getContent() != null
-                && ((Asn1Field) encodable).getContent().getValue() != null) {
-            ((Asn1Field) encodable)
+    private void fixateAsn1Field(Asn1Encodable<X509Chooser> encodable) {
+        if (((Asn1Field<X509Chooser>) encodable).getContent() != null
+                && ((Asn1Field<X509Chooser>) encodable).getContent().getValue() != null) {
+            ((Asn1Field<X509Chooser>) encodable)
                     .setContent(
-                            Modifiable.explicit(((Asn1Field) encodable).getContent().getValue()));
-        } else if ((((Asn1Field) encodable).getContent() == null
-                        || ((Asn1Field) encodable).getContent().getValue() == null)
+                            Modifiable.explicit(
+                                    ((Asn1Field<X509Chooser>) encodable).getContent().getValue()));
+        } else if ((((Asn1Field<X509Chooser>) encodable).getContent() == null
+                        || ((Asn1Field<X509Chooser>) encodable).getContent().getValue() == null)
                 && encodable.isOptional()) {
-            Asn1Field field = (Asn1Field) encodable;
+            Asn1Field<X509Chooser> field = (Asn1Field<X509Chooser>) encodable;
             field.setContent(Modifiable.explicit(new byte[0]));
             field.setTagOctets(Modifiable.explicit(new byte[0]));
             field.setLengthOctets(Modifiable.explicit(new byte[0]));

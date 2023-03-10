@@ -24,9 +24,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509DhParameters extends Asn1Sequence<X509Chooser> implements PublicParameters {
 
-    private Asn1Integer p;
+    private Asn1Integer<X509Chooser> p;
     // private Asn1Integer q;
-    private Asn1Integer g;
+    private Asn1Integer<X509Chooser> g;
     // private Asn1Integer j;
     private X509DhValidationParms validationParms;
 
@@ -36,9 +36,9 @@ public class X509DhParameters extends Asn1Sequence<X509Chooser> implements Publi
 
     public X509DhParameters(String identifier) {
         super(identifier);
-        this.p = new Asn1Integer("p");
+        this.p = new Asn1Integer<>("p");
         // this.q = new Asn1Integer("q");
-        this.g = new Asn1Integer("g");
+        this.g = new Asn1Integer<>("g");
         // this.j = new Asn1Integer("j");
         this.validationParms = new X509DhValidationParms("validationParms");
         validationParms.setOptional(true);
@@ -51,9 +51,9 @@ public class X509DhParameters extends Asn1Sequence<X509Chooser> implements Publi
 
     public X509DhParameters(String identifier, X509CertificateConfig config) {
         super(identifier);
-        this.p = new Asn1Integer("p");
+        this.p = new Asn1Integer<>("p");
         // this.q = new Asn1Integer("q");
-        this.g = new Asn1Integer("g");
+        this.g = new Asn1Integer<>("g");
         // this.j = new Asn1Integer("j");
         if (config.getIncludeDhValidationParameters()) {
             this.validationParms = new X509DhValidationParms("validationParms");
@@ -67,11 +67,11 @@ public class X509DhParameters extends Asn1Sequence<X509Chooser> implements Publi
         }
     }
 
-    public Asn1Integer getP() {
+    public Asn1Integer<X509Chooser> getP() {
         return p;
     }
 
-    public void setP(Asn1Integer p) {
+    public void setP(Asn1Integer<X509Chooser> p) {
         this.p = p;
     }
 
@@ -82,11 +82,11 @@ public class X509DhParameters extends Asn1Sequence<X509Chooser> implements Publi
     //    public void setQ(Asn1Integer q) {
     //        this.q = q;
     //    }
-    public Asn1Integer getG() {
+    public Asn1Integer<X509Chooser> getG() {
         return g;
     }
 
-    public void setG(Asn1Integer g) {
+    public void setG(Asn1Integer<X509Chooser> g) {
         this.g = g;
     }
 
@@ -106,7 +106,7 @@ public class X509DhParameters extends Asn1Sequence<X509Chooser> implements Publi
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         return new DhParametersHandler(chooser, this);
     }
 

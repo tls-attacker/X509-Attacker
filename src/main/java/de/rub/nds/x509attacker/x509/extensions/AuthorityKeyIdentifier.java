@@ -35,11 +35,11 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1PrimitiveOctetString keyIdentifier;
+    @HoldsModifiableVariable private Asn1PrimitiveOctetString<X509Chooser> keyIdentifier;
 
     @HoldsModifiableVariable private GeneralNames authorityCertIssuer;
 
-    @HoldsModifiableVariable private Asn1Integer authorityCertSerialNumber;
+    @HoldsModifiableVariable private Asn1Integer<X509Chooser> authorityCertSerialNumber;
 
     private AuthorityKeyIdentifier() {
         super(null);
@@ -47,19 +47,19 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
 
     public AuthorityKeyIdentifier(String identifier) {
         super(identifier);
-        keyIdentifier = new Asn1PrimitiveOctetString("keyIdentifier");
+        keyIdentifier = new Asn1PrimitiveOctetString<>("keyIdentifier");
         authorityCertIssuer = new GeneralNames("authorityCertIssuer");
-        authorityCertSerialNumber = new Asn1Integer("authorityCertSerialNumber");
+        authorityCertSerialNumber = new Asn1Integer<>("authorityCertSerialNumber");
         addChild(keyIdentifier);
         addChild(authorityCertIssuer);
         addChild(authorityCertSerialNumber);
     }
 
-    public Asn1PrimitiveOctetString getKeyIdentifier() {
+    public Asn1PrimitiveOctetString<X509Chooser> getKeyIdentifier() {
         return keyIdentifier;
     }
 
-    public void setKeyIdentifier(Asn1PrimitiveOctetString keyIdentifier) {
+    public void setKeyIdentifier(Asn1PrimitiveOctetString<X509Chooser> keyIdentifier) {
         this.keyIdentifier = keyIdentifier;
     }
 
@@ -71,16 +71,16 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
         this.authorityCertIssuer = authorityCertIssuer;
     }
 
-    public Asn1Integer getAuthorityCertSerialNumber() {
+    public Asn1Integer<X509Chooser> getAuthorityCertSerialNumber() {
         return authorityCertSerialNumber;
     }
 
-    public void setAuthorityCertSerialNumber(Asn1Integer authorityCertSerialNumber) {
+    public void setAuthorityCertSerialNumber(Asn1Integer<X509Chooser> authorityCertSerialNumber) {
         this.authorityCertSerialNumber = authorityCertSerialNumber;
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -38,7 +38,7 @@ public class GeneralName extends Asn1Choice<X509Chooser> {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

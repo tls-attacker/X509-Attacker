@@ -29,6 +29,6 @@ public class Version extends Asn1Explicit<X509Chooser> {
     }
 
     public Version(String identifier) {
-        super(identifier, new Asn1Integer("value"));
+        super(identifier, new Asn1Integer<X509Chooser>("value"));
     }
 }

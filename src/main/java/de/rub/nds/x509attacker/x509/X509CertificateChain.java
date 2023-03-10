@@ -28,7 +28,7 @@ import org.apache.logging.log4j.Logger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509CertificateChain {
 
-    private static final Logger LOGGER = LogManager.getLogger(X509CertificateChain.class);
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @XmlElementWrapper(name = "X509Certificates")
     @XmlElement(name = "X509Certificate")

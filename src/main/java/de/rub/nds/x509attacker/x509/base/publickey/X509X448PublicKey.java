@@ -56,7 +56,7 @@ public class X509X448PublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         return new X509X448PublicKeyHandler(chooser, this);
     }
 }

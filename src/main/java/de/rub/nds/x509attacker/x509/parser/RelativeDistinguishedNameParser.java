@@ -16,12 +16,12 @@ import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 
 public class RelativeDistinguishedNameParser extends Asn1SetParser<X509Chooser> {
 
-    public RelativeDistinguishedNameParser(X509Chooser chooser, Asn1Set asn1Set) {
+    public RelativeDistinguishedNameParser(X509Chooser chooser, Asn1Set<X509Chooser> asn1Set) {
         super(chooser, asn1Set);
     }
 
     @Override
-    protected Asn1Encodable createFreshElement() {
+    protected Asn1Encodable<X509Chooser> createFreshElement() {
         return new AttributeTypeAndValue("element");
     }
 }

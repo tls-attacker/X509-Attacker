@@ -28,7 +28,7 @@ public class CertificateSignatureAlgorithmIdentifier extends AlgorithmIdentifier
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         return new CertificateSignatureAlgorithmIdentifierHandler(chooser, this);
     }
 }

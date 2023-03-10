@@ -35,12 +35,13 @@ public class AttributeTypeAndValuePreparator extends Asn1SequencePreparator<X509
     }
 
     public void prepareTypeValue() {
-        instance.instantiateValue(new Asn1PrimitiveUtf8String("value"));
+        instance.instantiateValue(new Asn1PrimitiveUtf8String<>("value"));
         if (instance.getValueConfig() != null) {
-            ((Asn1PrimitiveUtf8String) instance.getValue()).setValue(instance.getValueConfig());
+            ((Asn1PrimitiveUtf8String<X509Chooser>) instance.getValue())
+                    .setValue(instance.getValueConfig());
         } else {
             LOGGER.warn("AttributeTypeAndValue value config is not set - using an empty string");
-            ((Asn1PrimitiveUtf8String) instance.getValue()).setValue("");
+            ((Asn1PrimitiveUtf8String<X509Chooser>) instance.getValue()).setValue("");
         }
         instance.getValue().getPreparator(chooser).prepare();
     }

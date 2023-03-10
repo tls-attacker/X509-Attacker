@@ -49,7 +49,9 @@ public class PemUtil {
             LOGGER.warn(ex);
         } finally {
             try {
-                pemWriter.close();
+                if (pemWriter != null) {
+                    pemWriter.close();
+                }
             } catch (IOException ex) {
                 LOGGER.warn(ex);
             }

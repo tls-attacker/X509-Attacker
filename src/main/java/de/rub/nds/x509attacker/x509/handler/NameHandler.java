@@ -62,7 +62,7 @@ public class NameHandler extends X509Handler {
             LOGGER.debug("Converting parsed RDN to context RDN");
             List<Pair<X500AttributeType, String>> rdnList = new LinkedList<>();
             for (RelativeDistinguishedName parsedRdn : parsedRdnSequence) {
-                for (Asn1Encodable encodable : parsedRdn.getChildren()) {
+                for (Asn1Encodable<X509Chooser> encodable : parsedRdn.getChildren()) {
                     if (encodable instanceof AttributeTypeAndValue) {
                         rdnList.add(
                                 new Pair<>(

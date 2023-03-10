@@ -8,22 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.DH;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.DSA;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ECDH_ECDSA;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ECDH_ONLY;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ECMQV;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ED25519;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ED448;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.GOST_R3411_2001;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.GOST_R3411_94;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.KEA;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.RSA;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.RSAES_OAEP;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.RSASSA_PSS;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.X25519;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.X448;
-
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;

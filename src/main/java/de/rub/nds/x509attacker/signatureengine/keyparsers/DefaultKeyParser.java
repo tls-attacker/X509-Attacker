@@ -8,8 +8,6 @@
  */
 package de.rub.nds.x509attacker.signatureengine.keyparsers;
 
-import static de.rub.nds.x509attacker.constants.KeyFormat.PEM_ENCODED;
-
 import de.rub.nds.x509attacker.constants.KeyFormat;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;

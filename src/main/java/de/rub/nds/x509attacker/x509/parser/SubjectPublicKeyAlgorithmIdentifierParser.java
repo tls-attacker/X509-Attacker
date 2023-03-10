@@ -8,9 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.DH;
-import static de.rub.nds.x509attacker.constants.X509PublicKeyType.ECDH_ECDSA;
-
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
@@ -35,7 +32,7 @@ public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParse
     }
 
     @Override
-    protected Asn1Field chooseInstantiationForAny() {
+    protected Asn1Field<X509Chooser> chooseInstantiationForAny() {
         ObjectIdentifier objectIdentifier =
                 new ObjectIdentifier(algorithmIdentifier.getAlgorithm().getValue().getValue());
         LOGGER.debug("ObjectIdentifier: " + objectIdentifier.toString());

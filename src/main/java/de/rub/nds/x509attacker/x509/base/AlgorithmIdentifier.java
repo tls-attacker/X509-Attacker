@@ -27,9 +27,9 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier algorithm;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> algorithm;
 
-    @HoldsModifiableVariable private final Asn1Any parameters;
+    @HoldsModifiableVariable private final Asn1Any<X509Chooser> parameters;
 
     private AlgorithmIdentifier() {
         super(null);
@@ -38,26 +38,26 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
 
     public AlgorithmIdentifier(String identifier) {
         super(identifier);
-        algorithm = new Asn1ObjectIdentifier("algorithm");
-        parameters = new Asn1Any("parameters");
+        algorithm = new Asn1ObjectIdentifier<>("algorithm");
+        parameters = new Asn1Any<>("parameters");
         parameters.setOptional(true);
         addChild(algorithm);
         addChild(parameters);
     }
 
-    public Asn1ObjectIdentifier getAlgorithm() {
+    public Asn1ObjectIdentifier<X509Chooser> getAlgorithm() {
         return algorithm;
     }
 
-    public void setAlgorithm(Asn1ObjectIdentifier algorithm) {
+    public void setAlgorithm(Asn1ObjectIdentifier<X509Chooser> algorithm) {
         this.algorithm = algorithm;
     }
 
-    public Asn1Encodable getParameters() {
+    public Asn1Encodable<X509Chooser> getParameters() {
         return parameters;
     }
 
-    public void instantiateParameters(Asn1Field encodable) {
+    public void instantiateParameters(Asn1Field<X509Chooser> encodable) {
         parameters.setInstantiation(encodable);
     }
 }

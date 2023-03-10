@@ -21,7 +21,7 @@ public class ExtensionsParser extends Asn1SequenceOfParser<X509Chooser> {
     }
 
     @Override
-    protected Asn1Encodable createFreshElement() {
+    protected Asn1Encodable<X509Chooser> createFreshElement() {
         return new Extension("extension");
     }
 }

@@ -96,7 +96,7 @@ public class X509EcdhPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         return new X509EcdhPublicKeyHandler(chooser, this);
     }
 }

@@ -12,15 +12,17 @@ import jakarta.xml.bind.annotation.adapters.XmlAdapter;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 
 public class ImmutablePairAdapter
-        extends XmlAdapter<ImmutablePair, ImmutablePair<String, Integer>> {
+        extends XmlAdapter<ImmutablePair<String, Integer>, ImmutablePair<String, Integer>> {
 
     @Override
-    public ImmutablePair<String, Integer> unmarshal(ImmutablePair v) throws Exception {
-        return new ImmutablePair(v.getKey(), v.getValue());
+    public ImmutablePair<String, Integer> unmarshal(ImmutablePair<String, Integer> v)
+            throws Exception {
+        return new ImmutablePair<>(v.getKey(), v.getValue());
     }
 
     @Override
-    public ImmutablePair marshal(ImmutablePair<String, Integer> v) throws Exception {
-        return new ImmutablePair(v.getKey(), v.getValue());
+    public ImmutablePair<String, Integer> marshal(ImmutablePair<String, Integer> v)
+            throws Exception {
+        return new ImmutablePair<>(v.getKey(), v.getValue());
     }
 }

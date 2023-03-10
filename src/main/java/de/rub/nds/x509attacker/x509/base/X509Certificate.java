@@ -32,13 +32,13 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signatureAlgorithm;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString signature;
+    @HoldsModifiableVariable private Asn1PrimitiveBitString<X509Chooser> signature;
 
     public X509Certificate(String identifier, X509CertificateConfig certificateConfig) {
         super(identifier);
         tbsCertificate = new TbsCertificate("tbsCertificate", certificateConfig);
         signatureAlgorithm = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
-        signature = new Asn1PrimitiveBitString("signature");
+        signature = new Asn1PrimitiveBitString<X509Chooser>("signature");
         addChild(tbsCertificate);
         addChild(signatureAlgorithm);
         addChild(signature);
@@ -48,7 +48,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         super(identifier);
         tbsCertificate = new TbsCertificate("tbsCertificate");
         signatureAlgorithm = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
-        signature = new Asn1PrimitiveBitString("signature");
+        signature = new Asn1PrimitiveBitString<X509Chooser>("signature");
         addChild(tbsCertificate);
         addChild(signatureAlgorithm);
         addChild(signature);
@@ -75,11 +75,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         this.signatureAlgorithm = signatureAlgorithm;
     }
 
-    public Asn1PrimitiveBitString getSignature() {
+    public Asn1PrimitiveBitString<X509Chooser> getSignature() {
         return signature;
     }
 
-    public void setSignature(Asn1PrimitiveBitString signature) {
+    public void setSignature(Asn1PrimitiveBitString<X509Chooser> signature) {
         this.signature = signature;
     }
 
@@ -94,7 +94,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

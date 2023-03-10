@@ -16,12 +16,12 @@ import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 
 public class NameParser extends Asn1SequenceOfParser<X509Chooser> {
 
-    public NameParser(X509Chooser chooser, Asn1Sequence asn1Sequence) {
+    public NameParser(X509Chooser chooser, Asn1Sequence<X509Chooser> asn1Sequence) {
         super(chooser, asn1Sequence);
     }
 
     @Override
-    protected Asn1Encodable createFreshElement() {
+    protected Asn1Encodable<X509Chooser> createFreshElement() {
         return new RelativeDistinguishedName("rdn");
     }
 }

@@ -33,6 +33,9 @@ public class AttributeTypeAndValueParser extends Asn1SequenceParser<X509Chooser>
                 X500AttributeType.decodeFromOidBytes(
                         attributeTypeAndValue.getType().getContent().getValue()));
         attributeTypeAndValue.setValueConfig(
-                new String(((Asn1Field) attributeTypeAndValue.getValue()).getContent().getValue()));
+                new String(
+                        ((Asn1Field<X509Chooser>) attributeTypeAndValue.getValue())
+                                .getContent()
+                                .getValue()));
     }
 }

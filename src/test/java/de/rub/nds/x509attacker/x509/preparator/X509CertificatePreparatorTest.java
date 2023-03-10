@@ -50,7 +50,7 @@ public class X509CertificatePreparatorTest {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
-        Asn1SequenceParser parser = x509Certificate.getParser(chooser);
+        Asn1SequenceParser<X509Chooser> parser = x509Certificate.getParser(chooser);
         parser.parse(
                 new ByteArrayInputStream(
                         ArrayConverter.hexStringToByteArray(
@@ -62,7 +62,7 @@ public class X509CertificatePreparatorTest {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
-        Asn1SequenceParser parser = x509Certificate.getParser(chooser);
+        Asn1SequenceParser<X509Chooser> parser = x509Certificate.getParser(chooser);
         parser.parse(
                 new ByteArrayInputStream(
                         ArrayConverter.hexStringToByteArray(

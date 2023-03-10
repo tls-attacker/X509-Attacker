@@ -75,7 +75,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
     }
 
     private void initPublicKeyParameters(X509CertificateConfig config) {
-        Asn1Field field = null;
+        Asn1Field<X509Chooser> field = null;
         switch (config.getPublicKeyType()) {
             case DH:
                 field = new X509DhParameters("dhParameters");
@@ -108,17 +108,17 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
         if (field != null) {
             algorithm.instantiateParameters(field);
         } else {
-            algorithm.instantiateParameters(new Asn1Null("parameters"));
+            algorithm.instantiateParameters(new Asn1Null<X509Chooser>("parameters"));
         }
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
-        return new EmptyHandler(chooser);
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+        return new EmptyHandler<>(chooser);
     }
 
     @Override
-    public Asn1SequenceParser getParser(X509Chooser chooser) {
+    public Asn1SequenceParser<X509Chooser> getParser(X509Chooser chooser) {
         return new SubjectPublicKeyInfoParser(chooser, this);
     }
 }

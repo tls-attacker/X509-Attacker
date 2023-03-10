@@ -30,12 +30,12 @@ public class SubjectPublicKeyAlgorithmIdentifier extends AlgorithmIdentifier {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         return new SubjectPublicKeyAlgorithmIdentifierHandler(chooser, this);
     }
 
     @Override
-    public Asn1SequenceParser getParser(X509Chooser chooser) {
+    public Asn1SequenceParser<X509Chooser> getParser(X509Chooser chooser) {
         return new SubjectPublicKeyAlgorithmIdentifierParser(chooser, this);
     }
 }

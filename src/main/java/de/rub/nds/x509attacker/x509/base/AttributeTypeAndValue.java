@@ -65,8 +65,8 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
 
     public AttributeTypeAndValue(String identifier) {
         super(identifier);
-        type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Any("value");
+        type = new Asn1ObjectIdentifier<X509Chooser>("type");
+        value = new Asn1Any<X509Chooser>("value");
         addChild(type);
         addChild(value);
     }
@@ -91,19 +91,19 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
         this.valueConfig = valueConfig;
     }
 
-    public Asn1ObjectIdentifier getType() {
+    public Asn1ObjectIdentifier<X509Chooser> getType() {
         return type;
     }
 
-    public void setType(Asn1ObjectIdentifier type) {
+    public void setType(Asn1ObjectIdentifier<X509Chooser> type) {
         this.type = type;
     }
 
-    public Asn1Encodable getValue() {
+    public Asn1Encodable<X509Chooser> getValue() {
         return value.getInstantiation();
     }
 
-    public void instantiateValue(Asn1Field value) {
+    public void instantiateValue(Asn1Field<X509Chooser> value) {
         this.value.setInstantiation(value);
     }
 
@@ -123,7 +123,7 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
-        return new EmptyHandler(chooser);
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+        return new EmptyHandler<>(chooser);
     }
 }

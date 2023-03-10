@@ -79,12 +79,12 @@ public class Name extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Asn1SequenceParser getParser(X509Chooser chooser) {
+    public Asn1SequenceParser<X509Chooser> getParser(X509Chooser chooser) {
         return new NameParser(chooser, this);
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         return new NameHandler(chooser, this);
     }
 }

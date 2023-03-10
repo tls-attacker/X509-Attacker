@@ -49,32 +49,32 @@ public class Extension extends Asn1Sequence<X509Chooser> {
         addChild(extnValue);
     }
 
-    public Asn1ObjectIdentifier getExtnID() {
+    public Asn1ObjectIdentifier<X509Chooser> getExtnID() {
         return extnID;
     }
 
-    public void setExtnID(Asn1ObjectIdentifier extnID) {
+    public void setExtnID(Asn1ObjectIdentifier<X509Chooser> extnID) {
         this.extnID = extnID;
     }
 
-    public Asn1Boolean getCritical() {
+    public Asn1Boolean<X509Chooser> getCritical() {
         return critical;
     }
 
-    public void setCritical(Asn1Boolean critical) {
+    public void setCritical(Asn1Boolean<X509Chooser> critical) {
         this.critical = critical;
     }
 
-    public Asn1PrimitiveOctetString getExtnValue() {
+    public Asn1PrimitiveOctetString<X509Chooser> getExtnValue() {
         return extnValue;
     }
 
-    public void setExtnValue(Asn1PrimitiveOctetString extnValue) {
+    public void setExtnValue(Asn1PrimitiveOctetString<X509Chooser> extnValue) {
         this.extnValue = extnValue;
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

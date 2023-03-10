@@ -22,6 +22,7 @@ public class CertificateBytes {
     @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
     private byte[] bytes;
 
+    /** Empty constructor to please JAXB */
     private CertificateBytes() {}
 
     public CertificateBytes(byte[] bytes) {

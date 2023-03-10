@@ -26,7 +26,7 @@ public class AccessDescription extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier accessMethod;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> accessMethod;
 
     @HoldsModifiableVariable private GeneralName accessLocation;
 
@@ -36,17 +36,17 @@ public class AccessDescription extends Asn1Sequence<X509Chooser> {
 
     public AccessDescription(String identifier) {
         super(identifier);
-        accessMethod = new Asn1ObjectIdentifier("accessMethod");
+        accessMethod = new Asn1ObjectIdentifier<>("accessMethod");
         accessLocation = new GeneralName("accessLocation");
         addChild(accessMethod);
         addChild(accessLocation);
     }
 
-    public Asn1ObjectIdentifier getAccessMethod() {
+    public Asn1ObjectIdentifier<X509Chooser> getAccessMethod() {
         return accessMethod;
     }
 
-    public void setAccessMethod(Asn1ObjectIdentifier accessMethod) {
+    public void setAccessMethod(Asn1ObjectIdentifier<X509Chooser> accessMethod) {
         this.accessMethod = accessMethod;
     }
 
@@ -59,7 +59,7 @@ public class AccessDescription extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

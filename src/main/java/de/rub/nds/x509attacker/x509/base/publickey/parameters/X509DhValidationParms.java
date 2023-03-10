@@ -22,8 +22,8 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509DhValidationParms extends Asn1Sequence<X509Chooser> implements PublicParameters {
 
-    private Asn1PrimitiveBitString seed;
-    private Asn1Integer pgenCounter;
+    private Asn1PrimitiveBitString<X509Chooser> seed;
+    private Asn1Integer<X509Chooser> pgenCounter;
 
     private X509DhValidationParms() {
         super(null);
@@ -31,30 +31,30 @@ public class X509DhValidationParms extends Asn1Sequence<X509Chooser> implements 
 
     public X509DhValidationParms(String identifier) {
         super(identifier);
-        seed = new Asn1PrimitiveBitString("seed");
-        pgenCounter = new Asn1Integer("pgenCounter");
+        seed = new Asn1PrimitiveBitString<X509Chooser>("seed");
+        pgenCounter = new Asn1Integer<X509Chooser>("pgenCounter");
         addChild(seed);
         addChild(pgenCounter);
     }
 
-    public Asn1PrimitiveBitString getSeed() {
+    public Asn1PrimitiveBitString<X509Chooser> getSeed() {
         return seed;
     }
 
-    public void setSeed(Asn1PrimitiveBitString seed) {
+    public void setSeed(Asn1PrimitiveBitString<X509Chooser> seed) {
         this.seed = seed;
     }
 
-    public Asn1Integer getPgenCounter() {
+    public Asn1Integer<X509Chooser> getPgenCounter() {
         return pgenCounter;
     }
 
-    public void setPgenCounter(Asn1Integer pgenCounter) {
+    public void setPgenCounter(Asn1Integer<X509Chooser> pgenCounter) {
         this.pgenCounter = pgenCounter;
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         return new DhValidationParmsHandler(chooser, this);
     }
 }

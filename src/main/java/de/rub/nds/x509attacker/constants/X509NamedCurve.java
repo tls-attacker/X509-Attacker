@@ -8,8 +8,6 @@
  */
 package de.rub.nds.x509attacker.constants;
 
-import static de.rub.nds.x509attacker.constants.X500AttributeType.values;
-
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
 import java.util.HashMap;
@@ -81,7 +79,7 @@ public enum X509NamedCurve {
         this.parameters = parameters;
     }
 
-    private int computeByteLength() {
+    public int computeByteLength() {
         return (int) Math.ceil(((double) getBitLength()) / 8);
     }
 
