@@ -20,8 +20,6 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * ExtKeyUsageSyntax ::= SEQUENCE SIZE (1..MAX) OF KeyPurposeId
@@ -31,8 +29,6 @@ import org.apache.logging.log4j.Logger;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<Asn1ObjectIdentifier<X509Chooser>> keyPurposeID;

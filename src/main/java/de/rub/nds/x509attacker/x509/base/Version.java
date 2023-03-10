@@ -14,15 +14,11 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /** Version ::= INTEGER {v1(0), v2(1), v3(2) } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Version extends Asn1Explicit<X509Chooser> {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     private Version() {
         super(null, null);

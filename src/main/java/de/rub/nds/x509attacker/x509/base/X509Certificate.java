@@ -19,14 +19,10 @@ import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509Certificate extends Asn1Sequence<X509Chooser> {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @HoldsModifiableVariable private TbsCertificate tbsCertificate;
 

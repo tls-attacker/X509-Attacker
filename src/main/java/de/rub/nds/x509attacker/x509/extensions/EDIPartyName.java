@@ -16,8 +16,6 @@ import de.rub.nds.x509attacker.x509.base.DirectoryString;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * EDIPartyName ::= SEQUENCE { nameAssigner [0] DirectoryString OPTIONAL, partyName [1]
@@ -26,8 +24,6 @@ import org.apache.logging.log4j.Logger;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EDIPartyName extends Asn1Sequence<X509Chooser> {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @HoldsModifiableVariable private DirectoryString nameAssigner;
 

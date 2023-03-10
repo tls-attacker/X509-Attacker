@@ -11,13 +11,9 @@ package de.rub.nds.x509attacker.x509.preparator.publickey;
 import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyContent;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 public abstract class X509PublicKeyContentPreparator<Field extends PublicKeyContent>
         extends Preparator {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     protected final Field field;
     protected final X509Chooser chooser;

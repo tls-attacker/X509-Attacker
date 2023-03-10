@@ -14,8 +14,6 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * GeneralName ::= CHOICE { otherName [0] OtherName, rfc822Name [1] IA5String, dNSName [2]
@@ -26,8 +24,6 @@ import org.apache.logging.log4j.Logger;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GeneralName extends Asn1Choice<X509Chooser> {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     private GeneralName() {
         super(null);
