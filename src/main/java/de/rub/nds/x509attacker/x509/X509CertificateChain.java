@@ -17,8 +17,6 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * Represent one X509CertificateChain containing multiple X509Certificates and provides an API for
@@ -27,8 +25,6 @@ import org.apache.logging.log4j.Logger;
 @XmlRootElement(name = "X509CertificateChain")
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509CertificateChain {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @XmlElementWrapper(name = "X509Certificates")
     @XmlElement(name = "X509Certificate")

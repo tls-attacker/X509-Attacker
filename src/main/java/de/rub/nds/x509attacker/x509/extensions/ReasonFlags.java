@@ -13,8 +13,6 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * ReasonFlags ::= BIT STRING { unused (0), keyCompromise (1), cACompromise (2), affiliationChanged
@@ -24,8 +22,6 @@ import org.apache.logging.log4j.Logger;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ReasonFlags extends Asn1PrimitiveBitString<X509Chooser> {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     private ReasonFlags() {
         super(null);

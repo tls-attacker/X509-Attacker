@@ -24,8 +24,6 @@ import de.rub.nds.x509attacker.x509.preparator.AttributeTypeAndValuePreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 /**
  * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue }
@@ -41,8 +39,6 @@ import org.apache.logging.log4j.Logger;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
-
-    private static final Logger LOGGER = LogManager.getLogger();
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> type;
 
