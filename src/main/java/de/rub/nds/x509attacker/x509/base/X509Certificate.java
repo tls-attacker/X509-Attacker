@@ -287,7 +287,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         return null; // TODO Implement
     }
 
-    public HashAlgorithm getSignatureHashAlgorithm() {
+    public HashAlgorithm getHashAlgorithm() {
         return null; // TODO implement
     }
 
