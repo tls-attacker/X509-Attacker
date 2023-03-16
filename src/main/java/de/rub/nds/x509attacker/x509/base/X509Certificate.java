@@ -44,7 +44,7 @@ import org.apache.logging.log4j.Logger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
-    private Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @HoldsModifiableVariable private TbsCertificate tbsCertificate;
 
