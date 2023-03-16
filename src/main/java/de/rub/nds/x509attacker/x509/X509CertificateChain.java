@@ -9,6 +9,8 @@
 package de.rub.nds.x509attacker.x509;
 
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.x509attacker.trust.TrustAnchor;
+import de.rub.nds.x509attacker.trust.TrustPath;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -80,5 +82,61 @@ public class X509CertificateChain {
         } else {
             return null;
         }
+    }
+
+    public boolean isChainOrdered(String uri) {
+        return false; // TODO Implement
+    }
+
+    public boolean containsTrustAnchor() {
+        return false; // TODO Implement
+    }
+
+    public boolean containsKnownTrustAnchor(List<TrustAnchor> anchor) {
+        return false; // TODO Implement
+    }
+
+    public boolean containsMultipleLeafs() {
+        return false; // TODO Implement
+    }
+
+    public boolean containsValidLeaf() {
+        return false; // TODO Implement
+    }
+
+    public List<TrustPath> getAllTrustPaths(List<TrustAnchor> trustAnchorList) {
+        return new LinkedList<>();
+    }
+
+    public boolean containsExpiredCertificate(TrustPath path) {
+        return false; // TODO Implement
+    }
+
+    public boolean containsExpiredCertificate() {
+        return false; // TODO Implement
+    }
+
+    public boolean containsNotYetValidCertificate(TrustPath path) {
+        return false; // TODO Implement
+    }
+
+    public boolean containsNotYetValidCertificate() {
+        return false; // TODO Implement
+    }
+
+    public boolean containsWeakSignature(TrustPath path) {
+        return false; // TODO Implement
+    }
+
+    public boolean containsSelfSignedLeaf() {
+        return false; // TODO Implement
+    }
+
+    public boolean hasIncompleteChain() {
+        return false; // TODO Implement
+    }
+
+    public boolean allSignaturesValid() {
+        return false; // TODO Implement
     }
 }
