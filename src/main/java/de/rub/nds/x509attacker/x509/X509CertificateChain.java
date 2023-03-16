@@ -84,59 +84,63 @@ public class X509CertificateChain {
         }
     }
 
-    public boolean isChainOrdered(String uri) {
-        return false; // TODO Implement
+    public Boolean isChainOrdered(String uri) {
+        return null; // TODO Implement
     }
 
-    public boolean containsTrustAnchor() {
-        return false; // TODO Implement
+    public Boolean containsTrustAnchor() {
+        return null; // TODO Implement
     }
 
-    public boolean containsKnownTrustAnchor(List<TrustAnchor> anchor) {
-        return false; // TODO Implement
+    public Boolean containsKnownTrustAnchor(List<TrustAnchor> anchor) {
+        return null; // TODO Implement
     }
 
-    public boolean containsMultipleLeafs() {
-        return false; // TODO Implement
+    public Boolean containsMultipleLeafs() {
+        return null; // TODO Implement
     }
 
-    public boolean containsValidLeaf() {
-        return false; // TODO Implement
+    public Boolean containsValidLeaf() {
+        return null; // TODO Implement
     }
 
     public List<TrustPath> getAllTrustPaths(List<TrustAnchor> trustAnchorList) {
         return new LinkedList<>();
     }
 
-    public boolean containsExpiredCertificate(TrustPath path) {
-        return false; // TODO Implement
+    public Boolean containsExpiredCertificate(TrustPath path) {
+        return null; // TODO Implement
     }
 
-    public boolean containsExpiredCertificate() {
-        return false; // TODO Implement
+    public Boolean containsExpiredCertificate() {
+        return null; // TODO Implement
     }
 
-    public boolean containsNotYetValidCertificate(TrustPath path) {
-        return false; // TODO Implement
+    public Boolean containsNotYetValidCertificate(TrustPath path) {
+        return null; // TODO Implement
     }
 
-    public boolean containsNotYetValidCertificate() {
-        return false; // TODO Implement
+    public Boolean containsNotYetValidCertificate() {
+        return null; // TODO Implement
     }
 
-    public boolean containsWeakSignature(TrustPath path) {
-        return false; // TODO Implement
+    public Boolean containsWeakSignature(TrustPath path) {
+        return null; // TODO Implement
     }
 
-    public boolean containsSelfSignedLeaf() {
-        return false; // TODO Implement
+    public Boolean containsSelfSignedLeaf() {
+        return null; // TODO Implement
     }
 
-    public boolean hasIncompleteChain() {
-        return false; // TODO Implement
+    public Boolean hasIncompleteChain() {
+        return null; // TODO Implement
     }
 
-    public boolean allSignaturesValid() {
-        return false; // TODO Implement
+    public Boolean allSignaturesValid() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isExtendedValidation(){
+        return null; //TODO implement
     }
 }
