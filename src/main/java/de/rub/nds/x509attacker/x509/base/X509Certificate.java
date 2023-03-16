@@ -13,6 +13,7 @@ import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
 import de.rub.nds.protocol.crypto.key.DhPublicKey;
 import de.rub.nds.protocol.crypto.key.DsaPublicKey;
@@ -36,6 +37,8 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.math.BigInteger;
+import java.util.Date;
+import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -258,5 +261,81 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
                 throw new UnsupportedOperationException(
                         "PublicKeyContainer " + certificateKeyType + " not yet implemented");
         }
+    }
+
+    public Date getValidFrom() {
+        return null; // TODO Implement
+    }
+
+    public Date getValidTill() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isExpired() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isYetValid() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isRevokedCrl() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isRevokedOcsp() {
+        return null; // TODO Implement
+    }
+
+    public HashAlgorithm getSignatureHashAlgorithm() {
+        return null; // TODO implement
+    }
+
+    public Boolean hasWeakBlacklistedDebianKey() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isLeaf() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isValidLeafFor(String uri) {
+        return null; // TODO Implement
+    }
+
+    public String getCommonName() {
+        return null; // TODO Implement
+    }
+
+    public List<String> getSubjectAlternativeNames() {
+        return null; // TODO Implement
+    }
+
+    public Boolean hasSanExtension() {
+        return null; // TODO Implement
+    }
+
+    public Boolean hasExtendedKeyUsageExtension() {
+        return null; // TODO Implement
+    }
+
+    public Boolean hasSignedCertificateTransparencyEntry() {
+        return null; // TODO Implement
+    }
+
+    public Boolean hasOcsp() {
+        return null; // TODO Implement
+    }
+
+    public Boolean hasCertificateRevocationList() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isOcspMustStaple() {
+        return null; // TODO Implement
+    }
+
+    public Boolean isSelfSigned() {
+        return null; // TODO Implement
     }
 }
