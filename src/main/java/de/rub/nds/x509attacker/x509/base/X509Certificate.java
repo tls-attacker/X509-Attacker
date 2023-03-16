@@ -338,4 +338,21 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     public Boolean isSelfSigned() {
         return null; // TODO Implement
     }
+
+    /**
+     * Returns the Subject in a String representation
+     * @return
+     */
+    public String getSubjectString() {
+        return null; // TODO Implement
+    }
+
+
+    /**
+     * Returns the Subject in a String representation
+     * @return
+     */
+    public String getIssuerString() {
+        return null; // TODO Implement
+    }
 }
