@@ -9,6 +9,8 @@
 package de.rub.nds.x509attacker.constants;
 
 import de.rub.nds.asn1.oid.ObjectIdentifier;
+import de.rub.nds.protocol.constants.SignatureAlgorithm;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -57,5 +59,46 @@ public enum X509PublicKeyType {
     public static X509PublicKeyType decodeFromOidBytes(byte[] oidBytes) {
         ObjectIdentifier objectIdentifier = new ObjectIdentifier(oidBytes);
         return oidMap.get(objectIdentifier.toString());
+    }
+
+    public boolean canBeUsedWithSignatureAlgorithm(SignatureAlgorithm signatureAlgorithm) {
+        switch (this) {
+            case DH:
+                return false;
+            case DSA:
+                return signatureAlgorithm == SignatureAlgorithm.DSA;
+            case ECDH_ECDSA:
+                return signatureAlgorithm == SignatureAlgorithm.ECDSA;
+            case ECDH_ONLY:
+                return false;
+            case ECMQV:
+                throw new UnsupportedOperationException("Not implemented");
+            case ED25519:
+                return signatureAlgorithm == SignatureAlgorithm.ED25519;
+            case ED448:
+                return signatureAlgorithm == SignatureAlgorithm.ED448;
+            case GOST_R3411_2001:
+            case GOST_R3411_94:
+                // TODO not sure this is correct
+                return signatureAlgorithm == SignatureAlgorithm.GOSTR34102001;
+            case GOST_R3411_2012:
+                // TODO not sure this is correct
+                return signatureAlgorithm == SignatureAlgorithm.GOSTR34102012_256
+                        || signatureAlgorithm == SignatureAlgorithm.GOSTR34102012_512;
+            case KEA:
+                throw new UnsupportedOperationException("Not implemented");
+            case RSA:
+                return signatureAlgorithm == SignatureAlgorithm.RSA_PKCS1;
+            case RSASSA_PSS:
+                return signatureAlgorithm == SignatureAlgorithm.RSA_PSS;
+            case X25519:
+                return false;
+            case X448:
+                return false;
+            case RSAES_OAEP:
+                throw new UnsupportedOperationException("Not implemented");
+            default:
+                throw new UnsupportedOperationException("Not implemented");
+        }
     }
 }
