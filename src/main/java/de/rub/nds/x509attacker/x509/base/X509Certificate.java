@@ -23,6 +23,7 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
+import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.key.DhPublicKey;
 import de.rub.nds.protocol.crypto.key.DsaPublicKey;
 import de.rub.nds.protocol.crypto.key.EcdhPublicKey;
@@ -31,6 +32,8 @@ import de.rub.nds.protocol.crypto.key.PublicKeyContainer;
 import de.rub.nds.protocol.crypto.key.RsaPublicKey;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.constants.ExtendedKeyUsage;
+import de.rub.nds.x509attacker.constants.KeyUsage;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509Version;
@@ -63,7 +66,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     private TbsCertificate tbsCertificate;
 
     @HoldsModifiableVariable
-    private CertificateSignatureAlgorithmIdentifier signatureAlgorithm;
+    private CertificateSignatureAlgorithmIdentifier signatureAlgorithmIdentifier;
 
     @HoldsModifiableVariable
     private Asn1PrimitiveBitString<X509Chooser> signature;
@@ -71,20 +74,20 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     public X509Certificate(String identifier, X509CertificateConfig certificateConfig) {
         super(identifier);
         tbsCertificate = new TbsCertificate("tbsCertificate", certificateConfig);
-        signatureAlgorithm = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
+        signatureAlgorithmIdentifier = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1PrimitiveBitString<X509Chooser>("signature");
         addChild(tbsCertificate);
-        addChild(signatureAlgorithm);
+        addChild(signatureAlgorithmIdentifier);
         addChild(signature);
     }
 
     public X509Certificate(String identifier) {
         super(identifier);
         tbsCertificate = new TbsCertificate("tbsCertificate");
-        signatureAlgorithm = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
+        signatureAlgorithmIdentifier = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1PrimitiveBitString<X509Chooser>("signature");
         addChild(tbsCertificate);
-        addChild(signatureAlgorithm);
+        addChild(signatureAlgorithmIdentifier);
         addChild(signature);
     }
 
@@ -101,12 +104,12 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         this.tbsCertificate = tbsCertificate;
     }
 
-    public CertificateSignatureAlgorithmIdentifier getSignatureAlgorithm() {
-        return signatureAlgorithm;
+    public CertificateSignatureAlgorithmIdentifier getSignatureAlgorithmIdentifier() {
+        return signatureAlgorithmIdentifier;
     }
 
-    public void setSignatureAlgorithm(CertificateSignatureAlgorithmIdentifier signatureAlgorithm) {
-        this.signatureAlgorithm = signatureAlgorithm;
+    public void setSignatureAlgorithmIdentifier(CertificateSignatureAlgorithmIdentifier signatureAlgorithm) {
+        this.signatureAlgorithmIdentifier = signatureAlgorithm;
     }
 
     public Asn1PrimitiveBitString<X509Chooser> getSignature() {
@@ -359,6 +362,18 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     }
 
     public X509Version getX509Version() {
+        return null; // TODO implement
+    }
+
+    public SignatureAlgorithm getSignatureAlgorithm() {
+        return null; // TODO implement
+    }
+
+    public List<KeyUsage> getKeyUsages() {
+        return null; // TODO implement
+    }
+
+    public List<ExtendedKeyUsage> getExtendedKeyUsages() {
         return null; // TODO implement
     }
 }

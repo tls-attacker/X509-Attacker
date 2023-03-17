@@ -44,14 +44,14 @@ public class X509CertificatePreparator extends Asn1SequencePreparator<X509Choose
     private void prepareSignatureAlgorithm() {
         X509SignatureAlgorithm signatureAlgorithm = chooser.getSignatureAlgorithm();
         certificate
-                .getSignatureAlgorithm()
+                .getSignatureAlgorithmIdentifier()
                 .getAlgorithm()
                 .setValue(signatureAlgorithm.getOid().toString());
-        certificate.getSignatureAlgorithm().getAlgorithm().getPreparator(chooser).prepare();
+        certificate.getSignatureAlgorithmIdentifier().getAlgorithm().getPreparator(chooser).prepare();
         certificate
-                .getSignatureAlgorithm()
+                .getSignatureAlgorithmIdentifier()
                 .instantiateParameters(new Asn1Null<>("null")); // PARAMETERS
-        certificate.getSignatureAlgorithm().getPreparator(chooser).prepare();
+        certificate.getSignatureAlgorithmIdentifier().getPreparator(chooser).prepare();
     }
 
     private void prepareSignature() {
