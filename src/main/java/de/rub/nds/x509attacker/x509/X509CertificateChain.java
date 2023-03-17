@@ -84,7 +84,7 @@ public class X509CertificateChain {
         }
     }
 
-    public Boolean isChainOrdered(String uri) {
+    public Boolean isChainOrdered() {
         return null; // TODO Implement
     }
 

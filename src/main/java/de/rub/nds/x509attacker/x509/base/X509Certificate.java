@@ -8,6 +8,14 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import java.math.BigInteger;
+import java.util.Date;
+import java.util.List;
+import java.util.Optional;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -25,23 +33,25 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
-import de.rub.nds.x509attacker.x509.base.publickey.*;
+import de.rub.nds.x509attacker.constants.X509Version;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyContent;
+import de.rub.nds.x509attacker.x509.base.publickey.X509DhPublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509DsaPublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509EcdhEcdsaPublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509EcdhPublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509Ed25519PublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509Ed448PublicKey;
+import de.rub.nds.x509attacker.x509.base.publickey.X509RsaPublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.X509X25519PublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.X509X448PublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.*;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.math.BigInteger;
-import java.util.Date;
-import java.util.List;
-import java.util.Optional;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -49,11 +59,14 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private TbsCertificate tbsCertificate;
+    @HoldsModifiableVariable
+    private TbsCertificate tbsCertificate;
 
-    @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signatureAlgorithm;
+    @HoldsModifiableVariable
+    private CertificateSignatureAlgorithmIdentifier signatureAlgorithm;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString<X509Chooser> signature;
+    @HoldsModifiableVariable
+    private Asn1PrimitiveBitString<X509Chooser> signature;
 
     public X509Certificate(String identifier, X509CertificateConfig certificateConfig) {
         super(identifier);
@@ -190,12 +203,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     public PublicKeyContent getPublicKey() {
         Optional<TbsCertificate> optionalTbs = Optional.ofNullable(getTbsCertificate());
-        Optional<SubjectPublicKeyInfo> optionalPublicKeyType =
-                optionalTbs.map(TbsCertificate::getSubjectPublicKeyInfo);
-        Optional<PublicKeyBitString> publicKeyString =
-                optionalPublicKeyType.map(SubjectPublicKeyInfo::getSubjectPublicKeyBitString);
-        Optional<PublicKeyContent> publicKeyContentOptional =
-                publicKeyString.map(PublicKeyBitString::getX509PublicKeyContent);
+        Optional<SubjectPublicKeyInfo> optionalPublicKeyType = optionalTbs.map(TbsCertificate::getSubjectPublicKeyInfo);
+        Optional<PublicKeyBitString> publicKeyString = optionalPublicKeyType
+                .map(SubjectPublicKeyInfo::getSubjectPublicKeyBitString);
+        Optional<PublicKeyContent> publicKeyContentOptional = publicKeyString
+                .map(PublicKeyBitString::getX509PublicKeyContent);
         return (PublicKeyContent) publicKeyContentOptional.get();
     }
 
@@ -212,29 +224,20 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         X509PublicKeyType certificateKeyType = getCertificateKeyType();
         switch (certificateKeyType) {
             case DH:
-                BigInteger publicKey =
-                        ((X509DhPublicKey) getPublicKey()).getPublicKey().getValue().getValue();
-                BigInteger generator =
-                        ((X509DhParameters) getPublicParameters()).getG().getValue().getValue();
-                BigInteger modulus =
-                        ((X509DhParameters) getPublicParameters()).getP().getValue().getValue();
+                BigInteger publicKey = ((X509DhPublicKey) getPublicKey()).getPublicKey().getValue().getValue();
+                BigInteger generator = ((X509DhParameters) getPublicParameters()).getG().getValue().getValue();
+                BigInteger modulus = ((X509DhParameters) getPublicParameters()).getP().getValue().getValue();
                 return new DhPublicKey(publicKey, generator, modulus);
             case DSA:
-                BigInteger Q =
-                        ((X509DssParameters) getPublicParameters()).getQ().getValue().getValue();
-                BigInteger X =
-                        ((X509DsaPublicKey) getPublicKey()).getPublicKeyY().getValue().getValue();
-                generator =
-                        ((X509DssParameters) getPublicParameters()).getG().getValue().getValue();
+                BigInteger Q = ((X509DssParameters) getPublicParameters()).getQ().getValue().getValue();
+                BigInteger X = ((X509DsaPublicKey) getPublicKey()).getPublicKeyY().getValue().getValue();
+                generator = ((X509DssParameters) getPublicParameters()).getG().getValue().getValue();
                 modulus = ((X509DssParameters) getPublicParameters()).getP().getValue().getValue();
                 return new DsaPublicKey(Q, X, generator, modulus);
             case ECDH_ECDSA:
-                BigInteger xCoordinate =
-                        ((X509EcdhEcdsaPublicKey) getPublicKey()).getxCoordinate().getValue();
-                BigInteger yCoordinate =
-                        ((X509EcdhEcdsaPublicKey) getPublicKey()).getyCoordinate().getValue();
-                NamedEllipticCurveParameters parameters =
-                        (NamedEllipticCurveParameters) getEllipticCurve();
+                BigInteger xCoordinate = ((X509EcdhEcdsaPublicKey) getPublicKey()).getxCoordinate().getValue();
+                BigInteger yCoordinate = ((X509EcdhEcdsaPublicKey) getPublicKey()).getyCoordinate().getValue();
+                NamedEllipticCurveParameters parameters = (NamedEllipticCurveParameters) getEllipticCurve();
                 return new EcdsaPublicKey(
                         parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
             case ECDH_ONLY:
@@ -244,18 +247,16 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
                 return new EcdhPublicKey(
                         parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
             case RSA:
-                modulus =
-                        ((X509RsaPublicKey) getPublicKey())
-                                .getRsaPublicKeyContentSequence()
-                                .getModulus()
-                                .getValue()
-                                .getValue();
-                BigInteger publicExponent =
-                        ((X509RsaPublicKey) getPublicKey())
-                                .getRsaPublicKeyContentSequence()
-                                .getPublicExponent()
-                                .getValue()
-                                .getValue();
+                modulus = ((X509RsaPublicKey) getPublicKey())
+                        .getRsaPublicKeyContentSequence()
+                        .getModulus()
+                        .getValue()
+                        .getValue();
+                BigInteger publicExponent = ((X509RsaPublicKey) getPublicKey())
+                        .getRsaPublicKeyContentSequence()
+                        .getPublicExponent()
+                        .getValue()
+                        .getValue();
                 return new RsaPublicKey(publicExponent, modulus);
             default:
                 throw new UnsupportedOperationException(
@@ -341,18 +342,23 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     /**
      * Returns the Subject in a String representation
+     * 
      * @return
      */
     public String getSubjectString() {
         return null; // TODO Implement
     }
 
-
     /**
      * Returns the Subject in a String representation
+     * 
      * @return
      */
     public String getIssuerString() {
         return null; // TODO Implement
+    }
+
+    public X509Version getX509Version() {
+        return null; // TODO implement
     }
 }
