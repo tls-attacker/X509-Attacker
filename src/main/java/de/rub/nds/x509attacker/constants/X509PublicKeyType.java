@@ -10,7 +10,6 @@ package de.rub.nds.x509attacker.constants;
 
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
-
 import java.util.HashMap;
 import java.util.Map;
 

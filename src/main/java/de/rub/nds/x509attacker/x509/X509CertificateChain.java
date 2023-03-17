@@ -140,7 +140,7 @@ public class X509CertificateChain {
         return null; // TODO Implement
     }
 
-    public Boolean isExtendedValidation(){
-        return null; //TODO implement
+    public Boolean isExtendedValidation() {
+        return null; // TODO implement
     }
 }
