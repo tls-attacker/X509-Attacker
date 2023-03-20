@@ -287,11 +287,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     }
 
     public Boolean isExpired() {
-        return null; // TODO Implement
+        return getNotAfter().isAfterNow();
     }
 
     public Boolean isYetValid() {
-        return null; // TODO Implement
+        return getNotBefore().isAfterNow();
     }
 
     public Boolean isRevokedCrl() {
