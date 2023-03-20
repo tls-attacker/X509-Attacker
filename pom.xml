@@ -102,8 +102,6 @@
         <dependency>
             <groupId>org.reflections</groupId>
             <artifactId>reflections</artifactId>
-            <version>0.10.2</version>
-            <type>jar</type>
         </dependency>
         <!-- scope: test -->
         <dependency>
