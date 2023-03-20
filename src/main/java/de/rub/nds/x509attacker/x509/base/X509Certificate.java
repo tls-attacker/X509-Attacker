@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.Handler;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
@@ -48,11 +49,11 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.math.BigInteger;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -278,12 +279,12 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         }
     }
 
-    public Date getValidFrom() {
-        return null; // TODO Implement
+    public DateTime getNotBefore() {
+        return tbsCertificate.getValidity().getNotBefore().getTimeValue();
     }
 
-    public Date getValidTill() {
-        return null; // TODO Implement
+    public DateTime getNotAfter() {
+        return tbsCertificate.getValidity().getNotAfter().getTimeValue();
     }
 
     public Boolean isExpired() {
