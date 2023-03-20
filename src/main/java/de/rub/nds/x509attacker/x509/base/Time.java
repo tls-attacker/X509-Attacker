@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.exceptions.NotInitializedException;
 import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
