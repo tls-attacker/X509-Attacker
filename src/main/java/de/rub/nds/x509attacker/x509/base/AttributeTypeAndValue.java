@@ -14,7 +14,12 @@ import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
+import de.rub.nds.asn1.model.Asn1PrimitiveIa5String;
+import de.rub.nds.asn1.model.Asn1PrimitivePrintableString;
+import de.rub.nds.asn1.model.Asn1PrimitiveT61String;
+import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -121,5 +126,42 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
     @Override
     public Handler<X509Chooser> getHandler(X509Chooser chooser) {
         return new EmptyHandler<>(chooser);
+    }
+
+    public String getStringRepresentation() {
+        StringBuilder builder = new StringBuilder();
+        ObjectIdentifier oid = new ObjectIdentifier(getType().getValue().getValue());
+        X500AttributeType x500AttributeType =
+                X500AttributeType.decodeFromOidBytes(oid.getEncoded());
+        if (x500AttributeType != null) {
+            builder.append(x500AttributeType.getShortString());
+        } else {
+            builder.append(oid.toString());
+        }
+        builder.append("=");
+        if (value.getInstantiation() instanceof Asn1PrimitiveIa5String) {
+            builder.append(
+                    ((Asn1PrimitiveIa5String<X509Chooser>) value.getInstantiation())
+                            .getValue()
+                            .getValue());
+        } else if (value.getInstantiation() instanceof Asn1PrimitivePrintableString) {
+            builder.append(
+                    ((Asn1PrimitivePrintableString<X509Chooser>) value.getInstantiation())
+                            .getValue()
+                            .getValue());
+        } else if (value.getInstantiation() instanceof Asn1PrimitiveT61String) {
+            builder.append(
+                    ((Asn1PrimitiveT61String<X509Chooser>) value.getInstantiation())
+                            .getValue()
+                            .getValue());
+        } else if (value.getInstantiation() instanceof Asn1PrimitiveUtf8String) {
+            builder.append(
+                    ((Asn1PrimitiveUtf8String<X509Chooser>) value.getInstantiation())
+                            .getValue()
+                            .getValue());
+        } else {
+            builder.append(value.getInstantiation().toString());
+        }
+        return builder.toString();
     }
 }

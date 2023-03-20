@@ -15,12 +15,12 @@ import java.util.Map;
 public enum X500AttributeType {
 
     /** https://www.alvestrand.no/objectid/2.5.4.html */
-    COMMON_NAME("commonName", "2.5.4.3"),
-    COUNTRY_NAME("country", "2.5.4.6"),
-    LOCALITY("locality", "2.5.4.7"),
-    STATE_OR_PROVINCE_NAME("state", "2.5.4.8"),
-    ORGANISATION_NAME("organisation", "2.5.4.10"),
-    ORGANISATION_UNIT_NAME("organisation unit", "2.5.4.11");
+    COMMON_NAME("commonName", "CN", "2.5.4.3"),
+    COUNTRY_NAME("country", "C", "2.5.4.6"),
+    LOCALITY("locality", "L", "2.5.4.7"),
+    STATE_OR_PROVINCE_NAME("state", "S", "2.5.4.8"),
+    ORGANISATION_NAME("organisation", "O", "2.5.4.10"),
+    ORGANISATION_UNIT_NAME("organisation unit", "OU", "2.5.4.11");
 
     private static final Map<String, X500AttributeType> oidMap = new HashMap<>();
 
@@ -31,15 +31,21 @@ public enum X500AttributeType {
     }
 
     private final String humanReadableName;
+    private final String shortString;
     private final ObjectIdentifier oid;
 
-    private X500AttributeType(String humanReadableName, String oid) {
+    private X500AttributeType(String humanReadableName, String shortString, String oid) {
         this.humanReadableName = humanReadableName;
+        this.shortString = shortString;
         this.oid = new ObjectIdentifier(oid);
     }
 
     public String getHumanReadableName() {
         return humanReadableName;
+    }
+
+    public String getShortString() {
+        return shortString;
     }
 
     public ObjectIdentifier getOid() {

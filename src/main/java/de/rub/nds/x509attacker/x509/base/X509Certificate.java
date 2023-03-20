@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.Handler;
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
@@ -60,18 +61,19 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    @HoldsModifiableVariable private TbsCertificate tbsCertificate;
+    @HoldsModifiableVariable
+    private TbsCertificate tbsCertificate;
 
     @HoldsModifiableVariable
     private CertificateSignatureAlgorithmIdentifier signatureAlgorithmIdentifier;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString<X509Chooser> signature;
+    @HoldsModifiableVariable
+    private Asn1PrimitiveBitString<X509Chooser> signature;
 
     public X509Certificate(String identifier, X509CertificateConfig certificateConfig) {
         super(identifier);
         tbsCertificate = new TbsCertificate("tbsCertificate", certificateConfig);
-        signatureAlgorithmIdentifier =
-                new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
+        signatureAlgorithmIdentifier = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1PrimitiveBitString<X509Chooser>("signature");
         addChild(tbsCertificate);
         addChild(signatureAlgorithmIdentifier);
@@ -81,8 +83,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     public X509Certificate(String identifier) {
         super(identifier);
         tbsCertificate = new TbsCertificate("tbsCertificate");
-        signatureAlgorithmIdentifier =
-                new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
+        signatureAlgorithmIdentifier = new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1PrimitiveBitString<X509Chooser>("signature");
         addChild(tbsCertificate);
         addChild(signatureAlgorithmIdentifier);
@@ -205,12 +206,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     public PublicKeyContent getPublicKey() {
         Optional<TbsCertificate> optionalTbs = Optional.ofNullable(getTbsCertificate());
-        Optional<SubjectPublicKeyInfo> optionalPublicKeyType =
-                optionalTbs.map(TbsCertificate::getSubjectPublicKeyInfo);
-        Optional<PublicKeyBitString> publicKeyString =
-                optionalPublicKeyType.map(SubjectPublicKeyInfo::getSubjectPublicKeyBitString);
-        Optional<PublicKeyContent> publicKeyContentOptional =
-                publicKeyString.map(PublicKeyBitString::getX509PublicKeyContent);
+        Optional<SubjectPublicKeyInfo> optionalPublicKeyType = optionalTbs.map(TbsCertificate::getSubjectPublicKeyInfo);
+        Optional<PublicKeyBitString> publicKeyString = optionalPublicKeyType
+                .map(SubjectPublicKeyInfo::getSubjectPublicKeyBitString);
+        Optional<PublicKeyContent> publicKeyContentOptional = publicKeyString
+                .map(PublicKeyBitString::getX509PublicKeyContent);
         return (PublicKeyContent) publicKeyContentOptional.get();
     }
 
@@ -227,29 +227,20 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         X509PublicKeyType certificateKeyType = getCertificateKeyType();
         switch (certificateKeyType) {
             case DH:
-                BigInteger publicKey =
-                        ((X509DhPublicKey) getPublicKey()).getPublicKey().getValue().getValue();
-                BigInteger generator =
-                        ((X509DhParameters) getPublicParameters()).getG().getValue().getValue();
-                BigInteger modulus =
-                        ((X509DhParameters) getPublicParameters()).getP().getValue().getValue();
+                BigInteger publicKey = ((X509DhPublicKey) getPublicKey()).getPublicKey().getValue().getValue();
+                BigInteger generator = ((X509DhParameters) getPublicParameters()).getG().getValue().getValue();
+                BigInteger modulus = ((X509DhParameters) getPublicParameters()).getP().getValue().getValue();
                 return new DhPublicKey(publicKey, generator, modulus);
             case DSA:
-                BigInteger Q =
-                        ((X509DssParameters) getPublicParameters()).getQ().getValue().getValue();
-                BigInteger X =
-                        ((X509DsaPublicKey) getPublicKey()).getPublicKeyY().getValue().getValue();
-                generator =
-                        ((X509DssParameters) getPublicParameters()).getG().getValue().getValue();
+                BigInteger Q = ((X509DssParameters) getPublicParameters()).getQ().getValue().getValue();
+                BigInteger X = ((X509DsaPublicKey) getPublicKey()).getPublicKeyY().getValue().getValue();
+                generator = ((X509DssParameters) getPublicParameters()).getG().getValue().getValue();
                 modulus = ((X509DssParameters) getPublicParameters()).getP().getValue().getValue();
                 return new DsaPublicKey(Q, X, generator, modulus);
             case ECDH_ECDSA:
-                BigInteger xCoordinate =
-                        ((X509EcdhEcdsaPublicKey) getPublicKey()).getxCoordinate().getValue();
-                BigInteger yCoordinate =
-                        ((X509EcdhEcdsaPublicKey) getPublicKey()).getyCoordinate().getValue();
-                NamedEllipticCurveParameters parameters =
-                        (NamedEllipticCurveParameters) getEllipticCurve();
+                BigInteger xCoordinate = ((X509EcdhEcdsaPublicKey) getPublicKey()).getxCoordinate().getValue();
+                BigInteger yCoordinate = ((X509EcdhEcdsaPublicKey) getPublicKey()).getyCoordinate().getValue();
+                NamedEllipticCurveParameters parameters = (NamedEllipticCurveParameters) getEllipticCurve();
                 return new EcdsaPublicKey(
                         parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
             case ECDH_ONLY:
@@ -259,18 +250,16 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
                 return new EcdhPublicKey(
                         parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
             case RSA:
-                modulus =
-                        ((X509RsaPublicKey) getPublicKey())
-                                .getRsaPublicKeyContentSequence()
-                                .getModulus()
-                                .getValue()
-                                .getValue();
-                BigInteger publicExponent =
-                        ((X509RsaPublicKey) getPublicKey())
-                                .getRsaPublicKeyContentSequence()
-                                .getPublicExponent()
-                                .getValue()
-                                .getValue();
+                modulus = ((X509RsaPublicKey) getPublicKey())
+                        .getRsaPublicKeyContentSequence()
+                        .getModulus()
+                        .getValue()
+                        .getValue();
+                BigInteger publicExponent = ((X509RsaPublicKey) getPublicKey())
+                        .getRsaPublicKeyContentSequence()
+                        .getPublicExponent()
+                        .getValue()
+                        .getValue();
                 return new RsaPublicKey(publicExponent, modulus);
             default:
                 throw new UnsupportedOperationException(
@@ -354,13 +343,25 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         return null; // TODO Implement
     }
 
+    private String getRdnString(List<RelativeDistinguishedName> relativeDistinguishedNames) {
+        StringBuilder builder = new StringBuilder();
+        for (RelativeDistinguishedName relativeDistinguishedName : relativeDistinguishedNames) {
+            for (Asn1Encodable<X509Chooser> encodable : relativeDistinguishedName.getChildren()) {
+                if (encodable instanceof AttributeTypeAndValue) {
+                    builder.append(((AttributeTypeAndValue) encodable).getStringRepresentation());
+                    builder.append(" ");
+                }
+            }
+        }
+    }
+
     /**
      * Returns the Subject in a String representation
      *
      * @return
      */
     public String getSubjectString() {
-        return null; // TODO Implement
+        return getRdnString(getTbsCertificate().getSubject().getRelativeDistinguishedNames()).trim();
     }
 
     /**
@@ -369,7 +370,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
      * @return
      */
     public String getIssuerString() {
-        return null; // TODO Implement
+        return getRdnString(getTbsCertificate().getIssuer().getRelativeDistinguishedNames()).trim();
     }
 
     public X509Version getX509Version() {
