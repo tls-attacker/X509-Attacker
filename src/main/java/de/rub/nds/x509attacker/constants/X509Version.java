@@ -24,4 +24,13 @@ public enum X509Version {
     public BigInteger getValue() {
         return value;
     }
+
+    public static X509Version convert(BigInteger value) {
+        for (X509Version version : values()) {
+            if (version.getValue().equals(value)) {
+                return version;
+            }
+        }
+        return null;
+    }
 }

@@ -194,21 +194,4 @@ public class PemUtil {
             throw new RuntimeException(ex);
         }
     }
-
-    public static SignatureKeyType getKeyType(File f) {
-        PrivateKey privKey = readPrivateKey(f);
-        String algo = privKey.getAlgorithm();
-        switch (algo) {
-            case "RSA":
-                return SignatureKeyType.RSA;
-            case "DSA":
-                return SignatureKeyType.DSA;
-            case "ECDSA":
-            case "EC":
-                return SignatureKeyType.ECDSA;
-            default:
-                LOGGER.warn("getKeyType(): no KeyType defined for: " + algo);
-                return null;
-        }
-    }
 }

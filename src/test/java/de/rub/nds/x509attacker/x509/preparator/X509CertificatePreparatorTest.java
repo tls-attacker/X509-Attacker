@@ -14,8 +14,10 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import java.io.ByteArrayInputStream;
+import java.security.Security;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -28,6 +30,7 @@ public class X509CertificatePreparatorTest {
     /** Test of prepareContent method, of class X509CertificatePreparator. */
     @Test
     public void testCreationSerialisationParsingSerialisationEquality() {
+        Security.addProvider(new BouncyCastleProvider());
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
         X509Certificate x509Certificate =

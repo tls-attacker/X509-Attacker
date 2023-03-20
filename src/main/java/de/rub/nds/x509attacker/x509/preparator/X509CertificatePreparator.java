@@ -10,14 +10,13 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
+import de.rub.nds.protocol.constants.SignatureAlgorithm;
+import de.rub.nds.protocol.crypto.key.PrivateKeyContainer;
+import de.rub.nds.protocol.crypto.key.RsaPrivateKey;
+import de.rub.nds.protocol.crypto.signature.SignatureCalculator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
-import de.rub.nds.x509attacker.signatureengine.SignatureEngine;
-import de.rub.nds.x509attacker.signatureengine.SignatureEngineFactory;
-import de.rub.nds.x509attacker.signatureengine.keyparsers.SignatureKeyType;
-import de.rub.nds.x509attacker.signatureengine.privatekey.CustomRsaPrivateKey;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
-import java.security.PrivateKey;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -59,32 +58,48 @@ public class X509CertificatePreparator extends Asn1SequencePreparator<X509Choose
     }
 
     private void prepareSignature() {
+        SignatureCalculator signatureCalculator = new SignatureCalculator();
+
         X509SignatureAlgorithm signatureAlgorithm = chooser.getSignatureAlgorithm();
-        SignatureEngine signatureEngine = SignatureEngineFactory.getEngine(signatureAlgorithm);
-        PrivateKey privateKey = getPrivateKeyForAlgorithm(signatureAlgorithm);
+        if (certificate.getSignatureComputations() == null) {
+            certificate.setSignatureComputations(
+                    signatureCalculator.createSignatureComputations(
+                            signatureAlgorithm.getSignatureAlgorithm()));
+        }
+
         byte[] toBeSigned = this.certificate.getTbsCertificate().getSerializer().serialize();
         LOGGER.debug("To be signed: {}", toBeSigned);
-        byte[] signature = signatureEngine.sign(privateKey, toBeSigned);
-        LOGGER.debug("Signature: {}", signature);
-        certificate.getSignature().setUsedBits(signature);
+        signatureCalculator.computeSignature(
+                certificate.getSignatureComputations(),
+                getPrivateKeyForAlgorithm(signatureAlgorithm.getSignatureAlgorithm()),
+                toBeSigned,
+                signatureAlgorithm.getSignatureAlgorithm(),
+                chooser.getSignatureAlgorithm().getHashAlgorithm());
+
+        LOGGER.debug(
+                "Signature: {}",
+                certificate.getSignatureComputations().getSignatureBytes().getValue());
+        certificate
+                .getSignature()
+                .setUsedBits(certificate.getSignatureComputations().getSignatureBytes().getValue());
         certificate.getSignature().getPreparator(chooser).prepare();
     }
 
-    private PrivateKey getPrivateKeyForAlgorithm(X509SignatureAlgorithm signatureAlgorithm) {
-        SignatureKeyType keyType = signatureAlgorithm.getKeyType();
-        switch (keyType) {
+    private PrivateKeyContainer getPrivateKeyForAlgorithm(SignatureAlgorithm signatureAlgorithm) {
+        switch (signatureAlgorithm) {
             case ECDSA:
                 throw new UnsupportedOperationException(
-                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
-            case RSA:
-                return new CustomRsaPrivateKey(
+                        "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");
+            case RSA_PKCS1:
+            case RSA_PSS:
+                return new RsaPrivateKey(
                         chooser.getIssuerRsaModulus(), chooser.getIssuerRsaPrivateKey());
             case DSA:
                 throw new UnsupportedOperationException(
-                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
+                        "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");
             default:
                 throw new UnsupportedOperationException(
-                        "The keytype \"" + keyType.name() + "\" is not implemented yet");
+                        "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");
         }
     }
 }

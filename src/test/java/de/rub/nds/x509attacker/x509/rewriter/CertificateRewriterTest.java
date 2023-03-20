@@ -16,8 +16,10 @@ import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import java.io.ByteArrayInputStream;
+import java.security.Security;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -29,6 +31,7 @@ public class CertificateRewriterTest {
 
     @Test
     public void testRewriteCertificate() {
+        Security.addProvider(new BouncyCastleProvider());
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
 
         X509Context context = new X509Context();

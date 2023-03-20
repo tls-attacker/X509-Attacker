@@ -14,10 +14,12 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import java.math.BigInteger;
+import java.security.Security;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.Test;
@@ -29,6 +31,7 @@ public class X509CertificateChainBuidlerTest {
     /** Test of buildChain method, of class X509CertificateChainBuidler. */
     @Test
     public void testBuildChain() {
+        Security.addProvider(new BouncyCastleProvider());
         X509CertificateConfig rootConfig = new X509CertificateConfig();
         List<Pair<X500AttributeType, String>> subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker CA"));
