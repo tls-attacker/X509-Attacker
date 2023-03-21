@@ -21,7 +21,8 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Represent one X509CertificateChain containing multiple X509Certificates and provides an API for
+ * Represent one X509CertificateChain containing multiple X509Certificates and
+ * provides an API for
  * accessing and modifying the chain.
  */
 @XmlRootElement(name = "X509CertificateChain")
@@ -33,7 +34,8 @@ public class X509CertificateChain {
     @HoldsModifiableVariable
     private List<X509Certificate> certificateList = new LinkedList<>();
 
-    public X509CertificateChain() {}
+    public X509CertificateChain() {
+    }
 
     public X509CertificateChain(List<X509Certificate> certChain) {
         this.certificateList = certChain;
@@ -97,39 +99,61 @@ public class X509CertificateChain {
     }
 
     public Boolean containsMultipleLeafs() {
-        return null; // TODO Implement
+        int counter = 0;
+        for (X509Certificate certificate : certificateList) {
+            if (certificate.isLeaf()) {
+                counter++;
+            }
+        }
+        return counter <= 1;
     }
 
-    public Boolean containsValidLeaf() {
-        return null; // TODO Implement
+    /**
+     * A valid leaf is a leaf for which the uri would match either the CN or SAN,
+     * this does not check the trust path
+     * 
+     * @param uri
+     * @return
+     */
+    public Boolean containsValidLeaf(String uri) {
+        for (X509Certificate certificate : certificateList) {
+            if (certificate.isValidLeafForUri(uri)) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public List<TrustPath> getAllTrustPaths(List<TrustAnchor> trustAnchorList) {
         return new LinkedList<>();
     }
 
-    public Boolean containsExpiredCertificate(TrustPath path) {
-        return null; // TODO Implement
-    }
-
     public Boolean containsExpiredCertificate() {
-        return null; // TODO Implement
-    }
-
-    public Boolean containsNotYetValidCertificate(TrustPath path) {
-        return null; // TODO Implement
+        for (X509Certificate certificate : certificateList) {
+            if (certificate.isExpired()) {
+                return true;
+            }
+        }
+        return false;
+    
     }
 
     public Boolean containsNotYetValidCertificate() {
-        return null; // TODO Implement
-    }
-
-    public Boolean containsWeakSignature(TrustPath path) {
-        return null; // TODO Implement
+        for (X509Certificate certificate : certificateList) {
+            if (!certificate.isYetValid()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Boolean containsSelfSignedLeaf() {
-        return null; // TODO Implement
+        for (X509Certificate certificate : certificateList) {
+            if (certificate.isLeaf() && certificate.isSelfSigned()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Boolean hasIncompleteChain() {

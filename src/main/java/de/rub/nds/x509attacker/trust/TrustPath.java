@@ -26,4 +26,28 @@ public class TrustPath {
     public void setCertificateList(List<X509Certificate> certificateList) {
         this.certificateList = certificateList;
     }
+
+    public Boolean containsExpiredCertificate() {
+        for (X509Certificate certificate : certificateList) {
+            if (certificate.isExpired()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public Boolean containsNotYetValidCertificate() {
+        for (X509Certificate certificate : certificateList) {
+            if (!certificate.isYetValid()) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
+    public Boolean containsWeakSignature() {
+        return null; // TODO Implement
+    }
+
 }
