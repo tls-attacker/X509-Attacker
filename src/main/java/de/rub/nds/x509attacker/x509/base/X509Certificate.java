@@ -329,10 +329,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
      */
     public Boolean isLeaf() {
         String commonName = getCommonName();
-        return commonName != null && isIpOrDomain(commonName) | hasSanExtension();
+        System.out.println(commonName);
+        return commonName != null && isIpOrDomain(commonName) || hasSanExtension() == Boolean.TRUE;
     }
 
-    public static boolean isIpOrDomain(String input) {
+    private boolean isIpOrDomain(String input) {
         try {
             // Try to parse the input as an IP address
             InetAddress.getByName(input);
