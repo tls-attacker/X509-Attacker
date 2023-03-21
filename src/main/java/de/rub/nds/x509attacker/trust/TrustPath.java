@@ -45,9 +45,7 @@ public class TrustPath {
         return false;
     }
 
-
     public Boolean containsWeakSignature() {
         return null; // TODO Implement
     }
-
 }

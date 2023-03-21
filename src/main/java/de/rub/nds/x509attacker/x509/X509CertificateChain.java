@@ -21,8 +21,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 /**
- * Represent one X509CertificateChain containing multiple X509Certificates and
- * provides an API for
+ * Represent one X509CertificateChain containing multiple X509Certificates and provides an API for
  * accessing and modifying the chain.
  */
 @XmlRootElement(name = "X509CertificateChain")
@@ -34,8 +33,7 @@ public class X509CertificateChain {
     @HoldsModifiableVariable
     private List<X509Certificate> certificateList = new LinkedList<>();
 
-    public X509CertificateChain() {
-    }
+    public X509CertificateChain() {}
 
     public X509CertificateChain(List<X509Certificate> certChain) {
         this.certificateList = certChain;
@@ -109,9 +107,9 @@ public class X509CertificateChain {
     }
 
     /**
-     * A valid leaf is a leaf for which the uri would match either the CN or SAN,
-     * this does not check the trust path
-     * 
+     * A valid leaf is a leaf for which the uri would match either the CN or SAN, this does not
+     * check the trust path
+     *
      * @param uri
      * @return
      */
@@ -135,7 +133,6 @@ public class X509CertificateChain {
             }
         }
         return false;
-    
     }
 
     public Boolean containsNotYetValidCertificate() {
