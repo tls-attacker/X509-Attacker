@@ -56,6 +56,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import org.apache.logging.log4j.LogManager;
@@ -512,4 +513,28 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     public byte[] getSkid() {
         return null;
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + getSha256Fingerprint().hashCode();
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        X509Certificate other = (X509Certificate) obj;
+        if(Arrays.equals(getSha256Fingerprint(),other.getSha256Fingerprint()))
+            return true;
+        return false;
+    }
+
+    
 }

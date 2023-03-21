@@ -175,4 +175,31 @@ public class X509CertificateChain {
     public Boolean isExtendedValidation() {
         return null; // TODO implement
     }
+
+    @Override
+    public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((certificateList == null) ? 0 : certificateList.hashCode());
+        return result;
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj)
+            return true;
+        if (obj == null)
+            return false;
+        if (getClass() != obj.getClass())
+            return false;
+        X509CertificateChain other = (X509CertificateChain) obj;
+        if (certificateList == null) {
+            if (other.certificateList != null)
+                return false;
+        } else if (!certificateList.equals(other.certificateList))
+            return false;
+        return true;
+    }
+
+        
 }
