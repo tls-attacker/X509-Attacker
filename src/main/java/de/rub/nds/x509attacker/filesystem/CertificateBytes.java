@@ -23,6 +23,7 @@ public class CertificateBytes {
     private byte[] bytes;
 
     /** Empty constructor to please JAXB */
+    @SuppressWarnings("unused")
     private CertificateBytes() {}
 
     public CertificateBytes(byte[] bytes) {
