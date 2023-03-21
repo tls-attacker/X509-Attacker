@@ -18,6 +18,7 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
+import de.rub.nds.protocol.crypto.hash.HashCalculator;
 import de.rub.nds.protocol.crypto.key.DhPublicKey;
 import de.rub.nds.protocol.crypto.key.DsaPublicKey;
 import de.rub.nds.protocol.crypto.key.EcdhPublicKey;
@@ -144,7 +145,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     }
 
     public byte[] getSha256Fingerprint() {
-        return null;
+        return HashCalculator.computeSha256(this.getSerializer().serialize());
     }
 
     public boolean isEllipticCurveCertificate() {
