@@ -31,23 +31,31 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue }
+ * AttributeTypeAndValue ::= SEQUENCE { type AttributeType, value AttributeValue
+ * }
  *
- * <p>AttributeType ::= OBJECT IDENTIFIER
+ * <p>
+ * AttributeType ::= OBJECT IDENTIFIER
  *
- * <p>AttributeValue ::= ANY -- DEFINED BY AttributeType
+ * <p>
+ * AttributeValue ::= ANY -- DEFINED BY AttributeType
  *
- * <p>DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)), printableString
- * PrintableString (SIZE (1..MAX)), universalString UniversalString (SIZE (1..MAX)), utf8String
+ * <p>
+ * DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)),
+ * printableString
+ * PrintableString (SIZE (1..MAX)), universalString UniversalString (SIZE
+ * (1..MAX)), utf8String
  * UTF8String (SIZE (1..MAX)), bmpString BMPString (SIZE (1..MAX)) }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> type;
+    @HoldsModifiableVariable
+    private Asn1ObjectIdentifier<X509Chooser> type;
 
-    @HoldsModifiableVariable private Asn1Any<X509Chooser> value;
+    @HoldsModifiableVariable
+    private Asn1Any<X509Chooser> value;
 
     private X500AttributeType attributeTypeConfig;
 
@@ -131,37 +139,37 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
     public String getStringRepresentation() {
         StringBuilder builder = new StringBuilder();
         ObjectIdentifier oid = new ObjectIdentifier(getType().getValue().getValue());
-        X500AttributeType x500AttributeType =
-                X500AttributeType.decodeFromOidBytes(oid.getEncoded());
+        X500AttributeType x500AttributeType = X500AttributeType.decodeFromOidBytes(oid.getEncoded());
         if (x500AttributeType != null) {
             builder.append(x500AttributeType.getShortString());
         } else {
             builder.append(oid.toString());
         }
         builder.append("=");
-        if (value.getInstantiation() instanceof Asn1PrimitiveIa5String) {
-            builder.append(
-                    ((Asn1PrimitiveIa5String<X509Chooser>) value.getInstantiation())
-                            .getValue()
-                            .getValue());
-        } else if (value.getInstantiation() instanceof Asn1PrimitivePrintableString) {
-            builder.append(
-                    ((Asn1PrimitivePrintableString<X509Chooser>) value.getInstantiation())
-                            .getValue()
-                            .getValue());
-        } else if (value.getInstantiation() instanceof Asn1PrimitiveT61String) {
-            builder.append(
-                    ((Asn1PrimitiveT61String<X509Chooser>) value.getInstantiation())
-                            .getValue()
-                            .getValue());
-        } else if (value.getInstantiation() instanceof Asn1PrimitiveUtf8String) {
-            builder.append(
-                    ((Asn1PrimitiveUtf8String<X509Chooser>) value.getInstantiation())
-                            .getValue()
-                            .getValue());
-        } else {
-            builder.append(value.getInstantiation().toString());
-        }
+        builder.append(getStringValueOfValue());
         return builder.toString();
+    }
+
+    public X500AttributeType getX500AttributeTypeFromValue() {
+        ObjectIdentifier oid = new ObjectIdentifier(getType().getValue().getValue());
+        return X500AttributeType.decodeFromOidBytes(oid.getEncoded());
+    }
+
+    public String getStringValueOfValue() {
+        if (value.getInstantiation() instanceof Asn1PrimitiveIa5String) {
+            return ((Asn1PrimitiveIa5String<X509Chooser>) value.getInstantiation())
+                    .getValue()
+                    .getValue();
+        } else if (value.getInstantiation() instanceof Asn1PrimitivePrintableString) {
+            return ((Asn1PrimitivePrintableString<X509Chooser>) value.getInstantiation())
+                    .getValue()
+                    .getValue();
+        } else if (value.getInstantiation() instanceof Asn1PrimitiveT61String) {
+            return ((Asn1PrimitiveT61String<X509Chooser>) (value.getInstantiation())).getValue().getValue();
+        } else if (value.getInstantiation() instanceof Asn1PrimitiveUtf8String) {
+            return ((Asn1PrimitiveUtf8String<X509Chooser>) value.getInstantiation()).getValue().getValue();
+        } else {
+            return value.getInstantiation().toString();
+        }
     }
 }
