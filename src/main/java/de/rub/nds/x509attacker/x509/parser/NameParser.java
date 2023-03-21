@@ -9,15 +9,33 @@
 package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1SequenceOfParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.Name;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
+import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
 
 public class NameParser extends Asn1SequenceOfParser<X509Chooser> {
 
-    public NameParser(X509Chooser chooser, Asn1Sequence<X509Chooser> asn1Sequence) {
-        super(chooser, asn1Sequence);
+    private Name name;
+
+    public NameParser(X509Chooser chooser, Name name) {
+        super(chooser, name);
+        this.name = name;
+    }
+
+    @Override
+    public void parseWithoutTag(InputStream inputStream, byte[] tagOctets) {
+        super.parseWithoutTag(inputStream, tagOctets);
+        List<RelativeDistinguishedName> rdnList = new LinkedList<>();
+        for (Asn1Encodable<X509Chooser> encodable : name.getChildren()) {
+            if (encodable instanceof RelativeDistinguishedName) {
+                rdnList.add((RelativeDistinguishedName) encodable);
+            }
+        }
+        name.setRelativeDistinguishedNames(rdnList);
     }
 
     @Override
