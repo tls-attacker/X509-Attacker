@@ -503,4 +503,12 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     public void setSignatureComputations(SignatureComputations signatureComputations) {
         this.signatureComputations = signatureComputations;
     }
+
+    public byte[] getAkid() {
+        return null;
+    }
+
+    public byte[] getSkid() {
+        return null;
+    }
 }

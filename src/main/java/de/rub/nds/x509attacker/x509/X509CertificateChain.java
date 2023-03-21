@@ -88,8 +88,19 @@ public class X509CertificateChain {
         return null; // TODO Implement
     }
 
+    /**
+     * A chain is considered to contain a trust anchor if it contains a self signed certificate.
+     * TODO not sure if this correctly interacts with bridge CA's
+     *
+     * @return
+     */
     public Boolean containsTrustAnchor() {
-        return null; // TODO Implement
+        for (X509Certificate certificate : certificateList) {
+            if (certificate.isSelfSigned()) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public Boolean containsKnownTrustAnchor(List<TrustAnchor> anchor) {
