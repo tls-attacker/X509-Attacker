@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.Handler;
+import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -49,6 +50,7 @@ import de.rub.nds.x509attacker.x509.base.publickey.X509X448PublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -206,6 +208,25 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
                 return NamedEllipticCurveParameters.CURVE_X25519;
             } else if (publicKey instanceof X509X448PublicKey) {
                 return NamedEllipticCurveParameters.CURVE_X448;
+            } else if (publicKey instanceof X509EcdhEcdsaPublicKey
+                    || publicKey instanceof X509EcdhPublicKey) {
+                Asn1Encodable<X509Chooser> parameters =
+                        getTbsCertificate()
+                                .getSubjectPublicKeyInfo()
+                                .getAlgorithm()
+                                .getParameters();
+                Asn1Any<X509Chooser> any = (Asn1Any<X509Chooser>) parameters;
+                parameters = any.getInstantiation();
+                if (parameters instanceof X509EcNamedCurveParameters) {
+                    String algorithmOid =
+                            ((X509EcNamedCurveParameters) parameters).getValue().getValue();
+                    ObjectIdentifier oid = new ObjectIdentifier(algorithmOid);
+                    return X509NamedCurve.decodeFromOidBytes(oid.getEncoded()).getParameters();
+                } else {
+                    LOGGER.warn("ECDH/ECDSA certificate without NamedCurveParameters");
+                    return null;
+                }
+
             } else {
                 throw new UnsupportedOperationException("not implemented yet");
             }
@@ -260,6 +281,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
                         ((X509EcdhEcdsaPublicKey) getPublicKey()).getyCoordinate().getValue();
                 NamedEllipticCurveParameters parameters =
                         (NamedEllipticCurveParameters) getEllipticCurve();
+
                 return new EcdsaPublicKey(
                         parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
             case ECDH_ONLY:
@@ -516,10 +538,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     @Override
     public int hashCode() {
-        final int prime = 31;
-        int result = 1;
-        result = prime * result + getSha256Fingerprint().hashCode();
-        return result;
+        return Arrays.hashCode(getSha256Fingerprint());
     }
 
     @Override
