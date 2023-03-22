@@ -524,17 +524,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
 
     @Override
     public boolean equals(Object obj) {
-        if (this == obj)
-            return true;
-        if (obj == null)
-            return false;
-        if (getClass() != obj.getClass())
-            return false;
+        if (this == obj) return true;
+        if (obj == null) return false;
+        if (getClass() != obj.getClass()) return false;
         X509Certificate other = (X509Certificate) obj;
-        if(Arrays.equals(getSha256Fingerprint(),other.getSha256Fingerprint()))
-            return true;
+        if (Arrays.equals(getSha256Fingerprint(), other.getSha256Fingerprint())) return true;
         return false;
     }
-
-    
 }
