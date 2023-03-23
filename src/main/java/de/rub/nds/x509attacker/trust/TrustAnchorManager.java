@@ -8,15 +8,17 @@
  */
 package de.rub.nds.x509attacker.trust;
 
-import de.rub.nds.modifiablevariable.util.ComparableByteArray;
-import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import java.util.HashMap;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import de.rub.nds.modifiablevariable.util.ComparableByteArray;
+import de.rub.nds.x509attacker.x509.base.X509Certificate;
 
 public class TrustAnchorManager {
 
@@ -31,7 +33,7 @@ public class TrustAnchorManager {
     public TrustAnchorManager() {
         this.trustPlatformList = new LinkedList<>();
         this.trustAnchors = new HashMap<>();
-        this.trustAnchorSet = new HashSet<>();
+        this.trustAnchorSet = new LinkedHashSet<>();
     }
 
     public void addTrustPlaform(TrustPlatform platform) {
