@@ -12,7 +12,7 @@ import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrimitiveIa5String;
 import de.rub.nds.asn1.model.Asn1PrimitivePrintableString;
@@ -104,7 +104,7 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
         return value.getInstantiation();
     }
 
-    public void instantiateValue(Asn1Field<X509Chooser> value) {
+    public void instantiateValue(PrimitiveAsn1Field<X509Chooser> value) {
         this.value.setInstantiation(value);
     }
 

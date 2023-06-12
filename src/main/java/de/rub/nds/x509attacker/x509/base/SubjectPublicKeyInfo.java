@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.handler.Handler;
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
@@ -75,7 +75,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
     }
 
     private void initPublicKeyParameters(X509CertificateConfig config) {
-        Asn1Field<X509Chooser> field = null;
+        PrimitiveAsn1Field<X509Chooser> field = null;
         switch (config.getPublicKeyType()) {
             case DH:
                 field = new X509DhParameters("dhParameters");

@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -32,7 +32,7 @@ public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParse
     }
 
     @Override
-    protected Asn1Field<X509Chooser> chooseInstantiationForAny() {
+    protected PrimitiveAsn1Field<X509Chooser> chooseInstantiationForAny() {
         ObjectIdentifier objectIdentifier =
                 new ObjectIdentifier(algorithmIdentifier.getAlgorithm().getValue().getValue());
         LOGGER.debug("ObjectIdentifier: " + objectIdentifier.toString());

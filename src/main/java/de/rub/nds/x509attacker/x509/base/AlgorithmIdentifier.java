@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -53,7 +53,7 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
         return parameters;
     }
 
-    public void instantiateParameters(Asn1Field<X509Chooser> encodable) {
+    public void instantiateParameters(PrimitiveAsn1Field<X509Chooser> encodable) {
         parameters.setInstantiation(encodable);
     }
 }

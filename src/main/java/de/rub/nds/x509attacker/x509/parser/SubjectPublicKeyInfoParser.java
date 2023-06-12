@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
@@ -33,7 +33,7 @@ public class SubjectPublicKeyInfoParser extends Asn1SequenceParser<X509Chooser> 
     }
 
     @Override
-    protected Asn1Field<X509Chooser> chooseInstantiationForAny() {
+    protected PrimitiveAsn1Field<X509Chooser> chooseInstantiationForAny() {
         switch (chooser.getSubjectPublicKeyType()) {
             case ECDH_ECDSA:
                 LOGGER.debug("Predicted EcNamedCurveParameters");

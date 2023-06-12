@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
@@ -34,7 +34,7 @@ public class AttributeTypeAndValueParser extends Asn1SequenceParser<X509Chooser>
                         attributeTypeAndValue.getType().getContent().getValue()));
         attributeTypeAndValue.setValueConfig(
                 new String(
-                        ((Asn1Field<X509Chooser>) attributeTypeAndValue.getValue())
+                        ((PrimitiveAsn1Field<X509Chooser>) attributeTypeAndValue.getValue())
                                 .getContent()
                                 .getValue()));
     }

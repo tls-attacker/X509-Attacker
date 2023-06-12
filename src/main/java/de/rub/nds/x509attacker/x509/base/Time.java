@@ -12,7 +12,7 @@ import de.rub.nds.asn1.exceptions.NotInitializedException;
 import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
 import de.rub.nds.asn1.time.TimeDecoder;
@@ -44,7 +44,7 @@ public class Time extends Asn1Choice<X509Chooser> {
     }
 
     public DateTime getTimeValue() {
-        Asn1Field<X509Chooser> choice = getSelectedChoice();
+        PrimitiveAsn1Field<X509Chooser> choice = getSelectedChoice();
         if (choice == null) {
             throw new NotInitializedException(
                     "Not initialized. Prepare or parse it first to access values");

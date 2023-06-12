@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
@@ -94,8 +94,8 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             signature.instantiateParameters(new Asn1Null<X509Chooser>("parameters"));
-        } else if (signatureParameters instanceof Asn1Field) {
-            signature.instantiateParameters((Asn1Field<X509Chooser>) signatureParameters);
+        } else if (signatureParameters instanceof PrimitiveAsn1Field) {
+            signature.instantiateParameters((PrimitiveAsn1Field<X509Chooser>) signatureParameters);
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
@@ -144,7 +144,7 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
             ValidityEncoding encoding,
             TimeAccurracy accurracy,
             int timezoneInMinutes) {
-        Asn1Field<X509Chooser> timeField;
+        PrimitiveAsn1Field<X509Chooser> timeField;
         if (time.getSelectedChoice() == null) {
             switch (encoding) {
                 case GENERALIZED_TIME_DIFFERENTIAL:
@@ -215,8 +215,8 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         PublicParameters publicKeyParameters = createPublicKeyParameters();
         if (publicKeyParameters == null) {
             algorithm.instantiateParameters(new Asn1Null<>("parameters"));
-        } else if (publicKeyParameters instanceof Asn1Field) {
-            algorithm.instantiateParameters((Asn1Field<X509Chooser>) publicKeyParameters);
+        } else if (publicKeyParameters instanceof PrimitiveAsn1Field) {
+            algorithm.instantiateParameters((PrimitiveAsn1Field<X509Chooser>) publicKeyParameters);
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
