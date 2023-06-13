@@ -28,7 +28,7 @@ public class X509CertificateTest {
     @BeforeEach
     public void setup() {
         ecCertificate = new X509Certificate("test");
-        Asn1SequenceParser<X509Chooser> parser =
+        Asn1SequenceParser parser =
                 ecCertificate.getParser(
                         new X509Chooser(new X509CertificateConfig(), new X509Context()));
         parser.parse(

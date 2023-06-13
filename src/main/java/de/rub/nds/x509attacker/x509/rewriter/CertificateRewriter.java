@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.modifiablevariable.util.Modifiable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -24,19 +25,19 @@ public class CertificateRewriter {
 
     public CertificateRewriter() {}
 
-    public void fixateNonContainerContent(Asn1Container<X509Chooser> container) {
-        for (Asn1Encodable<X509Chooser> encodable : container.getChildren()) {
+    public void fixateNonContainerContent(Asn1Container container) {
+        for (Asn1Encodable encodable : container.getChildren()) {
             if (encodable instanceof Asn1Container) {
-                fixateNonContainerContent((Asn1Container<X509Chooser>) encodable);
+                fixateNonContainerContent((Asn1Container) encodable);
             } else if (encodable instanceof PrimitiveAsn1Field) {
                 fixateAsn1Field(encodable);
             } else if (encodable instanceof Asn1Any) {
                 if (((Asn1Any<X509Chooser>) encodable).getInstantiation() != null) {
-                    fixateAsn1Field(((Asn1Any<X509Chooser>) encodable).getInstantiation());
+                    fixateAsn1Field(((Asn1Any) encodable).getInstantiation());
                 }
             } else if (encodable instanceof Asn1Choice) {
-                if (((Asn1Choice<X509Chooser>) encodable).getSelectedChoice() != null) {
-                    fixateAsn1Field(((Asn1Choice<X509Chooser>) encodable).getSelectedChoice());
+                if (((Asn1Choice) encodable).getSelectedChoice() != null) {
+                    fixateAsn1Field(((Asn1Choice) encodable).getSelectedChoice());
                 }
             } else {
                 LOGGER.info("Not sure what to do here: " + encodable.getClass().getSimpleName());
@@ -44,17 +45,16 @@ public class CertificateRewriter {
         }
     }
 
-    private void fixateAsn1Field(Asn1Encodable<X509Chooser> encodable) {
-        if (((PrimitiveAsn1Field<X509Chooser>) encodable).getContent() != null
-                && ((PrimitiveAsn1Field<X509Chooser>) encodable).getContent().getValue() != null) {
-            ((PrimitiveAsn1Field<X509Chooser>) encodable)
+    private void fixateAsn1Field(Asn1Encodable encodable) {
+        if (((Asn1Field) encodable).getContent() != null
+                && ((Asn1Field) encodable).getContent().getValue() != null) {
+            ((Asn1Field) encodable)
                     .setContent(
-                            Modifiable.explicit(
-                                    ((PrimitiveAsn1Field<X509Chooser>) encodable).getContent().getValue()));
-        } else if ((((PrimitiveAsn1Field<X509Chooser>) encodable).getContent() == null
-                        || ((PrimitiveAsn1Field<X509Chooser>) encodable).getContent().getValue() == null)
+                            Modifiable.explicit(((Asn1Field) encodable).getContent().getValue()));
+        } else if ((((Asn1Field) encodable).getContent() == null
+                        || ((Asn1Field) encodable).getContent().getValue() == null)
                 && encodable.isOptional()) {
-            PrimitiveAsn1Field<X509Chooser> field = (PrimitiveAsn1Field<X509Chooser>) encodable;
+            Asn1Field field = (Asn1Field) encodable;
             field.setContent(Modifiable.explicit(new byte[0]));
             field.setTagOctets(Modifiable.explicit(new byte[0]));
             field.setLengthOctets(Modifiable.explicit(new byte[0]));

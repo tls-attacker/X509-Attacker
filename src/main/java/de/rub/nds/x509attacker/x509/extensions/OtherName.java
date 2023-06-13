@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
@@ -24,11 +23,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OtherName extends Asn1Sequence<X509Chooser> {
+public class OtherName extends Asn1Sequence {
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> typeId;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier typeId;
 
-    @HoldsModifiableVariable private Asn1Encodable<X509Chooser> value;
+    @HoldsModifiableVariable private Asn1Encodable value;
 
     private OtherName() {
         super(null);
@@ -36,30 +35,30 @@ public class OtherName extends Asn1Sequence<X509Chooser> {
 
     public OtherName(String identifier) {
         super(identifier);
-        typeId = new Asn1ObjectIdentifier<>("typeId");
-        value = new Asn1Null<>("value");
+        typeId = new Asn1ObjectIdentifier("typeId");
+        value = new Asn1Null("value");
         addChild(typeId);
         addChild(value);
     }
 
-    public Asn1ObjectIdentifier<X509Chooser> getTypeId() {
+    public Asn1ObjectIdentifier getTypeId() {
         return typeId;
     }
 
-    public void setTypeId(Asn1ObjectIdentifier<X509Chooser> typeId) {
+    public void setTypeId(Asn1ObjectIdentifier typeId) {
         this.typeId = typeId;
     }
 
-    public Asn1Encodable<X509Chooser> getValue() {
+    public Asn1Encodable getValue() {
         return value;
     }
 
-    public void setValue(Asn1Encodable<X509Chooser> value) {
+    public void setValue(Asn1Encodable value) {
         this.value = value;
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

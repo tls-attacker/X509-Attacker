@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NameParser extends Asn1SequenceOfParser<X509Chooser> {
+public class NameParser extends Asn1SequenceOfParser {
 
     private Name name;
 
@@ -30,7 +30,7 @@ public class NameParser extends Asn1SequenceOfParser<X509Chooser> {
     public void parseWithoutTag(InputStream inputStream, byte[] tagOctets) {
         super.parseWithoutTag(inputStream, tagOctets);
         List<RelativeDistinguishedName> rdnList = new LinkedList<>();
-        for (Asn1Encodable<X509Chooser> encodable : name.getChildren()) {
+        for (Asn1Encodable encodable : name.getChildren()) {
             if (encodable instanceof RelativeDistinguishedName) {
                 rdnList.add((RelativeDistinguishedName) encodable);
             }
@@ -39,7 +39,7 @@ public class NameParser extends Asn1SequenceOfParser<X509Chooser> {
     }
 
     @Override
-    protected Asn1Encodable<X509Chooser> createFreshElement() {
+    protected Asn1Encodable createFreshElement() {
         return new RelativeDistinguishedName("rdn");
     }
 }

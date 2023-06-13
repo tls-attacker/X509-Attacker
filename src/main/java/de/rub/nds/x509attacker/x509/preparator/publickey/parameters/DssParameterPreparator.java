@@ -12,7 +12,7 @@ import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
 
-public class DssParameterPreparator extends Asn1SequencePreparator<X509Chooser> {
+public class DssParameterPreparator extends Asn1SequencePreparator {
 
     private X509DssParameters parameters;
 

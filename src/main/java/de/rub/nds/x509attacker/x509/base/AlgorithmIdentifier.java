@@ -10,22 +10,21 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
+public abstract class AlgorithmIdentifier extends Asn1Sequence {
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> algorithm;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier algorithm;
 
-    @HoldsModifiableVariable private final Asn1Any<X509Chooser> parameters;
+    @HoldsModifiableVariable private final Asn1Any parameters;
 
     private AlgorithmIdentifier() {
         super(null);
@@ -34,26 +33,26 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence<X509Chooser> {
 
     public AlgorithmIdentifier(String identifier) {
         super(identifier);
-        algorithm = new Asn1ObjectIdentifier<>("algorithm");
+        algorithm = new Asn1ObjectIdentifier("algorithm");
         parameters = new Asn1Any<>("parameters");
         parameters.setOptional(true);
         addChild(algorithm);
         addChild(parameters);
     }
 
-    public Asn1ObjectIdentifier<X509Chooser> getAlgorithm() {
+    public Asn1ObjectIdentifier getAlgorithm() {
         return algorithm;
     }
 
-    public void setAlgorithm(Asn1ObjectIdentifier<X509Chooser> algorithm) {
+    public void setAlgorithm(Asn1ObjectIdentifier algorithm) {
         this.algorithm = algorithm;
     }
 
-    public Asn1Encodable<X509Chooser> getParameters() {
+    public Asn1Encodable getParameters() {
         return parameters;
     }
 
-    public void instantiateParameters(PrimitiveAsn1Field<X509Chooser> encodable) {
+    public void instantiateParameters(PrimitiveAsn1Field encodable) {
         parameters.setInstantiation(encodable);
     }
 }

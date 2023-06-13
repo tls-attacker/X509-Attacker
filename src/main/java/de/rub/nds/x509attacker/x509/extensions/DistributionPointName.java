@@ -22,7 +22,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DistributionPointName extends Asn1Choice<X509Chooser> {
+public class DistributionPointName extends Asn1Choice {
 
     private DistributionPointName() {
         super(null);

@@ -24,11 +24,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BasicConstraints extends Asn1Sequence<X509Chooser> {
+public class BasicConstraints extends Asn1Sequence {
 
-    @HoldsModifiableVariable private Asn1Boolean<X509Chooser> ca;
+    @HoldsModifiableVariable private Asn1Boolean ca;
 
-    @HoldsModifiableVariable private Asn1Integer<X509Chooser> pathLenConstraint;
+    @HoldsModifiableVariable private Asn1Integer pathLenConstraint;
 
     private BasicConstraints() {
         super(null);
@@ -36,30 +36,30 @@ public class BasicConstraints extends Asn1Sequence<X509Chooser> {
 
     public BasicConstraints(String identifier) {
         super(identifier);
-        ca = new Asn1Boolean<>("ca");
-        pathLenConstraint = new Asn1Integer<>("pathLenConstraint");
+        ca = new Asn1Boolean("ca");
+        pathLenConstraint = new Asn1Integer("pathLenConstraint");
         addChild(ca);
         addChild(pathLenConstraint);
     }
 
-    public Asn1Boolean<X509Chooser> getCa() {
+    public Asn1Boolean getCa() {
         return ca;
     }
 
-    public void setCa(Asn1Boolean<X509Chooser> ca) {
+    public void setCa(Asn1Boolean ca) {
         this.ca = ca;
     }
 
-    public Asn1Integer<X509Chooser> getPathLenConstraint() {
+    public Asn1Integer getPathLenConstraint() {
         return pathLenConstraint;
     }
 
-    public void setPathLenConstraint(Asn1Integer<X509Chooser> pathLenConstraint) {
+    public void setPathLenConstraint(Asn1Integer pathLenConstraint) {
         this.pathLenConstraint = pathLenConstraint;
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

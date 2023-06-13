@@ -8,9 +8,8 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
-import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -29,13 +28,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
+public class AuthorityKeyIdentifier extends Asn1Sequence {
 
-    @HoldsModifiableVariable private Asn1PrimitiveOctetString<X509Chooser> keyIdentifier;
+    @HoldsModifiableVariable private Asn1OctetString keyIdentifier;
 
     @HoldsModifiableVariable private GeneralNames authorityCertIssuer;
 
-    @HoldsModifiableVariable private Asn1Integer<X509Chooser> authorityCertSerialNumber;
+    @HoldsModifiableVariable private Asn1Integer authorityCertSerialNumber;
 
     private AuthorityKeyIdentifier() {
         super(null);
@@ -43,19 +42,19 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
 
     public AuthorityKeyIdentifier(String identifier) {
         super(identifier);
-        keyIdentifier = new Asn1PrimitiveOctetString<>("keyIdentifier");
+        keyIdentifier = new Asn1OctetString("keyIdentifier");
         authorityCertIssuer = new GeneralNames("authorityCertIssuer");
-        authorityCertSerialNumber = new Asn1Integer<>("authorityCertSerialNumber");
+        authorityCertSerialNumber = new Asn1Integer("authorityCertSerialNumber");
         addChild(keyIdentifier);
         addChild(authorityCertIssuer);
         addChild(authorityCertSerialNumber);
     }
 
-    public Asn1PrimitiveOctetString<X509Chooser> getKeyIdentifier() {
+    public Asn1OctetString getKeyIdentifier() {
         return keyIdentifier;
     }
 
-    public void setKeyIdentifier(Asn1PrimitiveOctetString<X509Chooser> keyIdentifier) {
+    public void setKeyIdentifier(Asn1OctetString keyIdentifier) {
         this.keyIdentifier = keyIdentifier;
     }
 
@@ -67,16 +66,16 @@ public class AuthorityKeyIdentifier extends Asn1Sequence<X509Chooser> {
         this.authorityCertIssuer = authorityCertIssuer;
     }
 
-    public Asn1Integer<X509Chooser> getAuthorityCertSerialNumber() {
+    public Asn1Integer getAuthorityCertSerialNumber() {
         return authorityCertSerialNumber;
     }
 
-    public void setAuthorityCertSerialNumber(Asn1Integer<X509Chooser> authorityCertSerialNumber) {
+    public void setAuthorityCertSerialNumber(Asn1Integer authorityCertSerialNumber) {
         this.authorityCertSerialNumber = authorityCertSerialNumber;
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

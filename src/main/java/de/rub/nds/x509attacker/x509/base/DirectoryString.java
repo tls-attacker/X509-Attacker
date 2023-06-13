@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrimitivePrintableString;
 import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
@@ -25,7 +24,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DirectoryString extends Asn1Choice<X509Chooser> {
+public class DirectoryString extends Asn1Choice {
 
     private DirectoryString() {
         super(null);
@@ -34,18 +33,17 @@ public class DirectoryString extends Asn1Choice<X509Chooser> {
     public DirectoryString(String identifier) {
         super(
                 identifier,
-                new Asn1PrimitiveUtf8String<X509Chooser>("utf8String"),
-                new Asn1PrimitivePrintableString<X509Chooser>("printableString"));
+                new Asn1PrimitiveUtf8String("utf8String"),
+                new Asn1PrimitivePrintableString("printableString"));
     }
 
     @Override
     public Preparator getPreparator(X509Chooser context) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

@@ -8,13 +8,12 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
-import de.rub.nds.asn1.preparator.Asn1PrimitiveBitStringPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PublicKeyBitStringPreparator extends Asn1PrimitiveBitStringPreparator<X509Chooser> {
+public class PublicKeyBitStringPreparator extends Asn1BitStringPreparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

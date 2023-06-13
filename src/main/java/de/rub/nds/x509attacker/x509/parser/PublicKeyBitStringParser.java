@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.parser.Asn1PrimitiveBitStringParser;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
@@ -18,7 +17,7 @@ import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PublicKeyBitStringParser extends Asn1PrimitiveBitStringParser<X509Chooser> {
+public class PublicKeyBitStringParser extends Asn1BitStringParser {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

@@ -23,7 +23,6 @@ public class X509X448PublicKeyHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

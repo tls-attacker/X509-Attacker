@@ -8,10 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
-import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -26,13 +25,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Extension extends Asn1Sequence<X509Chooser> {
+public class Extension extends Asn1Sequence {
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> extnID;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier extnID;
 
-    @HoldsModifiableVariable private Asn1Boolean<X509Chooser> critical;
+    @HoldsModifiableVariable private Asn1Boolean critical;
 
-    @HoldsModifiableVariable private Asn1PrimitiveOctetString<X509Chooser> extnValue;
+    @HoldsModifiableVariable private Asn1OctetString extnValue;
 
     private Extension() {
         super(null);
@@ -40,41 +39,41 @@ public class Extension extends Asn1Sequence<X509Chooser> {
 
     public Extension(String identifier) {
         super(identifier);
-        extnID = new Asn1ObjectIdentifier<>("extensionId");
-        critical = new Asn1Boolean<>("critical");
+        extnID = new Asn1ObjectIdentifier("extensionId");
+        critical = new Asn1Boolean("critical");
         critical.setOptional(true);
-        extnValue = new Asn1PrimitiveOctetString<>("extensionValue");
+        extnValue = new Asn1OctetString("extensionValue");
         addChild(extnID);
         addChild(critical);
         addChild(extnValue);
     }
 
-    public Asn1ObjectIdentifier<X509Chooser> getExtnID() {
+    public Asn1ObjectIdentifier getExtnID() {
         return extnID;
     }
 
-    public void setExtnID(Asn1ObjectIdentifier<X509Chooser> extnID) {
+    public void setExtnID(Asn1ObjectIdentifier extnID) {
         this.extnID = extnID;
     }
 
-    public Asn1Boolean<X509Chooser> getCritical() {
+    public Asn1Boolean getCritical() {
         return critical;
     }
 
-    public void setCritical(Asn1Boolean<X509Chooser> critical) {
+    public void setCritical(Asn1Boolean critical) {
         this.critical = critical;
     }
 
-    public Asn1PrimitiveOctetString<X509Chooser> getExtnValue() {
+    public Asn1OctetString getExtnValue() {
         return extnValue;
     }
 
-    public void setExtnValue(Asn1PrimitiveOctetString<X509Chooser> extnValue) {
+    public void setExtnValue(Asn1OctetString extnValue) {
         this.extnValue = extnValue;
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

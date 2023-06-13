@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -28,10 +27,10 @@ import java.util.List;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
+public class ExtKeyUsage extends Asn1Sequence {
 
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
-    private List<Asn1ObjectIdentifier<X509Chooser>> keyPurposeID;
+    private List<Asn1ObjectIdentifier> keyPurposeID;
 
     private ExtKeyUsage() {
         super(null);
@@ -42,16 +41,16 @@ public class ExtKeyUsage extends Asn1Sequence<X509Chooser> {
         keyPurposeID = new LinkedList<>();
     }
 
-    public List<Asn1ObjectIdentifier<X509Chooser>> getKeyPurposeID() {
+    public List<Asn1ObjectIdentifier> getKeyPurposeID() {
         return keyPurposeID;
     }
 
-    public void setKeyPurposeID(List<Asn1ObjectIdentifier<X509Chooser>> keyPurposeID) {
+    public void setKeyPurposeID(List<Asn1ObjectIdentifier> keyPurposeID) {
         this.keyPurposeID = keyPurposeID;
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

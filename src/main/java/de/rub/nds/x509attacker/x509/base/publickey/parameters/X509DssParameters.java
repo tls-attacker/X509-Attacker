@@ -21,11 +21,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509DssParameters extends Asn1Sequence<X509Chooser> implements PublicParameters {
+public class X509DssParameters extends Asn1Sequence implements PublicParameters {
 
-    private Asn1Integer<X509Chooser> p;
-    private Asn1Integer<X509Chooser> q;
-    private Asn1Integer<X509Chooser> g;
+    private Asn1Integer p;
+    private Asn1Integer q;
+    private Asn1Integer g;
 
     private X509DssParameters() {
         super(null);
@@ -33,40 +33,40 @@ public class X509DssParameters extends Asn1Sequence<X509Chooser> implements Publ
 
     public X509DssParameters(String identifier) {
         super(identifier);
-        this.p = new Asn1Integer<>("p");
-        this.q = new Asn1Integer<>("q");
-        this.g = new Asn1Integer<>("g");
+        this.p = new Asn1Integer("p");
+        this.q = new Asn1Integer("q");
+        this.g = new Asn1Integer("g");
         addChild(p);
         addChild(q);
         addChild(g);
     }
 
-    public Asn1Integer<X509Chooser> getP() {
+    public Asn1Integer getP() {
         return p;
     }
 
-    public void setP(Asn1Integer<X509Chooser> p) {
+    public void setP(Asn1Integer p) {
         this.p = p;
     }
 
-    public Asn1Integer<X509Chooser> getQ() {
+    public Asn1Integer getQ() {
         return q;
     }
 
-    public void setQ(Asn1Integer<X509Chooser> q) {
+    public void setQ(Asn1Integer q) {
         this.q = q;
     }
 
-    public Asn1Integer<X509Chooser> getG() {
+    public Asn1Integer getG() {
         return g;
     }
 
-    public void setG(Asn1Integer<X509Chooser> g) {
+    public void setG(Asn1Integer g) {
         this.g = g;
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         return new DssParametersHandler(chooser, this);
     }
 

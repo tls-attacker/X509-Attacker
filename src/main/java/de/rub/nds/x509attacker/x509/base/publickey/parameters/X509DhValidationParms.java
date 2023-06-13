@@ -8,9 +8,8 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 
-import de.rub.nds.asn1.handler.Handler;
+import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Integer;
-import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DhValidationParmsHandler;
@@ -20,10 +19,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509DhValidationParms extends Asn1Sequence<X509Chooser> implements PublicParameters {
+public class X509DhValidationParms extends Asn1Sequence implements PublicParameters {
 
-    private Asn1PrimitiveBitString<X509Chooser> seed;
-    private Asn1Integer<X509Chooser> pgenCounter;
+    private Asn1BitString seed;
+    private Asn1Integer pgenCounter;
 
     private X509DhValidationParms() {
         super(null);
@@ -31,30 +30,30 @@ public class X509DhValidationParms extends Asn1Sequence<X509Chooser> implements 
 
     public X509DhValidationParms(String identifier) {
         super(identifier);
-        seed = new Asn1PrimitiveBitString<X509Chooser>("seed");
-        pgenCounter = new Asn1Integer<X509Chooser>("pgenCounter");
+        seed = new Asn1BitString("seed");
+        pgenCounter = new Asn1Integer("pgenCounter");
         addChild(seed);
         addChild(pgenCounter);
     }
 
-    public Asn1PrimitiveBitString<X509Chooser> getSeed() {
+    public Asn1BitString getSeed() {
         return seed;
     }
 
-    public void setSeed(Asn1PrimitiveBitString<X509Chooser> seed) {
+    public void setSeed(Asn1BitString seed) {
         this.seed = seed;
     }
 
-    public Asn1Integer<X509Chooser> getPgenCounter() {
+    public Asn1Integer getPgenCounter() {
         return pgenCounter;
     }
 
-    public void setPgenCounter(Asn1Integer<X509Chooser> pgenCounter) {
+    public void setPgenCounter(Asn1Integer pgenCounter) {
         this.pgenCounter = pgenCounter;
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         return new DhValidationParmsHandler(chooser, this);
     }
 }

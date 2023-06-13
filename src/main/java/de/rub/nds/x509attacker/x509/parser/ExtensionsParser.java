@@ -14,14 +14,14 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.Extension;
 import de.rub.nds.x509attacker.x509.base.Extensions;
 
-public class ExtensionsParser extends Asn1SequenceOfParser<X509Chooser> {
+public class ExtensionsParser extends Asn1SequenceOfParser {
 
     public ExtensionsParser(X509Chooser chooser, Extensions extensions) {
         super(chooser, extensions);
     }
 
     @Override
-    protected Asn1Encodable<X509Chooser> createFreshElement() {
+    protected Asn1Encodable createFreshElement() {
         return new Extension("extension");
     }
 }

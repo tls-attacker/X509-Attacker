@@ -15,7 +15,7 @@ import de.rub.nds.x509attacker.x509.base.publickey.X509RsaPublicKeyContentSequen
 import java.io.IOException;
 import java.io.InputStream;
 
-public class X509RsaPublicKeyParser extends Asn1Parser<X509Chooser, X509RsaPublicKey> {
+public class X509RsaPublicKeyParser extends Asn1Parser<X509RsaPublicKey> {
 
     public X509RsaPublicKeyParser(X509Chooser chooser, X509RsaPublicKey rsaPublicKey) {
         super(chooser, rsaPublicKey);

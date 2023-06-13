@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -19,7 +19,7 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurvePa
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParser<X509Chooser> {
+public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParser {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -32,7 +32,7 @@ public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParse
     }
 
     @Override
-    protected PrimitiveAsn1Field<X509Chooser> chooseInstantiationForAny() {
+    protected Asn1Field chooseInstantiationForAny() {
         ObjectIdentifier objectIdentifier =
                 new ObjectIdentifier(algorithmIdentifier.getAlgorithm().getValue().getValue());
         LOGGER.debug("ObjectIdentifier: " + objectIdentifier.toString());

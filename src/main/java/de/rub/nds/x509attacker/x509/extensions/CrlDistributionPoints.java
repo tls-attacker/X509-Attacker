@@ -23,16 +23,16 @@ import java.util.List;
 /** CRLDistributionPoints ::= SEQUENCE SIZE (1..MAX) OF DistributionPoint */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CRLDistributionPoints extends Asn1Sequence<X509Chooser> {
+public class CrlDistributionPoints extends Asn1Sequence {
 
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<DistributionPoint> distributionPoint;
 
-    private CRLDistributionPoints() {
+    private CrlDistributionPoints() {
         super(null);
     }
 
-    public CRLDistributionPoints(String identifier) {
+    public CrlDistributionPoints(String identifier) {
         super(identifier);
         distributionPoint = new LinkedList<>();
     }
@@ -46,7 +46,7 @@ public class CRLDistributionPoints extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

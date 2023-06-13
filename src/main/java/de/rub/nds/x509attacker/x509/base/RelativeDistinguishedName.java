@@ -22,7 +22,7 @@ import java.util.List;
 /** RelativeDistinguishedName ::= SET SIZE (1..MAX) OF AttributeTypeAndValue */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class RelativeDistinguishedName extends Asn1Set<X509Chooser> {
+public class RelativeDistinguishedName extends Asn1Set {
 
     private RelativeDistinguishedName() {
         super(null);
@@ -70,7 +70,7 @@ public class RelativeDistinguishedName extends Asn1Set<X509Chooser> {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

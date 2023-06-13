@@ -10,12 +10,12 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
+import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1GeneralizedTime;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
-import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
-import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
+import de.rub.nds.asn1.model.Asn1UtcTime;
 import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
 import de.rub.nds.asn1.time.TimeEncoder;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -39,7 +39,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
-public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser> {
+public class TbsCertificatePreparator extends Asn1SequencePreparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -67,20 +67,20 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
     }
 
     private void prepareVersion() {
-        ((Asn1Integer<X509Chooser>) (tbsCertificate.getVersion().getChild()))
+        ((Asn1Integer) (tbsCertificate.getVersion().getChild()))
                 .setValue(chooser.getConfig().getVersion().getValue());
         tbsCertificate.getVersion().getPreparator(chooser).prepare();
     }
 
     private void prepareSerialNumber() {
-        Asn1Integer<X509Chooser> serialNumber = tbsCertificate.getSerialNumber();
+        Asn1Integer serialNumber = tbsCertificate.getSerialNumber();
         serialNumber.setValue(chooser.getConfig().getSerialNumber());
         serialNumber.getPreparator(chooser).prepare();
     }
 
     private void prepareSignature() {
         AlgorithmIdentifier signature = tbsCertificate.getSignature();
-        Asn1ObjectIdentifier<X509Chooser> algorithm = signature.getAlgorithm();
+        Asn1ObjectIdentifier algorithm = signature.getAlgorithm();
         algorithm.setValue(chooser.getSignatureAlgorithm().getOid().toString());
         algorithm.getPreparator(chooser).prepare();
 
@@ -93,9 +93,9 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         /** Prepare signature parameters */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
-            signature.instantiateParameters(new Asn1Null<X509Chooser>("parameters"));
-        } else if (signatureParameters instanceof PrimitiveAsn1Field) {
-            signature.instantiateParameters((PrimitiveAsn1Field<X509Chooser>) signatureParameters);
+            signature.instantiateParameters(new Asn1Null("parameters"));
+        } else if (signatureParameters instanceof Asn1Field) {
+            signature.instantiateParameters((Asn1Field) signatureParameters);
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
@@ -107,8 +107,8 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         Name issuer = tbsCertificate.getIssuer();
         List<RelativeDistinguishedName> rdnSequence = issuer.getRelativeDistinguishedNames();
         for (RelativeDistinguishedName rdn : rdnSequence) {
-            Collection<Asn1Encodable<X509Chooser>> attributeTypeAndValueList = rdn.getChildren();
-            for (Asn1Encodable<X509Chooser> typeAndValue : attributeTypeAndValueList) {
+            Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
+            for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
                 typeAndValue.getPreparator(chooser).prepare();
             }
             rdn.getPreparator(chooser).prepare();
@@ -144,34 +144,33 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
             ValidityEncoding encoding,
             TimeAccurracy accurracy,
             int timezoneInMinutes) {
-        PrimitiveAsn1Field<X509Chooser> timeField;
+        Asn1Field timeField;
         if (time.getSelectedChoice() == null) {
             switch (encoding) {
                 case GENERALIZED_TIME_DIFFERENTIAL:
-                    timeField = new Asn1PrimitiveGeneralizedTime<>("generalizedTime");
-                    ((Asn1PrimitiveGeneralizedTime<?>) timeField)
+                    timeField = new Asn1GeneralizedTime("generalizedTime");
+                    ((Asn1GeneralizedTime) timeField)
                             .setValue(
                                     TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(
                                             date, accurracy, timezoneInMinutes));
                     break;
                 case GENERALIZED_TIME_LOCAL:
-                    timeField = new Asn1PrimitiveGeneralizedTime<>("generalizedTime");
-                    ((Asn1PrimitiveGeneralizedTime<?>) timeField)
+                    timeField = new Asn1GeneralizedTime("generalizedTime");
+                    ((Asn1GeneralizedTime) timeField)
                             .setValue(TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy));
                     break;
                 case GENERALIZED_TIME_UTC:
-                    timeField = new Asn1PrimitiveGeneralizedTime<>("generalizedTime");
-                    ((Asn1PrimitiveGeneralizedTime<?>) timeField)
+                    timeField = new Asn1GeneralizedTime("generalizedTime");
+                    ((Asn1GeneralizedTime) timeField)
                             .setValue(TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy));
                     break;
                 case UTC:
-                    timeField = new Asn1PrimitiveUtcTime<>("utcTime");
-                    ((Asn1PrimitiveUtcTime<?>) timeField)
-                            .setValue(TimeEncoder.encodeFullUtc(date, accurracy));
+                    timeField = new Asn1UtcTime("utcTime");
+                    ((Asn1UtcTime) timeField).setValue(TimeEncoder.encodeFullUtc(date, accurracy));
                     break;
                 case UTC_DIFFERENTIAL:
-                    timeField = new Asn1PrimitiveUtcTime<>("utcTime");
-                    ((Asn1PrimitiveUtcTime<?>) timeField)
+                    timeField = new Asn1UtcTime("utcTime");
+                    ((Asn1UtcTime) timeField)
                             .setValue(
                                     TimeEncoder.encodeUtcWithDifferential(
                                             date, accurracy, timezoneInMinutes));
@@ -192,8 +191,8 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         List<RelativeDistinguishedName> rdnSequence = subject.getRelativeDistinguishedNames();
         for (RelativeDistinguishedName rdn : rdnSequence) {
 
-            Collection<Asn1Encodable<X509Chooser>> attributeTypeAndValueList = rdn.getChildren();
-            for (Asn1Encodable<X509Chooser> typeAndValue : attributeTypeAndValueList) {
+            Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
+            for (Asn1Encodable typeAndValue : attributeTypeAndValueList) {
                 typeAndValue.getPreparator(chooser).prepare();
             }
             rdn.getPreparator(chooser).prepare();
@@ -214,9 +213,9 @@ public class TbsCertificatePreparator extends Asn1SequencePreparator<X509Chooser
         algorithm.getAlgorithm().getPreparator(chooser).prepare();
         PublicParameters publicKeyParameters = createPublicKeyParameters();
         if (publicKeyParameters == null) {
-            algorithm.instantiateParameters(new Asn1Null<>("parameters"));
-        } else if (publicKeyParameters instanceof PrimitiveAsn1Field) {
-            algorithm.instantiateParameters((PrimitiveAsn1Field<X509Chooser>) publicKeyParameters);
+            algorithm.instantiateParameters(new Asn1Null("parameters"));
+        } else if (publicKeyParameters instanceof Asn1Field) {
+            algorithm.instantiateParameters((Asn1Field) publicKeyParameters);
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }

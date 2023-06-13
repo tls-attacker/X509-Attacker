@@ -8,12 +8,11 @@
  */
 package de.rub.nds.x509attacker.x509.handler;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
 
-public abstract class X509Handler extends Handler<X509Chooser> {
+public abstract class X509Handler extends Handler {
 
     protected final X509Context context;
     protected final X509CertificateConfig config;

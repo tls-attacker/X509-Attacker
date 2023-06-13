@@ -8,10 +8,8 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.handler.Handler;
-import de.rub.nds.asn1.model.Asn1Any;
+import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
@@ -67,7 +65,7 @@ import org.joda.time.DateTime;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509Certificate extends Asn1Sequence<X509Chooser> {
+public class X509Certificate extends Asn1Sequence {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -76,7 +74,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     @HoldsModifiableVariable
     private CertificateSignatureAlgorithmIdentifier signatureAlgorithmIdentifier;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString<X509Chooser> signature;
+    @HoldsModifiableVariable private Asn1BitString signature;
 
     @HoldsModifiableVariable private SignatureComputations signatureComputations;
 
@@ -85,7 +83,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         tbsCertificate = new TbsCertificate("tbsCertificate", certificateConfig);
         signatureAlgorithmIdentifier =
                 new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
-        signature = new Asn1PrimitiveBitString<X509Chooser>("signature");
+        signature = new Asn1BitString("signature");
         addChild(tbsCertificate);
         addChild(signatureAlgorithmIdentifier);
         addChild(signature);
@@ -96,7 +94,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         tbsCertificate = new TbsCertificate("tbsCertificate");
         signatureAlgorithmIdentifier =
                 new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
-        signature = new Asn1PrimitiveBitString<X509Chooser>("signature");
+        signature = new Asn1BitString("signature");
         addChild(tbsCertificate);
         addChild(signatureAlgorithmIdentifier);
         addChild(signature);
@@ -124,11 +122,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
         this.signatureAlgorithmIdentifier = signatureAlgorithm;
     }
 
-    public Asn1PrimitiveBitString<X509Chooser> getSignature() {
+    public Asn1BitString getSignature() {
         return signature;
     }
 
-    public void setSignature(Asn1PrimitiveBitString<X509Chooser> signature) {
+    public void setSignature(Asn1BitString signature) {
         this.signature = signature;
     }
 
@@ -143,7 +141,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 
@@ -210,13 +208,11 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
                 return NamedEllipticCurveParameters.CURVE_X448;
             } else if (publicKey instanceof X509EcdhEcdsaPublicKey
                     || publicKey instanceof X509EcdhPublicKey) {
-                Asn1Encodable<X509Chooser> parameters =
+                Asn1Encodable parameters =
                         getTbsCertificate()
                                 .getSubjectPublicKeyInfo()
                                 .getAlgorithm()
                                 .getParameters();
-                Asn1Any<X509Chooser> any = (Asn1Any<X509Chooser>) parameters;
-                parameters = any.getInstantiation();
                 if (parameters instanceof X509EcNamedCurveParameters) {
                     String algorithmOid =
                             ((X509EcNamedCurveParameters) parameters).getValue().getValue();
@@ -420,7 +416,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     public String getCommonName() {
         for (RelativeDistinguishedName relativeDistinguishedName :
                 getTbsCertificate().getSubject().getRelativeDistinguishedNames()) {
-            for (Asn1Encodable<X509Chooser> encodable : relativeDistinguishedName.getChildren()) {
+            for (Asn1Encodable encodable : relativeDistinguishedName.getChildren()) {
                 if (encodable instanceof AttributeTypeAndValue) {
                     if (((AttributeTypeAndValue) encodable).getX500AttributeTypeFromValue()
                             == X500AttributeType.COMMON_NAME) {
@@ -472,7 +468,7 @@ public class X509Certificate extends Asn1Sequence<X509Chooser> {
     private String getRdnString(List<RelativeDistinguishedName> relativeDistinguishedNames) {
         StringBuilder builder = new StringBuilder();
         for (RelativeDistinguishedName relativeDistinguishedName : relativeDistinguishedNames) {
-            for (Asn1Encodable<X509Chooser> encodable : relativeDistinguishedName.getChildren()) {
+            for (Asn1Encodable encodable : relativeDistinguishedName.getChildren()) {
                 if (encodable instanceof AttributeTypeAndValue) {
                     builder.append(((AttributeTypeAndValue) encodable).getStringRepresentation());
                     builder.append(" ");

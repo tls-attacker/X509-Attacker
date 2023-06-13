@@ -20,7 +20,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 /** Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Extensions extends Asn1Sequence<X509Chooser> {
+public class Extensions extends Asn1Sequence {
 
     private Extensions() {
         super(null);
@@ -31,12 +31,12 @@ public class Extensions extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Asn1SequenceParser<X509Chooser> getParser(X509Chooser chooser) {
+    public Asn1SequenceParser getParser(X509Chooser chooser) {
         return new ExtensionsParser(chooser, this);
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

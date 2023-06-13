@@ -9,10 +9,9 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.EmptyHandler;
-import de.rub.nds.asn1.handler.Handler;
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -31,7 +30,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
+public class SubjectPublicKeyInfo extends Asn1Sequence {
 
     @HoldsModifiableVariable private SubjectPublicKeyAlgorithmIdentifier algorithm;
 
@@ -75,7 +74,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
     }
 
     private void initPublicKeyParameters(X509CertificateConfig config) {
-        PrimitiveAsn1Field<X509Chooser> field = null;
+        PrimitiveAsn1Field field = null;
         switch (config.getPublicKeyType()) {
             case DH:
                 field = new X509DhParameters("dhParameters");
@@ -108,17 +107,17 @@ public class SubjectPublicKeyInfo extends Asn1Sequence<X509Chooser> {
         if (field != null) {
             algorithm.instantiateParameters(field);
         } else {
-            algorithm.instantiateParameters(new Asn1Null<X509Chooser>("parameters"));
+            algorithm.instantiateParameters(new Asn1Null("parameters"));
         }
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         return new EmptyHandler<>(chooser);
     }
 
     @Override
-    public Asn1SequenceParser<X509Chooser> getParser(X509Chooser chooser) {
+    public Asn1SequenceParser getParser(X509Chooser chooser) {
         return new SubjectPublicKeyInfoParser(chooser, this);
     }
 }

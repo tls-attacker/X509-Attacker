@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -20,9 +19,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 /** AccessDescription ::= SEQUENCE { accessMethod OBJECT IDENTIFIER, accessLocation GeneralName } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AccessDescription extends Asn1Sequence<X509Chooser> {
+public class AccessDescription extends Asn1Sequence {
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> accessMethod;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier accessMethod;
 
     @HoldsModifiableVariable private GeneralName accessLocation;
 
@@ -32,17 +31,17 @@ public class AccessDescription extends Asn1Sequence<X509Chooser> {
 
     public AccessDescription(String identifier) {
         super(identifier);
-        accessMethod = new Asn1ObjectIdentifier<>("accessMethod");
+        accessMethod = new Asn1ObjectIdentifier("accessMethod");
         accessLocation = new GeneralName("accessLocation");
         addChild(accessMethod);
         addChild(accessLocation);
     }
 
-    public Asn1ObjectIdentifier<X509Chooser> getAccessMethod() {
+    public Asn1ObjectIdentifier getAccessMethod() {
         return accessMethod;
     }
 
-    public void setAccessMethod(Asn1ObjectIdentifier<X509Chooser> accessMethod) {
+    public void setAccessMethod(Asn1ObjectIdentifier accessMethod) {
         this.accessMethod = accessMethod;
     }
 
@@ -55,7 +54,7 @@ public class AccessDescription extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

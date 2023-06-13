@@ -9,16 +9,15 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.EmptyHandler;
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Any;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
+import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1Ia5String;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
-import de.rub.nds.asn1.model.Asn1PrimitiveIa5String;
-import de.rub.nds.asn1.model.Asn1PrimitivePrintableString;
-import de.rub.nds.asn1.model.Asn1PrimitiveT61String;
-import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
+import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.model.Asn1T61String;
+import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -43,11 +42,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
+public class AttributeTypeAndValue extends Asn1Sequence {
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier<X509Chooser> type;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier type;
 
-    @HoldsModifiableVariable private Asn1Any<X509Chooser> value;
+    @HoldsModifiableVariable private Asn1Any value;
 
     private X500AttributeType attributeTypeConfig;
 
@@ -58,16 +57,16 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
         super(identifier);
         this.attributeTypeConfig = attributeTypeConfig;
         this.valueConfig = valueConfig;
-        type = new Asn1ObjectIdentifier<>("type");
-        value = new Asn1Any<>("value");
+        type = new Asn1ObjectIdentifier("type");
+        value = new Asn1Any("value");
         addChild(type);
         addChild(value);
     }
 
     public AttributeTypeAndValue(String identifier) {
         super(identifier);
-        type = new Asn1ObjectIdentifier<X509Chooser>("type");
-        value = new Asn1Any<X509Chooser>("value");
+        type = new Asn1ObjectIdentifier("type");
+        value = new Asn1Any("value");
         addChild(type);
         addChild(value);
     }
@@ -92,19 +91,19 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
         this.valueConfig = valueConfig;
     }
 
-    public Asn1ObjectIdentifier<X509Chooser> getType() {
+    public Asn1ObjectIdentifier getType() {
         return type;
     }
 
-    public void setType(Asn1ObjectIdentifier<X509Chooser> type) {
+    public void setType(Asn1ObjectIdentifier type) {
         this.type = type;
     }
 
-    public Asn1Encodable<X509Chooser> getValue() {
+    public Asn1Encodable getValue() {
         return value.getInstantiation();
     }
 
-    public void instantiateValue(PrimitiveAsn1Field<X509Chooser> value) {
+    public void instantiateValue(Asn1Field value) {
         this.value.setInstantiation(value);
     }
 
@@ -124,8 +123,8 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
-        return new EmptyHandler<>(chooser);
+    public Handler getHandler(X509Chooser chooser) {
+        return new EmptyHandler(chooser);
     }
 
     public String getStringRepresentation() {
@@ -149,22 +148,14 @@ public class AttributeTypeAndValue extends Asn1Sequence<X509Chooser> {
     }
 
     public String getStringValueOfValue() {
-        if (value.getInstantiation() instanceof Asn1PrimitiveIa5String) {
-            return ((Asn1PrimitiveIa5String<X509Chooser>) value.getInstantiation())
-                    .getValue()
-                    .getValue();
-        } else if (value.getInstantiation() instanceof Asn1PrimitivePrintableString) {
-            return ((Asn1PrimitivePrintableString<X509Chooser>) value.getInstantiation())
-                    .getValue()
-                    .getValue();
-        } else if (value.getInstantiation() instanceof Asn1PrimitiveT61String) {
-            return ((Asn1PrimitiveT61String<X509Chooser>) (value.getInstantiation()))
-                    .getValue()
-                    .getValue();
-        } else if (value.getInstantiation() instanceof Asn1PrimitiveUtf8String) {
-            return ((Asn1PrimitiveUtf8String<X509Chooser>) value.getInstantiation())
-                    .getValue()
-                    .getValue();
+        if (value.getInstantiation() instanceof Asn1Ia5String) {
+            return ((Asn1Ia5String) value.getInstantiation()).getValue().getValue();
+        } else if (value.getInstantiation() instanceof Asn1PrintableString) {
+            return ((Asn1PrintableString) value.getInstantiation()).getValue().getValue();
+        } else if (value.getInstantiation() instanceof Asn1T61String) {
+            return ((Asn1T61String) (value.getInstantiation())).getValue().getValue();
+        } else if (value.getInstantiation() instanceof Asn1Utf8String) {
+            return ((Asn1Utf8String) value.getInstantiation()).getValue().getValue();
         } else {
             return value.getInstantiation().toString();
         }

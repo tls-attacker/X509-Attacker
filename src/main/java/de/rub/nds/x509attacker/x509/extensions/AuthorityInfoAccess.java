@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -23,7 +22,7 @@ import java.util.List;
 /** AuthorityInfoAcessSyntax :== SEQUENCE SIZE (1..MAX) OF AccessDescription */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AuthorityInfoAccess extends Asn1Sequence<X509Chooser> {
+public class AuthorityInfoAccess extends Asn1Sequence {
 
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<AccessDescription> accessDescription;
@@ -46,7 +45,7 @@ public class AuthorityInfoAccess extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

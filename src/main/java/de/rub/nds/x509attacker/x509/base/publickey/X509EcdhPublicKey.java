@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import de.rub.nds.asn1.handler.Handler;
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
@@ -30,11 +30,11 @@ public class X509EcdhPublicKey extends PublicKeyContent {
 
     private ModifiableByte formatByte;
 
-    private Asn1PrimitiveOctetString<X509Chooser> pointOctets;
+    private Asn1OctetString pointOctets;
 
     public X509EcdhPublicKey() {
         super("ecPublicKey");
-        pointOctets = new Asn1PrimitiveOctetString<>("ECPoint");
+        pointOctets = new Asn1PrimitiveOctetString("ECPoint");
     }
 
     public ModifiableBigInteger getxCoordinate() {
@@ -61,11 +61,11 @@ public class X509EcdhPublicKey extends PublicKeyContent {
         this.formatByte = formatByte;
     }
 
-    public Asn1PrimitiveOctetString<X509Chooser> getPointOctets() {
+    public Asn1OctetString getPointOctets() {
         return pointOctets;
     }
 
-    public void setPointOctets(Asn1PrimitiveOctetString<X509Chooser> pointOctets) {
+    public void setPointOctets(Asn1OctetString pointOctets) {
         this.pointOctets = pointOctets;
     }
 
@@ -96,7 +96,7 @@ public class X509EcdhPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         return new X509EcdhPublicKeyHandler(chooser, this);
     }
 }

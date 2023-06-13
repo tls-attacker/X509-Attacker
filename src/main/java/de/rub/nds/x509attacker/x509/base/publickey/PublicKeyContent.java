@@ -9,14 +9,13 @@
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class PublicKeyContent implements Asn1Encodable<X509Chooser> {
+public abstract class PublicKeyContent implements Asn1Encodable {
 
     private String identifier;
 

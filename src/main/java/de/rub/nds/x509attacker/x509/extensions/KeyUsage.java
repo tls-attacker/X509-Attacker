@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
+import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -21,7 +21,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class KeyUsage extends Asn1PrimitiveBitString<X509Chooser> {
+public class KeyUsage extends Asn1BitString<X509Chooser> {
 
     private KeyUsage() {
         super(null);

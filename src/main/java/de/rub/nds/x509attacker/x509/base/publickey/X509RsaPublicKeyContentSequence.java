@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -18,10 +17,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509RsaPublicKeyContentSequence extends Asn1Sequence<X509Chooser> {
+public class X509RsaPublicKeyContentSequence extends Asn1Sequence {
 
-    private Asn1Integer<X509Chooser> modulus;
-    private Asn1Integer<X509Chooser> publicExponent;
+    private Asn1Integer modulus;
+    private Asn1Integer publicExponent;
 
     private X509RsaPublicKeyContentSequence() {
         super(null);
@@ -29,30 +28,30 @@ public class X509RsaPublicKeyContentSequence extends Asn1Sequence<X509Chooser> {
 
     public X509RsaPublicKeyContentSequence(String identifier) {
         super(identifier);
-        this.modulus = new Asn1Integer<>("modulus");
-        this.publicExponent = new Asn1Integer<>("publicExponent");
+        this.modulus = new Asn1Integer("modulus");
+        this.publicExponent = new Asn1Integer("publicExponent");
         addChild(this.modulus);
         addChild(this.publicExponent);
     }
 
-    public Asn1Integer<X509Chooser> getModulus() {
+    public Asn1Integer getModulus() {
         return modulus;
     }
 
-    public void setModulus(Asn1Integer<X509Chooser> modulus) {
+    public void setModulus(Asn1Integer modulus) {
         this.modulus = modulus;
     }
 
-    public Asn1Integer<X509Chooser> getPublicExponent() {
+    public Asn1Integer getPublicExponent() {
         return publicExponent;
     }
 
-    public void setPublicExponent(Asn1Integer<X509Chooser> publicExponent) {
+    public void setPublicExponent(Asn1Integer publicExponent) {
         this.publicExponent = publicExponent;
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

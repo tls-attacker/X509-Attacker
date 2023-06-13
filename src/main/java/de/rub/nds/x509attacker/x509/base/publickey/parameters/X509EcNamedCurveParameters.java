@@ -17,8 +17,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509EcNamedCurveParameters extends Asn1ObjectIdentifier<X509Chooser>
-        implements PublicParameters {
+public class X509EcNamedCurveParameters extends Asn1ObjectIdentifier implements PublicParameters {
 
     private X509EcNamedCurveParameters() {
         super(null);

@@ -25,11 +25,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PolicyInformation extends Asn1Sequence<X509Chooser> {
+public class PolicyInformation extends Asn1Sequence {
 
     @HoldsModifiableVariable
-    private Asn1ObjectIdentifier<X509Chooser>
-            policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
+    private Asn1ObjectIdentifier policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
 
     @HoldsModifiableVariable private PolicyQualifiers policyQualifiers;
 
@@ -39,17 +38,17 @@ public class PolicyInformation extends Asn1Sequence<X509Chooser> {
 
     public PolicyInformation(String identifier) {
         super(identifier);
-        policyIdentifier = new Asn1ObjectIdentifier<X509Chooser>("policyIdentifier");
+        policyIdentifier = new Asn1ObjectIdentifier("policyIdentifier");
         policyQualifiers = new PolicyQualifiers("policyQualifiers");
         addChild(policyIdentifier);
         addChild(policyQualifiers);
     }
 
-    public Asn1ObjectIdentifier<X509Chooser> getPolicyIdentifier() {
+    public Asn1ObjectIdentifier getPolicyIdentifier() {
         return policyIdentifier;
     }
 
-    public void setPolicyIdentifier(Asn1ObjectIdentifier<X509Chooser> policyIdentifier) {
+    public void setPolicyIdentifier(Asn1ObjectIdentifier policyIdentifier) {
         this.policyIdentifier = policyIdentifier;
     }
 
@@ -62,7 +61,7 @@ public class PolicyInformation extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         throw new UnsupportedOperationException("Not supported yet.");
     }
 }

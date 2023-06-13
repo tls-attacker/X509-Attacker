@@ -8,8 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -21,7 +19,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectKeyIdentifier extends Asn1PrimitiveOctetString<X509Chooser> {
+public class SubjectKeyIdentifier extends Asn1OctetString {
 
     private SubjectKeyIdentifier() {
         super(null);

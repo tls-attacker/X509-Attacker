@@ -14,7 +14,7 @@ import de.rub.nds.x509attacker.x509.base.publickey.X509DhPublicKey;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class X509DhPublicKeyParser extends Asn1Parser<X509Chooser, X509DhPublicKey> {
+public class X509DhPublicKeyParser extends Asn1Parser<X509DhPublicKey> {
 
     public X509DhPublicKeyParser(X509Chooser chooser, X509DhPublicKey dhPublicKey) {
         super(chooser, dhPublicKey);

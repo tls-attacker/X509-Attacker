@@ -8,14 +8,14 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1PrimitiveUtf8String;
+import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AttributeTypeAndValuePreparator extends Asn1SequencePreparator<X509Chooser> {
+public class AttributeTypeAndValuePreparator extends Asn1SequencePreparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -35,13 +35,12 @@ public class AttributeTypeAndValuePreparator extends Asn1SequencePreparator<X509
     }
 
     public void prepareTypeValue() {
-        instance.instantiateValue(new Asn1PrimitiveUtf8String<>("value"));
+        instance.instantiateValue(new Asn1Utf8String<>("value"));
         if (instance.getValueConfig() != null) {
-            ((Asn1PrimitiveUtf8String<X509Chooser>) instance.getValue())
-                    .setValue(instance.getValueConfig());
+            ((Asn1Utf8String) instance.getValue()).setValue(instance.getValueConfig());
         } else {
             LOGGER.warn("AttributeTypeAndValue value config is not set - using an empty string");
-            ((Asn1PrimitiveUtf8String<X509Chooser>) instance.getValue()).setValue("");
+            ((Asn1Utf8String) instance.getValue()).setValue("");
         }
         instance.getValue().getPreparator(chooser).prepare();
     }

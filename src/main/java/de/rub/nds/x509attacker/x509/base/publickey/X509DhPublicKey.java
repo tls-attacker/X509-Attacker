@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.preparator.Preparator;
@@ -25,18 +24,18 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509DhPublicKey extends PublicKeyContent {
 
-    private Asn1Integer<X509Chooser> publicKey;
+    private Asn1Integer publicKey;
 
     public X509DhPublicKey() {
         super("dhPublicKey");
-        publicKey = new Asn1Integer<>("publicKey");
+        publicKey = new Asn1Integer("publicKey");
     }
 
-    public Asn1Integer<X509Chooser> getPublicKey() {
+    public Asn1Integer getPublicKey() {
         return publicKey;
     }
 
-    public void setPublicKey(Asn1Integer<X509Chooser> publicKey) {
+    public void setPublicKey(Asn1Integer publicKey) {
         this.publicKey = publicKey;
     }
 
@@ -51,7 +50,7 @@ public class X509DhPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Asn1Parser<?, ?> getParser(X509Chooser chooser) {
+    public Asn1Parser<?> getParser(X509Chooser chooser) {
         return new X509DhPublicKeyParser(chooser, this);
     }
 
@@ -67,7 +66,7 @@ public class X509DhPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         return new X509DhPublicKeyHandler(chooser, this);
     }
 }

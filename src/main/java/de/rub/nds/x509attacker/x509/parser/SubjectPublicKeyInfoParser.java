@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
@@ -19,7 +19,7 @@ import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SubjectPublicKeyInfoParser extends Asn1SequenceParser<X509Chooser> {
+public class SubjectPublicKeyInfoParser extends Asn1SequenceParser {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -33,7 +33,7 @@ public class SubjectPublicKeyInfoParser extends Asn1SequenceParser<X509Chooser> 
     }
 
     @Override
-    protected PrimitiveAsn1Field<X509Chooser> chooseInstantiationForAny() {
+    protected Asn1Field chooseInstantiationForAny() {
         switch (chooser.getSubjectPublicKeyType()) {
             case ECDH_ECDSA:
                 LOGGER.debug("Predicted EcNamedCurveParameters");

@@ -20,7 +20,7 @@ import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class X509CertificatePreparator extends Asn1SequencePreparator<X509Chooser> {
+public class X509CertificatePreparator extends Asn1SequencePreparator {
 
     private final X509Certificate certificate;
 
@@ -53,7 +53,7 @@ public class X509CertificatePreparator extends Asn1SequencePreparator<X509Choose
                 .prepare();
         certificate
                 .getSignatureAlgorithmIdentifier()
-                .instantiateParameters(new Asn1Null<>("null")); // PARAMETERS
+                .instantiateParameters(new Asn1Null("null")); // PARAMETERS
         certificate.getSignatureAlgorithmIdentifier().getPreparator(chooser).prepare();
     }
 

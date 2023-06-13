@@ -19,7 +19,6 @@ public class X509EcdhPublicKeyPreparator extends X509PublicKeyContentPreparator<
 
     @Override
     public void prepare() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

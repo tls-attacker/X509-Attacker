@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.handler.EmptyHandler;
-import de.rub.nds.asn1.handler.Handler;
+import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
@@ -26,11 +26,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TbsCertificate extends Asn1Sequence<X509Chooser> {
+public class TbsCertificate extends Asn1Sequence {
 
     @HoldsModifiableVariable private Version version;
 
-    @HoldsModifiableVariable private Asn1Integer<X509Chooser> serialNumber;
+    @HoldsModifiableVariable private Asn1Integer serialNumber;
 
     @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signature;
 
@@ -42,11 +42,11 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
 
     @HoldsModifiableVariable private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString<X509Chooser> issuerUniqueID;
+    @HoldsModifiableVariable private Asn1BitString issuerUniqueID;
 
-    @HoldsModifiableVariable private Asn1PrimitiveBitString<X509Chooser> subjectUniqueID;
+    @HoldsModifiableVariable private Asn1BitString subjectUniqueID;
 
-    @HoldsModifiableVariable private Asn1Explicit<X509Chooser> extensionExplicit;
+    @HoldsModifiableVariable private Asn1Explicit extensionExplicit;
 
     private TbsCertificate() {
         super(null);
@@ -96,17 +96,17 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
         super(identifier);
         version = new Version("version");
         version.setOptional(true);
-        serialNumber = new Asn1Integer<>("serialNumber");
+        serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
         issuer = new Name("issuer", NameType.ISSUER);
         validity = new Validity("validity");
         subject = new Name("subject", NameType.SUBJECT);
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
-        issuerUniqueID = new Asn1PrimitiveBitString<>("issuerUniqueID");
+        issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
         issuerUniqueID.setOptional(true);
-        subjectUniqueID = new Asn1PrimitiveBitString<>("subjectUniqueID");
+        subjectUniqueID = new Asn1PrimitiveBitString("subjectUniqueID");
         subjectUniqueID.setOptional(true);
-        extensionExplicit = new Asn1Explicit<>("extensionsExplicit", new Extensions("extensions"));
+        extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         extensionExplicit.setOptional(true);
         addChild(version);
         addChild(serialNumber);
@@ -128,11 +128,11 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
         this.version = version;
     }
 
-    public Asn1Integer<X509Chooser> getSerialNumber() {
+    public Asn1Integer getSerialNumber() {
         return serialNumber;
     }
 
-    public void setSerialNumber(Asn1Integer<X509Chooser> serialNumber) {
+    public void setSerialNumber(Asn1Integer serialNumber) {
         this.serialNumber = serialNumber;
     }
 
@@ -176,27 +176,27 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
         this.subjectPublicKeyInfo = subjectPublicKeyInfo;
     }
 
-    public Asn1PrimitiveBitString<X509Chooser> getIssuerUniqueID() {
+    public Asn1BitString getIssuerUniqueID() {
         return issuerUniqueID;
     }
 
-    public void setIssuerUniqueID(Asn1PrimitiveBitString<X509Chooser> issuerUniqueID) {
+    public void setIssuerUniqueID(Asn1BitString issuerUniqueID) {
         this.issuerUniqueID = issuerUniqueID;
     }
 
-    public Asn1PrimitiveBitString<X509Chooser> getSubjectUniqueID() {
+    public Asn1BitString getSubjectUniqueID() {
         return subjectUniqueID;
     }
 
-    public void setSubjectUniqueID(Asn1PrimitiveBitString<X509Chooser> subjectUniqueID) {
+    public void setSubjectUniqueID(Asn1BitString subjectUniqueID) {
         this.subjectUniqueID = subjectUniqueID;
     }
 
-    public Asn1Explicit<X509Chooser> getExtensionExplicit() {
+    public Asn1Explicit getExtensionExplicit() {
         return extensionExplicit;
     }
 
-    public void setExtensionExplicit(Asn1Explicit<X509Chooser> extensionExplicit) {
+    public void setExtensionExplicit(Asn1Explicit extensionExplicit) {
         this.extensionExplicit = extensionExplicit;
     }
 
@@ -211,7 +211,7 @@ public class TbsCertificate extends Asn1Sequence<X509Chooser> {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
-        return new EmptyHandler<>(chooser);
+    public Handler getHandler(X509Chooser chooser) {
+        return new EmptyHandler(chooser);
     }
 }

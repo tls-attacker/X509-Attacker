@@ -19,7 +19,7 @@ import java.math.BigInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class X509EcdhEcdsaPublicKeyParser extends Asn1Parser<X509Chooser, X509EcdhEcdsaPublicKey> {
+public class X509EcdhEcdsaPublicKeyParser extends Asn1Parser<X509EcdhEcdsaPublicKey> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

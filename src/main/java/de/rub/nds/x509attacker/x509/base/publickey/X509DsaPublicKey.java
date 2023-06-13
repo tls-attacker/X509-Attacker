@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
@@ -24,11 +23,11 @@ import java.math.BigInteger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509DsaPublicKey extends PublicKeyContent {
 
-    private Asn1Integer<X509Chooser> publicKeyY;
+    private Asn1Integer publicKeyY;
 
     public X509DsaPublicKey() {
         super("dsaPublicKey");
-        publicKeyY = new Asn1Integer<>("y");
+        publicKeyY = new Asn1Integer("y");
     }
 
     @Override
@@ -41,11 +40,11 @@ public class X509DsaPublicKey extends PublicKeyContent {
         return new X509DsaPublicKeyPreparator(this, chooser);
     }
 
-    public Asn1Integer<X509Chooser> getPublicKeyY() {
+    public Asn1Integer getPublicKeyY() {
         return publicKeyY;
     }
 
-    public void setPublicKeyY(Asn1Integer<X509Chooser> publicKeyY) {
+    public void setPublicKeyY(Asn1Integer publicKeyY) {
         this.publicKeyY = publicKeyY;
     }
 
@@ -63,7 +62,7 @@ public class X509DsaPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Asn1Parser<?, ?> getParser(X509Chooser chooser) {
+    public Asn1Parser<?> getParser(X509Chooser chooser) {
         return publicKeyY.getParser(chooser);
     }
 
@@ -73,7 +72,7 @@ public class X509DsaPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
+    public Handler getHandler(X509Chooser chooser) {
         return new X509DsaPublicKeyHandler(chooser, this);
     }
 }

@@ -10,11 +10,10 @@ package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.exceptions.NotInitializedException;
 import de.rub.nds.asn1.handler.EmptyHandler;
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
-import de.rub.nds.asn1.model.Asn1PrimitiveGeneralizedTime;
-import de.rub.nds.asn1.model.Asn1PrimitiveUtcTime;
+import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1GeneralizedTime;
+import de.rub.nds.asn1.model.Asn1UtcTime;
 import de.rub.nds.asn1.time.TimeDecoder;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -25,35 +24,32 @@ import org.joda.time.DateTime;
 /** Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Time extends Asn1Choice<X509Chooser> {
+public class Time extends Asn1Choice {
 
     private Time() {
         super(null);
     }
 
     public Time(String identifier) {
-        super(
-                identifier,
-                new Asn1PrimitiveUtcTime<X509Chooser>("utcTime"),
-                new Asn1PrimitiveGeneralizedTime<X509Chooser>("generalizedTime"));
+        super(identifier, new Asn1UtcTime("utcTime"), new Asn1GeneralizedTime("generalizedTime"));
     }
 
     @Override
-    public Handler<X509Chooser> getHandler(X509Chooser chooser) {
-        return new EmptyHandler<>(chooser);
+    public Handler getHandler(X509Chooser chooser) {
+        return new EmptyHandler(chooser);
     }
 
     public DateTime getTimeValue() {
-        PrimitiveAsn1Field<X509Chooser> choice = getSelectedChoice();
+        Asn1Field choice = getSelectedChoice();
         if (choice == null) {
             throw new NotInitializedException(
                     "Not initialized. Prepare or parse it first to access values");
         }
-        if (choice instanceof Asn1PrimitiveUtcTime<?>) {
-            String utcString = ((Asn1PrimitiveUtcTime<?>) choice).getValue().getValue();
+        if (choice instanceof Asn1UtcTime) {
+            String utcString = ((Asn1UtcTime) choice).getValue().getValue();
             return TimeDecoder.decodeUtc(utcString);
-        } else if (choice instanceof Asn1PrimitiveGeneralizedTime<?>) {
-            String utcString = ((Asn1PrimitiveGeneralizedTime<?>) choice).getValue().getValue();
+        } else if (choice instanceof Asn1GeneralizedTime) {
+            String utcString = ((Asn1GeneralizedTime) choice).getValue().getValue();
             return TimeDecoder.decodeGeneralizedTimeUtc(utcString);
         } else {
             throw new UnsupportedOperationException(
