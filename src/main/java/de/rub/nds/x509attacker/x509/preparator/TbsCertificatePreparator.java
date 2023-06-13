@@ -8,6 +8,13 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
+
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
@@ -33,13 +40,8 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
-import java.util.Collection;
-import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.joda.time.DateTime;
 
-public class TbsCertificatePreparator extends Asn1SequencePreparator {
+public class TbsCertificatePreparator extends Asn1SequencePreparator implements X509Preparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

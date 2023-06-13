@@ -19,7 +19,8 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurvePa
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParser {
+public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParser
+        implements X509Parser {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

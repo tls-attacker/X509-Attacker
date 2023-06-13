@@ -22,8 +22,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 /**
  * SubjectKeyIdentifier ::= KeyIdentifier
  *
- * <p>
- * KeyIdentifier ::= OCTET STRING
+ * <p>KeyIdentifier ::= OCTET STRING
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)

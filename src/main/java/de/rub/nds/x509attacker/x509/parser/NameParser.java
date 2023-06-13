@@ -17,7 +17,7 @@ import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NameParser extends Asn1SequenceOfParser {
+public class NameParser extends Asn1SequenceOfParser implements X509Parser {
 
     private Name name;
 

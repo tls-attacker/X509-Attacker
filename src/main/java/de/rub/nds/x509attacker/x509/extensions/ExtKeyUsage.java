@@ -28,16 +28,13 @@ import java.util.List;
 /**
  * ExtKeyUsageSyntax ::= SEQUENCE SIZE (1..MAX) OF KeyPurposeId
  *
- * <p>
- * KeyPurposeId ::= OBJECT IDENTIFIER
+ * <p>KeyPurposeId ::= OBJECT IDENTIFIER
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class ExtKeyUsage extends Asn1Sequence implements X509Component {
 
-    @XmlElementWrapper
-    @XmlElementRef
-    @HoldsModifiableVariable
+    @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<Asn1ObjectIdentifier> keyPurposeID;
 
     private ExtKeyUsage() {

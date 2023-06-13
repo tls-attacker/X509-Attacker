@@ -27,7 +27,7 @@ import java.util.List;
 /** AuthorityInfoAcessSyntax :== SEQUENCE SIZE (1..MAX) OF AccessDescription */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AuthorityInfoAccess extends Asn1Sequence implements X509Component{
+public class AuthorityInfoAccess extends Asn1Sequence implements X509Component {
 
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<AccessDescription> accessDescription;

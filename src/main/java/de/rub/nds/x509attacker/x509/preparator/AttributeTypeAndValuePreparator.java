@@ -15,8 +15,8 @@ import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AttributeTypeAndValuePreparator extends Asn1SequencePreparator {
-
+public class AttributeTypeAndValuePreparator extends Asn1SequencePreparator
+        implements X509Preparator {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final AttributeTypeAndValue instance;

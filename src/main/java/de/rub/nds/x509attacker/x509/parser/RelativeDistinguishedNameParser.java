@@ -14,7 +14,7 @@ import de.rub.nds.asn1.parser.Asn1SetParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 
-public class RelativeDistinguishedNameParser extends Asn1SetParser {
+public class RelativeDistinguishedNameParser extends Asn1SetParser implements X509Parser {
 
     public RelativeDistinguishedNameParser(X509Chooser chooser, Asn1Set asn1Set) {
         super(chooser, asn1Set);

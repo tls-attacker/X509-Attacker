@@ -16,7 +16,13 @@ import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class AttributeTypeAndValueParser extends Asn1SequenceParser {
+public class AttributeTypeAndValueParser extends Asn1SequenceParser implements X509Parser {
+
+    @Override
+    public void parse(InputStream inputStream) {
+        // TODO Auto-generated method stub
+        
+    }
 
     private final AttributeTypeAndValue attributeTypeAndValue;
 

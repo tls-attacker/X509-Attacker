@@ -20,7 +20,7 @@ import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class X509CertificatePreparator extends Asn1SequencePreparator {
+public class X509CertificatePreparator extends Asn1SequencePreparator implements X509Preparator {
 
     private final X509Certificate certificate;
 

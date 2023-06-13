@@ -17,7 +17,7 @@ import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PublicKeyBitStringParser extends Asn1BitStringParser {
+public class PublicKeyBitStringParser extends Asn1BitStringParser implements X509Parser {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;

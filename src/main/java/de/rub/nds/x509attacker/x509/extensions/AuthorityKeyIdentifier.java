@@ -33,7 +33,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AuthorityKeyIdentifier extends Asn1Sequence  implements X509Component{
+public class AuthorityKeyIdentifier extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private Asn1OctetString keyIdentifier;
 

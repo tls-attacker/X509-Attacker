@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1BitString;
-import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -27,7 +26,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class PublicKeyBitString extends Asn1BitString implements X509Component{
+public class PublicKeyBitString extends Asn1BitString implements X509Component {
 
     @XmlAnyElement(lax = true)
     private PublicKeyContent x509PublicKeyContent;
