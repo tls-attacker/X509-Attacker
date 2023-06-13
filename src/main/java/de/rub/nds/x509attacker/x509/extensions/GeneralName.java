@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.model.Asn1Choice;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -30,7 +30,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GeneralName extends Asn1Choice implements X509Component {
+public class GeneralName extends Asn1Field implements X509Component {
 
     private GeneralName() {
         super(null);

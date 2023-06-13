@@ -16,31 +16,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class PublicKeyContent implements Asn1Encodable , X509Component {
-
-    private String identifier;
-
-    public PublicKeyContent(String identifier) {
-        this.identifier = identifier;
-    }
-
-    @SuppressWarnings("unused")
-    private PublicKeyContent() {}
-
+public interface PublicKeyContent extends Asn1Encodable, X509Component {
     public abstract boolean isEllipticCurve();
-
-    @Override
-    public String getIdentifier() {
-        return identifier;
-    }
-
-    @Override
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-
-    @Override
-    public boolean isOptional() {
-        return false;
-    }
 }

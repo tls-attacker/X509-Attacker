@@ -8,12 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.model.Asn1BitString;
-import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -29,27 +26,37 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TbsCertificate extends Asn1Sequence implements X509Component{
+public class TbsCertificate extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private Version version;
+    @HoldsModifiableVariable
+    private Version version;
 
-    @HoldsModifiableVariable private Asn1Integer serialNumber;
+    @HoldsModifiableVariable
+    private Asn1Integer serialNumber;
 
-    @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signature;
+    @HoldsModifiableVariable
+    private CertificateSignatureAlgorithmIdentifier signature;
 
-    @HoldsModifiableVariable private Name issuer;
+    @HoldsModifiableVariable
+    private Name issuer;
 
-    @HoldsModifiableVariable private Validity validity;
+    @HoldsModifiableVariable
+    private Validity validity;
 
-    @HoldsModifiableVariable private Name subject;
+    @HoldsModifiableVariable
+    private Name subject;
 
-    @HoldsModifiableVariable private SubjectPublicKeyInfo subjectPublicKeyInfo;
+    @HoldsModifiableVariable
+    private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
-    @HoldsModifiableVariable private Asn1BitString issuerUniqueID;
+    @HoldsModifiableVariable
+    private Asn1BitString issuerUniqueID;
 
-    @HoldsModifiableVariable private Asn1BitString subjectUniqueID;
+    @HoldsModifiableVariable
+    private Asn1BitString subjectUniqueID;
 
-    @HoldsModifiableVariable private Asn1Explicit extensionExplicit;
+    @HoldsModifiableVariable
+    private Asn1Explicit extensionExplicit;
 
     private TbsCertificate() {
         super(null);
@@ -59,7 +66,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component{
         super(identifier);
         version = new Version("version");
         version.setOptional(true);
-        serialNumber = new Asn1Integer<>("serialNumber");
+        serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
         issuer = new Name("issuer", NameType.ISSUER, config.getDefaultIssuer());
         validity = new Validity("validity");
@@ -74,8 +81,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component{
             subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            extensionExplicit =
-                    new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
+            extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);
@@ -220,6 +226,6 @@ public class TbsCertificate extends Asn1Sequence implements X509Component{
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return super.getSerializer();
+        throw new UnsupportedOperationException("not implemented yet");
     }
 }

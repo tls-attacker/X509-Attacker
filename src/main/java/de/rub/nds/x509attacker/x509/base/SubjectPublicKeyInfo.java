@@ -8,11 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.handler.EmptyHandler;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
-import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -81,7 +79,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
     }
 
     private void initPublicKeyParameters(X509CertificateConfig config) {
-        PrimitiveAsn1Field field = null;
+        Asn1Field field = null;
         switch (config.getPublicKeyType()) {
             case DH:
                 field = new X509DhParameters("dhParameters");
@@ -112,15 +110,15 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
                                 + " is not supported");
         }
         if (field != null) {
-            algorithm.instantiateParameters(field);
+            algorithm.setParameters(field);
         } else {
-            algorithm.instantiateParameters(new Asn1Null("parameters"));
+            algorithm.setParameters(new Asn1Null("parameters"));
         }
     }
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        return new EmptyHandler<>(chooser);
+        return new EmptyHandler(chooser);
     }
 
     @Override

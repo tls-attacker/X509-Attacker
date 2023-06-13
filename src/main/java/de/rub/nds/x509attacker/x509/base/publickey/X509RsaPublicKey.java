@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509RsaPublicKeyHandler;
@@ -22,7 +23,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509RsaPublicKey extends PublicKeyContent {
+public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
 
     private X509RsaPublicKeyContentSequence rsaPublicKeyContentSequence;
 
@@ -67,6 +68,6 @@ public class X509RsaPublicKey extends PublicKeyContent {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return rsaPublicKeyContentSequence.getSerializer();
+        return rsaPublicKeyContentSequence.getSerializer(chooser);
     }
 }

@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.base.X509Component;
@@ -21,7 +20,8 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * DistributionPointName ::= CHOICE { fullName [0] GeneralNames, nameRelativeToCRLIssuer [1]
+ * DistributionPointName ::= CHOICE { fullName [0] GeneralNames,
+ * nameRelativeToCRLIssuer [1]
  * RelativeDistinguishedName }
  */
 @XmlRootElement

@@ -8,11 +8,10 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.model.Asn1Any;
-import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.model.PrimitiveAsn1Field;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -25,11 +24,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Component{
+public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private Asn1ObjectIdentifier algorithm;
+    @HoldsModifiableVariable
+    private Asn1ObjectIdentifier algorithm;
 
-    @HoldsModifiableVariable private final Asn1Any parameters;
+    @HoldsModifiableVariable
+    private Asn1Field parameters;
 
     private AlgorithmIdentifier() {
         super(null);
@@ -39,7 +40,7 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Co
     public AlgorithmIdentifier(String identifier) {
         super(identifier);
         algorithm = new Asn1ObjectIdentifier("algorithm");
-        parameters = new Asn1Any("parameters");
+        parameters = new Asn1Null("parameters");
         parameters.setOptional(true);
         addChild(algorithm);
         addChild(parameters);
@@ -53,12 +54,12 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Co
         this.algorithm = algorithm;
     }
 
-    public Asn1Encodable getParameters() {
+    public Asn1Field getParameters() {
         return parameters;
     }
 
-    public void instantiateParameters(PrimitiveAsn1Field encodable) {
-        parameters.setInstantiation(encodable);
+    public void setParameters(Asn1Field parameters) {
+        this.parameters = parameters;
     }
 
     @Override

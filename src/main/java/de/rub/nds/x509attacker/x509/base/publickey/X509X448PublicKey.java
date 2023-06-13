@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509X448PublicKeyHandler;
@@ -20,7 +21,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509X448PublicKey extends PublicKeyContent {
+public class X509X448PublicKey extends Asn1OctetString implements PublicKeyContent {
 
     public X509X448PublicKey() {
         super("x448PublicKey");

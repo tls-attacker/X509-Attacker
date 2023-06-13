@@ -8,11 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.handler.EmptyHandler;
-import de.rub.nds.asn1.model.Asn1Any;
-import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Ia5String;
+import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -57,7 +55,7 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     private Asn1ObjectIdentifier type;
 
     @HoldsModifiableVariable
-    private Asn1Any value;
+    private Asn1Field value;
 
     private X500AttributeType attributeTypeConfig;
 
@@ -69,7 +67,7 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         this.attributeTypeConfig = attributeTypeConfig;
         this.valueConfig = valueConfig;
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Any("value");
+        value = new Asn1Null("value");
         addChild(type);
         addChild(value);
     }
@@ -77,7 +75,7 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     public AttributeTypeAndValue(String identifier) {
         super(identifier);
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Any("value");
+        value = new Asn1Null("value");
         addChild(type);
         addChild(value);
     }
@@ -110,12 +108,12 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         this.type = type;
     }
 
-    public Asn1Encodable getValue() {
-        return value.getInstantiation();
+    public Asn1Field getValue() {
+        return value;
     }
 
     public void instantiateValue(Asn1Field value) {
-        this.value.setInstantiation(value);
+        this.value = value;
     }
 
     @Override
@@ -135,7 +133,7 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return super.getSerializer();
+        throw new UnsupportedOperationException("not yet implemented");
     }
 
     public String getStringRepresentation() {
@@ -158,16 +156,16 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     }
 
     public String getStringValueOfValue() {
-        if (value.getInstantiation() instanceof Asn1Ia5String) {
-            return ((Asn1Ia5String) value.getInstantiation()).getValue().getValue();
-        } else if (value.getInstantiation() instanceof Asn1PrintableString) {
-            return ((Asn1PrintableString) value.getInstantiation()).getValue().getValue();
-        } else if (value.getInstantiation() instanceof Asn1T61String) {
-            return ((Asn1T61String) (value.getInstantiation())).getValue().getValue();
-        } else if (value.getInstantiation() instanceof Asn1Utf8String) {
-            return ((Asn1Utf8String) value.getInstantiation()).getValue().getValue();
+        if (value instanceof Asn1Ia5String) {
+            return ((Asn1Ia5String) value).getValue().getValue();
+        } else if (value instanceof Asn1PrintableString) {
+            return ((Asn1PrintableString) value).getValue().getValue();
+        } else if (value instanceof Asn1T61String) {
+            return ((Asn1T61String) (value)).getValue().getValue();
+        } else if (value instanceof Asn1Utf8String) {
+            return ((Asn1Utf8String) value).getValue().getValue();
         } else {
-            return value.getInstantiation().toString();
+            return value.toString();
         }
     }
 }

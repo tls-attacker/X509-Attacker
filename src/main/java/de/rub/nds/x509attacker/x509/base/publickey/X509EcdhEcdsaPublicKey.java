@@ -8,7 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
+import java.math.BigInteger;
+
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
@@ -24,18 +26,16 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.math.BigInteger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509EcdhEcdsaPublicKey extends PublicKeyContent {
+public class X509EcdhEcdsaPublicKey extends Asn1OctetString implements PublicKeyContent {
 
     private ModifiableBigInteger xCoordinate;
     private ModifiableBigInteger yCoordinate;
 
     private ModifiableByte formatByte;
 
-    private ModifiableByteArray pointOctets;
 
     public X509EcdhEcdsaPublicKey() {
         super("ecPublicKey");
@@ -75,18 +75,6 @@ public class X509EcdhEcdsaPublicKey extends PublicKeyContent {
 
     public void setFormatByte(Byte formatByte) {
         this.formatByte = ModifiableVariableFactory.safelySetValue(this.formatByte, formatByte);
-    }
-
-    public ModifiableByteArray getPointOctets() {
-        return pointOctets;
-    }
-
-    public void setPointOctets(ModifiableByteArray pointOctets) {
-        this.pointOctets = pointOctets;
-    }
-
-    public void setPointOctets(byte[] pointOctets) {
-        this.pointOctets = ModifiableVariableFactory.safelySetValue(this.pointOctets, pointOctets);
     }
 
     @Override

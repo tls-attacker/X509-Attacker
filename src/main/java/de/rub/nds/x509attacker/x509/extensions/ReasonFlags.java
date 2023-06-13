@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.x509.extensions;
 
 import de.rub.nds.asn1.model.Asn1BitString;
-import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;

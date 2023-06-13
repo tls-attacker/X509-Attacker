@@ -20,8 +20,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CertificateSignatureAlgorithmIdentifier extends AlgorithmIdentifier
-        implements X509Component {
+public class CertificateSignatureAlgorithmIdentifier extends AlgorithmIdentifier {
 
     public CertificateSignatureAlgorithmIdentifier(String identifier) {
         super(identifier);

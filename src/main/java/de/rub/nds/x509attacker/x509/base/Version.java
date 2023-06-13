@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509Version;

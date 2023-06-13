@@ -24,18 +24,15 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509EcdhPublicKey extends PublicKeyContent {
+public class X509EcdhPublicKey extends Asn1OctetString implements PublicKeyContent {
 
     private ModifiableBigInteger xCoordinate;
     private ModifiableBigInteger yCoordinate;
 
     private ModifiableByte formatByte;
 
-    private Asn1OctetString pointOctets;
-
     public X509EcdhPublicKey() {
-        super("ecPublicKey");
-        pointOctets = new Asn1OctetString("ECPoint");
+        super("ECPoint");
     }
 
     public ModifiableBigInteger getxCoordinate() {
@@ -62,22 +59,9 @@ public class X509EcdhPublicKey extends PublicKeyContent {
         this.formatByte = formatByte;
     }
 
-    public Asn1OctetString getPointOctets() {
-        return pointOctets;
-    }
-
-    public void setPointOctets(Asn1OctetString pointOctets) {
-        this.pointOctets = pointOctets;
-    }
-
     @Override
     public boolean isEllipticCurve() {
         return true;
-    }
-
-    @Override
-    public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
-        return pointOctets.isCompatible(tagNumber, constructed, classType);
     }
 
     @Override

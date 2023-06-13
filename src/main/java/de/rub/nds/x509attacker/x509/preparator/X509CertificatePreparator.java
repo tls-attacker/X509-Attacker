@@ -8,8 +8,11 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.rub.nds.asn1.model.Asn1Null;
-import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
+import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.key.PrivateKeyContainer;
 import de.rub.nds.protocol.crypto.key.RsaPrivateKey;
@@ -17,18 +20,19 @@ import de.rub.nds.protocol.crypto.signature.SignatureCalculator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class X509CertificatePreparator extends Asn1SequencePreparator implements X509Preparator {
-
-    private final X509Certificate certificate;
+public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certificate> implements X509Preparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private final X509Certificate certificate;
+
+    private final X509Chooser chooser;
+
     public X509CertificatePreparator(X509Chooser chooser, X509Certificate certificate) {
-        super(chooser, certificate);
+        super(certificate);
         this.certificate = certificate;
+        this.chooser = chooser;
     }
 
     @Override

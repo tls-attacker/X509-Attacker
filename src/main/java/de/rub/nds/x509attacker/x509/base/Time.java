@@ -8,9 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import org.joda.time.DateTime;
+
 import de.rub.nds.asn1.exceptions.NotInitializedException;
-import de.rub.nds.asn1.handler.EmptyHandler;
-import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1GeneralizedTime;
 import de.rub.nds.asn1.model.Asn1UtcTime;
@@ -23,12 +23,11 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import org.joda.time.DateTime;
 
 /** Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Time extends Asn1Choice implements X509Component {
+public class Time extends Asn1Field implements X509Component {
 
     private Time() {
         super(null);

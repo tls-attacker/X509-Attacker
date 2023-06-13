@@ -8,8 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import java.math.BigInteger;
-
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -24,39 +22,15 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509DsaPublicKey extends PublicKeyContent {
-
-    private Asn1Integer publicKeyY;
+public class X509DsaPublicKey extends Asn1Integer implements PublicKeyContent {
 
     public X509DsaPublicKey() {
-        super("dsaPublicKey");
-        publicKeyY = new Asn1Integer("y");
-    }
-
-    public Asn1Integer getPublicKeyY() {
-        return publicKeyY;
-    }
-
-    public void setPublicKeyY(Asn1Integer publicKeyY) {
-        this.publicKeyY = publicKeyY;
-    }
-
-    public void setY(BigInteger y) {
-        publicKeyY.setValue(y);
-    }
-
-    public BigInteger getY() {
-        return publicKeyY.getValue().getValue();
+        super("y");
     }
 
     @Override
     public boolean isEllipticCurve() {
         return false;
-    }
-
-    @Override
-    public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
-        return publicKeyY.isCompatible(tagNumber, constructed, classType);
     }
 
     @Override

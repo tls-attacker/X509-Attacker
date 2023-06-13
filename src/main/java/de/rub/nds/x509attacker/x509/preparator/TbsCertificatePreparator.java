@@ -23,7 +23,7 @@ import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1UtcTime;
-import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
+import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.asn1.time.TimeEncoder;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
@@ -41,14 +41,17 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
 
-public class TbsCertificatePreparator extends Asn1SequencePreparator implements X509Preparator {
+public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate> implements X509Preparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final TbsCertificate tbsCertificate;
 
+    private final X509Chooser chooser;
+
     public TbsCertificatePreparator(X509Chooser chooser, TbsCertificate tbsCertificate) {
-        super(chooser, tbsCertificate);
+        super(tbsCertificate);
+        this.chooser = chooser;
         this.tbsCertificate = tbsCertificate;
     }
 

@@ -23,21 +23,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509DhPublicKey extends PublicKeyContent {
-
-    private Asn1Integer publicKey;
+public class X509DhPublicKey extends Asn1Integer implements PublicKeyContent {
 
     public X509DhPublicKey() {
         super("dhPublicKey");
-        publicKey = new Asn1Integer("publicKey");
-    }
-
-    public Asn1Integer getPublicKey() {
-        return publicKey;
-    }
-
-    public void setPublicKey(Asn1Integer publicKey) {
-        this.publicKey = publicKey;
     }
 
     @Override
@@ -63,10 +52,5 @@ public class X509DhPublicKey extends PublicKeyContent {
     @Override
     public boolean isEllipticCurve() {
         return false;
-    }
-
-    @Override
-    public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

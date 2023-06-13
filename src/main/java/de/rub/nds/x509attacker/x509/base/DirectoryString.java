@@ -8,9 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.model.Asn1Choice;
-import de.rub.nds.asn1.model.Asn1PrintableString;
-import de.rub.nds.asn1.model.Asn1Utf8String;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
@@ -29,17 +27,14 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DirectoryString extends Asn1Choice implements X509Component {
+public class DirectoryString extends Asn1Field implements X509Component {
 
     private DirectoryString() {
         super(null);
     }
 
     public DirectoryString(String identifier) {
-        super(
-                identifier,
-                new Asn1Utf8String("utf8String"),
-                new Asn1PrintableString("printableString"));
+        super(identifier);
     }
 
     @Override
