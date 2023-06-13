@@ -14,8 +14,12 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.PublicKeyBitStringParser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.PublicKeyBitStringPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
@@ -50,18 +54,23 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component{
     }
 
     @Override
-    public PublicKeyBitStringPreparator getPreparator(X509Chooser chooser) {
+    public X509Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Parser getParser(X509Chooser chooser) {
+        return new PublicKeyBitStringParser(chooser, this);
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
         return new PublicKeyBitStringPreparator(chooser, this);
     }
 
     @Override
-    public Asn1FieldSerializer getSerializer() {
+    public X509Serializer getSerializer(X509Chooser chooser) {
         return super.getSerializer();
-    }
-
-    @Override
-    public PublicKeyBitStringParser getParser(X509Chooser chooser) {
-        return new PublicKeyBitStringParser(chooser, this);
     }
 
     public final PublicKeyContent createX509PublicKeyContent(X509PublicKeyType publicKeyType) {

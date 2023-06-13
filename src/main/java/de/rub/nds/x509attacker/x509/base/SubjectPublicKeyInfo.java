@@ -19,22 +19,29 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.SubjectPublicKeyInfoParser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier, subjectPublicKeyBitString BIT
+ * SubjectPublicKeyInfo ::= SEQUENCE { algorithm AlgorithmIdentifier,
+ * subjectPublicKeyBitString BIT
  * STRING }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component{
+public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private SubjectPublicKeyAlgorithmIdentifier algorithm;
+    @HoldsModifiableVariable
+    private SubjectPublicKeyAlgorithmIdentifier algorithm;
 
-    @HoldsModifiableVariable private PublicKeyBitString subjectPublicKeyBitString;
+    @HoldsModifiableVariable
+    private PublicKeyBitString subjectPublicKeyBitString;
 
     private SubjectPublicKeyInfo() {
         super(null);
@@ -112,12 +119,22 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component{
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public X509Handler getHandler(X509Chooser chooser) {
         return new EmptyHandler<>(chooser);
     }
 
     @Override
-    public Asn1SequenceParser getParser(X509Chooser chooser) {
+    public X509Parser getParser(X509Chooser chooser) {
         return new SubjectPublicKeyInfoParser(chooser, this);
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Serializer getSerializer(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 }

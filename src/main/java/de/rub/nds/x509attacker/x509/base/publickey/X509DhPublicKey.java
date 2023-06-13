@@ -9,13 +9,14 @@
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1Integer;
-import de.rub.nds.asn1.parser.Asn1Parser;
-import de.rub.nds.asn1.preparator.Preparator;
-import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509DhPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.X509DhPublicKeyParser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509DhPublicKeyPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -40,18 +41,23 @@ public class X509DhPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Preparator getPreparator(X509Chooser chooser) {
+    public X509Handler getHandler(X509Chooser chooser) {
+        return new X509DhPublicKeyHandler(chooser, this);
+    }
+
+    @Override
+    public X509Parser getParser(X509Chooser chooser) {
+        return new X509DhPublicKeyParser(chooser, this);
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
         return new X509DhPublicKeyPreparator(chooser, this);
     }
 
     @Override
-    public Asn1FieldSerializer getSerializer() {
+    public X509Serializer getSerializer(X509Chooser chooser) {
         return publicKey.getSerializer();
-    }
-
-    @Override
-    public Asn1Parser<?> getParser(X509Chooser chooser) {
-        return new X509DhPublicKeyParser(chooser, this);
     }
 
     @Override
@@ -61,12 +67,6 @@ public class X509DhPublicKey extends PublicKeyContent {
 
     @Override
     public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    @Override
-    public Handler getHandler(X509Chooser chooser) {
-        return new X509DhPublicKeyHandler(chooser, this);
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 }

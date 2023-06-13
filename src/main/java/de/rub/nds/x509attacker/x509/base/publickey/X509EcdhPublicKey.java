@@ -9,14 +9,15 @@
 package de.rub.nds.x509attacker.x509.base.publickey;
 
 import de.rub.nds.asn1.model.Asn1OctetString;
-import de.rub.nds.asn1.model.Asn1PrimitiveOctetString;
-import de.rub.nds.asn1.parser.Asn1Parser;
-import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509EcdhPublicKeyHandler;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509EcdhPublicKeyPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -34,7 +35,7 @@ public class X509EcdhPublicKey extends PublicKeyContent {
 
     public X509EcdhPublicKey() {
         super("ecPublicKey");
-        pointOctets = new Asn1PrimitiveOctetString("ECPoint");
+        pointOctets = new Asn1OctetString("ECPoint");
     }
 
     public ModifiableBigInteger getxCoordinate() {
@@ -70,19 +71,8 @@ public class X509EcdhPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public X509EcdhPublicKeyPreparator getPreparator(X509Chooser chooser) {
-        return new X509EcdhPublicKeyPreparator(chooser, this);
-    }
-
-    @Override
     public boolean isEllipticCurve() {
         return true;
-    }
-
-    @Override
-    public Asn1Parser<?, ?> getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from
-        // nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     @Override
@@ -91,12 +81,22 @@ public class X509EcdhPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Asn1FieldSerializer getSerializer() {
-        return pointOctets.getSerializer();
+    public X509Handler getHandler(X509Chooser chooser) {
+        return new X509EcdhPublicKeyHandler(chooser, this);
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
-        return new X509EcdhPublicKeyHandler(chooser, this);
+    public X509Parser getParser(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
+        return new X509EcdhPublicKeyPreparator(chooser, this);
+    }
+
+    @Override
+    public X509Serializer getSerializer(X509Chooser chooser) {
+        return pointOctets.getSerializer();
     }
 }

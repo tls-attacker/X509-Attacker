@@ -8,16 +8,19 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import java.math.BigInteger;
+
 import de.rub.nds.asn1.model.Asn1Integer;
-import de.rub.nds.asn1.parser.Asn1Parser;
-import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509DsaPublicKeyHandler;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509DsaPublicKeyPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.math.BigInteger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -28,16 +31,6 @@ public class X509DsaPublicKey extends PublicKeyContent {
     public X509DsaPublicKey() {
         super("dsaPublicKey");
         publicKeyY = new Asn1Integer("y");
-    }
-
-    @Override
-    public Asn1FieldSerializer getSerializer() {
-        return publicKeyY.getSerializer();
-    }
-
-    @Override
-    public X509DsaPublicKeyPreparator getPreparator(X509Chooser chooser) {
-        return new X509DsaPublicKeyPreparator(this, chooser);
     }
 
     public Asn1Integer getPublicKeyY() {
@@ -62,17 +55,27 @@ public class X509DsaPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public Asn1Parser<?> getParser(X509Chooser chooser) {
-        return publicKeyY.getParser(chooser);
-    }
-
-    @Override
     public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
         return publicKeyY.isCompatible(tagNumber, constructed, classType);
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public X509Handler getHandler(X509Chooser chooser) {
         return new X509DsaPublicKeyHandler(chooser, this);
+    }
+
+    @Override
+    public X509Parser getParser(X509Chooser chooser) {
+        return publicKeyY.getParser(chooser);
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
+        return new X509DsaPublicKeyPreparator(this, chooser);
+    }
+
+    @Override
+    public X509Serializer getSerializer(X509Chooser chooser) {
+        return publicKeyY.getSerializer();
     }
 }

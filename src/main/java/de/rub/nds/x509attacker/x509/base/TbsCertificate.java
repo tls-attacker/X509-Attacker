@@ -12,14 +12,17 @@ import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
-import de.rub.nds.asn1.model.Asn1PrimitiveBitString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.NameType;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -201,17 +204,22 @@ public class TbsCertificate extends Asn1Sequence implements X509Component{
     }
 
     @Override
-    public TbsCertificatePreparator getPreparator(X509Chooser chooser) {
+    public X509Handler getHandler(X509Chooser chooser) {
+        return new EmptyHandler(chooser);
+    }
+
+    @Override
+    public X509Parser getParser(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
         return new TbsCertificatePreparator(chooser, this);
     }
 
     @Override
-    public Asn1FieldSerializer getSerializer() {
+    public X509Serializer getSerializer(X509Chooser chooser) {
         return super.getSerializer();
-    }
-
-    @Override
-    public Handler getHandler(X509Chooser chooser) {
-        return new EmptyHandler(chooser);
     }
 }

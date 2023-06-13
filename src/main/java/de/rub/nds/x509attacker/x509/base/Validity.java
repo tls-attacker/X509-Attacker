@@ -12,6 +12,10 @@ import de.rub.nds.asn1.handler.EmptyHandler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -56,7 +60,22 @@ public class Validity extends Asn1Sequence implements X509Component {
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public X509Handler getHandler(X509Chooser chooser) {
         return new EmptyHandler(chooser);
+    }
+
+    @Override
+    public X509Parser getParser(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Serializer getSerializer(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 }

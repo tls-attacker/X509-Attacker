@@ -8,16 +8,19 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509EcdhEcdsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.X509EcdhEcdsaPublicKeyParser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509EcdhEcdsaPublicKeyPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -36,11 +39,6 @@ public class X509EcdhEcdsaPublicKey extends PublicKeyContent {
 
     public X509EcdhEcdsaPublicKey() {
         super("ecPublicKey");
-    }
-
-    @Override
-    public X509EcdhEcdsaPublicKeyPreparator getPreparator(X509Chooser chooser) {
-        return new X509EcdhEcdsaPublicKeyPreparator(chooser, this);
     }
 
     public ModifiableBigInteger getxCoordinate() {
@@ -97,22 +95,27 @@ public class X509EcdhEcdsaPublicKey extends PublicKeyContent {
     }
 
     @Override
-    public X509EcdhEcdsaPublicKeyParser getParser(X509Chooser chooser) {
-        return new X509EcdhEcdsaPublicKeyParser(chooser, this);
-    }
-
-    @Override
     public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
         return true;
     }
 
     @Override
-    public Handler getHandler(X509Chooser chooser) {
+    public X509Handler getHandler(X509Chooser chooser) {
         return new X509EcdhEcdsaPublicKeyHandler(chooser, this);
     }
 
     @Override
-    public Asn1FieldSerializer getSerializer() {
-        return null;
+    public X509Parser getParser(X509Chooser chooser) {
+        return new X509EcdhEcdsaPublicKeyParser(chooser, this);
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
+        return new X509EcdhEcdsaPublicKeyPreparator(chooser, this);
+    }
+
+    @Override
+    public X509Serializer getSerializer(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 }

@@ -16,6 +16,10 @@ import de.rub.nds.asn1.model.Asn1GeneralizedTime;
 import de.rub.nds.asn1.model.Asn1UtcTime;
 import de.rub.nds.asn1.time.TimeDecoder;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -24,7 +28,7 @@ import org.joda.time.DateTime;
 /** Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Time extends Asn1Choice implements X509Component{
+public class Time extends Asn1Choice implements X509Component {
 
     private Time() {
         super(null);
@@ -32,11 +36,6 @@ public class Time extends Asn1Choice implements X509Component{
 
     public Time(String identifier) {
         super(identifier, new Asn1UtcTime("utcTime"), new Asn1GeneralizedTime("generalizedTime"));
-    }
-
-    @Override
-    public Handler getHandler(X509Chooser chooser) {
-        return new EmptyHandler(chooser);
     }
 
     public DateTime getTimeValue() {
@@ -55,5 +54,25 @@ public class Time extends Asn1Choice implements X509Component{
             throw new UnsupportedOperationException(
                     "Time format not properly implemented: " + choice.getClass().getSimpleName());
         }
+    }
+
+    @Override
+    public X509Handler getHandler(X509Chooser chooser) {
+        return new EmptyHandler(chooser);
+    }
+
+    @Override
+    public X509Parser getParser(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Serializer getSerializer(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 }
