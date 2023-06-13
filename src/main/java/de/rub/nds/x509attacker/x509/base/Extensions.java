@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.handler.Handler;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -20,7 +19,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 /** Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Extensions extends Asn1Sequence {
+public class Extensions extends Asn1Sequence implements X509Component{
 
     private Extensions() {
         super(null);

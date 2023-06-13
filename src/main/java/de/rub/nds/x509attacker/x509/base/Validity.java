@@ -19,11 +19,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 /** Validity ::= SEQUENCE { notBefore Time, notAfter Time } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Validity extends Asn1Sequence {
+public class Validity extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private Time notBefore;
+    @HoldsModifiableVariable
+    private Time notBefore;
 
-    @HoldsModifiableVariable private Time notAfter;
+    @HoldsModifiableVariable
+    private Time notAfter;
 
     private Validity() {
         super(null);

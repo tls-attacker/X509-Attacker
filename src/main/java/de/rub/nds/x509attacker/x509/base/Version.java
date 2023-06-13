@@ -18,7 +18,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 /** Version ::= INTEGER {v1(0), v2(1), v3(2) } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Version extends Asn1Explicit {
+public class Version extends Asn1Explicit implements X509Component {
 
     private Version() {
         super(null, null);

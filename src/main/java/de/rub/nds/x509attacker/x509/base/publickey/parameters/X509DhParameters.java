@@ -13,6 +13,7 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.preparator.Preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DhParametersHandler;
 import de.rub.nds.x509attacker.x509.preparator.publickey.parameters.DhParameterPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -21,7 +22,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509DhParameters extends Asn1Sequence implements PublicParameters {
+public class X509DhParameters extends Asn1Sequence implements PublicParameters, X509Component {
 
     private Asn1Integer p;
     private Asn1Integer g;

@@ -42,7 +42,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class AttributeTypeAndValue extends Asn1Sequence {
+public class AttributeTypeAndValue extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier type;
 

@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 /** Time ::= CHOICE { utcTime UTCTime, generalTime GeneralizedTime } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Time extends Asn1Choice {
+public class Time extends Asn1Choice implements X509Component{
 
     private Time() {
         super(null);

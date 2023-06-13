@@ -26,7 +26,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class TbsCertificate extends Asn1Sequence {
+public class TbsCertificate extends Asn1Sequence implements X509Component{
 
     @HoldsModifiableVariable private Version version;
 
@@ -63,16 +63,16 @@ public class TbsCertificate extends Asn1Sequence {
         subject = new Name("subject", NameType.SUBJECT, config.getSubject());
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
         if (config.isIncludeIssuerUniqueId()) {
-            issuerUniqueID = new Asn1PrimitiveBitString<>("issuerUniqueID");
+            issuerUniqueID = new Asn1BitString("issuerUniqueID");
             issuerUniqueID.setOptional(true);
         }
         if (config.isIncludeSubjectUniqueId()) {
-            subjectUniqueID = new Asn1PrimitiveBitString<>("subjectUniqueID");
+            subjectUniqueID = new Asn1BitString("subjectUniqueID");
             subjectUniqueID.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
             extensionExplicit =
-                    new Asn1Explicit<>("extensionsExplicit", new Extensions("extensions"));
+                    new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);
@@ -102,9 +102,9 @@ public class TbsCertificate extends Asn1Sequence {
         validity = new Validity("validity");
         subject = new Name("subject", NameType.SUBJECT);
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
-        issuerUniqueID = new Asn1PrimitiveBitString("issuerUniqueID");
+        issuerUniqueID = new Asn1BitString("issuerUniqueID");
         issuerUniqueID.setOptional(true);
-        subjectUniqueID = new Asn1PrimitiveBitString("subjectUniqueID");
+        subjectUniqueID = new Asn1BitString("subjectUniqueID");
         subjectUniqueID.setOptional(true);
         extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         extensionExplicit.setOptional(true);

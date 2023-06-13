@@ -24,7 +24,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class DirectoryString extends Asn1Choice {
+public class DirectoryString extends Asn1Choice implements X509Component {
 
     private DirectoryString() {
         super(null);
@@ -33,8 +33,8 @@ public class DirectoryString extends Asn1Choice {
     public DirectoryString(String identifier) {
         super(
                 identifier,
-                new Asn1PrimitiveUtf8String("utf8String"),
-                new Asn1PrimitivePrintableString("printableString"));
+                new Asn1Utf8String("utf8String"),
+                new Asn1PrintableString("printableString"));
     }
 
     @Override

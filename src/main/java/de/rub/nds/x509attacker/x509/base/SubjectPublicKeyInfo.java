@@ -30,7 +30,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class SubjectPublicKeyInfo extends Asn1Sequence {
+public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component{
 
     @HoldsModifiableVariable private SubjectPublicKeyAlgorithmIdentifier algorithm;
 

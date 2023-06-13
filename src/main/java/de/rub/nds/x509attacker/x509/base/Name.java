@@ -32,7 +32,7 @@ import java.util.List;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Name extends Asn1Sequence {
+public class Name extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private List<RelativeDistinguishedName> relativeDistinguishedNames;
 

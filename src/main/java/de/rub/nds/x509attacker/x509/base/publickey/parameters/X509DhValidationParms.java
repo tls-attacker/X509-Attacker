@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.handler.publickey.parameters.DhValidationParmsHandler;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -19,7 +20,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509DhValidationParms extends Asn1Sequence implements PublicParameters {
+public class X509DhValidationParms extends Asn1Sequence implements PublicParameters, X509Component {
 
     private Asn1BitString seed;
     private Asn1Integer pgenCounter;
