@@ -20,6 +20,7 @@ import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
+import de.rub.nds.x509attacker.x509.handler.EmptyHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.AttributeTypeAndValueParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;

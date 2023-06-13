@@ -16,6 +16,7 @@ import de.rub.nds.asn1.model.Asn1GeneralizedTime;
 import de.rub.nds.asn1.model.Asn1UtcTime;
 import de.rub.nds.asn1.time.TimeDecoder;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.EmptyHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;

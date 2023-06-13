@@ -17,6 +17,7 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.handler.EmptyHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.SubjectPublicKeyInfoParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
