@@ -14,6 +14,7 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.EmptyHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.ValidityParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
@@ -63,7 +64,7 @@ public class Validity extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new ValidityParser(chooser);
+        return new ValidityParser(chooser, this);
     }
 
     @Override
