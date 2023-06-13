@@ -8,21 +8,20 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.Asn1Field;
-import de.rub.nds.asn1.parser.Asn1SequenceParser;
+import java.io.PushbackInputStream;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
+import de.rub.nds.asn1.model.Asn1UnknownField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
-import java.io.IOException;
-import java.io.InputStream;
 
-public class AttributeTypeAndValueParser extends Asn1SequenceParser implements X509Parser {
+public class AttributeTypeAndValueParser extends X509Asn1FieldParser<AttributeTypeAndValue> {
 
-    @Override
-    public void parse(InputStream inputStream) {
-        // TODO Auto-generated method stub
-        
-    }
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final AttributeTypeAndValue attributeTypeAndValue;
 
@@ -33,12 +32,35 @@ public class AttributeTypeAndValueParser extends Asn1SequenceParser implements X
     }
 
     @Override
-    public void parseIndividualContentFields(InputStream inputStream) throws IOException {
-        super.parseIndividualContentFields(inputStream);
-        attributeTypeAndValue.setAttributeTypeConfig(
-                X500AttributeType.decodeFromOidBytes(
-                        attributeTypeAndValue.getType().getContent().getValue()));
-        attributeTypeAndValue.setValueConfig(
-                new String(((Asn1Field) attributeTypeAndValue.getValue()).getContent().getValue()));
+    public void parseContent(PushbackInputStream inputStream) {
+        attributeTypeAndValue.setType(new Asn1ObjectIdentifier("type"));
+        parseAsn1ObjectIdentifier(attributeTypeAndValue.getType(), inputStream);
+        // Depending on the Type we can now parse the correct valueConfig
+        X500AttributeType attributeType = X500AttributeType
+                .decodeFromOidBytes(attributeTypeAndValue.getType().getValueAsOid().getEncoded());
+        if (attributeType == null) {
+            LOGGER.warn("Unknown AttributeType: {}. Parsing as unknown.", attributeTypeAndValue.getType().getValue().getValue());
+            Asn1UnknownField unknownField = new Asn1UnknownField("value");
+            parseStructure(unknownField, inputStream);
+        } else {
+            switch (attributeType) {
+                case COMMON_NAME:
+                    break;
+                case COUNTRY_NAME:
+                    break;
+                case LOCALITY:
+                    break;
+                case ORGANISATION_NAME:
+                    break;
+                case ORGANISATION_UNIT_NAME:
+                    break;
+                case STATE_OR_PROVINCE_NAME:
+                    break;
+                default:
+                    LOGGER.error("Did not anticipate X509AttributeType: {}", attributeType.toString());
+            }
+        }
+
     }
+
 }

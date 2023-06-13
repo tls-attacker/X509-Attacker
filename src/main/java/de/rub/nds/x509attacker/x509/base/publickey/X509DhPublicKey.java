@@ -16,6 +16,7 @@ import de.rub.nds.x509attacker.x509.parser.X509DhPublicKeyParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509DhPublicKeyPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -46,7 +47,7 @@ public class X509DhPublicKey extends Asn1Integer implements PublicKeyContent {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return publicKey.getSerializer();
+        return new X509Asn1FieldSerializer(this);
     }
 
     @Override

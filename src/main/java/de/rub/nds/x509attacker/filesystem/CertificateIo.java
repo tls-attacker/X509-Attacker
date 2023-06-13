@@ -28,7 +28,7 @@ import java.util.List;
 import java.util.function.Consumer;
 import org.bouncycastle.crypto.tls.Certificate;
 
-public class CertificateIo {
+public class CertificateIo <{
 
     private static final String CERTIFICATE_PEM_PREFIX = "-----BEGIN CERTIFICATE-----";
 

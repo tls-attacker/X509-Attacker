@@ -8,36 +8,43 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import java.io.ByteArrayInputStream;
-import java.io.IOException;
 import java.io.InputStream;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PublicKeyBitStringParser extends Asn1BitStringParser implements X509Parser {
+import de.rub.nds.asn1.parser.Asn1FieldParser;
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
+
+public class PublicKeyBitStringParser extends Asn1FieldParser<PublicKeyBitString> implements X509Parser {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private PublicKeyBitString publicKeyBitString;
+    private final PublicKeyBitString publicKeyBitString;
+
+    private final X509Chooser chooser;
 
     public PublicKeyBitStringParser(X509Chooser chooser, PublicKeyBitString publicKeyBitString) {
-        super(chooser, publicKeyBitString);
+        super(publicKeyBitString);
         this.publicKeyBitString = publicKeyBitString;
+        this.chooser = chooser;
     }
 
     @Override
-    public void parseIndividualContentFields(InputStream inputStream) throws IOException {
-        super.parseIndividualContentFields(inputStream);
+    public void parse(InputStream inputStream) {
+        parseAsn1BitString(publicKeyBitString, inputStream);
+        /**
+         * The content of the public key bitstring itself has structure, so we need to parse it as well.
+         */
         if (publicKeyBitString.getX509PublicKeyContent() == null) {
             publicKeyBitString.setX509PublicKeyContent(
                     publicKeyBitString.createX509PublicKeyContent(
                             chooser.getSubjectPublicKeyType()));
         }
-        LOGGER.debug(
-                "PublicKey content: {}",
+        LOGGER.debug("PublicKey content: {}",
                 ArrayConverter.bytesToHexString(publicKeyBitString.getUsedBits().getValue()));
         publicKeyBitString
                 .getX509PublicKeyContent()

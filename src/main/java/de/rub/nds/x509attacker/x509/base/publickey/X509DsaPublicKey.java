@@ -12,9 +12,11 @@ import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509DsaPublicKeyHandler;
+import de.rub.nds.x509attacker.x509.parser.X509Asn1IntegerParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509DsaPublicKeyPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -40,7 +42,7 @@ public class X509DsaPublicKey extends Asn1Integer implements PublicKeyContent {
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return publicKeyY.getParser(chooser);
+        return new X509Asn1IntegerParser(this, chooser);
     }
 
     @Override
@@ -50,6 +52,6 @@ public class X509DsaPublicKey extends Asn1Integer implements PublicKeyContent {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return publicKeyY.getSerializer();
+        return new X509Asn1FieldSerializer(this);
     }
 }

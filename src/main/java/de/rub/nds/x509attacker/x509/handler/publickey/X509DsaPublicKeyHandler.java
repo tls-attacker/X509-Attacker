@@ -23,7 +23,7 @@ public class X509DsaPublicKeyHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        context.setSubjectDsaPublicKeyY(publicKey.getY());
+        context.setSubjectDsaPublicKeyY(publicKey.getValue().getValue());
         context.setSubjectDsaPrivateKey(config.getDsaPrivateKey());
     }
 }

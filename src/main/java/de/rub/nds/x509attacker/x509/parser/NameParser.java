@@ -8,22 +8,20 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.parser.Asn1SequenceOfParser;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.Name;
-import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 
-public class NameParser extends Asn1SequenceOfParser implements X509Parser {
+import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.Name;
+import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 
-    private Name name;
+public class NameParser extends X509Asn1FieldParser<Name> {
 
     public NameParser(X509Chooser chooser, Name name) {
         super(chooser, name);
-        this.name = name;
+        
     }
 
     @Override
@@ -41,5 +39,11 @@ public class NameParser extends Asn1SequenceOfParser implements X509Parser {
     @Override
     protected Asn1Encodable createFreshElement() {
         return new RelativeDistinguishedName("rdn");
+    }
+
+    @Override
+    public void parse(InputStream inputStream) {
+        parseStructure(encodable, inputStream);
+        
     }
 }

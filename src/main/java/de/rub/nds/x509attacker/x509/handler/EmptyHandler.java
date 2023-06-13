@@ -10,7 +10,7 @@ public class EmptyHandler extends X509Handler {
 
     @Override
     public void adjustContext() {
-        //Nothing to do
+        // Nothing to do
     }
-    
+
 }

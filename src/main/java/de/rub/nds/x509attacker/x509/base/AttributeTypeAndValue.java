@@ -113,7 +113,7 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         return value;
     }
 
-    public void instantiateValue(Asn1Field value) {
+    public void setValue(Asn1Field value) {
         this.value = value;
     }
 
