@@ -8,9 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import java.util.LinkedList;
-import java.util.List;
-
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.protocol.xml.Pair;
@@ -26,20 +23,19 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
- * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence
- * }
+ * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
  *
- * <p>
- * RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
+ * <p>RDNSequence ::= SEQUENCE OF RelativeDistinguishedName
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Name extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private List<RelativeDistinguishedName> relativeDistinguishedNames;
+    @HoldsModifiableVariable private List<RelativeDistinguishedName> relativeDistinguishedNames;
 
     private NameType type;
 
@@ -59,8 +55,8 @@ public class Name extends Asn1Sequence implements X509Component {
         this.type = type;
         relativeDistinguishedNames = new LinkedList<>();
         for (Pair<X500AttributeType, String> attributePair : attributeList) {
-            RelativeDistinguishedName relativeDistinguishedName = new RelativeDistinguishedName(
-                    "relativeDistinguishedName", attributePair);
+            RelativeDistinguishedName relativeDistinguishedName =
+                    new RelativeDistinguishedName("relativeDistinguishedName", attributePair);
             relativeDistinguishedNames.add(relativeDistinguishedName);
             addChild(relativeDistinguishedName);
         }

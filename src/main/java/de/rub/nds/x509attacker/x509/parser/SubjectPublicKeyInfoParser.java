@@ -8,18 +8,15 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.parser.Asn1SequenceParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
+import java.io.InputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SubjectPublicKeyInfoParser extends Asn1SequenceParser implements X509Parser {
 
@@ -33,9 +30,7 @@ public class SubjectPublicKeyInfoParser extends Asn1SequenceParser implements X5
     }
 
     @Override
-    protected Asn1Field chooseInstantiationForAny() {
-
-    }
+    protected Asn1Field chooseInstantiationForAny() {}
 
     @Override
     public void parse(InputStream inputStream) {

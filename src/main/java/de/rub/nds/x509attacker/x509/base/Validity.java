@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.time.TimeField;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.EmptyHandler;
@@ -26,10 +27,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class Validity extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable
-    private Time notBefore;
+    private TimeField notBefore;
 
     @HoldsModifiableVariable
-    private Time notAfter;
+    private TimeField notAfter;
 
     private Validity() {
         super(null);
@@ -37,25 +38,21 @@ public class Validity extends Asn1Sequence implements X509Component {
 
     public Validity(String identifier) {
         super(identifier);
-        notBefore = new Time("notBefore");
-        notAfter = new Time("notAfter");
-        addChild(notBefore);
-        addChild(notAfter);
     }
 
-    public Time getNotBefore() {
+    public TimeField getNotBefore() {
         return notBefore;
     }
 
-    public void setNotBefore(Time notBefore) {
+    public void setNotBefore(TimeField notBefore) {
         this.notBefore = notBefore;
     }
 
-    public Time getNotAfter() {
+    public TimeField getNotAfter() {
         return notAfter;
     }
 
-    public void setNotAfter(Time notAfter) {
+    public void setNotAfter(TimeField notAfter) {
         this.notAfter = notAfter;
     }
 
@@ -66,7 +63,7 @@ public class Validity extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new ValidityParser(chooser);
     }
 
     @Override

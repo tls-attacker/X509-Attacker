@@ -8,18 +8,17 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class PublicKeyBitStringParser extends Asn1FieldParser<PublicKeyBitString> implements X509Parser {
+public class PublicKeyBitStringParser extends Asn1FieldParser<PublicKeyBitString>
+        implements X509Parser {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -37,14 +36,16 @@ public class PublicKeyBitStringParser extends Asn1FieldParser<PublicKeyBitString
     public void parse(InputStream inputStream) {
         parseAsn1BitString(publicKeyBitString, inputStream);
         /**
-         * The content of the public key bitstring itself has structure, so we need to parse it as well.
+         * The content of the public key bitstring itself has structure, so we need to parse it as
+         * well.
          */
         if (publicKeyBitString.getX509PublicKeyContent() == null) {
             publicKeyBitString.setX509PublicKeyContent(
                     publicKeyBitString.createX509PublicKeyContent(
                             chooser.getSubjectPublicKeyType()));
         }
-        LOGGER.debug("PublicKey content: {}",
+        LOGGER.debug(
+                "PublicKey content: {}",
                 ArrayConverter.bytesToHexString(publicKeyBitString.getUsedBits().getValue()));
         publicKeyBitString
                 .getX509PublicKeyContent()
