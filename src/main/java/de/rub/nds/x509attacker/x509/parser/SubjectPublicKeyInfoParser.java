@@ -32,10 +32,6 @@ public class SubjectPublicKeyInfoParser extends Asn1FieldParser<SubjectPublicKey
     }
 
     @Override
-    protected Asn1Field chooseInstantiationForAny() {
-    }
-
-    @Override
     public void parse(InputStream inputStream) {
         switch (chooser.getSubjectPublicKeyType()) {
             case ECDH_ECDSA:

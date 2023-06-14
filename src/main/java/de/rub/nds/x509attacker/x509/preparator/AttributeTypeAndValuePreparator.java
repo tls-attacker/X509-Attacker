@@ -11,6 +11,10 @@ package de.rub.nds.x509attacker.x509.preparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
+import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1Ia5String;
+import de.rub.nds.asn1.model.Asn1PrintableString;
+import de.rub.nds.asn1.model.Asn1T61String;
 import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -39,14 +43,24 @@ public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<Attribu
     }
 
     public void prepareTypeValue() {
-        instance.instantiateValue(new Asn1Utf8String<>("value"));
-        if (instance.getValueConfig() != null) {
-            ((Asn1Utf8String) instance.getValue()).setValue(instance.getValueConfig());
-        } else {
-            LOGGER.warn("AttributeTypeAndValue value config is not set - using an empty string");
-            ((Asn1Utf8String) instance.getValue()).setValue("");
+        Asn1Field valueField = instance.getValue();
+        String value = instance.getValueConfig();
+        if (value == null) {
+            LOGGER.warn("AttributeTypeAndValue value config is not set - using an empty string \"\"");
+            value = "";
         }
-        instance.getValue().getPreparator(chooser).prepare();
+        if (valueField instanceof Asn1Utf8String) {
+            prepareField((Asn1Utf8String) valueField, value);
+        }
+        if (valueField instanceof Asn1PrintableString) {
+            prepareField((Asn1PrintableString) valueField, value);
+        }
+        if (valueField instanceof Asn1Ia5String) {
+            prepareField((Asn1Ia5String) valueField, value);
+        }
+        if (valueField instanceof Asn1T61String) {
+            prepareField((Asn1T61String) valueField, value);
+        }
     }
 
     private void prepareTypeConfig() {

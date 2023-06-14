@@ -50,11 +50,7 @@ public class NameHandler extends X509Handler {
                 RelativeDistinguishedName relativeDistinguishedName =
                         new RelativeDistinguishedName("parsedRdn");
                 X509Parser parser = relativeDistinguishedName.getParser(chooser);
-                parser.parseTagOctets(rdnByteInputStream);
-                byte[] lengthBytes = parser.parseLengthOctets(rdnByteInputStream);
-                BigInteger length = parser.parseLength(lengthBytes);
-                parser.parseIndividualContentFields(
-                        new ByteArrayInputStream(rdnByteInputStream.readNBytes(length.intValue())));
+                parser.parse(rdnByteInputStream);
                 parsedRdnSequence.add(relativeDistinguishedName);
             }
             LOGGER.debug("Parsed {} elements", parsedRdnSequence.size());
