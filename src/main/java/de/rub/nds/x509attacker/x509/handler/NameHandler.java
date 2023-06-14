@@ -90,7 +90,7 @@ public class NameHandler extends X509Handler {
         for (RelativeDistinguishedName rdnName : name.getRelativeDistinguishedNames()) {
             LOGGER.debug("Adding {}", rdnName.getIdentifier());
             try {
-                outputStream.write(rdnName.getSerializer().serialize());
+                outputStream.write(rdnName.getSerializer(chooser).serialize());
             } catch (IOException ex) {
                 LOGGER.error(ex);
             }
