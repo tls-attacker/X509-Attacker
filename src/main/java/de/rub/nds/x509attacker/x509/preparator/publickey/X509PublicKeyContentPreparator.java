@@ -14,7 +14,7 @@ import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyContent;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 
 public abstract class X509PublicKeyContentPreparator<Field extends PublicKeyContent>
-        extends Asn1FieldPreparator implements X509Preparator {
+        extends Asn1FieldPreparator<X509PublicKeyContent> implements X509Preparator {
 
     protected final Field field;
     protected final X509Chooser chooser;

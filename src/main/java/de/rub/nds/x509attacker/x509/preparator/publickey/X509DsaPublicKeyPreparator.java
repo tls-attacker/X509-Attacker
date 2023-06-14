@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.X509DsaPublicKey;
 
@@ -18,12 +19,8 @@ public class X509DsaPublicKeyPreparator extends X509PublicKeyContentPreparator<X
     }
 
     @Override
-    public void prepare() {
-    }
-
-    @Override
     protected byte[] encodeContent() {
-        field.setY(chooser.getConfig().getDsaPublicKeyY());
-        field.getPublicKeyY().getPreparator(chooser).prepare();
+        preparefield(field,chooser.getConfig().getDsaPublicKeyY());
+        return ArrayConverter.concatenate(field.getTagOctets().getValue(), field.getLengthOctets().getValue(), field.getContent().getValue()); 
     }
 }
