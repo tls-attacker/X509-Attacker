@@ -8,18 +8,19 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
-import de.rub.nds.asn1.parser.Asn1SequenceParser;
+import de.rub.nds.asn1.parser.Asn1FieldParser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyAlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParser
+public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1FieldParser<SubjectPublicKeyAlgorithmIdentifier>
         implements X509Parser {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -34,8 +35,8 @@ public class SubjectPublicKeyAlgorithmIdentifierParser extends Asn1SequenceParse
 
     @Override
     protected Asn1Field chooseInstantiationForAny() {
-        ObjectIdentifier objectIdentifier =
-                new ObjectIdentifier(algorithmIdentifier.getAlgorithm().getValue().getValue());
+        ObjectIdentifier objectIdentifier = new ObjectIdentifier(
+                algorithmIdentifier.getAlgorithm().getValue().getValue());
         LOGGER.debug("ObjectIdentifier: " + objectIdentifier.toString());
 
         switch (X509PublicKeyType.decodeFromOidBytes(objectIdentifier.getEncoded())) {

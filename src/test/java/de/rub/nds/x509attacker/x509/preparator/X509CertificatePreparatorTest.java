@@ -8,18 +8,20 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.parser.Asn1SequenceParser;
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.context.X509Context;
-import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import java.io.ByteArrayInputStream;
 import java.security.Security;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.context.X509Context;
+import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
 
 public class X509CertificatePreparatorTest {
 
@@ -38,13 +40,13 @@ public class X509CertificatePreparatorTest {
 
         instance = new X509CertificatePreparator(chooser, x509Certificate);
         instance.prepare();
-        byte[] serializedCertificate = x509Certificate.getSerializer().serialize();
+        byte[] serializedCertificate = x509Certificate.getSerializer(chooser).serialize();
         LOGGER.info(ArrayConverter.bytesToHexString(serializedCertificate));
         X509Certificate secondX509Certificate = new X509Certificate("x509Certificate");
         secondX509Certificate
                 .getParser(chooser)
                 .parse(new ByteArrayInputStream(serializedCertificate));
-        byte[] secondSerialization = secondX509Certificate.getSerializer().serialize();
+        byte[] secondSerialization = secondX509Certificate.getSerializer(chooser).serialize();
         Assertions.assertArrayEquals(serializedCertificate, secondSerialization);
     }
 
@@ -53,7 +55,7 @@ public class X509CertificatePreparatorTest {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
-        Asn1SequenceParser parser = x509Certificate.getParser(chooser);
+        X509Parser parser = x509Certificate.getParser(chooser);
         parser.parse(
                 new ByteArrayInputStream(
                         ArrayConverter.hexStringToByteArray(
@@ -65,7 +67,7 @@ public class X509CertificatePreparatorTest {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
         X509Certificate x509Certificate = new X509Certificate("x509Certificate");
-        Asn1SequenceParser parser = x509Certificate.getParser(chooser);
+        X509Parser parser = x509Certificate.getParser(chooser);
         parser.parse(
                 new ByteArrayInputStream(
                         ArrayConverter.hexStringToByteArray(

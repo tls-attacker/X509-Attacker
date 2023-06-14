@@ -8,21 +8,25 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1Utf8String;
-import de.rub.nds.asn1.preparator.Asn1SequencePreparator;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AttributeTypeAndValuePreparator extends Asn1SequencePreparator
+import de.rub.nds.asn1.model.Asn1Utf8String;
+import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
+
+public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<AttributeTypeAndValue>
         implements X509Preparator {
     private static final Logger LOGGER = LogManager.getLogger();
 
     private final AttributeTypeAndValue instance;
 
+    private X509Chooser chooser;
+
     public AttributeTypeAndValuePreparator(X509Chooser chooser, AttributeTypeAndValue instance) {
-        super(chooser, instance);
+        super(instance);
+        this.chooser = chooser;
         this.instance = instance;
     }
 

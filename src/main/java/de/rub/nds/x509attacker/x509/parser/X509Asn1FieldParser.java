@@ -30,8 +30,8 @@ import de.rub.nds.asn1.model.Asn1UnknownSet;
 import de.rub.nds.asn1.model.Asn1UtcTime;
 import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.asn1.parser.Asn1FieldParser;
-import de.rub.nds.asn1.parser.ParserException;
 import de.rub.nds.asn1.util.Asn1Header;
+import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 
 /**
@@ -73,7 +73,7 @@ public abstract class X509Asn1FieldParser<Field extends Asn1Field> extends Asn1F
      */
     protected Asn1Field parseTagNumberOrUnkownField(PushbackInputStream inputStream, TagClass tagClass,
             TagNumber... tagNumbers) {
-        if(tagNumbers.length == 0) {
+        if (tagNumbers.length == 0) {
             throw new ParserException("No tag numbers provided");
         }
         if (tagClass != TagClass.UNIVERSAL) {
@@ -96,12 +96,14 @@ public abstract class X509Asn1FieldParser<Field extends Asn1Field> extends Asn1F
     }
 
     /**
-     * Strictly parses the next field in the stream as of of the provided tag number.
+     * Strictly parses the next field in the stream as of of the provided tag
+     * number.
      * Throws a ParserException if the next tag number is not exepected. If
      * a not implemented tag number is requested an unknown field is parsed.
+     * 
      * @param inputStream the stream to parse from
-     * @param tagClass the tag class to parse
-     * @param tagNumbers The tag numbers to parse
+     * @param tagClass    the tag class to parse
+     * @param tagNumbers  The tag numbers to parse
      * @return
      */
     protected Asn1Field parseTagNumberField(PushbackInputStream inputStream, TagClass tagClass,

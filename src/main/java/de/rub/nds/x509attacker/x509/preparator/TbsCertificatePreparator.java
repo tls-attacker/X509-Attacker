@@ -8,6 +8,13 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import java.util.Collection;
+import java.util.List;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
+
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
@@ -18,6 +25,7 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1UtcTime;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.asn1.time.TimeEncoder;
+import de.rub.nds.asn1.time.TimeField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.ValidityEncoding;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -27,17 +35,11 @@ import de.rub.nds.x509attacker.x509.base.Name;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
 import de.rub.nds.x509attacker.x509.base.TbsCertificate;
-import de.rub.nds.x509attacker.x509.base.Time;
 import de.rub.nds.x509attacker.x509.base.Validity;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
-import java.util.Collection;
-import java.util.List;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.joda.time.DateTime;
 
 public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate>
         implements X509Preparator {
@@ -123,7 +125,7 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
 
     private void prepareValidity() {
         Validity validity = tbsCertificate.getValidity();
-        Time notAfter = validity.getNotAfter();
+        TimeField notAfter = validity.getNotAfter();
         encodeValidity(
                 chooser.getConfig().getNotAfter(),
                 notAfter,
@@ -131,7 +133,7 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
                 chooser.getConfig().getNotAfterAccurracy(),
                 chooser.getConfig().getTimezoneOffsetInMinutes());
         notAfter.getPreparator(chooser).prepare();
-        Time notBefore = validity.getNotBefore();
+        TimeField notBefore = validity.getNotBefore();
         encodeValidity(
                 chooser.getConfig().getNotBefore(),
                 notBefore,
@@ -144,12 +146,12 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
 
     private void encodeValidity(
             DateTime date,
-            Time time,
+            TimeField time,
             ValidityEncoding encoding,
             TimeAccurracy accurracy,
             int timezoneInMinutes) {
         Asn1Field timeField;
-        if (time.getSelectedChoice() == null) {
+        if (time == null) {
             switch (encoding) {
                 case GENERALIZED_TIME_DIFFERENTIAL:
                     timeField = new Asn1GeneralizedTime("generalizedTime");

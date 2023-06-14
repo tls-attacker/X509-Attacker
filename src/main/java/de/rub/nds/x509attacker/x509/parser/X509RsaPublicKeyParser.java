@@ -8,14 +8,15 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.parser.Asn1Parser;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PushbackInputStream;
+
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.X509RsaPublicKey;
 import de.rub.nds.x509attacker.x509.base.publickey.X509RsaPublicKeyContentSequence;
-import java.io.IOException;
-import java.io.InputStream;
 
-public class X509RsaPublicKeyParser extends Asn1Parser<X509RsaPublicKey> implements X509Parser {
+public class X509RsaPublicKeyParser extends X509Asn1FieldParser<X509RsaPublicKey> {
 
     public X509RsaPublicKeyParser(X509Chooser chooser, X509RsaPublicKey rsaPublicKey) {
         super(chooser, rsaPublicKey);
@@ -36,8 +37,13 @@ public class X509RsaPublicKeyParser extends Asn1Parser<X509RsaPublicKey> impleme
 
     @Override
     public void parseIndividualContentFields(InputStream inputStream) throws IOException {
-        X509RsaPublicKeyContentSequence rsaContentSequence =
-                encodable.getRsaPublicKeyContentSequence();
+        X509RsaPublicKeyContentSequence rsaContentSequence = encodable.getRsaPublicKeyContentSequence();
         rsaContentSequence.getParser(chooser).parseIndividualContentFields(inputStream);
+    }
+
+    @Override
+    protected void parseContent(PushbackInputStream inputStream) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'parseContent'");
     }
 }

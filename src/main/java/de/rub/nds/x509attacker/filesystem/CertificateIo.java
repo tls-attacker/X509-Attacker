@@ -8,11 +8,6 @@
  */
 package de.rub.nds.x509attacker.filesystem;
 
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.context.X509Context;
-import de.rub.nds.x509attacker.x509.X509CertificateChain;
-import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -26,15 +21,23 @@ import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
+
 import org.bouncycastle.crypto.tls.Certificate;
 
-public class CertificateIo <{
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.context.X509Context;
+import de.rub.nds.x509attacker.x509.X509CertificateChain;
+import de.rub.nds.x509attacker.x509.base.X509Certificate;
+
+public class CertificateIo {
 
     private static final String CERTIFICATE_PEM_PREFIX = "-----BEGIN CERTIFICATE-----";
 
     private static final String CERTIFICATE_PEM_SUFFIX = "-----END CERTIFICATE-----";
 
-    private CertificateIo() {}
+    private CertificateIo() {
+    }
 
     public static X509CertificateChain readPemChain(File file) throws IOException {
         return readPemChain(new FileInputStream(file));
@@ -73,8 +76,7 @@ public class CertificateIo <{
                                         throw new RuntimeException(
                                                 "Could not parse certificate chain");
                                     }
-                                    byte[] certificateBytes =
-                                            Base64.getDecoder().decode(stream.toByteArray());
+                                    byte[] certificateBytes = Base64.getDecoder().decode(stream.toByteArray());
                                     byteList.add(new CertificateBytes(certificateBytes));
                                     stream = null;
                                 } else {
@@ -100,8 +102,7 @@ public class CertificateIo <{
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int outLength = ArrayConverter.bytesToInt(lengthField);
-        ByteArrayInputStream subCertificateListStream =
-                new ByteArrayInputStream(inputStream.readNBytes(outLength));
+        ByteArrayInputStream subCertificateListStream = new ByteArrayInputStream(inputStream.readNBytes(outLength));
         while (subCertificateListStream.available() > 0) {
             chain.addCertificate(readRawCertificate(subCertificateListStream));
         }
@@ -115,8 +116,7 @@ public class CertificateIo <{
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
-        ByteArrayInputStream certificateInputStream =
-                new ByteArrayInputStream(inputStream.readNBytes(length));
+        ByteArrayInputStream certificateInputStream = new ByteArrayInputStream(inputStream.readNBytes(length));
         X509Certificate certificate = new X509Certificate("certificate");
         certificate.getParser(chooser).parse(certificateInputStream);
         X509CertificateChain chain = new X509CertificateChain();
@@ -130,8 +130,7 @@ public class CertificateIo <{
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
-        ByteArrayInputStream certificateInputStream =
-                new ByteArrayInputStream(inputStream.readNBytes(length));
+        ByteArrayInputStream certificateInputStream = new ByteArrayInputStream(inputStream.readNBytes(length));
         X509Certificate certificate = new X509Certificate("certificate");
         certificate.getParser(chooser).parse(certificateInputStream);
         return certificate;
@@ -142,8 +141,7 @@ public class CertificateIo <{
         X509Chooser chooser = context.getChooser();
         try {
             X509CertificateChain chain = new X509CertificateChain();
-            for (org.bouncycastle.asn1.x509.Certificate certificate :
-                    certificateList.getCertificateList()) {
+            for (org.bouncycastle.asn1.x509.Certificate certificate : certificateList.getCertificateList()) {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
                 certificate.encodeTo(outputStream);
                 X509Certificate x509Certificate = new X509Certificate("certificate");

@@ -83,8 +83,8 @@ public class X509CertificateChainBuidlerTest {
 
         X509CertificateChain chain = builder.buildChain(rootConfig, intermediateConfig, leafConfig);
         for (X509Certificate cert : chain.getCertificateList()) {
-            LOGGER.info(
-                    "Cert: " + ArrayConverter.bytesToHexString(cert.getSerializer().serialize()));
+            LOGGER.info(//TODO not sure we can pass null here
+                    "Cert: " + ArrayConverter.bytesToHexString(cert.getSerializer(null).serialize()));
         }
     }
 }
