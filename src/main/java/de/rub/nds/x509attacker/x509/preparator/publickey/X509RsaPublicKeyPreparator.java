@@ -18,7 +18,7 @@ public class X509RsaPublicKeyPreparator extends X509PublicKeyContentPreparator<X
     }
 
     @Override
-    public void prepare() {
+    protected byte[] encodeContent() {
         field.getRsaPublicKeyContentSequence()
                 .getModulus()
                 .setValue(chooser.getConfig().getRsaModulus());

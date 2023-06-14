@@ -51,10 +51,10 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
     @HoldsModifiableVariable
-    private Asn1BitString issuerUniqueID;
+    private Asn1BitString issuerUniqueId;
 
     @HoldsModifiableVariable
-    private Asn1BitString subjectUniqueID;
+    private Asn1BitString subjectUniqueId;
 
     @HoldsModifiableVariable
     private Asn1Explicit extensionExplicit;
@@ -74,12 +74,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         subject = new Name("subject", NameType.SUBJECT, config.getSubject());
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
         if (config.isIncludeIssuerUniqueId()) {
-            issuerUniqueID = new Asn1BitString("issuerUniqueID");
-            issuerUniqueID.setOptional(true);
+            issuerUniqueId = new Asn1BitString("issuerUniqueID");
+            issuerUniqueId.setOptional(true);
         }
         if (config.isIncludeSubjectUniqueId()) {
-            subjectUniqueID = new Asn1BitString("subjectUniqueID");
-            subjectUniqueID.setOptional(true);
+            subjectUniqueId = new Asn1BitString("subjectUniqueID");
+            subjectUniqueId.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
             extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
@@ -91,11 +91,11 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         addChild(validity);
         addChild(subject);
         addChild(subjectPublicKeyInfo);
-        if (issuerUniqueID != null) {
-            addChild(issuerUniqueID);
+        if (issuerUniqueId != null) {
+            addChild(issuerUniqueId);
         }
-        if (subjectUniqueID != null) {
-            addChild(subjectUniqueID);
+        if (subjectUniqueId != null) {
+            addChild(subjectUniqueId);
         }
         if (extensionExplicit != null) {
             addChild(extensionExplicit);
@@ -112,10 +112,10 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         validity = new Validity("validity");
         subject = new Name("subject", NameType.SUBJECT);
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
-        issuerUniqueID = new Asn1BitString("issuerUniqueID");
-        issuerUniqueID.setOptional(true);
-        subjectUniqueID = new Asn1BitString("subjectUniqueID");
-        subjectUniqueID.setOptional(true);
+        issuerUniqueId = new Asn1BitString("issuerUniqueID");
+        issuerUniqueId.setOptional(true);
+        subjectUniqueId = new Asn1BitString("subjectUniqueID");
+        subjectUniqueId.setOptional(true);
         extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
         extensionExplicit.setOptional(true);
         addChild(version);
@@ -125,8 +125,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         addChild(validity);
         addChild(subject);
         addChild(subjectPublicKeyInfo);
-        addChild(issuerUniqueID);
-        addChild(subjectUniqueID);
+        addChild(issuerUniqueId);
+        addChild(subjectUniqueId);
         addChild(extensionExplicit);
     }
 
@@ -186,20 +186,20 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         this.subjectPublicKeyInfo = subjectPublicKeyInfo;
     }
 
-    public Asn1BitString getIssuerUniqueID() {
-        return issuerUniqueID;
+    public Asn1BitString getIssuerUniqueId() {
+        return issuerUniqueId;
     }
 
-    public void setIssuerUniqueID(Asn1BitString issuerUniqueID) {
-        this.issuerUniqueID = issuerUniqueID;
+    public void setIssuerUniqueId(Asn1BitString issuerUniqueID) {
+        this.issuerUniqueId = issuerUniqueID;
     }
 
-    public Asn1BitString getSubjectUniqueID() {
-        return subjectUniqueID;
+    public Asn1BitString getSubjectUniqueId() {
+        return subjectUniqueId;
     }
 
-    public void setSubjectUniqueID(Asn1BitString subjectUniqueID) {
-        this.subjectUniqueID = subjectUniqueID;
+    public void setSubjectUniqueId(Asn1BitString subjectUniqueID) {
+        this.subjectUniqueId = subjectUniqueID;
     }
 
     public Asn1Explicit getExtensionExplicit() {

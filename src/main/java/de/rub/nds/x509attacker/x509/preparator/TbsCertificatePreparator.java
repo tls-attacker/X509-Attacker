@@ -73,22 +73,18 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
     }
 
     private void prepareVersion() {
-        ((Asn1Integer) (tbsCertificate.getVersion().getChild()))
-                .setValue(chooser.getConfig().getVersion().getValue());
-        tbsCertificate.getVersion().getPreparator(chooser).prepare();
+        prepareField(tbsCertificate.getVersion().getVersion(), chooser.getConfig().getVersion().getValue());
     }
 
     private void prepareSerialNumber() {
         Asn1Integer serialNumber = tbsCertificate.getSerialNumber();
-        serialNumber.setValue(chooser.getConfig().getSerialNumber());
-        serialNumber.getPreparator(chooser).prepare();
+        prepareField(serialNumber,chooser.getConfig().getSerialNumber());
     }
 
     private void prepareSignature() {
         AlgorithmIdentifier signature = tbsCertificate.getSignature();
         Asn1ObjectIdentifier algorithm = signature.getAlgorithm();
-        algorithm.setValue(chooser.getSignatureAlgorithm().getOid().toString());
-        algorithm.getPreparator(chooser).prepare();
+        prepareField(algorithm,chooser.getSignatureAlgorithm().getOid())
 
         // TODO Updating context, this should probably happen in a handler
         chooser.getContext()
@@ -217,6 +213,8 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
                 .getParameters()
                 .setIdentifier(chooser.getConfig().getPublicKeyType().getOid().toString());
         algorithm.getAlgorithm().getPreparator(chooser).prepare();
+        prepareField(algorithm.getAlgorithm(), chooser.getConfig().getPublicKeyType().getOid());
+        prepareField(algorithm.getParameters());
         PublicParameters publicKeyParameters = createPublicKeyParameters();
         if (publicKeyParameters == null) {
             algorithm.instantiateParameters(new Asn1Null("parameters"));
@@ -231,21 +229,17 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
     }
 
     private void prepareIssuerUniqueId() {
+        // IssuerUniqueID is an optional field
         if (tbsCertificate.getIssuerUniqueID() != null) {
-            // IssuerUniqueID is an optional field
-            tbsCertificate.getIssuerUniqueID().setUsedBits(chooser.getIssuerUniqueId());
-            tbsCertificate.getIssuerUniqueID().getPreparator(chooser).prepare();
+            prepareField(tbsCertificate.getIssuerUniqueID(),chooser.getIssuerUniqueId(),(byte)0);
         }
     }
 
     private void prepareSubjectUniqueId() {
         if (tbsCertificate.getSubjectUniqueID() != null) {
-            // IssuerUniqueID is an optional field
-            tbsCertificate
-                    .getSubjectUniqueID()
-                    .setUsedBits(chooser.getConfig().getSubjectUniqueId());
-            tbsCertificate.getSubjectUniqueID().getPreparator(chooser).prepare();
-
+            // SubjectUniqueID is an optional field
+            prepareField(tbsCertificate.getSubjectUniqueID(),chooser.getSubjectUniqueId(),(byte)0);
+        
             // TODO this should probably happen within a handler
             chooser.getContext()
                     .setIssuerUniqueId(

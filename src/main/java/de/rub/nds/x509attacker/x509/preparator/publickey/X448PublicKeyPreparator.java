@@ -10,7 +10,6 @@ package de.rub.nds.x509attacker.x509.preparator.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.X509X448PublicKey;
-import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 
 public class X448PublicKeyPreparator extends X509PublicKeyContentPreparator<X509X448PublicKey> {
 
@@ -19,7 +18,7 @@ public class X448PublicKeyPreparator extends X509PublicKeyContentPreparator<X509
     }
 
     @Override
-    public void prepare() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected byte[] encodeContent() {
+        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
     }
 }

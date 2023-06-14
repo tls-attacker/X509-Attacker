@@ -18,7 +18,7 @@ public class X509EcdhEcdsaPublicKeyPreparator extends X509PublicKeyContentPrepar
     }
 
     @Override
-    public void prepare() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    protected byte[] encodeContent() {
+        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
     }
 }

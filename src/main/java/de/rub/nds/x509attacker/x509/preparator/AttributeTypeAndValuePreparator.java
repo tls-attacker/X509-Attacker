@@ -16,8 +16,10 @@ import de.rub.nds.asn1.model.Asn1Ia5String;
 import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.model.Asn1T61String;
 import de.rub.nds.asn1.model.Asn1Utf8String;
+import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
 
 public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<AttributeTypeAndValue>
@@ -64,12 +66,13 @@ public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<Attribu
     }
 
     private void prepareTypeConfig() {
-        if (instance.getAttributeTypeConfig() != null) {
-            instance.getType().setValue(instance.getAttributeTypeConfig().getOid().toString());
+        X500AttributeType attributeType = instance.getAttributeTypeConfig();
+        ObjectIdentifier oid;
+        if (attributeType == null) {
+            oid = new ObjectIdentifier("1.1");
         } else {
-            LOGGER.warn("AttributeTypeAndValue type config is not set - Using OID 1.1");
-            instance.getType().setValue("1.1");
+            oid = attributeType.getOid();
         }
-        instance.getType().getPreparator(chooser).prepare();
+        prepareField(instance.getType(), oid);
     }
 }
