@@ -20,7 +20,10 @@ public class X509DsaPublicKeyPreparator extends X509PublicKeyContentPreparator<X
 
     @Override
     protected byte[] encodeContent() {
-        preparefield(field,chooser.getConfig().getDsaPublicKeyY());
-        return ArrayConverter.concatenate(field.getTagOctets().getValue(), field.getLengthOctets().getValue(), field.getContent().getValue()); 
+        preparefield(field, chooser.getConfig().getDsaPublicKeyY());
+        return ArrayConverter.concatenate(
+                field.getTagOctets().getValue(),
+                field.getLengthOctets().getValue(),
+                field.getContent().getValue());
     }
 }

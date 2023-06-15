@@ -13,7 +13,8 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 
-public class DssParameterPreparator extends Asn1FieldPreparator<X509DssParameters> implements X509Preparator {
+public class DssParameterPreparator extends Asn1FieldPreparator<X509DssParameters>
+        implements X509Preparator {
 
     private X509DssParameters parameters;
     private X509Chooser chooser;
@@ -26,9 +27,9 @@ public class DssParameterPreparator extends Asn1FieldPreparator<X509DssParameter
 
     @Override
     protected byte[] encodeContent() {
-        prepareField(parameters.getQ(),chooser.getConfig().getDsaPrimeQ());
-        prepareField(parameters.getG(),chooser.getConfig().getDsaGenerator());
-        prepareField(parameters.getP(),chooser.getConfig().getDsaPrimeP());
+        prepareField(parameters.getQ(), chooser.getConfig().getDsaPrimeQ());
+        prepareField(parameters.getG(), chooser.getConfig().getDsaGenerator());
+        prepareField(parameters.getP(), chooser.getConfig().getDsaPrimeP());
         parameters.setEncodedChildren(encodedChildren(parameters.getChildren()));
         return parameters.getEncodedChildren().getValue();
     }

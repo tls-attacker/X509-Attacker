@@ -8,13 +8,12 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class PublicKeyBitStringPreparator extends Asn1FieldPreparator<PublicKeyBitString>
         implements X509Preparator {
@@ -34,8 +33,10 @@ public class PublicKeyBitStringPreparator extends Asn1FieldPreparator<PublicKeyB
     @Override
     protected byte[] encodeContent() {
         if (publicKeyBitString.getX509PublicKeyContent() != null) {
-            return encodeBitString(publicKeyBitString.getX509PublicKeyContent().getSerializer(chooser).serialize(),
-                    (byte) 0, (byte) 0);
+            return encodeBitString(
+                    publicKeyBitString.getX509PublicKeyContent().getSerializer(chooser).serialize(),
+                    (byte) 0,
+                    (byte) 0);
         } else {
             LOGGER.warn("Could not encode public key. Encoding: new byte[0] instead");
             return new byte[0];
