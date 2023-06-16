@@ -248,7 +248,7 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
     }
 
     private void prepareExtensions() {
-        if (tbsCertificate.getExtensionExplicit() != null) {
+        if (tbsCertificate.getExplicitExtensions() != null) {
             LOGGER.warn("Extensions not supported yet");
         }
     }

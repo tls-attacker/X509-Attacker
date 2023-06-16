@@ -83,11 +83,6 @@ public class X509EcdhEcdsaPublicKey extends Asn1OctetString implements PublicKey
     }
 
     @Override
-    public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
-        return true;
-    }
-
-    @Override
     public X509Handler getHandler(X509Chooser chooser) {
         return new X509EcdhEcdsaPublicKeyHandler(chooser, this);
     }

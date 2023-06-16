@@ -31,12 +31,7 @@ public class X509X25519PublicKey extends Asn1OctetString implements PublicKeyCon
     public boolean isEllipticCurve() {
         return true;
     }
-
-    @Override
-    public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
+    
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
         return new X509X25519PublicKeyHandler(chooser, this);

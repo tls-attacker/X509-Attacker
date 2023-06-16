@@ -8,9 +8,11 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
@@ -30,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class DistributionPoint extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable
-    private DistributionPointName distributionPointName;
+    private Asn1Field distributionPointName;
 
     @HoldsModifiableVariable
     private ReasonFlags reasons;
@@ -44,7 +46,8 @@ public class DistributionPoint extends Asn1Sequence implements X509Component {
 
     private DistributionPoint(String identifier) {
         super(identifier);
-        distributionPointName = new DistributionPointName(identifier);
+        distributionPointName = new RelativeDistinguishedName(identifier); // TODO: this is a choice. Its either a
+                                                                           // GeneralName or a RDN
         reasons = new ReasonFlags(identifier);
         crlIssuer = new GeneralNames("crlIssuer");
         addChild(distributionPointName);
@@ -52,11 +55,15 @@ public class DistributionPoint extends Asn1Sequence implements X509Component {
         addChild(crlIssuer);
     }
 
-    public DistributionPointName getDistributionPointName() {
+    public Asn1Field getDistributionPointName() {
         return distributionPointName;
     }
 
-    public void setDistributionPointName(DistributionPointName distributionPointName) {
+    public void setDistributionPointName(RelativeDistinguishedName distributionPointName) {
+        this.distributionPointName = distributionPointName;
+    }
+
+    public void setDistributionPointName(GeneralName distributionPointName) {
         this.distributionPointName = distributionPointName;
     }
 

@@ -8,10 +8,11 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
+import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.DirectoryString;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
@@ -31,10 +32,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class EdiPartyName extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable
-    private DirectoryString nameAssigner;
+    private Asn1Field nameAssigner;
 
     @HoldsModifiableVariable
-    private DirectoryString partyName;
+    private Asn1Field partyName;
 
     private EdiPartyName() {
         super(null);
@@ -42,25 +43,26 @@ public class EdiPartyName extends Asn1Sequence implements X509Component {
 
     public EdiPartyName(String identifier) {
         super(identifier);
-        nameAssigner = new DirectoryString("nameAssigner");
-        partyName = new DirectoryString("partyName");
+        // TODO these are dirctory strings - so a choice
+        nameAssigner = new Asn1PrintableString("nameAssigner");
+        partyName = new Asn1PrintableString("partyName");
         addChild(nameAssigner);
         addChild(partyName);
     }
 
-    public DirectoryString getNameAssigner() {
+    public Asn1Field getNameAssigner() {
         return nameAssigner;
     }
 
-    public void setNameAssigner(DirectoryString nameAssigner) {
+    public void setNameAssigner(Asn1Field nameAssigner) {
         this.nameAssigner = nameAssigner;
     }
 
-    public DirectoryString getPartyName() {
+    public Asn1Field getPartyName() {
         return partyName;
     }
 
-    public void setPartyName(DirectoryString partyName) {
+    public void setPartyName(Asn1Field partyName) {
         this.partyName = partyName;
     }
 

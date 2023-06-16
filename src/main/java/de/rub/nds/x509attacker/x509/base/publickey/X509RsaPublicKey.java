@@ -47,11 +47,6 @@ public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
     }
 
     @Override
-    public boolean isCompatible(Integer tagNumber, Boolean constructed, Integer classType) {
-        return rsaPublicKeyContentSequence.isCompatible(tagNumber, constructed, classType);
-    }
-
-    @Override
     public X509Handler getHandler(X509Chooser chooser) {
         return new X509RsaPublicKeyHandler(chooser, this);
     }

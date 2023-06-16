@@ -14,7 +14,7 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 import de.rub.nds.asn1.constants.TagClass;
-import de.rub.nds.asn1.constants.TagNumber;
+import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1UnknownField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -64,13 +64,13 @@ public class AttributeTypeAndValueParser extends X509Asn1FieldParser<AttributeTy
                 case STATE_OR_PROVINCE_NAME:
                 case ORGANISATION_NAME:
                 case ORGANISATION_UNIT_NAME:
-                    TagNumber tagNumber = canParse(inputStream, TagClass.UNIVERSAL, TagNumber.T61STRING,
-                            TagNumber.PRINTABLESTRING,
-                            TagNumber.UNIVERSALSTRING, TagNumber.UTF8STRING, TagNumber.BMPSTRING);
+                    UniversalTagNumber tagNumber = canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.T61STRING,
+                            UniversalTagNumber.PRINTABLESTRING,
+                            UniversalTagNumber.UNIVERSALSTRING, UniversalTagNumber.UTF8STRING, UniversalTagNumber.BMPSTRING);
                     parseTagNumberOrUnkownField(inputStream, TagClass.UNIVERSAL, tagNumber);
                     break;
                 case COUNTRY_NAME:
-                    tagNumber = canParse(inputStream, TagClass.UNIVERSAL, TagNumber.PRINTABLESTRING);
+                    tagNumber = canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.PRINTABLESTRING);
                     parseTagNumberOrUnkownField(inputStream, TagClass.UNIVERSAL, tagNumber);
                     break;
                 default:

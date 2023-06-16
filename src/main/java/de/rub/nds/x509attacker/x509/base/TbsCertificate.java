@@ -57,7 +57,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     private Asn1BitString subjectUniqueId;
 
     @HoldsModifiableVariable
-    private Asn1Explicit extensionExplicit;
+    private ExplicitExtensions explicitExtensions;
 
     private TbsCertificate() {
         super(null);
@@ -65,7 +65,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
 
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
-        version = new Version("version");
+        version = new Version("version", 0);
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
@@ -74,15 +74,15 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         subject = new Name("subject", NameType.SUBJECT, config.getSubject());
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
         if (config.isIncludeIssuerUniqueId()) {
-            issuerUniqueId = new Asn1BitString("issuerUniqueID");
+            issuerUniqueId = new Asn1BitString("issuerUniqueID", 1);
             issuerUniqueId.setOptional(true);
         }
         if (config.isIncludeSubjectUniqueId()) {
-            subjectUniqueId = new Asn1BitString("subjectUniqueID");
+            subjectUniqueId = new Asn1BitString("subjectUniqueID", 2);
             subjectUniqueId.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
+            explicitExtensions = new ExplicitExtensions("extensionsExplicit", 3);
         }
         addChild(version);
         addChild(serialNumber);
@@ -97,14 +97,14 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         if (subjectUniqueId != null) {
             addChild(subjectUniqueId);
         }
-        if (extensionExplicit != null) {
-            addChild(extensionExplicit);
+        if (explicitExtensions != null) {
+            addChild(explicitExtensions);
         }
     }
 
     public TbsCertificate(String identifier) {
         super(identifier);
-        version = new Version("version");
+        version = new Version("version", 0);
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
@@ -112,12 +112,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         validity = new Validity("validity");
         subject = new Name("subject", NameType.SUBJECT);
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
-        issuerUniqueId = new Asn1BitString("issuerUniqueID");
+        issuerUniqueId = new Asn1BitString("issuerUniqueID", 1);
         issuerUniqueId.setOptional(true);
-        subjectUniqueId = new Asn1BitString("subjectUniqueID");
+        subjectUniqueId = new Asn1BitString("subjectUniqueID", 2);
         subjectUniqueId.setOptional(true);
-        extensionExplicit = new Asn1Explicit("extensionsExplicit", new Extensions("extensions"));
-        extensionExplicit.setOptional(true);
+        explicitExtensions = new ExplicitExtensions("extensionsExplicit", 3);
+        explicitExtensions.setOptional(true);
         addChild(version);
         addChild(serialNumber);
         addChild(signature);
@@ -127,7 +127,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         addChild(subjectPublicKeyInfo);
         addChild(issuerUniqueId);
         addChild(subjectUniqueId);
-        addChild(extensionExplicit);
+        addChild(explicitExtensions);
     }
 
     public Version getVersion() {
@@ -202,12 +202,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         this.subjectUniqueId = subjectUniqueID;
     }
 
-    public Asn1Explicit getExtensionExplicit() {
-        return extensionExplicit;
+    public ExplicitExtensions getExplicitExtensions() {
+        return explicitExtensions;
     }
 
-    public void setExtensionExplicit(Asn1Explicit extensionExplicit) {
-        this.extensionExplicit = extensionExplicit;
+    public void setExplicitExtensions(ExplicitExtensions explicitExtensions) {
+        this.explicitExtensions = explicitExtensions;
     }
 
     @Override

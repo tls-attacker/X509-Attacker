@@ -12,7 +12,7 @@ import org.apache.logging.log4j.Logger;
 
 import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.constants.TagConstructed;
-import de.rub.nds.asn1.constants.TagNumber;
+import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1Field;
@@ -72,7 +72,7 @@ public abstract class X509Asn1FieldParser<Field extends Asn1Field> extends Asn1F
      * @return the parsed field
      */
     protected Asn1Field parseTagNumberOrUnkownField(PushbackInputStream inputStream, TagClass tagClass,
-            TagNumber... tagNumbers) {
+            UniversalTagNumber... tagNumbers) {
         if (tagNumbers.length == 0) {
             throw new ParserException("No tag numbers provided");
         }
@@ -80,9 +80,9 @@ public abstract class X509Asn1FieldParser<Field extends Asn1Field> extends Asn1F
             throw new ParserException("Cannot parse this tag number generically.");
         }
         Asn1Header header = lookAhead(inputStream);
-        TagNumber foundNumber = null;
+        UniversalTagNumber foundNumber = null;
         if (header.getTagClass() == tagClass) {
-            for (TagNumber tagNumber : tagNumbers) {
+            for (UniversalTagNumber tagNumber : tagNumbers) {
                 if (tagNumber != null && header.getTagNumber() == tagNumber.getIntValue()) {
                     foundNumber = tagNumber;
                 }
@@ -107,14 +107,14 @@ public abstract class X509Asn1FieldParser<Field extends Asn1Field> extends Asn1F
      * @return
      */
     protected Asn1Field parseTagNumberField(PushbackInputStream inputStream, TagClass tagClass,
-            TagNumber... tagNumbers) {
+            UniversalTagNumber... tagNumbers) {
         if (tagClass != TagClass.UNIVERSAL) {
             throw new ParserException("Cannot parse this tag number generically.");
         }
         Asn1Header header = lookAhead(inputStream);
-        TagNumber foundNumber = null;
+        UniversalTagNumber foundNumber = null;
         if (header.getTagClass() == tagClass) {
-            for (TagNumber tagNumber : tagNumbers) {
+            for (UniversalTagNumber tagNumber : tagNumbers) {
                 if (header.getTagNumber() == tagNumber.getIntValue()) {
                     foundNumber = tagNumber;
                 }
@@ -128,7 +128,7 @@ public abstract class X509Asn1FieldParser<Field extends Asn1Field> extends Asn1F
         }
     }
 
-    private Asn1Field parseTagNumberField(PushbackInputStream inputStream, TagNumber tagNumber) {
+    private Asn1Field parseTagNumberField(PushbackInputStream inputStream, UniversalTagNumber tagNumber) {
         switch (tagNumber) {
             case BIT_STRING:
                 Asn1BitString bitstring = new Asn1BitString("bitString");
@@ -200,12 +200,12 @@ public abstract class X509Asn1FieldParser<Field extends Asn1Field> extends Asn1F
         return unknownField;
     }
 
-    protected TagNumber canParse(PushbackInputStream inputStream, TagClass tagClass, TagNumber... tagNumbers) {
+    protected UniversalTagNumber canParse(PushbackInputStream inputStream, TagClass tagClass, UniversalTagNumber... tagNumbers) {
         Asn1Header header = lookAhead(inputStream);
         if (header.getTagClass() != tagClass) {
             return null;
         }
-        for (TagNumber tagNumber : tagNumbers) {
+        for (UniversalTagNumber tagNumber : tagNumbers) {
             if (header.getTagNumber() == tagNumber.getIntValue()) {
                 return tagNumber;
             }
