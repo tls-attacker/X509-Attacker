@@ -16,7 +16,6 @@ import org.apache.logging.log4j.Logger;
 import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
-import de.rub.nds.asn1.model.Asn1UnknownField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
@@ -36,14 +35,14 @@ public class AttributeTypeAndValueParser extends X509Asn1FieldParser<AttributeTy
     @Override
     public void parseContent(PushbackInputStream inputStream) {
         attributeTypeAndValue.setType(new Asn1ObjectIdentifier("type"));
-        parseAsn1ObjectIdentifier(attributeTypeAndValue.getType(), inputStream);
+        ParserHelper.parseAsn1ObjectIdentifier(attributeTypeAndValue.getType(), inputStream);
         // Depending on the Type we can now parse the correct valueConfig
         X500AttributeType attributeType = X500AttributeType
                 .decodeFromOidBytes(attributeTypeAndValue.getType().getValueAsOid().getEncoded());
         if (attributeType == null) {
             LOGGER.warn("Unknown AttributeType: {}. Parsing as unknown.",
                     attributeTypeAndValue.getType().getValue().getValue());
-            parseUnknownField(inputStream);
+            ParserHelper.parseUnknown(inputStream);
         } else {
             switch (attributeType) {
                 // @formatter:off
@@ -64,14 +63,16 @@ public class AttributeTypeAndValueParser extends X509Asn1FieldParser<AttributeTy
                 case STATE_OR_PROVINCE_NAME:
                 case ORGANISATION_NAME:
                 case ORGANISATION_UNIT_NAME:
-                    UniversalTagNumber tagNumber = canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.T61STRING,
+                    UniversalTagNumber tagNumber = ParserHelper.canParse(inputStream, TagClass.UNIVERSAL,
+                            UniversalTagNumber.T61STRING,
                             UniversalTagNumber.PRINTABLESTRING,
-                            UniversalTagNumber.UNIVERSALSTRING, UniversalTagNumber.UTF8STRING, UniversalTagNumber.BMPSTRING);
-                    parseTagNumberOrUnkownField(inputStream, TagClass.UNIVERSAL, tagNumber);
+                            UniversalTagNumber.UNIVERSALSTRING, UniversalTagNumber.UTF8STRING,
+                            UniversalTagNumber.BMPSTRING);
+                    ParserHelper.parseTagNumberOrUnkownField(inputStream, TagClass.UNIVERSAL, tagNumber);
                     break;
                 case COUNTRY_NAME:
-                    tagNumber = canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.PRINTABLESTRING);
-                    parseTagNumberOrUnkownField(inputStream, TagClass.UNIVERSAL, tagNumber);
+                    tagNumber = ParserHelper.canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.PRINTABLESTRING);
+                    ParserHelper.parseTagNumberOrUnkownField(inputStream, TagClass.UNIVERSAL, tagNumber);
                     break;
                 default:
                     LOGGER.error("Did not anticipate X509AttributeType: {}", attributeType.toString());
@@ -79,10 +80,4 @@ public class AttributeTypeAndValueParser extends X509Asn1FieldParser<AttributeTy
         }
 
     }
-
-    private void parseUnknownField(PushbackInputStream inputStream) {
-        Asn1UnknownField unknownField = new Asn1UnknownField("value");
-        parseStructure(unknownField, inputStream);
-    }
-
 }

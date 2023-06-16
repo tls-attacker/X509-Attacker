@@ -10,5 +10,6 @@ package de.rub.nds.x509attacker.constants;
 
 public enum NameType {
     SUBJECT,
-    ISSUER
+    ISSUER,
+    GENERAL_NAME
 }

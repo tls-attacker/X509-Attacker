@@ -32,7 +32,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class DistributionPoint extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable
-    private Asn1Field distributionPointName;
+    private DistributionPointName distributionPointName;
 
     @HoldsModifiableVariable
     private ReasonFlags reasons;
@@ -46,8 +46,7 @@ public class DistributionPoint extends Asn1Sequence implements X509Component {
 
     private DistributionPoint(String identifier) {
         super(identifier);
-        distributionPointName = new RelativeDistinguishedName(identifier); // TODO: this is a choice. Its either a
-                                                                           // GeneralName or a RDN
+        distributionPointName = new DistributionPointName(identifier);
         reasons = new ReasonFlags(identifier);
         crlIssuer = new GeneralNames("crlIssuer");
         addChild(distributionPointName);
@@ -55,15 +54,11 @@ public class DistributionPoint extends Asn1Sequence implements X509Component {
         addChild(crlIssuer);
     }
 
-    public Asn1Field getDistributionPointName() {
+    public DistributionPointName getDistributionPointName() {
         return distributionPointName;
     }
 
-    public void setDistributionPointName(RelativeDistinguishedName distributionPointName) {
-        this.distributionPointName = distributionPointName;
-    }
-
-    public void setDistributionPointName(GeneralName distributionPointName) {
+    public void setDistributionPointName(DistributionPointName distributionPointName) {
         this.distributionPointName = distributionPointName;
     }
 

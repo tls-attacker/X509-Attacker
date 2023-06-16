@@ -8,16 +8,18 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.parser.Asn1FieldParser;
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
+
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PublicKeyBitStringParser extends Asn1FieldParser<PublicKeyBitString>
+import de.rub.nds.asn1.parser.Asn1Parser;
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
+
+public class PublicKeyBitStringParser extends Asn1Parser<PublicKeyBitString>
         implements X509Parser {
 
     private static final Logger LOGGER = LogManager.getLogger();
@@ -34,9 +36,10 @@ public class PublicKeyBitStringParser extends Asn1FieldParser<PublicKeyBitString
 
     @Override
     public void parse(InputStream inputStream) {
-        parseAsn1BitString(publicKeyBitString, inputStream);
+        ParserHelper.parseAsn1BitString(publicKeyBitString, inputStream);
         /**
-         * The content of the public key bitstring itself has structure, so we need to parse it as
+         * The content of the public key bitstring itself has structure, so we need to
+         * parse it as
          * well.
          */
         if (publicKeyBitString.getX509PublicKeyContent() == null) {

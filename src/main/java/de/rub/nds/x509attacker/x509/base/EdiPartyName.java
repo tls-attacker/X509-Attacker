@@ -6,14 +6,12 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.extensions;
+package de.rub.nds.x509attacker.x509.base;
 
-import de.rub.nds.asn1.model.Asn1Field;
-import de.rub.nds.asn1.model.Asn1PrintableString;
+
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
@@ -32,10 +30,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class EdiPartyName extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable
-    private Asn1Field nameAssigner;
+    private DirectoryString nameAssigner;
 
     @HoldsModifiableVariable
-    private Asn1Field partyName;
+    private DirectoryString partyName;
 
     private EdiPartyName() {
         super(null);
@@ -43,26 +41,29 @@ public class EdiPartyName extends Asn1Sequence implements X509Component {
 
     public EdiPartyName(String identifier) {
         super(identifier);
-        // TODO these are dirctory strings - so a choice
-        nameAssigner = new Asn1PrintableString("nameAssigner");
-        partyName = new Asn1PrintableString("partyName");
-        addChild(nameAssigner);
-        addChild(partyName);
+        nameAssigner = new DirectoryString("nameAssigner");
+        partyName = new DirectoryString("partyName");
     }
 
-    public Asn1Field getNameAssigner() {
+    public EdiPartyName(String identifier, int implicitTagNumber) {
+        super(identifier, implicitTagNumber);
+        nameAssigner = new DirectoryString("nameAssigner");
+        partyName = new DirectoryString("partyName");
+    }
+
+    public DirectoryString getNameAssigner() {
         return nameAssigner;
     }
 
-    public void setNameAssigner(Asn1Field nameAssigner) {
+    public void setNameAssigner(DirectoryString nameAssigner) {
         this.nameAssigner = nameAssigner;
     }
 
-    public Asn1Field getPartyName() {
+    public DirectoryString getPartyName() {
         return partyName;
     }
 
-    public void setPartyName(Asn1Field partyName) {
+    public void setPartyName(DirectoryString partyName) {
         this.partyName = partyName;
     }
 

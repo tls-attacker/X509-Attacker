@@ -8,11 +8,10 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
+import java.io.IOException;
+import java.io.PushbackInputStream;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.Name;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
@@ -21,29 +20,20 @@ public class NameParser extends X509Asn1FieldParser<Name> {
 
     public NameParser(X509Chooser chooser, Name name) {
         super(chooser, name);
-        
+
     }
 
     @Override
-    public void parseWithoutTag(InputStream inputStream, byte[] tagOctets) {
-        super.parseWithoutTag(inputStream, tagOctets);
-        List<RelativeDistinguishedName> rdnList = new LinkedList<>();
-        for (Asn1Encodable encodable : name.getChildren()) {
-            if (encodable instanceof RelativeDistinguishedName) {
-                rdnList.add((RelativeDistinguishedName) encodable);
+    protected void parseContent(PushbackInputStream inputStream) {
+        try {
+            while (inputStream.available() > 0) {
+                RelativeDistinguishedName rdn = new RelativeDistinguishedName("rdn");
+                X509Parser rdnParser = rdn.getParser(chooser);
+                rdnParser.parse(inputStream);
+                encodable.addChild(rdn);
             }
+        } catch (IOException e) {
+            throw new ParserException("IOException during parsing Name: " + e.getMessage(), e);
         }
-        name.setRelativeDistinguishedNames(rdnList);
-    }
-
-    @Override
-    protected Asn1Encodable createFreshElement() {
-        return new RelativeDistinguishedName("rdn");
-    }
-
-    @Override
-    public void parse(InputStream inputStream) {
-        parseStructure(encodable, inputStream);
-        
     }
 }

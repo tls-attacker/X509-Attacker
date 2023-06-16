@@ -16,8 +16,10 @@ public class ValidityParser extends X509Asn1FieldParser<Validity> {
 
     @Override
     protected void parseContent(PushbackInputStream inputStream) {
-        encodable.setNotBefore((TimeField) parseTagNumberField(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.GENERALIZEDTIME, UniversalTagNumber.UTCTIME));
-        encodable.setNotAfter((TimeField) parseTagNumberField(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.GENERALIZEDTIME, UniversalTagNumber.UTCTIME));
+        encodable.setNotBefore((TimeField) ParserHelper.parseTagNumberField(inputStream, TagClass.UNIVERSAL,
+                UniversalTagNumber.GENERALIZEDTIME, UniversalTagNumber.UTCTIME));
+        encodable.setNotAfter((TimeField) ParserHelper.parseTagNumberField(inputStream, TagClass.UNIVERSAL,
+                UniversalTagNumber.GENERALIZEDTIME, UniversalTagNumber.UTCTIME));
     }
 
 }
