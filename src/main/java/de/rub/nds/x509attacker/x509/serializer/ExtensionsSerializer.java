@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.serializer;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.Extensions;
+import de.rub.nds.x509attacker.x509.model.Extensions;
 
 public class ExtensionsSerializer implements X509Serializer {
 

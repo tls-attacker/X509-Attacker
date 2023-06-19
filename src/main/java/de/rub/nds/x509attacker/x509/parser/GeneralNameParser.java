@@ -8,4 +8,10 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-public class GeneralNameParser {}
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+
+public class GeneralNameParser implements X509Parser {
+
+    public GeneralNameParser(X509Chooser chooser, GeneralName generalName) {}
+}

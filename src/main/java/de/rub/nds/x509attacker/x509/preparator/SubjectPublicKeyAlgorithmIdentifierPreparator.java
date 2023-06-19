@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyAlgorithmIdentifier;
+import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyAlgorithmIdentifier;
 
 public class SubjectPublicKeyAlgorithmIdentifierPreparator implements X509Preparator {
 

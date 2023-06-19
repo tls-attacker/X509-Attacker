@@ -6,6 +6,13 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.serializer;
 
-public class RelativeDistinguishedNameSerializer {}
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
+
+public class RelativeDistinguishedNameSerializer implements X509Serializer {
+
+    public RelativeDistinguishedNameSerializer(
+            X509Chooser chooser, RelativeDistinguishedName relativeDistinguishedName) {}
+}

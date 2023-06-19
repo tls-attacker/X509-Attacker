@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.parser.publickey.parameters;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import java.io.InputStream;
 

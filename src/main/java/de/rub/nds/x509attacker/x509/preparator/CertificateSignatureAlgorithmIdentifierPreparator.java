@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.CertificateSignatureAlgorithmIdentifier;
+import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
 
 public class CertificateSignatureAlgorithmIdentifierPreparator implements X509Preparator {
 

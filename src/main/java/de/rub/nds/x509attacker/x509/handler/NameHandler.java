@@ -8,16 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.handler;
 
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.LinkedList;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.protocol.xml.Pair;
@@ -28,6 +18,14 @@ import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.Name;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.LinkedList;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 /** The Subject of a Certificate becomes the issuer of the next certificate */
 public class NameHandler extends X509FieldHandler<Name> {
@@ -45,7 +43,8 @@ public class NameHandler extends X509FieldHandler<Name> {
             List<RelativeDistinguishedName> parsedRdnSequence = new LinkedList<>();
             InputStream rdnByteInputStream = getRdnByteInputStream();
             while (rdnByteInputStream.available() > 0) {
-                RelativeDistinguishedName relativeDistinguishedName = new RelativeDistinguishedName("parsedRdn");
+                RelativeDistinguishedName relativeDistinguishedName =
+                        new RelativeDistinguishedName("parsedRdn");
                 X509Parser parser = relativeDistinguishedName.getParser(chooser);
                 parser.parse(rdnByteInputStream);
                 parsedRdnSequence.add(relativeDistinguishedName);

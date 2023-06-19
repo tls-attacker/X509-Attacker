@@ -8,4 +8,10 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-public class OrAddressParser {}
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+
+public class OrAddressParser implements X509Parser {
+
+    public OrAddressParser(X509Chooser chooser, OrAddress orAddress) {}
+}

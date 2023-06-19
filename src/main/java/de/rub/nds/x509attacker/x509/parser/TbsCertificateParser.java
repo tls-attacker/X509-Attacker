@@ -8,4 +8,10 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-public class TbsCertificateParser {}
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
+
+public class TbsCertificateParser implements X509Parser {
+
+    public TbsCertificateParser(X509Chooser chooser, TbsCertificate tbsCertificate) {}
+}

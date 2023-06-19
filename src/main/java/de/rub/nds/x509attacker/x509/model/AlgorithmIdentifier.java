@@ -26,11 +26,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier algorithm;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier algorithm;
 
-    @HoldsModifiableVariable
-    private Asn1Field parameters;
+    @HoldsModifiableVariable private Asn1Field parameters;
 
     private AlgorithmIdentifier() {
         super(null);
