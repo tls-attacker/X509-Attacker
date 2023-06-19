@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -21,19 +20,16 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * EDIPartyName ::= SEQUENCE { nameAssigner [0] DirectoryString OPTIONAL,
- * partyName [1]
+ * EDIPartyName ::= SEQUENCE { nameAssigner [0] DirectoryString OPTIONAL, partyName [1]
  * DirectoryString } }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EdiPartyName extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private DirectoryString nameAssigner;
+    @HoldsModifiableVariable private DirectoryString nameAssigner;
 
-    @HoldsModifiableVariable
-    private DirectoryString partyName;
+    @HoldsModifiableVariable private DirectoryString partyName;
 
     private EdiPartyName() {
         super(null);

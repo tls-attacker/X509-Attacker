@@ -8,13 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import java.util.Collection;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.joda.time.DateTime;
-
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
@@ -40,20 +33,22 @@ import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
+import java.util.Collection;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.joda.time.DateTime;
 
 public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate>
         implements X509Preparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final TbsCertificate tbsCertificate;
-
     private final X509Chooser chooser;
 
     public TbsCertificatePreparator(X509Chooser chooser, TbsCertificate tbsCertificate) {
         super(tbsCertificate);
         this.chooser = chooser;
-        this.tbsCertificate = tbsCertificate;
     }
 
     @Override
@@ -68,23 +63,23 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
         prepareIssuerUniqueId();
         prepareSubjectUniqueId();
         prepareExtensions();
-        tbsCertificate.setEncodedChildren(encodedChildren(tbsCertificate.getChildren()));
-        return tbsCertificate.getEncodedChildren().getValue();
+        field.setEncodedChildren(field.getSerializer(chooser).serialize());
+        return field.getEncodedChildren().getValue();
     }
 
     private void prepareVersion() {
-        prepareField(tbsCertificate.getVersion().getVersion(), chooser.getConfig().getVersion().getValue());
+        field.getVersion().getPreparator(chooser).prepare();
     }
 
     private void prepareSerialNumber() {
-        Asn1Integer serialNumber = tbsCertificate.getSerialNumber();
-        prepareField(serialNumber,chooser.getConfig().getSerialNumber());
+        Asn1Integer serialNumber = field.getSerialNumber();
+        prepareField(serialNumber, chooser.getConfig().getSerialNumber());
     }
 
     private void prepareSignature() {
-        AlgorithmIdentifier signature = tbsCertificate.getSignature();
+        AlgorithmIdentifier signature = field.getSignature();
         Asn1ObjectIdentifier algorithm = signature.getAlgorithm();
-        prepareField(algorithm,chooser.getSignatureAlgorithm().getOid())
+        prepareField(algorithm, chooser.getSignatureAlgorithm().getOid());
 
         // TODO Updating context, this should probably happen in a handler
         chooser.getContext()
@@ -95,18 +90,19 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
         /** Prepare signature parameters */
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
-            signature.instantiateParameters(new Asn1Null("parameters"));
+            signature.setParameters(new Asn1Null("parameters"));
         } else if (signatureParameters instanceof Asn1Field) {
-            signature.instantiateParameters((Asn1Field) signatureParameters);
+            signature.setParameters((Asn1Field) signatureParameters);
         } else {
             throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
         }
+
         signature.getParameters().getPreparator(chooser).prepare();
         signature.getPreparator(chooser).prepare();
     }
 
     private void prepareIssuer() {
-        Name issuer = tbsCertificate.getIssuer();
+        Name issuer = field.getIssuer();
         List<RelativeDistinguishedName> rdnSequence = issuer.getRelativeDistinguishedNames();
         for (RelativeDistinguishedName rdn : rdnSequence) {
             Collection<Asn1Encodable> attributeTypeAndValueList = rdn.getChildren();
@@ -120,7 +116,7 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
     }
 
     private void prepareValidity() {
-        Validity validity = tbsCertificate.getValidity();
+        Validity validity = field.getValidity();
         TimeField notAfter = validity.getNotAfter();
         encodeValidity(
                 chooser.getConfig().getNotAfter(),
@@ -128,7 +124,10 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
                 chooser.getConfig().getDefaultNotAfterEncoding(),
                 chooser.getConfig().getNotAfterAccurracy(),
                 chooser.getConfig().getTimezoneOffsetInMinutes());
-        notAfter.getPreparator(chooser).prepare();
+        prepareField(
+                notAfter,
+                chooser.getConfig().getNotAfter(),
+                chooser.getConfig().getNotAfterAccurracy());
         TimeField notBefore = validity.getNotBefore();
         encodeValidity(
                 chooser.getConfig().getNotBefore(),
@@ -136,7 +135,10 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
                 chooser.getConfig().getDefaultNotBeforeEncoding(),
                 chooser.getConfig().getNotBeforeAccurracy(),
                 chooser.getConfig().getTimezoneOffsetInMinutes());
-        notBefore.getPreparator(chooser).prepare();
+        prepareField(
+                notBefore,
+                chooser.getConfig().getNotBefore(),
+                chooser.getConfig().getNotBeforeAccurracy());
         validity.getPreparator(chooser).prepare();
     }
 
@@ -189,7 +191,7 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
     }
 
     private void prepareSubject() {
-        Name subject = tbsCertificate.getSubject();
+        Name subject = field.getSubject();
         List<RelativeDistinguishedName> rdnSequence = subject.getRelativeDistinguishedNames();
         for (RelativeDistinguishedName rdn : rdnSequence) {
 
@@ -204,7 +206,7 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
     }
 
     private void prepareSubjectPublicKeyInfo() {
-        SubjectPublicKeyInfo subjectPublicKeyInfo = tbsCertificate.getSubjectPublicKeyInfo();
+        SubjectPublicKeyInfo subjectPublicKeyInfo = field.getSubjectPublicKeyInfo();
         AlgorithmIdentifier algorithm = subjectPublicKeyInfo.getAlgorithm();
         algorithm
                 .getAlgorithm()
@@ -230,25 +232,25 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
 
     private void prepareIssuerUniqueId() {
         // IssuerUniqueID is an optional field
-        if (tbsCertificate.getIssuerUniqueID() != null) {
-            prepareField(tbsCertificate.getIssuerUniqueID(),chooser.getIssuerUniqueId(),(byte)0);
+        if (field.getIssuerUniqueId() != null) {
+            prepareField(field.getIssuerUniqueId(), chooser.getIssuerUniqueId(), (byte) 0);
         }
     }
 
     private void prepareSubjectUniqueId() {
-        if (tbsCertificate.getSubjectUniqueID() != null) {
+        if (field.getSubjectUniqueId() != null) {
             // SubjectUniqueID is an optional field
-            prepareField(tbsCertificate.getSubjectUniqueID(),chooser.getSubjectUniqueId(),(byte)0);
-        
+            prepareField(
+                    field.getSubjectUniqueId(), chooser.getConfig().getSubjectUniqueId(), (byte) 0);
+
             // TODO this should probably happen within a handler
             chooser.getContext()
-                    .setIssuerUniqueId(
-                            tbsCertificate.getSubjectUniqueID().getUsedBits().getValue());
+                    .setSubjectUniqueId(field.getSubjectUniqueId().getUsedBits().getValue());
         }
     }
 
     private void prepareExtensions() {
-        if (tbsCertificate.getExplicitExtensions() != null) {
+        if (field.getExplicitExtensions() != null) {
             LOGGER.warn("Extensions not supported yet");
         }
     }

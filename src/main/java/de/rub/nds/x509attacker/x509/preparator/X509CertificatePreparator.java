@@ -8,9 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
@@ -20,73 +17,67 @@ import de.rub.nds.protocol.crypto.signature.SignatureCalculator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certificate> implements X509Preparator {
+public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certificate>
+        implements X509Preparator {
 
     private static final Logger LOGGER = LogManager.getLogger();
-
-    private final X509Certificate certificate;
 
     private final X509Chooser chooser;
 
     public X509CertificatePreparator(X509Chooser chooser, X509Certificate certificate) {
         super(certificate);
-        this.certificate = certificate;
         this.chooser = chooser;
     }
 
     @Override
     protected byte[] encodeContent() {
-        this.certificate.getTbsCertificate().getPreparator(chooser).prepare();
+        this.field.getTbsCertificate().getPreparator(chooser).prepare();
         prepareSignatureAlgorithm();
         prepareSignature();
-        certificate.setEncodedChildren(encodedChildren(certificate.getChildren()));
-        return certificate.getEncodedChildren().getValue();
+        field.setEncodedChildren(field.getSerializer(chooser).serialize());
+        return field.getEncodedChildren().getValue();
     }
 
     private void prepareSignatureAlgorithm() {
         X509SignatureAlgorithm signatureAlgorithm = chooser.getSignatureAlgorithm();
-        certificate
-                .getSignatureAlgorithmIdentifier()
+        field.getSignatureAlgorithmIdentifier()
                 .getAlgorithm()
                 .setValue(signatureAlgorithm.getOid().toString());
-        certificate
-                .getSignatureAlgorithmIdentifier()
-                .getAlgorithm()
-                .getPreparator(chooser)
-                .prepare();
-        certificate
-                .getSignatureAlgorithmIdentifier()
-                .instantiateParameters(new Asn1Null("null")); // PARAMETERS
-        certificate.getSignatureAlgorithmIdentifier().getPreparator(chooser).prepare();
+        prepareField(
+                field.getSignatureAlgorithmIdentifier().getAlgorithm(),
+                signatureAlgorithm.getOid());
+        field.getSignatureAlgorithmIdentifier().setParameters(new Asn1Null("null")); // PARAMETERS
+        field.getSignatureAlgorithmIdentifier().getPreparator(chooser).prepare();
     }
 
     private void prepareSignature() {
         SignatureCalculator signatureCalculator = new SignatureCalculator();
 
         X509SignatureAlgorithm signatureAlgorithm = chooser.getSignatureAlgorithm();
-        if (certificate.getSignatureComputations() == null) {
-            certificate.setSignatureComputations(
+        if (field.getSignatureComputations() == null) {
+            field.setSignatureComputations(
                     signatureCalculator.createSignatureComputations(
                             signatureAlgorithm.getSignatureAlgorithm()));
         }
 
-        byte[] toBeSigned = this.certificate.getTbsCertificate().getSerializer().serialize();
+        byte[] toBeSigned = this.field.getTbsCertificate().getSerializer(chooser).serialize();
         LOGGER.debug("To be signed: {}", toBeSigned);
         signatureCalculator.computeSignature(
-                certificate.getSignatureComputations(),
+                field.getSignatureComputations(),
                 getPrivateKeyForAlgorithm(signatureAlgorithm.getSignatureAlgorithm()),
                 toBeSigned,
                 signatureAlgorithm.getSignatureAlgorithm(),
                 chooser.getSignatureAlgorithm().getHashAlgorithm());
 
         LOGGER.debug(
-                "Signature: {}",
-                certificate.getSignatureComputations().getSignatureBytes().getValue());
-        certificate
-                .getSignature()
-                .setUsedBits(certificate.getSignatureComputations().getSignatureBytes().getValue());
-        certificate.getSignature().getPreparator(chooser).prepare();
+                "Signature: {}", field.getSignatureComputations().getSignatureBytes().getValue());
+        prepareField(
+                field.getSignature(),
+                field.getSignatureComputations().getSignatureBytes().getValue(),
+                (byte) 0);
     }
 
     private PrivateKeyContainer getPrivateKeyForAlgorithm(SignatureAlgorithm signatureAlgorithm) {

@@ -8,14 +8,12 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
-import de.rub.nds.x509attacker.x509.handler.publickey.X509RsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
-import de.rub.nds.x509attacker.x509.parser.X509RsaPublicKeyParser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.preparator.publickey.X509RsaPublicKeyPreparator;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -25,44 +23,59 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
 
-    private X509RsaPublicKeyContentSequence rsaPublicKeyContentSequence;
+    private Asn1Integer modulus;
+    private Asn1Integer publicExponent;
 
-    public X509RsaPublicKey() {
-        super("rsaPublicKey");
-        rsaPublicKeyContentSequence = new X509RsaPublicKeyContentSequence("rsaPublicKeyContent");
+    private X509RsaPublicKey() {
+        super(null);
     }
 
-    public X509RsaPublicKeyContentSequence getRsaPublicKeyContentSequence() {
-        return rsaPublicKeyContentSequence;
+    public X509RsaPublicKey(String identifier) {
+        super(identifier);
+        this.modulus = new Asn1Integer("modulus");
+        this.publicExponent = new Asn1Integer("publicExponent");
+        addChild(this.modulus);
+        addChild(this.publicExponent);
     }
 
-    public void setRsaPublicKeyContentSequence(
-            X509RsaPublicKeyContentSequence rsaPublicKeyContentSequence) {
-        this.rsaPublicKeyContentSequence = rsaPublicKeyContentSequence;
+    public Asn1Integer getModulus() {
+        return modulus;
+    }
+
+    public void setModulus(Asn1Integer modulus) {
+        this.modulus = modulus;
+    }
+
+    public Asn1Integer getPublicExponent() {
+        return publicExponent;
+    }
+
+    public void setPublicExponent(Asn1Integer publicExponent) {
+        this.publicExponent = publicExponent;
+    }
+
+    @Override
+    public X509Handler getHandler(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Parser getParser(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Preparator getPreparator(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    @Override
+    public X509Serializer getSerializer(X509Chooser chooser) {
+        throw new UnsupportedOperationException("not implemented yet");
     }
 
     @Override
     public boolean isEllipticCurve() {
         return false;
-    }
-
-    @Override
-    public X509Handler getHandler(X509Chooser chooser) {
-        return new X509RsaPublicKeyHandler(chooser, this);
-    }
-
-    @Override
-    public X509Parser getParser(X509Chooser chooser) {
-        return new X509RsaPublicKeyParser(chooser, this);
-    }
-
-    @Override
-    public X509Preparator getPreparator(X509Chooser chooser) {
-        return new X509RsaPublicKeyPreparator(chooser, this);
-    }
-
-    @Override
-    public X509Serializer getSerializer(X509Chooser chooser) {
-        return rsaPublicKeyContentSequence.getSerializer(chooser);
     }
 }

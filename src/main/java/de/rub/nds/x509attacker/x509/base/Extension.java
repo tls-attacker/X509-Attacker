@@ -23,24 +23,19 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * Extension ::= SEQUENCE { extnID OBJECT IDENTIFIER, critical BOOLEAN DEFAULT
- * FALSE, extnValue
- * OCTET STRING -- contains the DER encoding of an ASN.1 value -- corresponding
- * to the extension
+ * Extension ::= SEQUENCE { extnID OBJECT IDENTIFIER, critical BOOLEAN DEFAULT FALSE, extnValue
+ * OCTET STRING -- contains the DER encoding of an ASN.1 value -- corresponding to the extension
  * type identified -- by extnID }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Extension extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier extnID;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier extnID;
 
-    @HoldsModifiableVariable
-    private Asn1Boolean critical;
+    @HoldsModifiableVariable private Asn1Boolean critical;
 
-    @HoldsModifiableVariable
-    private Asn1OctetString extnValue;
+    @HoldsModifiableVariable private Asn1OctetString extnValue;
 
     private Extension() {
         super(null);

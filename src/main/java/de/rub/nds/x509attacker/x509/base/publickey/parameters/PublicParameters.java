@@ -8,4 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey.parameters;
 
-public interface PublicParameters {}
+import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.x509attacker.x509.base.X509Component;
+
+public interface PublicParameters extends Asn1Encodable, X509Component {}

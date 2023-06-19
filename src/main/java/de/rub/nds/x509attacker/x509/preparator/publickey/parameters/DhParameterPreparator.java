@@ -29,7 +29,7 @@ public class DhParameterPreparator extends Asn1FieldPreparator<X509DhParameters>
     protected byte[] encodeContent() {
         parameters.getG().setValue(chooser.getConfig().getDhGenerator());
         parameters.getP().setValue(chooser.getConfig().getDhModulus());
-        parameters.setEncodedChildren(encodedChildren(parameters.getChildren()));
+        parameters.setEncodedChildren(field.getSerializer(chooser).serialize());
         return parameters.getEncodedChildren().getValue();
     }
 }

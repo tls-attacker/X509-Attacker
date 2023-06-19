@@ -8,11 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.extensions;
 
-import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.base.X509Component;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
@@ -23,22 +21,18 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName
- * OPTIONAL, reasons
+ * DistributionPoint ::= SEQUENCE { distributionPoint [0] DistributionPointName OPTIONAL, reasons
  * [1] ReasonFlags OPTIONAL, crlIssuer [2] GeneralNames OPTIONAL }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DistributionPoint extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private DistributionPointName distributionPointName;
+    @HoldsModifiableVariable private DistributionPointName distributionPointName;
 
-    @HoldsModifiableVariable
-    private ReasonFlags reasons;
+    @HoldsModifiableVariable private ReasonFlags reasons;
 
-    @HoldsModifiableVariable
-    private GeneralNames crlIssuer;
+    @HoldsModifiableVariable private GeneralNames crlIssuer;
 
     private DistributionPoint() {
         super(null);

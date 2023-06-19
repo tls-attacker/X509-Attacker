@@ -11,17 +11,15 @@ package de.rub.nds.x509attacker.x509.base;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.io.ByteArrayInputStream;
-
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import java.io.ByteArrayInputStream;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 public class X509CertificateTest {
 
@@ -30,8 +28,9 @@ public class X509CertificateTest {
     @BeforeEach
     public void setup() {
         ecCertificate = new X509Certificate("test");
-        X509Parser parser = ecCertificate.getParser(
-                new X509Chooser(new X509CertificateConfig(), new X509Context()));
+        X509Parser parser =
+                ecCertificate.getParser(
+                        new X509Chooser(new X509CertificateConfig(), new X509Context()));
         parser.parse(
                 new ByteArrayInputStream(
                         ArrayConverter.hexStringToByteArray(
@@ -39,8 +38,7 @@ public class X509CertificateTest {
     }
 
     @Test
-    void testGetAkid() {
-    }
+    void testGetAkid() {}
 
     @Test
     void testGetCertificateKeyType() {
@@ -55,186 +53,140 @@ public class X509CertificateTest {
     }
 
     @Test
-    void testGetEllipticCurve() {
-    }
+    void testGetEllipticCurve() {}
 
     @Test
-    void testGetExtendedKeyUsages() {
-    }
+    void testGetExtendedKeyUsages() {}
 
     @Test
-    void testGetHandler() {
-    }
+    void testGetHandler() {}
 
     @Test
-    void testGetHashAlgorithm() {
-    }
+    void testGetHashAlgorithm() {}
 
     @Test
-    void testGetIssuerString() {
-    }
+    void testGetIssuerString() {}
 
     @Test
-    void testGetKeyUsages() {
-    }
+    void testGetKeyUsages() {}
 
     @Test
-    void testGetNotAfter() {
-    }
+    void testGetNotAfter() {}
 
     @Test
-    void testGetNotBefore() {
-    }
+    void testGetNotBefore() {}
 
     @Test
-    void testGetPreparator() {
-    }
+    void testGetPreparator() {}
 
     @Test
-    void testGetPublicKey() {
-    }
+    void testGetPublicKey() {}
 
     @Test
-    void testGetPublicKeyContainer() {
-    }
+    void testGetPublicKeyContainer() {}
 
     @Test
-    void testGetPublicParameters() {
-    }
+    void testGetPublicParameters() {}
 
     @Test
-    void testGetSerializer() {
-    }
+    void testGetSerializer() {}
 
     @Test
-    void testGetSha256Fingerprint() {
-    }
+    void testGetSha256Fingerprint() {}
 
     @Test
-    void testGetSignature() {
-    }
+    void testGetSignature() {}
 
     @Test
-    void testGetSignatureAlgorithm() {
-    }
+    void testGetSignatureAlgorithm() {}
 
     @Test
-    void testGetSignatureAlgorithmIdentifier() {
-    }
+    void testGetSignatureAlgorithmIdentifier() {}
 
     @Test
-    void testGetSignatureComputations() {
-    }
+    void testGetSignatureComputations() {}
 
     @Test
-    void testGetSignatureNamedGroup() {
-    }
+    void testGetSignatureNamedGroup() {}
 
     @Test
-    void testGetSkid() {
-    }
+    void testGetSkid() {}
 
     @Test
-    void testGetSubjectAlternativeNames() {
-    }
+    void testGetSubjectAlternativeNames() {}
 
     @Test
-    void testGetSubjectString() {
-    }
+    void testGetSubjectString() {}
 
     @Test
-    void testGetTbsCertificate() {
-    }
+    void testGetTbsCertificate() {}
 
     @Test
-    void testGetX509Version() {
-    }
+    void testGetX509Version() {}
 
     @Test
-    void testHasCertificateRevocationList() {
-    }
+    void testHasCertificateRevocationList() {}
 
     @Test
-    void testHasExtendedKeyUsageExtension() {
-    }
+    void testHasExtendedKeyUsageExtension() {}
 
     @Test
-    void testHasOcsp() {
-    }
+    void testHasOcsp() {}
 
     @Test
-    void testHasSanExtension() {
-    }
+    void testHasSanExtension() {}
 
     @Test
-    void testHasSignedCertificateTransparencyEntry() {
-    }
+    void testHasSignedCertificateTransparencyEntry() {}
 
     @Test
-    void testHasWeakBlacklistedDebianKey() {
-    }
+    void testHasWeakBlacklistedDebianKey() {}
 
     @Test
-    void testIsCommonNameValidForUri() {
-    }
+    void testIsCommonNameValidForUri() {}
 
     @Test
-    void testIsEllipticCurveCertificate() {
-    }
+    void testIsEllipticCurveCertificate() {}
 
     @Test
-    void testIsExpired() {
-    }
+    void testIsExpired() {}
 
     @Test
-    void testIsIpOrDomain() {
-    }
+    void testIsIpOrDomain() {}
 
     @Test
-    void testIsLeaf() {
-    }
+    void testIsLeaf() {}
 
     @Test
-    void testIsOcspMustStaple() {
-    }
+    void testIsOcspMustStaple() {}
 
     @Test
-    void testIsRevokedCrl() {
-    }
+    void testIsRevokedCrl() {}
 
     @Test
-    void testIsRevokedOcsp() {
-    }
+    void testIsRevokedOcsp() {}
 
     @Test
-    void testIsSanValidForUri() {
-    }
+    void testIsSanValidForUri() {}
 
     @Test
-    void testIsSelfSigned() {
-    }
+    void testIsSelfSigned() {}
 
     @Test
-    void testIsValidLeafForUri() {
-    }
+    void testIsValidLeafForUri() {}
 
     @Test
-    void testIsYetValid() {
-    }
+    void testIsYetValid() {}
 
     @Test
-    void testSetSignature() {
-    }
+    void testSetSignature() {}
 
     @Test
-    void testSetSignatureAlgorithmIdentifier() {
-    }
+    void testSetSignatureAlgorithmIdentifier() {}
 
     @Test
-    void testSetSignatureComputations() {
-    }
+    void testSetSignatureComputations() {}
 
     @Test
-    void testSetTbsCertificate() {
-    }
+    void testSetTbsCertificate() {}
 }

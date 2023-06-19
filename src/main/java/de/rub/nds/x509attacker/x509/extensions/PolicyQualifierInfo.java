@@ -24,8 +24,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId,
- * qualifier ANY DEFINED BY
+ * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId, qualifier ANY DEFINED BY
  * policyQualifierId } }
  */
 @XmlRootElement
@@ -33,10 +32,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable
-    private Asn1ObjectIdentifier policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
+    private Asn1ObjectIdentifier
+            policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
     // id-qt-unotice )
-    @HoldsModifiableVariable
-    private Asn1Encodable qualifier;
+    @HoldsModifiableVariable private Asn1Encodable qualifier;
 
     private PolicyQualifierInfo() {
         super(null);

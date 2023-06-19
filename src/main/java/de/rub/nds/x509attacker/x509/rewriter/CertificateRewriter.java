@@ -8,20 +8,18 @@
  */
 package de.rub.nds.x509attacker.x509.rewriter;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.modifiablevariable.util.Modifiable;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CertificateRewriter {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    public CertificateRewriter() {
-    }
+    public CertificateRewriter() {}
 
     public void fixateNonContainerContent(Asn1Container container) {
         for (Asn1Encodable encodable : container.getChildren()) {
@@ -42,7 +40,7 @@ public class CertificateRewriter {
                     .setContent(
                             Modifiable.explicit(((Asn1Field) encodable).getContent().getValue()));
         } else if ((((Asn1Field) encodable).getContent() == null
-                || ((Asn1Field) encodable).getContent().getValue() == null)
+                        || ((Asn1Field) encodable).getContent().getValue() == null)
                 && encodable.isOptional()) {
             Asn1Field field = (Asn1Field) encodable;
             field.setContent(Modifiable.explicit(new byte[0]));

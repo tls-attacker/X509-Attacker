@@ -24,18 +24,15 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * OtherName ::= SEQUENCE { type-id OBJECT IDENTIFIER, value [0] EXPLICIT ANY
- * DEFINED BY type-id } }
+ * OtherName ::= SEQUENCE { type-id OBJECT IDENTIFIER, value [0] EXPLICIT ANY DEFINED BY type-id } }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class OtherName extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier typeId;
+    @HoldsModifiableVariable private Asn1ObjectIdentifier typeId;
 
-    @HoldsModifiableVariable
-    private Asn1Encodable value;
+    @HoldsModifiableVariable private Asn1Encodable value;
 
     private OtherName() {
         super(null);

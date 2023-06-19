@@ -8,14 +8,20 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
+import de.rub.nds.asn1.model.Asn1BmpString;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1PrintableString;
+import de.rub.nds.asn1.model.Asn1T61String;
+import de.rub.nds.asn1.model.Asn1UniversalString;
 import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.DirectoryStringHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.DirectoryStringParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.DirectoryStringPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.DirectoryStringSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -23,35 +29,29 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlTransient;
 
 /**
- * // @formatter:off
-   DirectoryString ::= CHOICE {
- *       teletexString           TeletexString (SIZE (1..MAX)),
- *       printableString         PrintableString (SIZE (1..MAX)),
- *       universalString         UniversalString (SIZE (1..MAX)),
- *       utf8String              UTF8String (SIZE (1..MAX)),
- *       bmpString               BMPString (SIZE (1..MAX)) }
- * // @formatter:on
+ * // @formatter:off DirectoryString ::= CHOICE { teletexString TeletexString (SIZE (1..MAX)),
+ * printableString PrintableString (SIZE (1..MAX)), universalString UniversalString (SIZE (1..MAX)),
+ * utf8String UTF8String (SIZE (1..MAX)), bmpString BMPString (SIZE (1..MAX)) } // @formatter:on
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class DirectoryString extends Asn1Choice implements X509Component {
 
-    @XmlTransient
-    private Asn1TeletexString teletexString;
-    @XmlTransient
-    private Asn1PrintableString printableString;
-    @XmlTransient
-    private Asn1UniversalString universalString;
-    @XmlTransient
-    private Asn1Utf8String utf8String;
-    @XmlTransient
-    private Asn1BmpString bmpString;
+    @XmlTransient private Asn1T61String teletexString;
+    @XmlTransient private Asn1PrintableString printableString;
+    @XmlTransient private Asn1UniversalString universalString;
+    @XmlTransient private Asn1Utf8String utf8String;
+    @XmlTransient private Asn1BmpString bmpString;
 
     private DirectoryString() {
-        super(new Asn1TeleTexString("TeletexString", 0), new Asn1PrintableString("PrintableString", 1),
-                new Asn1UniversalString("UniversalString", 2), new Asn1Utf8String("UTF8String", 3),
+        super(
+                "directoryString",
+                new Asn1T61String("TeletexString", 0),
+                new Asn1PrintableString("PrintableString", 1),
+                new Asn1UniversalString("UniversalString", 2),
+                new Asn1Utf8String("UTF8String", 3),
                 new Asn1BmpString("BMPString", 4));
-        teletexString = (Asn1TeletexString) getSelecteableEncodables().get(0);
+        teletexString = (Asn1T61String) getSelecteableEncodables().get(0);
         printableString = (Asn1PrintableString) getSelecteableEncodables().get(1);
         universalString = (Asn1UniversalString) getSelecteableEncodables().get(2);
         utf8String = (Asn1Utf8String) getSelecteableEncodables().get(3);
@@ -62,7 +62,7 @@ public class DirectoryString extends Asn1Choice implements X509Component {
         this();
     }
 
-    public Asn1TeletexString getTeletexString() {
+    public Asn1T61String getTeletexString() {
         return teletexString;
     }
 

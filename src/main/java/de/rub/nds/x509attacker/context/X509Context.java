@@ -36,6 +36,8 @@ public class X509Context {
 
     private byte[] issuerUniqueId = null;
 
+    private byte[] subjectUniqueId = null;
+
     private X509NamedCurve issuerNamedCurve = null;
 
     private List<Pair<X500AttributeType, String>> issuer = null;
@@ -290,5 +292,13 @@ public class X509Context {
 
     public void setSubjectRsaPublicExponent(BigInteger subjectRsaPublicExponent) {
         this.subjectRsaPublicExponent = subjectRsaPublicExponent;
+    }
+
+    public byte[] getSubjectUniqueId() {
+        return subjectUniqueId;
+    }
+
+    public void setSubjectUniqueId(byte[] subjectUniqueId) {
+        this.subjectUniqueId = subjectUniqueId;
     }
 }

@@ -25,8 +25,7 @@ public class X509RsaPublicKeyHandler extends X509Handler {
     @Override
     public void adjustContext() {
         context.setSubjectPublicKeyType(X509PublicKeyType.RSA);
-        context.setSubjectRsaModulus(
-                publicKey.getRsaPublicKeyContentSequence().getModulus().getValue().getValue());
+        context.setSubjectRsaModulus(publicKey.getModulus().getValue().getValue());
         context.setSubjectRsaPrivateKey(config.getRsaPrivateKey());
     }
 }

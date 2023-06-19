@@ -8,13 +8,10 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PushbackInputStream;
-
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.X509RsaPublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509RsaPublicKeyContentSequence;
+import java.io.PushbackInputStream;
 
 public class X509RsaPublicKeyParser extends X509Asn1FieldParser<X509RsaPublicKey> {
 
@@ -23,26 +20,8 @@ public class X509RsaPublicKeyParser extends X509Asn1FieldParser<X509RsaPublicKey
     }
 
     @Override
-    public void parse(InputStream inputStream) {
-        encodable.getRsaPublicKeyContentSequence().getParser(chooser).parse(inputStream);
-    }
-
-    @Override
-    public void parseWithoutTag(InputStream inputStream, byte[] tagOctets) {
-        encodable
-                .getRsaPublicKeyContentSequence()
-                .getParser(chooser)
-                .parseWithoutTag(inputStream, tagOctets);
-    }
-
-    @Override
-    public void parseIndividualContentFields(InputStream inputStream) throws IOException {
-        X509RsaPublicKeyContentSequence rsaContentSequence = encodable.getRsaPublicKeyContentSequence();
-        rsaContentSequence.getParser(chooser).parseIndividualContentFields(inputStream);
-    }
-
-    @Override
     protected void parseContent(PushbackInputStream inputStream) {
-        throw new UnsupportedOperationException("Unimplemented method 'parseContent'");
+        ParserHelper.parseAsn1Integer(encodable.getModulus(), inputStream);
+        ParserHelper.parseAsn1Integer(encodable.getPublicExponent(), inputStream);
     }
 }

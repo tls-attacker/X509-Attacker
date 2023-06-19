@@ -29,35 +29,25 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TbsCertificate extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private Version version;
+    @HoldsModifiableVariable private Version version;
 
-    @HoldsModifiableVariable
-    private Asn1Integer serialNumber;
+    @HoldsModifiableVariable private Asn1Integer serialNumber;
 
-    @HoldsModifiableVariable
-    private CertificateSignatureAlgorithmIdentifier signature;
+    @HoldsModifiableVariable private CertificateSignatureAlgorithmIdentifier signature;
 
-    @HoldsModifiableVariable
-    private Name issuer;
+    @HoldsModifiableVariable private Name issuer;
 
-    @HoldsModifiableVariable
-    private Validity validity;
+    @HoldsModifiableVariable private Validity validity;
 
-    @HoldsModifiableVariable
-    private Name subject;
+    @HoldsModifiableVariable private Name subject;
 
-    @HoldsModifiableVariable
-    private SubjectPublicKeyInfo subjectPublicKeyInfo;
+    @HoldsModifiableVariable private SubjectPublicKeyInfo subjectPublicKeyInfo;
 
-    @HoldsModifiableVariable
-    private Asn1BitString issuerUniqueId;
+    @HoldsModifiableVariable private Asn1BitString issuerUniqueId;
 
-    @HoldsModifiableVariable
-    private Asn1BitString subjectUniqueId;
+    @HoldsModifiableVariable private Asn1BitString subjectUniqueId;
 
-    @HoldsModifiableVariable
-    private ExplicitExtensions explicitExtensions;
+    @HoldsModifiableVariable private ExplicitExtensions explicitExtensions;
 
     private TbsCertificate() {
         super(null);

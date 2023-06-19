@@ -8,20 +8,18 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import java.io.ByteArrayInputStream;
-import java.security.Security;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-import org.bouncycastle.jce.provider.BouncyCastleProvider;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Test;
-
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.base.X509Certificate;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import java.io.ByteArrayInputStream;
+import java.security.Security;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.bouncycastle.jce.provider.BouncyCastleProvider;
+import org.junit.jupiter.api.Assertions;
+import org.junit.jupiter.api.Test;
 
 public class X509CertificatePreparatorTest {
 

@@ -1,22 +1,19 @@
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2023 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 package de.rub.nds.x509attacker.x509.parser;
-
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PushbackInputStream;
-import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Objects;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.constants.TagConstructed;
 import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Boolean;
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1GeneralizedTime;
 import de.rub.nds.asn1.model.Asn1Ia5String;
@@ -35,28 +32,36 @@ import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.util.Asn1Header;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.protocol.exception.ParserException;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.PushbackInputStream;
+import java.math.BigInteger;
+import java.util.Arrays;
+import java.util.Objects;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
-public class ParserHelper {
+public class Asn1ParserHelper {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private ParserHelper() {
-    }
+    private Asn1ParserHelper() {}
 
     /**
-     * Parses the next field in the stream as the provided tag number. Parses as
-     * unknown if the
-     * tag number in the stream mismatches or if the tag number is not implemented.
-     * The tagClass has to be universal, otherwise a parser exception is thrown. The
-     * parameter is there for a sanity check.
+     * Parses the next field in the stream as the provided tag number. Parses as unknown if the tag
+     * number in the stream mismatches or if the tag number is not implemented. The tagClass has to
+     * be universal, otherwise a parser exception is thrown. The parameter is there for a sanity
+     * check.
      *
      * @param inputStream the stream to parse from
-     * @param tagClass    the tag class to parse
-     * @param tagNumber   the tag number to parse
+     * @param tagClass the tag class to parse
+     * @param tagNumber the tag number to parse
      * @return the parsed field
      */
-    public static Asn1Field parseTagNumberOrUnkownField(PushbackInputStream inputStream, TagClass tagClass,
-            UniversalTagNumber... tagNumbers) {
+    public static Asn1Field parseTagNumberOrUnkownField(
+            PushbackInputStream inputStream, TagClass tagClass, UniversalTagNumber... tagNumbers) {
         if (tagNumbers.length == 0) {
             throw new ParserException("No tag numbers provided");
         }
@@ -79,24 +84,48 @@ public class ParserHelper {
         }
     }
 
-    public static void parseGenericField(Asn1Encodeable encodable)
-    {
-        
+    public static void parseGenericField(Asn1Encodable encodable, PushbackInputStream inputStream) {
+        if (encodable instanceof Asn1Integer) {
+            parseAsn1Integer((Asn1Integer) encodable, inputStream);
+        } else if (encodable instanceof Asn1BitString) {
+            parseAsn1BitString((Asn1BitString) encodable, inputStream);
+        } else if (encodable instanceof Asn1Boolean) {
+            parseAsn1Boolean((Asn1Boolean) encodable, inputStream);
+        } else if (encodable instanceof Asn1GeneralizedTime) {
+            parseAsn1GeneralizedTime((Asn1GeneralizedTime) encodable, inputStream);
+        } else if (encodable instanceof Asn1Ia5String) {
+            parseAsn1Ia5String((Asn1Ia5String) encodable, inputStream);
+        } else if (encodable instanceof Asn1Null) {
+            parseAsn1Null((Asn1Null) encodable, inputStream);
+        } else if (encodable instanceof Asn1ObjectIdentifier) {
+            parseAsn1ObjectIdentifier((Asn1ObjectIdentifier) encodable, inputStream);
+        } else if (encodable instanceof Asn1OctetString) {
+            parseAsn1OctetString((Asn1OctetString) encodable, inputStream);
+        } else if (encodable instanceof Asn1PrintableString) {
+            parseAsn1PrintableString((Asn1PrintableString) encodable, inputStream);
+        } else if (encodable instanceof Asn1T61String) {
+            parseAsn1T61String((Asn1T61String) encodable, inputStream);
+        } else if (encodable instanceof Asn1UtcTime) {
+            parseAsn1UtcTime((Asn1UtcTime) encodable, inputStream);
+        } else if (encodable instanceof Asn1Utf8String) {
+            parseAsn1Utf8String((Asn1Utf8String) encodable, inputStream);
+        } else {
+            parseUnknownField((Asn1Field) encodable, inputStream);
+        }
     }
 
     /**
-     * Strictly parses the next field in the stream as of of the provided tag
-     * number.
-     * Throws a ParserException if the next tag number is not exepected. If
-     * a not implemented tag number is requested an unknown field is parsed.
-     * 
+     * Strictly parses the next field in the stream as of of the provided tag number. Throws a
+     * ParserException if the next tag number is not exepected. If a not implemented tag number is
+     * requested an unknown field is parsed.
+     *
      * @param inputStream the stream to parse from
-     * @param tagClass    the tag class to parse
-     * @param tagNumbers  The tag numbers to parse
+     * @param tagClass the tag class to parse
+     * @param tagNumbers The tag numbers to parse
      * @return
      */
-    public static Asn1Field parseTagNumberField(PushbackInputStream inputStream, TagClass tagClass,
-            UniversalTagNumber... tagNumbers) {
+    public static Asn1Field parseTagNumberField(
+            PushbackInputStream inputStream, TagClass tagClass, UniversalTagNumber... tagNumbers) {
         if (tagClass != TagClass.UNIVERSAL) {
             throw new ParserException("Cannot parse this tag number generically.");
         }
@@ -110,14 +139,18 @@ public class ParserHelper {
             }
         }
         if (foundNumber == null) {
-            throw new ParserException("Unexpected tagNumber. Found: " + header.getTagNumber() + " but expected "
-                    + Arrays.toString(tagNumbers));
+            throw new ParserException(
+                    "Unexpected tagNumber. Found: "
+                            + header.getTagNumber()
+                            + " but expected "
+                            + Arrays.toString(tagNumbers));
         } else {
             return parseTagNumberField(inputStream, foundNumber);
         }
     }
 
-    public static Asn1Field parseTagNumberField(PushbackInputStream inputStream, UniversalTagNumber tagNumber) {
+    public static Asn1Field parseTagNumberField(
+            PushbackInputStream inputStream, UniversalTagNumber tagNumber) {
         switch (tagNumber) {
             case BIT_STRING:
                 Asn1BitString bitstring = new Asn1BitString("bitString");
@@ -128,7 +161,8 @@ public class ParserHelper {
                 parseAsn1Boolean(asn1Boolean, inputStream);
                 return asn1Boolean;
             case GENERALIZEDTIME:
-                Asn1GeneralizedTime asn1GeneralizedTime = new Asn1GeneralizedTime("generalizedTime");
+                Asn1GeneralizedTime asn1GeneralizedTime =
+                        new Asn1GeneralizedTime("generalizedTime");
                 parseAsn1GeneralizedTime(asn1GeneralizedTime, inputStream);
                 return asn1GeneralizedTime;
             case IA5STRING:
@@ -148,11 +182,13 @@ public class ParserHelper {
                 parseAsn1OctetString(asn1OctetString, inputStream);
                 return asn1OctetString;
             case PRINTABLESTRING:
-                Asn1PrintableString asn1PrintableString = new Asn1PrintableString("printableString");
+                Asn1PrintableString asn1PrintableString =
+                        new Asn1PrintableString("printableString");
                 parseAsn1PrintableString(asn1PrintableString, inputStream);
                 return asn1PrintableString;
             case OBJECT_IDENTIFIER:
-                Asn1ObjectIdentifier asn1ObjectIdentifier = new Asn1ObjectIdentifier("objectIdentifier");
+                Asn1ObjectIdentifier asn1ObjectIdentifier =
+                        new Asn1ObjectIdentifier("objectIdentifier");
                 parseAsn1ObjectIdentifier(asn1ObjectIdentifier, inputStream);
                 return asn1ObjectIdentifier;
             case SEQUENCE:
@@ -183,16 +219,24 @@ public class ParserHelper {
         }
     }
 
+    public static void parseUnknownField(Asn1Field field, PushbackInputStream inputStream) {
+        parseStructure(field, inputStream);
+    }
+
     public static Asn1Field parseUnknown(PushbackInputStream inputStream) {
         Asn1Header header = lookAhead(inputStream);
-        Asn1UnknownField unknownField = new Asn1UnknownField("unknown", header.getTagClass(),
-                header.getTagConstructed(), header.getTagNumber());
+        Asn1UnknownField unknownField =
+                new Asn1UnknownField(
+                        "unknown",
+                        header.getTagClass(),
+                        header.getTagConstructed(),
+                        header.getTagNumber());
         parseStructure(unknownField, inputStream);
         return unknownField;
     }
 
-    public static UniversalTagNumber canParse(PushbackInputStream inputStream, TagClass tagClass,
-            UniversalTagNumber... tagNumbers) {
+    public static UniversalTagNumber canParse(
+            PushbackInputStream inputStream, TagClass tagClass, UniversalTagNumber... tagNumbers) {
         Asn1Header header = lookAhead(inputStream);
         if (header.getTagClass() != tagClass) {
             return null;
@@ -223,7 +267,10 @@ public class ParserHelper {
 
             BigInteger parseLength = parseLength(lengthOctets);
             inputStream.reset();
-            return new Asn1Header(TagClass.fromIntValue(tagClass), parseTagNumber, parseLength,
+            return new Asn1Header(
+                    TagClass.fromIntValue(tagClass),
+                    parseTagNumber,
+                    parseLength,
                     TagConstructed.fromBooleanValue(constructed));
         } catch (IOException e) {
             throw new ParserException("Failed to look ahead.", e);
@@ -231,10 +278,8 @@ public class ParserHelper {
     }
 
     /**
-     * Parses TagOctets, TagClass, TagConstructed, TagNumber, ContentLength and
-     * Content octets. Sets
-     * the constants in the field and checks that the they match the expected ones.
-     * If not a
+     * Parses TagOctets, TagClass, TagConstructed, TagNumber, ContentLength and Content octets. Sets
+     * the constants in the field and checks that the they match the expected ones. If not a
      * ParserException is thrown. Does not parse the content octets
      *
      * @param field
@@ -341,7 +386,8 @@ public class ParserHelper {
      * @param asn1OctetString
      * @param inputStream
      */
-    public static void parseAsn1OctetString(Asn1OctetString asn1OctetString, InputStream inputStream) {
+    public static void parseAsn1OctetString(
+            Asn1OctetString asn1OctetString, InputStream inputStream) {
         parseStructure(asn1OctetString, inputStream);
         parseOctetStringContent(asn1OctetString);
     }
@@ -431,7 +477,8 @@ public class ParserHelper {
         try {
             asn1BitString.setUnusedBits((byte) inputStream.read());
             byte[] remainingBytes;
-            remainingBytes = inputStream.readNBytes(asn1BitString.getLength().getValue().intValue() - 1);
+            remainingBytes =
+                    inputStream.readNBytes(asn1BitString.getLength().getValue().intValue() - 1);
 
             LOGGER.debug("Unused bits: {}", asn1BitString.getUnusedBits().getValue());
             LOGGER.debug("Remaining bytes: {}", ArrayConverter.bytesToHexString(remainingBytes));
@@ -447,7 +494,7 @@ public class ParserHelper {
             LOGGER.debug(
                     "Padding: {}",
                     ArrayConverter.bytesToHexString(
-                            new byte[] { asn1BitString.getPadding().getValue() }));
+                            new byte[] {asn1BitString.getPadding().getValue()}));
         } catch (IOException e) {
             throw new ParserException("Could not parse BitString", e);
         }
@@ -529,7 +576,7 @@ public class ParserHelper {
             return tagByteStream.toByteArray();
         } else {
             // Short tag
-            byte[] tag = new byte[] { (byte) read };
+            byte[] tag = new byte[] {(byte) read};
             LOGGER.debug("Parsed short tag octets: {}", tag);
             return tag;
         }
@@ -583,7 +630,8 @@ public class ParserHelper {
         return length;
     }
 
-    public static byte[] parseLengthOctets(InputStream inputStream) throws ParserException, IOException {
+    public static byte[] parseLengthOctets(InputStream inputStream)
+            throws ParserException, IOException {
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         byte lengthByte;
         try {
@@ -649,8 +697,10 @@ public class ParserHelper {
                             + ")");
         }
         if (field.getTagConstructedType() != null
-                && field.getTagConstructedType().getBooleanValue() != field.getTagConstructed().getValue()) {
-            TagConstructed foundTagConstructed = TagConstructed.fromBooleanValue(field.getTagConstructed().getValue());
+                && field.getTagConstructedType().getBooleanValue()
+                        != field.getTagConstructed().getValue()) {
+            TagConstructed foundTagConstructed =
+                    TagConstructed.fromBooleanValue(field.getTagConstructed().getValue());
             throw new ParserException(
                     "TagConstructedType did not match expectations expected "
                             + field.getTagConstructedType().name()
@@ -666,7 +716,8 @@ public class ParserHelper {
                 && !Objects.equals(
                         field.getUniversalTagNumberType().getIntValue(),
                         field.getTagNumber().getValue())) {
-            UniversalTagNumber foundTagNumber = UniversalTagNumber.fromIntValue(field.getTagNumber().getValue());
+            UniversalTagNumber foundTagNumber =
+                    UniversalTagNumber.fromIntValue(field.getTagNumber().getValue());
             throw new ParserException(
                     "TagNumber did not match expectations expected "
                             + field.getUniversalTagNumberType().name()

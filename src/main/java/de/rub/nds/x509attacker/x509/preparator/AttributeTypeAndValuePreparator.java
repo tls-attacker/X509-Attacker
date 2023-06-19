@@ -8,9 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Ia5String;
 import de.rub.nds.asn1.model.Asn1PrintableString;
@@ -21,6 +18,8 @@ import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<AttributeTypeAndValue>
         implements X509Preparator {
@@ -40,7 +39,7 @@ public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<Attribu
     protected byte[] encodeContent() {
         prepareTypeConfig();
         prepareTypeValue();
-        instance.setEncodedChildren(encodedChildren(instance.getChildren()));
+        instance.setEncodedChildren(field.getSerializer(chooser).serialize());
         return instance.getEncodedChildren().getValue();
     }
 
@@ -48,7 +47,8 @@ public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<Attribu
         Asn1Field valueField = instance.getValue();
         String value = instance.getValueConfig();
         if (value == null) {
-            LOGGER.warn("AttributeTypeAndValue value config is not set - using an empty string \"\"");
+            LOGGER.warn(
+                    "AttributeTypeAndValue value config is not set - using an empty string \"\"");
             value = "";
         }
         if (valueField instanceof Asn1Utf8String) {

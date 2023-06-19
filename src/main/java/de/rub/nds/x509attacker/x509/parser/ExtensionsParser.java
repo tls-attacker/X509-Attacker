@@ -8,13 +8,12 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.IOException;
-import java.io.PushbackInputStream;
-
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.Extension;
 import de.rub.nds.x509attacker.x509.base.Extensions;
+import java.io.IOException;
+import java.io.PushbackInputStream;
 
 public class ExtensionsParser extends X509Asn1FieldParser<Extensions> {
 

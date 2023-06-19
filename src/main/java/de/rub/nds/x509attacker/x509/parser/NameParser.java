@@ -8,19 +8,17 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.IOException;
-import java.io.PushbackInputStream;
-
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.Name;
 import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
+import java.io.IOException;
+import java.io.PushbackInputStream;
 
 public class NameParser extends X509Asn1FieldParser<Name> {
 
     public NameParser(X509Chooser chooser, Name name) {
         super(chooser, name);
-
     }
 
     @Override

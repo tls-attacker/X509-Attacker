@@ -30,7 +30,7 @@ public class DssParameterPreparator extends Asn1FieldPreparator<X509DssParameter
         prepareField(parameters.getQ(), chooser.getConfig().getDsaPrimeQ());
         prepareField(parameters.getG(), chooser.getConfig().getDsaGenerator());
         prepareField(parameters.getP(), chooser.getConfig().getDsaPrimeP());
-        parameters.setEncodedChildren(encodedChildren(parameters.getChildren()));
+        parameters.setEncodedChildren(field.getSerializer(chooser).serialize());
         return parameters.getEncodedChildren().getValue();
     }
 }

@@ -29,9 +29,7 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class CertificatePolicies extends Asn1Sequence implements X509Component {
 
-    @XmlElementWrapper
-    @XmlElementRef
-    @HoldsModifiableVariable
+    @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<PolicyInformation> policyInformation;
 
     private CertificatePolicies() {

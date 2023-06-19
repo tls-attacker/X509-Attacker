@@ -9,15 +9,16 @@
 package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.DirectoryString;
 
-public class EmptyHandler extends X509Handler {
+public class DirectoryStringHandler extends X509Handler {
 
-    public EmptyHandler(X509Chooser chooser) {
+    public DirectoryStringHandler(X509Chooser chooser, DirectoryString directoryString) {
         super(chooser);
     }
 
     @Override
     public void adjustContext() {
-        // Nothing to do
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContext'");
     }
 }

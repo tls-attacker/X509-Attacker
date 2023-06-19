@@ -8,12 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.PushbackInputStream;
-
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.base.publickey.X509DhPublicKey;
+import java.io.PushbackInputStream;
 
 public class X509DhPublicKeyParser extends X509Asn1FieldParser<X509DhPublicKey> {
 

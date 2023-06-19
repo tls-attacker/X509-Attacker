@@ -8,39 +8,24 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.InputStream;
-
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
+import java.io.PushbackInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import de.rub.nds.asn1.parser.Asn1Parser;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
+public class SubjectPublicKeyInfoParser extends X509Asn1FieldParser<SubjectPublicKeyInfo> {
 
-public class SubjectPublicKeyInfoParser extends Asn1Parser<SubjectPublicKeyInfo> implements X509Parser {
-
+    @SuppressWarnings("unused")
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final X509Chooser chooser;
-
     public SubjectPublicKeyInfoParser(X509Chooser chooser, SubjectPublicKeyInfo field) {
-        super(field);
-        this.chooser = chooser;
+        super(chooser, field);
     }
 
     @Override
-    public void parse(InputStream inputStream) {
-        switch (chooser.getSubjectPublicKeyType()) {
-            case ECDH_ECDSA:
-                LOGGER.debug("Predicted EcNamedCurveParameters");
-                return new X509EcNamedCurveParameters("EcNamedCurveParameters");
-            case DH:
-                LOGGER.debug("Predicted DhParameters");
-                return new X509DhParameters("DhParameters");
-            default:
-                return null;
-        }
+    protected void parseContent(PushbackInputStream inputStream) {
+        encodable.getAlgorithm().getParser(chooser).parse(inputStream);
+        encodable.getSubjectPublicKeyBitString().getParser(chooser).parse(inputStream);
     }
 }

@@ -82,6 +82,6 @@ public class X509EcdhPublicKey extends Asn1OctetString implements PublicKeyConte
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509Asn1FieldSerializer(this); //TODO not sure this is correct
+        return new X509Asn1FieldSerializer(this); // TODO not sure this is correct
     }
 }

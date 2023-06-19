@@ -1,3 +1,11 @@
+/*
+ * X509-Attacker - A tool for creating arbitrary certificates
+ *
+ * Copyright 2014-2023 Ruhr University Bochum, Paderborn University, and Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 package de.rub.nds.x509attacker.x509.base;
 
 import de.rub.nds.asn1.model.Asn1Choice;
@@ -15,27 +23,20 @@ import jakarta.xml.bind.annotation.XmlTransient;
 
 public class GeneralName extends Asn1Choice implements X509Component {
 
-    @XmlTransient
-    private final OtherName otherName;
-    @XmlTransient
-    private final Asn1Ia5String rfc822Name;
-    @XmlTransient
-    private final Asn1Ia5String dnsName;
-    @XmlTransient
-    private final OrAddress x400Address;
-    @XmlTransient
-    private final Name directoryName;
-    @XmlTransient
-    private final EdiPartyName ediPartyName;
-    @XmlTransient
-    private final Asn1Ia5String uniformResourceIdentifier;
-    @XmlTransient
-    private final Asn1OctetString ipAddress;
-    @XmlTransient
-    private final ObjectIdentifier registeredId;
+    @XmlTransient private final OtherName otherName;
+    @XmlTransient private final Asn1Ia5String rfc822Name;
+    @XmlTransient private final Asn1Ia5String dnsName;
+    @XmlTransient private final OrAddress x400Address;
+    @XmlTransient private final Name directoryName;
+    @XmlTransient private final EdiPartyName ediPartyName;
+    @XmlTransient private final Asn1Ia5String uniformResourceIdentifier;
+    @XmlTransient private final Asn1OctetString ipAddress;
+    @XmlTransient private final ObjectIdentifier registeredId;
 
     public GeneralName(String identifier) {
-        super(identifier, new OtherName("otherName", 0),
+        super(
+                identifier,
+                new OtherName("otherName", 0),
                 new Asn1Ia5String("rfc822Name", 1),
                 new Asn1Ia5String("dNSName", 2),
                 new OrAddress("x400Address", 3),

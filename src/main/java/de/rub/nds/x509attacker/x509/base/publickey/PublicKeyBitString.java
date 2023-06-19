@@ -96,7 +96,7 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
             case KEA:
                 throw new UnsupportedOperationException("KEA no supported");
             case RSA:
-                return new X509RsaPublicKey();
+                return new X509RsaPublicKey("rsaPublicKey");
             case RSAES_OAEP:
                 throw new UnsupportedOperationException("RSAoaep no supported");
             case RSASSA_PSS:

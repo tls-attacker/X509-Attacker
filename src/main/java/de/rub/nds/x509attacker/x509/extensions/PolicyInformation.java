@@ -22,12 +22,10 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * PolicyInformation ::= SEQUENCE { policyIdentifier CertPolicyId,
- * policyQualifiers SEQUENCE SIZE
+ * PolicyInformation ::= SEQUENCE { policyIdentifier CertPolicyId, policyQualifiers SEQUENCE SIZE
  * (1..MAX) OF PolicyQualifierInfo OPTIONAL }
  *
- * <p>
- * CertPolicyId ::= OBJECT IDENTIFIER
+ * <p>CertPolicyId ::= OBJECT IDENTIFIER
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -36,8 +34,7 @@ public class PolicyInformation extends Asn1Sequence implements X509Component {
     @HoldsModifiableVariable
     private Asn1ObjectIdentifier policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
 
-    @HoldsModifiableVariable
-    private PolicyQualifiers policyQualifiers;
+    @HoldsModifiableVariable private PolicyQualifiers policyQualifiers;
 
     private PolicyInformation() {
         super(null);

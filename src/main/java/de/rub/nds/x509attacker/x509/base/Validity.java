@@ -27,11 +27,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Validity extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private TimeField notBefore;
+    @HoldsModifiableVariable private TimeField notBefore;
 
-    @HoldsModifiableVariable
-    private TimeField notAfter;
+    @HoldsModifiableVariable private TimeField notAfter;
 
     private Validity() {
         super(null);

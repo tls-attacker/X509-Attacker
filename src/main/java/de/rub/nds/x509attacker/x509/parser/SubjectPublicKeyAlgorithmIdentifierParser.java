@@ -8,17 +8,16 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.PushbackInputStream;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyAlgorithmIdentifier;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
+import java.io.PushbackInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SubjectPublicKeyAlgorithmIdentifierParser
         extends X509Asn1FieldParser<SubjectPublicKeyAlgorithmIdentifier> {
@@ -35,19 +34,23 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
 
     @Override
     protected void parseContent(PushbackInputStream inputStream) {
-        ObjectIdentifier objectIdentifier = new ObjectIdentifier(
-                algorithmIdentifier.getAlgorithm().getValue().getValue());
+        ObjectIdentifier objectIdentifier =
+                new ObjectIdentifier(algorithmIdentifier.getAlgorithm().getValue().getValue());
         LOGGER.debug("ObjectIdentifier: {}", objectIdentifier);
-
         switch (X509PublicKeyType.decodeFromOidBytes(objectIdentifier.getEncoded())) {
             case ECDH_ECDSA:
                 LOGGER.debug("Predicted EcNamedCurveParameters");
-                return new X509EcNamedCurveParameters("EcNamedCurveParameters");
+                PublicParameters parameters =
+                        new X509EcNamedCurveParameters("EcNamedCurveParameters");
+                parameters.getParser(chooser).parse(inputStream);
+                break;
             case DH:
                 LOGGER.debug("Predicted DhParameters");
-                return new X509DhParameters("DhParameters");
+                parameters = new X509DhParameters("DhParameters");
+                break;
             default:
-                return null;
+                parameters = null;
+                break;
         }
     }
 }
