@@ -64,12 +64,12 @@ public class NameHandler extends X509FieldHandler<Name> {
                 }
             }
             LOGGER.debug("Converted into {} elements", rdnList.size());
-            if (name.getType() == NameType.ISSUER) {
+            if (component.getType() == NameType.ISSUER) {
                 context.setIssuer(rdnList);
-            } else if (name.getType() == NameType.SUBJECT) {
+            } else if (component.getType() == NameType.SUBJECT) {
                 context.setSubject(rdnList);
             } else {
-                throw new RuntimeException("Unknown NameType: " + name.getType().name());
+                throw new RuntimeException("Unknown NameType: " + component.getType().name());
             }
         } catch (IOException ex) {
             LOGGER.warn("Problem adjusting context");
