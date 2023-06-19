@@ -71,7 +71,7 @@ public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new X509RsaPublicKeySerializer(chooser, this);
     }
 
     @Override

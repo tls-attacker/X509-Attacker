@@ -37,17 +37,7 @@ public class SubjectPublicKeyAlgorithmIdentifier extends AlgorithmIdentifier {
     }
 
     @Override
-    public X509Parser getParser(X509Chooser chooser) {
-        return new SubjectPublicKeyAlgorithmIdentifierParser(chooser, this);
-    }
-
-    @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
-    }
-
-    @Override
-    public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new SubjectPublicKeyAlgorithmIdentifierPreparator(chooser, this);
     }
 }

@@ -9,20 +9,21 @@
 package de.rub.nds.x509attacker.x509.handler.publickey.parameters;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
+import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 
-public class DssParametersHandler extends X509Handler {
+public class X509DhParametersHandler extends X509Handler {
 
-    private final X509DssParameters parameters;
+    private final X509DhParameters parameters;
 
-    public DssParametersHandler(X509Chooser chooser, X509DssParameters parameters) {
+    public X509DhParametersHandler(X509Chooser chooser, X509DhParameters parameters) {
         super(chooser);
         this.parameters = parameters;
     }
 
     @Override
     public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        chooser.getContext().setSubjectDhGenerator(parameters.getG().getValue().getValue());
+        chooser.getContext().setSubjectDhModulus(parameters.getP().getValue().getValue());
     }
 }

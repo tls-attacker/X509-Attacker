@@ -126,7 +126,7 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not yet implemented");
+        return new AttributeTypeAndValueSerializer(chooser,this);
     }
 
     public String getStringRepresentation() {

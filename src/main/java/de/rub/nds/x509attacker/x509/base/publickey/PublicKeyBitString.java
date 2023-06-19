@@ -55,7 +55,7 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new PublicKeyBitStringHandler(chooser, this);
     }
 
     @Override

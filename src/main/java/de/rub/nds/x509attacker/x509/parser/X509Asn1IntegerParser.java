@@ -17,7 +17,7 @@ public class X509Asn1IntegerParser extends Asn1Parser<Asn1Integer> implements X5
 
     protected final X509Chooser chooser;
 
-    public X509Asn1IntegerParser(Asn1Integer field, X509Chooser chooser) {
+    public X509Asn1IntegerParser(X509Chooser chooser, Asn1Integer field) {
         super(field);
         this.chooser = chooser;
     }

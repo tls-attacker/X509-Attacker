@@ -95,11 +95,11 @@ public class Name extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new NamePreparator(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new NameSerializer(chooser, this);
     }
 }

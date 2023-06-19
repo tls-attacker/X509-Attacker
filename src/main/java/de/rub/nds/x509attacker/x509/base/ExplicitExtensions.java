@@ -23,21 +23,21 @@ public class ExplicitExtensions extends Asn1Explicit<Extensions> implements X509
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getHandler'");
+        return new X509ExplicitHandler(chooser, this);
     }
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getParser'");
+        return new X509ExplicitParser(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getSerializer'");
+        return new X509ExplicitSerializer(chooser, this);
     }
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getPreparator'");
+        return new X509ExplicitPreparator(chooser, this);
     }
 }

@@ -34,7 +34,7 @@ public class Extensions extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new ExtensionsHandler(chooser, this);
     }
 
     @Override
@@ -44,11 +44,11 @@ public class Extensions extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new ExtensionsPreparator(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new ExtensionsSerializer(chooser, this);
     }
 }

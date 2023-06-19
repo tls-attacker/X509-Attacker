@@ -8,6 +8,8 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
+import java.math.BigInteger;
+
 import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
@@ -19,11 +21,11 @@ import de.rub.nds.x509attacker.x509.parser.X509EcdhEcdsaPublicKeyParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509EcdhEcdsaPublicKeyPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.math.BigInteger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -96,6 +98,6 @@ public class X509EcdhEcdsaPublicKey extends Asn1OctetString implements PublicKey
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new X509Asn1FieldSerializer(this);//TODO
     }
 }

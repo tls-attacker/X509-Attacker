@@ -98,21 +98,21 @@ public class GeneralName extends Asn1Choice implements X509Component {
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getHandler'");
+        return new GeneralNameHandler(chooser, this);
     }
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getParser'");
+        return new GeneralNameParser(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getSerializer'");
+        return new GeneralNameSerializer(chooser, this);
     }
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getPreparator'");
+        return new GeneralNamePreparator(chooser, this);
     }
 }

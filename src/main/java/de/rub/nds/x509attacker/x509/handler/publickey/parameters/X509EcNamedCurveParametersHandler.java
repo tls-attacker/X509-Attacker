@@ -14,11 +14,11 @@ import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 
-public class EcNamedCurveParametersHandler extends X509Handler {
+public class X509EcNamedCurveParametersHandler extends X509Handler {
 
     private final X509EcNamedCurveParameters parameters;
 
-    public EcNamedCurveParametersHandler(
+    public X509EcNamedCurveParametersHandler(
             X509Chooser chooser, X509EcNamedCurveParameters parameters) {
         super(chooser);
         this.parameters = parameters;

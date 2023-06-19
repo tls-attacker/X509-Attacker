@@ -42,7 +42,7 @@ public class X509DsaPublicKey extends Asn1Integer implements PublicKeyContent {
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new X509Asn1IntegerParser(this, chooser);
+        return new X509Asn1IntegerParser(chooser, this);
     }
 
     @Override

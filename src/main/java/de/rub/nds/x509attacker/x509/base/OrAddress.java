@@ -27,21 +27,21 @@ public class OrAddress extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getHandler'");
+        return new OrAddressHandler(chooser, this);
     }
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getParser'");
+        return new OrAddressParser(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getSerializer'");
+        return new OrAddressSerializer(chooser, this);
     }
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("Unimplemented method 'getPreparator'");
+        return new OrAddressPreparator(chooser, this);
     }
 }

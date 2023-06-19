@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509DhPublicKeyHandler;
+import de.rub.nds.x509attacker.x509.parser.X509Asn1IntegerParser;
 import de.rub.nds.x509attacker.x509.parser.X509DhPublicKeyParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
@@ -37,7 +38,7 @@ public class X509DhPublicKey extends Asn1Integer implements PublicKeyContent {
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new X509DhPublicKeyParser(chooser, this);
+        return new X509Asn1IntegerParser(chooser, this);
     }
 
     @Override
