@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.trust;
 
 import de.rub.nds.modifiablevariable.util.ComparableByteArray;
-import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.LinkedList;

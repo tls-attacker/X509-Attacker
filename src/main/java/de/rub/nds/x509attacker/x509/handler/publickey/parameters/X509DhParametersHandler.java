@@ -9,21 +9,18 @@
 package de.rub.nds.x509attacker.x509.handler.publickey.parameters;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.handler.X509FieldHandler;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 
-public class X509DhParametersHandler extends X509Handler {
-
-    private final X509DhParameters parameters;
+public class X509DhParametersHandler extends X509FieldHandler<X509DhParameters> {
 
     public X509DhParametersHandler(X509Chooser chooser, X509DhParameters parameters) {
-        super(chooser);
-        this.parameters = parameters;
+        super(chooser, parameters);
     }
 
     @Override
     public void adjustContext() {
-        chooser.getContext().setSubjectDhGenerator(parameters.getG().getValue().getValue());
-        chooser.getContext().setSubjectDhModulus(parameters.getP().getValue().getValue());
+        chooser.getContext().setSubjectDhGenerator(component.getG().getValue().getValue());
+        chooser.getContext().setSubjectDhModulus(component.getP().getValue().getValue());
     }
 }

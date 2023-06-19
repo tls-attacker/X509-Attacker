@@ -6,10 +6,10 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base.publickey;
+package de.rub.nds.x509attacker.x509.model.publickey;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.model.X509Component;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;

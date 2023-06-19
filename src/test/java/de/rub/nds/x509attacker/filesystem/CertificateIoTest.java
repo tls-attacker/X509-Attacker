@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.filesystem;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
-import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyContent;
+import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyContent;
 import java.io.IOException;
 import java.util.stream.Stream;
 import org.apache.logging.log4j.LogManager;

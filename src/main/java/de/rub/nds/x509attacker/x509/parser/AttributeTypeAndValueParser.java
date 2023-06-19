@@ -13,7 +13,7 @@ import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
-import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
+import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import java.io.PushbackInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

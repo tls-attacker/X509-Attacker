@@ -6,6 +6,12 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.model;
+package de.rub.nds.x509attacker.x509.parser;
 
-public class X509CertificateParser {}
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.model.X509Certificate;
+
+public class X509CertificateParser implements X509Parser {
+
+    public X509CertificateParser(X509Chooser chooser, X509Certificate x509Certificate) {}
+}

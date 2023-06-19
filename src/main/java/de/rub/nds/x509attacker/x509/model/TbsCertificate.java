@@ -6,7 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Integer;
@@ -15,10 +15,12 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.NameType;
+import de.rub.nds.x509attacker.x509.handler.TbsCertificateHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.TbsCertificateSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;

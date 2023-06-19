@@ -17,7 +17,7 @@ import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
-import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
+import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

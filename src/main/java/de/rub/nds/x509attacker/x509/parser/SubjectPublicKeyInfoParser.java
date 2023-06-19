@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.SubjectPublicKeyInfo;
+import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyInfo;
 import java.io.PushbackInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;

@@ -6,14 +6,16 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.model.X509ExplicitComponent;
 
-public class X509ExplicitHandler extends X509Handler {
+public class X509ExplicitHandler extends X509FieldHandler<X509ExplicitComponent> {
 
-    public X509ExplicitHandler(X509Chooser chooser, ExplicitExtensions explicitExtensions) {}
+    public X509ExplicitHandler(X509Chooser chooser, X509ExplicitComponent explicit) {
+        super(chooser, explicit);
+    }
 
     @Override
     public void adjustContext() {

@@ -6,16 +6,20 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.X509ExplicitHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.X509ExplicitParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509ExplicitPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.X509ExplicitSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 
-public class ExplicitExtensions extends Asn1Explicit<Extensions> implements X509Component {
+public class ExplicitExtensions extends Asn1Explicit<Extensions> implements X509ExplicitComponent {
 
     public ExplicitExtensions(String identifier, Integer expectedTagNumber) {
         super(identifier, expectedTagNumber, new Extensions(identifier));

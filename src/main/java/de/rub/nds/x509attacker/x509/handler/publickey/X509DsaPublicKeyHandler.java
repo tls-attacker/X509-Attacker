@@ -9,21 +9,18 @@
 package de.rub.nds.x509attacker.x509.handler.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.X509DsaPublicKey;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.handler.X509FieldHandler;
+import de.rub.nds.x509attacker.x509.model.publickey.X509DsaPublicKey;
 
-public class X509DsaPublicKeyHandler extends X509Handler {
-
-    private final X509DsaPublicKey publicKey;
+public class X509DsaPublicKeyHandler extends X509FieldHandler<X509DsaPublicKey> {
 
     public X509DsaPublicKeyHandler(X509Chooser chooser, X509DsaPublicKey publicKey) {
-        super(chooser);
-        this.publicKey = publicKey;
+        super(chooser, publicKey);
     }
 
     @Override
     public void adjustContext() {
-        context.setSubjectDsaPublicKeyY(publicKey.getValue().getValue());
+        context.setSubjectDsaPublicKeyY(component.getValue().getValue());
         context.setSubjectDsaPrivateKey(config.getDsaPrivateKey());
     }
 }

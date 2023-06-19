@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
-import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import java.util.List;
 

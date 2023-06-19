@@ -13,7 +13,7 @@ import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.util.Asn1Header;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.model.X509Component;
 import java.io.InputStream;
 import java.io.PushbackInputStream;
 

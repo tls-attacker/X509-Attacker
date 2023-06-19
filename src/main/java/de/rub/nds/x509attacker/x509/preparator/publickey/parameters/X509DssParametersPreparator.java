@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.preparator.publickey.parameters;
 
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 
 public class X509DssParametersPreparator extends Asn1FieldPreparator<X509DssParameters>

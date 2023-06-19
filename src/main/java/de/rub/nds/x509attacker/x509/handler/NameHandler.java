@@ -14,9 +14,9 @@ import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
-import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
-import de.rub.nds.x509attacker.x509.base.Name;
-import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
+import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
+import de.rub.nds.x509attacker.x509.model.Name;
+import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -28,15 +28,12 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
 /** The Subject of a Certificate becomes the issuer of the next certificate */
-public class NameHandler extends X509Handler {
+public class NameHandler extends X509FieldHandler<Name> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private Name name;
-
     public NameHandler(X509Chooser chooser, Name name) {
-        super(chooser);
-        this.name = name;
+        super(chooser, name);
     }
 
     @Override

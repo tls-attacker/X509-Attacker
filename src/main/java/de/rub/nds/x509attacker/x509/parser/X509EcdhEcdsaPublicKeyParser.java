@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.X509EcdhEcdsaPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import java.io.PushbackInputStream;
 import java.math.BigInteger;
 import org.apache.logging.log4j.LogManager;

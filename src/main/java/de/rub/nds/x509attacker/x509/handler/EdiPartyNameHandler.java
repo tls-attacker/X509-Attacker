@@ -9,11 +9,13 @@
 package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.EdiPartyName;
+import de.rub.nds.x509attacker.x509.model.EdiPartyName;
 
-public class EdiPartyNameHandler extends X509Handler {
+public class EdiPartyNameHandler extends X509FieldHandler<EdiPartyName> {
 
-    public EdiPartyNameHandler(X509Chooser chooser, EdiPartyName ediPartyName) {}
+    public EdiPartyNameHandler(X509Chooser chooser, EdiPartyName ediPartyName) {
+        super(chooser, ediPartyName);
+    }
 
     @Override
     public void adjustContext() {

@@ -6,11 +6,19 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.model.OtherName;
 
-public class OtherNameHandler extends X509Handler {
+public class OtherNameHandler extends X509FieldHandler<OtherName> {
 
-    public OtherNameHandler(X509Chooser chooser, OtherName otherName) {}
+    public OtherNameHandler(X509Chooser chooser, OtherName otherName) {
+        super(chooser, otherName);
+    }
+
+    @Override
+    public void adjustContext() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContext'");
+    }
 }

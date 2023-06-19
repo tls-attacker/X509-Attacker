@@ -9,12 +9,12 @@
 package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.DirectoryString;
+import de.rub.nds.x509attacker.x509.model.DirectoryString;
 
-public class DirectoryStringHandler extends X509Handler {
+public class DirectoryStringHandler extends X509FieldHandler<DirectoryString> {
 
     public DirectoryStringHandler(X509Chooser chooser, DirectoryString directoryString) {
-        super(chooser);
+        super(chooser, directoryString);
     }
 
     @Override

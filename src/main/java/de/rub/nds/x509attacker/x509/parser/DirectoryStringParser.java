@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.DirectoryString;
+import de.rub.nds.x509attacker.x509.model.DirectoryString;
 import java.io.InputStream;
 
 public class DirectoryStringParser implements X509Parser {

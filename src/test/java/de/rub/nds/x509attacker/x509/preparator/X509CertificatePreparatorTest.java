@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.context.X509Context;
-import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import java.io.ByteArrayInputStream;
 import java.security.Security;

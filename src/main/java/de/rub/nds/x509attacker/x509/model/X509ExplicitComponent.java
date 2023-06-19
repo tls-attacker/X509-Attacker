@@ -6,9 +6,10 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.handler;
+package de.rub.nds.x509attacker.x509.model;
 
-public interface X509Handler {
+import de.rub.nds.asn1.model.Asn1Field;
 
-    public abstract void adjustContext();
+public interface X509ExplicitComponent extends X509Component {
+    public Asn1Field getInnerField();
 }

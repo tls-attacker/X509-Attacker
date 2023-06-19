@@ -9,13 +9,13 @@
 package de.rub.nds.x509attacker.x509.handler.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.handler.X509FieldHandler;
+import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
 
-public class PublicKeyBitStringHandler extends X509Handler {
+public class PublicKeyBitStringHandler extends X509FieldHandler<PublicKeyBitString> {
 
     public PublicKeyBitStringHandler(X509Chooser chooser, PublicKeyBitString publicKeyBitString) {
-        super(chooser);
+        super(chooser, publicKeyBitString);
     }
 
     @Override

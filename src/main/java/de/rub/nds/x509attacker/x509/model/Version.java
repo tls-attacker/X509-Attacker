@@ -12,9 +12,13 @@ import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509Version;
+import de.rub.nds.x509attacker.x509.handler.VersionHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.VersionParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.VersionPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.VersionSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -23,7 +27,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 /** Version ::= INTEGER {v1(0), v2(1), v3(2) } */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Version extends Asn1Explicit<Asn1Integer> implements X509Component {
+public class Version extends Asn1Explicit<Asn1Integer> implements X509ExplicitComponent {
 
     private Version() {
         super(null, null, null);

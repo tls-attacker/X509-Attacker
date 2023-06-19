@@ -11,8 +11,8 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.AttributeTypeAndValue;
-import de.rub.nds.x509attacker.x509.base.RelativeDistinguishedName;
+import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
+import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 

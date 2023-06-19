@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
+import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;

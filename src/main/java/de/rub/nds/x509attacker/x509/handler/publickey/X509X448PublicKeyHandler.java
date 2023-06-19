@@ -9,16 +9,13 @@
 package de.rub.nds.x509attacker.x509.handler.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.X509X448PublicKey;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.handler.X509FieldHandler;
+import de.rub.nds.x509attacker.x509.model.publickey.X509X448PublicKey;
 
-public class X509X448PublicKeyHandler extends X509Handler {
-
-    private final X509X448PublicKey publicKey;
+public class X509X448PublicKeyHandler extends X509FieldHandler<X509X448PublicKey> {
 
     public X509X448PublicKeyHandler(X509Chooser chooser, X509X448PublicKey publicKey) {
-        super(chooser);
-        this.publicKey = publicKey;
+        super(chooser, publicKey);
     }
 
     @Override

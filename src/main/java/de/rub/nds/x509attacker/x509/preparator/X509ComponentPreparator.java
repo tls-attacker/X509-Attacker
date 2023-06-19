@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.X509Component;
+import de.rub.nds.x509attacker.x509.model.X509Component;
 
 public abstract class X509ComponentPreparator<Component extends Asn1Field>
         extends Asn1FieldPreparator<Component> {

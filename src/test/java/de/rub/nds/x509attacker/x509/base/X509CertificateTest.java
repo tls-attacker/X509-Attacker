@@ -16,6 +16,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.context.X509Context;
+import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import java.io.ByteArrayInputStream;
 import org.junit.jupiter.api.BeforeEach;

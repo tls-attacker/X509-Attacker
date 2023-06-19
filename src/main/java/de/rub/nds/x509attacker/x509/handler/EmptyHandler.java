@@ -9,11 +9,12 @@
 package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.model.X509Component;
 
-public class EmptyHandler extends X509Handler {
+public class EmptyHandler<Type extends X509Component> extends X509FieldHandler<Type> {
 
-    public EmptyHandler(X509Chooser chooser) {
-        super(chooser);
+    public EmptyHandler(X509Chooser chooser, Type component) {
+        super(chooser, component);
     }
 
     @Override

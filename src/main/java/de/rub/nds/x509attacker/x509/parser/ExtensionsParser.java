@@ -10,8 +10,8 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.Extension;
-import de.rub.nds.x509attacker.x509.base.Extensions;
+import de.rub.nds.x509attacker.x509.model.Extension;
+import de.rub.nds.x509attacker.x509.model.Extensions;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 

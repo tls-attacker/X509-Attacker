@@ -11,16 +11,13 @@ package de.rub.nds.x509attacker.x509.handler.publickey;
 import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
-import de.rub.nds.x509attacker.x509.base.publickey.X509EcdhPublicKey;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.handler.X509FieldHandler;
+import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhPublicKey;
 
-public class X509EcdhPublicKeyHandler extends X509Handler {
-
-    private final X509EcdhPublicKey publicKey;
+public class X509EcdhPublicKeyHandler extends X509FieldHandler<X509EcdhPublicKey> {
 
     public X509EcdhPublicKeyHandler(X509Chooser chooser, X509EcdhPublicKey publicKey) {
-        super(chooser);
-        this.publicKey = publicKey;
+        super(chooser, publicKey);
     }
 
     @Override
@@ -30,7 +27,7 @@ public class X509EcdhPublicKeyHandler extends X509Handler {
         chooser.getContext()
                 .setSubjectEcPublicKey(
                         curve.getPoint(
-                                publicKey.getxCoordinate().getValue(),
-                                publicKey.getyCoordinate().getValue()));
+                                component.getxCoordinate().getValue(),
+                                component.getyCoordinate().getValue()));
     }
 }

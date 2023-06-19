@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.serializer;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.DirectoryString;
+import de.rub.nds.x509attacker.x509.model.DirectoryString;
 
 public class DirectoryStringSerializer implements X509Serializer {
 

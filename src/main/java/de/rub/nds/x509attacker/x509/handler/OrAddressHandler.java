@@ -6,12 +6,19 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.handler;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.model.OrAddress;
 
-public class OrAddressHandler extends X509Handler {
+public class OrAddressHandler extends X509FieldHandler<OrAddress> {
 
-    public OrAddressHandler(X509Chooser chooser, OrAddress orAddress) {}
+    public OrAddressHandler(X509Chooser chooser, OrAddress orAddress) {
+        super(chooser, orAddress);
+    }
+
+    @Override
+    public void adjustContext() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContext'");
+    }
 }

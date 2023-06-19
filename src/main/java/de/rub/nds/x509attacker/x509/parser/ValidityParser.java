@@ -12,7 +12,7 @@ import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.time.TimeField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.Validity;
+import de.rub.nds.x509attacker.x509.model.Validity;
 import java.io.PushbackInputStream;
 
 public class ValidityParser extends X509Asn1FieldParser<Validity> {

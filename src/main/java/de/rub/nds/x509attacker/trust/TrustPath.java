@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.trust;
 
-import de.rub.nds.x509attacker.x509.base.X509Certificate;
+import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import java.util.List;
 
 public class TrustPath {

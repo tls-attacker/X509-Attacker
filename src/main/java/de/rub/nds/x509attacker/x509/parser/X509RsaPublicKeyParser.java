@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.base.publickey.X509RsaPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
 import java.io.PushbackInputStream;
 
 public class X509RsaPublicKeyParser extends X509Asn1FieldParser<X509RsaPublicKey> {
