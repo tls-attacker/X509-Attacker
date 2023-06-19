@@ -15,7 +15,7 @@ import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 
-public class NameParser extends X509Asn1FieldParser<Name> {
+public class NameParser extends X509ComponentParser<Name> {
 
     public NameParser(X509Chooser chooser, Name name) {
         super(chooser, name);

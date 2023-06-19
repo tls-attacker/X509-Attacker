@@ -15,7 +15,7 @@ import de.rub.nds.x509attacker.x509.model.Extensions;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 
-public class ExtensionsParser extends X509Asn1FieldParser<Extensions> {
+public class ExtensionsParser extends X509ComponentParser<Extensions> {
 
     public ExtensionsParser(X509Chooser chooser, Extensions extensions) {
         super(chooser, extensions);

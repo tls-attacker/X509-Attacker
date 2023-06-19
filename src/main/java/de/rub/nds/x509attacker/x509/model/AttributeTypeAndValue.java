@@ -112,7 +112,7 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        return new EmptyHandler(chooser);
+        return new EmptyHandler<AttributeTypeAndValue>(chooser, this);
     }
 
     @Override

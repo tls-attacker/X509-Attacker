@@ -16,7 +16,7 @@ import java.math.BigInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class X509EcdhEcdsaPublicKeyParser extends X509Asn1FieldParser<X509EcdhEcdsaPublicKey> {
+public class X509EcdhEcdsaPublicKeyParser extends X509ComponentParser<X509EcdhEcdsaPublicKey> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

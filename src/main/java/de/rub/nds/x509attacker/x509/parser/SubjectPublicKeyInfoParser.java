@@ -14,7 +14,7 @@ import java.io.PushbackInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class SubjectPublicKeyInfoParser extends X509Asn1FieldParser<SubjectPublicKeyInfo> {
+public class SubjectPublicKeyInfoParser extends X509ComponentParser<SubjectPublicKeyInfo> {
 
     @SuppressWarnings("unused")
     private static final Logger LOGGER = LogManager.getLogger();

@@ -18,7 +18,7 @@ import java.io.PushbackInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AttributeTypeAndValueParser extends X509Asn1FieldParser<AttributeTypeAndValue> {
+public class AttributeTypeAndValueParser extends X509ComponentParser<AttributeTypeAndValue> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 

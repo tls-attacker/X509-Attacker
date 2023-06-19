@@ -15,7 +15,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Validity;
 import java.io.PushbackInputStream;
 
-public class ValidityParser extends X509Asn1FieldParser<Validity> {
+public class ValidityParser extends X509ComponentParser<Validity> {
 
     public ValidityParser(X509Chooser chooser, Validity validity) {
         super(chooser, validity);

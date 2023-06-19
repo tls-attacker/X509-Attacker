@@ -17,7 +17,7 @@ import java.io.IOException;
 import java.io.PushbackInputStream;
 
 public class RelativeDistinguishedNameParser
-        extends X509Asn1FieldParser<RelativeDistinguishedName> {
+        extends X509ComponentParser<RelativeDistinguishedName> {
 
     public RelativeDistinguishedNameParser(
             X509Chooser chooser, RelativeDistinguishedName relativeDistinguishedName) {

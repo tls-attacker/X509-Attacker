@@ -13,7 +13,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
 import java.io.PushbackInputStream;
 
-public class X509RsaPublicKeyParser extends X509Asn1FieldParser<X509RsaPublicKey> {
+public class X509RsaPublicKeyParser extends X509ComponentParser<X509RsaPublicKey> {
 
     public X509RsaPublicKeyParser(X509Chooser chooser, X509RsaPublicKey rsaPublicKey) {
         super(chooser, rsaPublicKey);
