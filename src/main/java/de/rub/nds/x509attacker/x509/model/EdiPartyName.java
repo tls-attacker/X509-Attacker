@@ -13,24 +13,30 @@ import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.EdiPartyNameHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.EdiPartyNameParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.EdiPartyNamePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.EdiPartyNameSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
- * EDIPartyName ::= SEQUENCE { nameAssigner [0] DirectoryString OPTIONAL, partyName [1]
+ * EDIPartyName ::= SEQUENCE { nameAssigner [0] DirectoryString OPTIONAL,
+ * partyName [1]
  * DirectoryString } }
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EdiPartyName extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private DirectoryString nameAssigner;
+    @HoldsModifiableVariable
+    private DirectoryString nameAssigner;
 
-    @HoldsModifiableVariable private DirectoryString partyName;
+    @HoldsModifiableVariable
+    private DirectoryString partyName;
 
     private EdiPartyName() {
         super(null);
@@ -71,7 +77,7 @@ public class EdiPartyName extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new EdiPartNameParser(chooser, this);
+        return new EdiPartyNameParser(chooser, this);
     }
 
     @Override

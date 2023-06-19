@@ -45,8 +45,7 @@ public class NameHandler extends X509FieldHandler<Name> {
             List<RelativeDistinguishedName> parsedRdnSequence = new LinkedList<>();
             InputStream rdnByteInputStream = getRdnByteInputStream();
             while (rdnByteInputStream.available() > 0) {
-                RelativeDistinguishedName relativeDistinguishedName =
-                        new RelativeDistinguishedName("parsedRdn");
+                RelativeDistinguishedName relativeDistinguishedName = new RelativeDistinguishedName("parsedRdn");
                 X509Parser parser = relativeDistinguishedName.getParser(chooser);
                 parser.parse(rdnByteInputStream);
                 parsedRdnSequence.add(relativeDistinguishedName);
