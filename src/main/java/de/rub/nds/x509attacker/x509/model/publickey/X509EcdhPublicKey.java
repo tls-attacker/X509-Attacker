@@ -73,7 +73,7 @@ public class X509EcdhPublicKey extends Asn1OctetString implements PublicKeyConte
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new X509Asn1OctetStringParser(chooser, this);//TODO
+        return new X509Asn1OctetStringParser(chooser, this); // TODO
     }
 
     @Override

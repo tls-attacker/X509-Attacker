@@ -13,7 +13,6 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509DhPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.X509Asn1IntegerParser;
-import de.rub.nds.x509attacker.x509.parser.X509DhPublicKeyParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509DhPublicKeyPreparator;

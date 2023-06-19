@@ -8,8 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base.publickey;
 
-import java.math.BigInteger;
-
 import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
@@ -26,6 +24,7 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.math.BigInteger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -98,6 +97,6 @@ public class X509EcdhEcdsaPublicKey extends Asn1OctetString implements PublicKey
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509Asn1FieldSerializer(this);//TODO
+        return new X509Asn1FieldSerializer(this); // TODO
     }
 }

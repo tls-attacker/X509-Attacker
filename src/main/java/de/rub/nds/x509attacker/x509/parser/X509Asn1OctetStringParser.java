@@ -8,11 +8,10 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.InputStream;
-
 import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import java.io.InputStream;
 
 public class X509Asn1OctetStringParser extends Asn1Parser<Asn1OctetString> implements X509Parser {
 

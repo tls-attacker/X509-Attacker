@@ -8,8 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.base;
 
-import java.util.List;
-
 import de.rub.nds.asn1.model.Asn1Set;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -22,6 +20,7 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /** RelativeDistinguishedName ::= SET SIZE (1..MAX) OF AttributeTypeAndValue */
 @XmlRootElement
@@ -44,13 +43,14 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
             String identifier, List<Pair<X500AttributeType, String>> attributeList) {
         super(identifier);
         for (Pair<X500AttributeType, String> pair : attributeList) {
-            AttributeTypeAndValue attributeTypeAndValue = new AttributeTypeAndValue(
-                    pair.getKey()
-                            .getHumanReadableName()
-                            .concat("=")
-                            .concat(pair.getValue()),
-                    pair.getKey(),
-                    pair.getValue());
+            AttributeTypeAndValue attributeTypeAndValue =
+                    new AttributeTypeAndValue(
+                            pair.getKey()
+                                    .getHumanReadableName()
+                                    .concat("=")
+                                    .concat(pair.getValue()),
+                            pair.getKey(),
+                            pair.getValue());
             addChild(attributeTypeAndValue);
         }
     }
@@ -59,13 +59,14 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
             String identifier, Pair<X500AttributeType, String>... attributes) {
         super(identifier);
         for (Pair<X500AttributeType, String> pair : attributes) {
-            AttributeTypeAndValue attributeTypeAndValue = new AttributeTypeAndValue(
-                    pair.getKey()
-                            .getHumanReadableName()
-                            .concat("=")
-                            .concat(pair.getValue()),
-                    pair.getKey(),
-                    pair.getValue());
+            AttributeTypeAndValue attributeTypeAndValue =
+                    new AttributeTypeAndValue(
+                            pair.getKey()
+                                    .getHumanReadableName()
+                                    .concat("=")
+                                    .concat(pair.getValue()),
+                            pair.getKey(),
+                            pair.getValue());
             addChild(attributeTypeAndValue);
         }
     }
