@@ -6,7 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1Integer;
@@ -40,21 +40,21 @@ public class Version extends Asn1Explicit<Asn1Integer> implements X509Component 
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new VersionHandler(chooser, this);
     }
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new VersionParser(chooser, this);
     }
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new VersionPreparator(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new VersionSerializer(chooser, this);
     }
 }

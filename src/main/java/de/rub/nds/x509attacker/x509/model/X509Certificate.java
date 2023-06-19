@@ -6,7 +6,7 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.model.Asn1BitString;
 import de.rub.nds.asn1.model.Asn1Encodable;
@@ -33,26 +33,25 @@ import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.constants.X509Version;
-import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyBitString;
-import de.rub.nds.x509attacker.x509.base.publickey.PublicKeyContent;
-import de.rub.nds.x509attacker.x509.base.publickey.X509DhPublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509DsaPublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509EcdhEcdsaPublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509EcdhPublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509Ed25519PublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509Ed448PublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509RsaPublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509X25519PublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.X509X448PublicKey;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.PublicParameters;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DhParameters;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509DssParameters;
-import de.rub.nds.x509attacker.x509.base.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
+import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyContent;
+import de.rub.nds.x509attacker.x509.model.publickey.X509DhPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509DsaPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509Ed25519PublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509Ed448PublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509X25519PublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509X448PublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -531,12 +530,12 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new X509CertificateHandler(chooser, this);
     }
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new X509CertificateParser(chooser, this);
     }
 
     @Override
@@ -546,6 +545,6 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509Asn1FieldSerializer(this);
+        return new X509CertificateSerializer(chooser, this);
     }
 }
