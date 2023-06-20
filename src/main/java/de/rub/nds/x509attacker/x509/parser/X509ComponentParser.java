@@ -8,21 +8,16 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.ByteArrayInputStream;
-import java.io.InputStream;
-import java.io.PushbackInputStream;
-
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 
 /**
- * A parser for the X509 module that always parses the the structure of the asn1
- * field and then
+ * A parser for the X509 module that always parses the the structure of the asn1 field and then
  * passes the content of the field to the implementation
  */
-public abstract class X509ComponentParser<Encodable extends X509Component> extends Asn1Parser<Encodable>
-        implements X509Parser {
+public abstract class X509ComponentParser<Encodable extends X509Component>
+        extends Asn1Parser<Encodable> implements X509Parser {
 
     protected final X509Chooser chooser;
 
@@ -30,15 +25,4 @@ public abstract class X509ComponentParser<Encodable extends X509Component> exten
         super(encodable);
         this.chooser = chooser;
     }
-
-    @Override
-    public final void parse(InputStream inputStream) {
-        if()
-        Asn1ParserHelper.parseStructure(encodable, inputStream);
-        parseContent(
-                new PushbackInputStream(
-                        new ByteArrayInputStream(encodable.getContent().getValue())));
-    }
-
-    protected abstract void parseContent(PushbackInputStream inputStream);
 }

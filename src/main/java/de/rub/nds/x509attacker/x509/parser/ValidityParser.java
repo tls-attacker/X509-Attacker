@@ -15,14 +15,14 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Validity;
 import java.io.PushbackInputStream;
 
-public class ValidityParser extends X509ComponentParser<Validity> {
+public class ValidityParser extends X509ComponentContainerParser<Validity> {
 
     public ValidityParser(X509Chooser chooser, Validity validity) {
         super(chooser, validity);
     }
 
     @Override
-    protected void parseContent(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(PushbackInputStream inputStream) {
         encodable.setNotBefore(
                 (TimeField)
                         Asn1ParserHelper.parseTagNumberField(

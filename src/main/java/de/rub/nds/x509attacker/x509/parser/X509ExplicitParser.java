@@ -6,23 +6,28 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.base;
+package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.PushbackInputStream;
-
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.model.ExplicitExtensions;
-import de.rub.nds.x509attacker.x509.model.X509ExplicitComponent;
+import de.rub.nds.x509attacker.x509.model.X509Component;
+import de.rub.nds.x509attacker.x509.model.X509Explicit;
+import java.io.ByteArrayInputStream;
+import java.io.InputStream;
 
-public class X509ExplicitParser extends X509ComponentParser<X509ExplicitComponent> {
+public class X509ExplicitParser<InnerField extends X509Component>
+        extends X509ComponentParser<X509Explicit<InnerField>> {
 
-    public X509ExplicitParser(X509Chooser chooser, X509ExplicitComponent explicitExtensions) {
-        super(chooser, explicitExtensions);
+    public X509ExplicitParser(X509Chooser chooser, X509Explicit<InnerField> encodable) {
+        super(chooser, encodable);
     }
 
     @Override
-    protected void parseContent(PushbackInputStream inputStream) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'parseContent'");
+    public void parse(InputStream inputStream) {
+        ParserHelper.parseStructure(encodable, inputStream);
+        encodable
+                .getInnerField()
+                .getParser(chooser)
+                .parse(new ByteArrayInputStream(encodable.getContent().getValue()));
     }
 }

@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
@@ -17,19 +16,15 @@ import java.io.IOException;
 import java.io.PushbackInputStream;
 
 public class RelativeDistinguishedNameParser
-        extends X509ComponentParser<RelativeDistinguishedName> {
+        extends X509ComponentContainerParser<RelativeDistinguishedName> {
 
     public RelativeDistinguishedNameParser(
             X509Chooser chooser, RelativeDistinguishedName relativeDistinguishedName) {
         super(chooser, relativeDistinguishedName);
     }
 
-    protected Asn1Encodable createFreshElement() {
-        return new AttributeTypeAndValue("element");
-    }
-
     @Override
-    protected void parseContent(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(PushbackInputStream inputStream) {
         try {
             while (inputStream.available() > 0) {
                 AttributeTypeAndValue element = new AttributeTypeAndValue("attributeTypeAndValue");

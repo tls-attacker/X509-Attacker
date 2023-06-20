@@ -10,15 +10,14 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.EdiPartyName;
-import java.io.InputStream;
+import java.io.PushbackInputStream;
 
-public class EdiPartyNameParser implements X509Parser {
+public class EdiPartyNameParser extends X509ComponentContainerParser<EdiPartyName> {
 
-    public EdiPartyNameParser(X509Chooser chooser, EdiPartyName ediPartyName) {}
+    public EdiPartyNameParser(X509Chooser chooser, EdiPartyName ediPartyName) {
+        super(chooser, ediPartyName);
+    }
 
     @Override
-    public void parse(InputStream inputStream) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'parse'");
-    }
+    protected void parseSubcomponents(PushbackInputStream inputStream) {}
 }

@@ -9,9 +9,10 @@
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.model.OtherName;
+import de.rub.nds.x509attacker.x509.model.X509Component;
+import de.rub.nds.x509attacker.x509.model.X509Explicit;
 
-public class OtherNamePreparator implements X509Preparator {
+public class ExplicitPreparator<InnerField extends X509Component> implements X509Preparator {
 
-    public OtherNamePreparator(X509Chooser chooser, OtherName otherName) {}
+    public ExplicitPreparator(X509Chooser chooser, X509Explicit<InnerField> x509Explicit) {}
 }

@@ -17,7 +17,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.x509.handler.GeneralNameHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
-import de.rub.nds.x509attacker.x509.parser.GeneralNameParser;
+import de.rub.nds.x509attacker.x509.parser.X509ChoiceParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.GeneralNamePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
@@ -27,24 +27,15 @@ import jakarta.xml.bind.annotation.XmlTransient;
 
 public class GeneralName extends Asn1Choice implements X509Component {
 
-    @XmlTransient
-    private final OtherName otherName;
-    @XmlTransient
-    private final Asn1Ia5String rfc822Name;
-    @XmlTransient
-    private final Asn1Ia5String dnsName;
-    @XmlTransient
-    private final OrAddress x400Address;
-    @XmlTransient
-    private final Name directoryName;
-    @XmlTransient
-    private final EdiPartyName ediPartyName;
-    @XmlTransient
-    private final Asn1Ia5String uniformResourceIdentifier;
-    @XmlTransient
-    private final Asn1OctetString ipAddress;
-    @XmlTransient
-    private final ObjectIdentifier registeredId;
+    @XmlTransient private final OtherName otherName;
+    @XmlTransient private final Asn1Ia5String rfc822Name;
+    @XmlTransient private final Asn1Ia5String dnsName;
+    @XmlTransient private final OrAddress x400Address;
+    @XmlTransient private final Name directoryName;
+    @XmlTransient private final EdiPartyName ediPartyName;
+    @XmlTransient private final Asn1Ia5String uniformResourceIdentifier;
+    @XmlTransient private final Asn1OctetString ipAddress;
+    @XmlTransient private final ObjectIdentifier registeredId;
 
     public GeneralName(String identifier) {
         super(
@@ -116,7 +107,7 @@ public class GeneralName extends Asn1Choice implements X509Component {
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new GeneralNameParser(chooser, this);
+        return new X509ChoiceParser(chooser, this);
     }
 
     @Override

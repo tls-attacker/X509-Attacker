@@ -6,17 +6,19 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.parser;
+package de.rub.nds.x509attacker.x509.parser.publickey;
 
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
+import de.rub.nds.x509attacker.x509.parser.X509ComponentFieldParser;
 import java.io.PushbackInputStream;
 import java.math.BigInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class X509EcdhEcdsaPublicKeyParser extends X509ComponentParser<X509EcdhEcdsaPublicKey> {
+public class X509EcdhEcdsaPublicKeyParser extends X509ComponentFieldParser<X509EcdhEcdsaPublicKey> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -28,6 +30,7 @@ public class X509EcdhEcdsaPublicKeyParser extends X509ComponentParser<X509EcdhEc
     @Override
     protected void parseContent(PushbackInputStream inputStream) {
         try {
+            ParserHelper.parseOctetStringContent(encodable);
             // Test that input stream has correct content length
             if (inputStream.available() == 0) {
                 throw new ParserException("Cannot parse point format");
@@ -47,13 +50,12 @@ public class X509EcdhEcdsaPublicKeyParser extends X509ComponentParser<X509EcdhEc
                                     + inputStream.available()
                                     + " should be "
                                     + byteLength * 2);
-                } else {
-                    byte[] x = inputStream.readNBytes(byteLength);
-                    byte[] y = inputStream.readNBytes(byteLength);
-                    encodable.setFormatByte(formatByte);
-                    encodable.setxCoordinate(new BigInteger(1, x));
-                    encodable.setyCoordinate(new BigInteger(1, y));
                 }
+                byte[] x = inputStream.readNBytes(byteLength);
+                byte[] y = inputStream.readNBytes(byteLength);
+                encodable.setFormatByte(formatByte);
+                encodable.setxCoordinate(new BigInteger(1, x));
+                encodable.setyCoordinate(new BigInteger(1, y));
             }
         } catch (Exception E) {
             throw new ParserException(E);

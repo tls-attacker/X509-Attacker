@@ -60,6 +60,11 @@ public class DirectoryString extends Asn1Choice implements X509Component {
 
     public DirectoryString(String identifier) {
         this();
+        this.setIdentifier(identifier);
+    }
+
+    public DirectoryString(String identifier, int implicitTagNumber) {
+        this();
     }
 
     public Asn1T61String getTeletexString() {

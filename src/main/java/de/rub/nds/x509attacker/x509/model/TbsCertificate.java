@@ -17,6 +17,7 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.x509.handler.TbsCertificateHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.TbsCertificateParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
@@ -48,7 +49,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private Asn1BitString subjectUniqueId;
 
-    @HoldsModifiableVariable private ExplicitExtensions explicitExtensions;
+    @HoldsModifiableVariable private X509Explicit<Extensions> explicitExtensions;
 
     private TbsCertificate() {
         super(null);
@@ -73,7 +74,9 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
             subjectUniqueId.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            explicitExtensions = new ExplicitExtensions("extensionsExplicit", 3);
+            explicitExtensions =
+                    new X509Explicit<Extensions>(
+                            "extensionsExplicit", 3, new Extensions("extensions"));
         }
         addChild(version);
         addChild(serialNumber);
@@ -107,7 +110,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         issuerUniqueId.setOptional(true);
         subjectUniqueId = new Asn1BitString("subjectUniqueID", 2);
         subjectUniqueId.setOptional(true);
-        explicitExtensions = new ExplicitExtensions("extensionsExplicit", 3);
+        explicitExtensions =
+                new X509Explicit<Extensions>("extensionsExplicit", 3, new Extensions("extensions"));
         explicitExtensions.setOptional(true);
         addChild(version);
         addChild(serialNumber);
@@ -193,11 +197,11 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         this.subjectUniqueId = subjectUniqueID;
     }
 
-    public ExplicitExtensions getExplicitExtensions() {
+    public X509Explicit<Extensions> getExplicitExtensions() {
         return explicitExtensions;
     }
 
-    public void setExplicitExtensions(ExplicitExtensions explicitExtensions) {
+    public void setExplicitExtensions(X509Explicit<Extensions> explicitExtensions) {
         this.explicitExtensions = explicitExtensions;
     }
 

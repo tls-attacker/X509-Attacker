@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.model;
 
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Ia5String;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
@@ -49,7 +49,7 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier type;
 
-    @HoldsModifiableVariable private Asn1Field value;
+    @HoldsModifiableVariable private Asn1Encodable value;
 
     private X500AttributeType attributeTypeConfig;
 
@@ -102,11 +102,11 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         this.type = type;
     }
 
-    public Asn1Field getValue() {
+    public Asn1Encodable getValue() {
         return value;
     }
 
-    public void setValue(Asn1Field value) {
+    public void setValue(Asn1Encodable value) {
         this.value = value;
     }
 

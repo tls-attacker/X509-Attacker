@@ -15,14 +15,14 @@ import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 
-public class NameParser extends X509ComponentParser<Name> {
+public class NameParser extends X509ComponentContainerParser<Name> {
 
     public NameParser(X509Chooser chooser, Name name) {
         super(chooser, name);
     }
 
     @Override
-    protected void parseContent(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(PushbackInputStream inputStream) {
         try {
             while (inputStream.available() > 0) {
                 RelativeDistinguishedName rdn = new RelativeDistinguishedName("rdn");

@@ -10,19 +10,20 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.model.X509Certificate;
+import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyAlgorithmIdentifier;
 import java.io.PushbackInputStream;
 
-public class X509CertificateParser extends X509ComponentContainerParser<X509Certificate> {
+public class PublicKeyAlgorithmIdentifierParser
+        extends X509ComponentContainerParser<SubjectPublicKeyAlgorithmIdentifier> {
 
-    public X509CertificateParser(X509Chooser chooser, X509Certificate x509Certificate) {
-        super(chooser, x509Certificate);
+    public PublicKeyAlgorithmIdentifierParser(
+            X509Chooser chooser, SubjectPublicKeyAlgorithmIdentifier encodable) {
+        super(chooser, encodable);
     }
 
     @Override
     protected void parseSubcomponents(PushbackInputStream inputStream) {
-        encodable.getTbsCertificate().getParser(chooser).parse(inputStream);
-        encodable.getSignatureAlgorithmIdentifier().getParser(chooser).parse(inputStream);
-        ParserHelper.parseAsn1BitString(encodable.getSignature(), inputStream);
+        ParserHelper.parseAsn1ObjectIdentifier(encodable.getAlgorithm(), inputStream);
+        encodable.setParameters(ParserHelper.parseUnknown(inputStream));
     }
 }

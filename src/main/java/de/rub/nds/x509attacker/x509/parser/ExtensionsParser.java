@@ -15,14 +15,14 @@ import de.rub.nds.x509attacker.x509.model.Extensions;
 import java.io.IOException;
 import java.io.PushbackInputStream;
 
-public class ExtensionsParser extends X509ComponentParser<Extensions> {
+public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
 
     public ExtensionsParser(X509Chooser chooser, Extensions extensions) {
         super(chooser, extensions);
     }
 
     @Override
-    protected void parseContent(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(PushbackInputStream inputStream) {
         try {
             while (inputStream.available() > 0) {
                 Extension element = new Extension("extension");

@@ -11,6 +11,8 @@ package de.rub.nds.x509attacker.x509.model;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.CertificateSignatureAlgorithmIdentifierHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.CertificateSignatureAlgorithmIdentifierParser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.CertificateSignatureAlgorithmIdentifierPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -32,6 +34,11 @@ public class CertificateSignatureAlgorithmIdentifier extends AlgorithmIdentifier
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
         return new CertificateSignatureAlgorithmIdentifierHandler(chooser, this);
+    }
+
+    @Override
+    public final X509Parser getParser(X509Chooser chooser) {
+        return new CertificateSignatureAlgorithmIdentifierParser(chooser, this);
     }
 
     @Override

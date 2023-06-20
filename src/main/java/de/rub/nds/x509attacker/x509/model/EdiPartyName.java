@@ -31,9 +31,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class EdiPartyName extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private DirectoryString nameAssigner;
+    @HoldsModifiableVariable private X509Explicit<DirectoryString> nameAssigner;
 
-    @HoldsModifiableVariable private DirectoryString partyName;
+    @HoldsModifiableVariable private X509Explicit<DirectoryString> partyName;
 
     private EdiPartyName() {
         super(null);
@@ -41,29 +41,37 @@ public class EdiPartyName extends Asn1Sequence implements X509Component {
 
     public EdiPartyName(String identifier) {
         super(identifier);
-        nameAssigner = new DirectoryString("nameAssigner");
-        partyName = new DirectoryString("partyName");
+        nameAssigner =
+                new X509Explicit<DirectoryString>(
+                        "nameAssigner", 0, new DirectoryString("nameAssigner"));
+        nameAssigner.setOptional(true);
+        partyName =
+                new X509Explicit<DirectoryString>("partyName", 1, new DirectoryString("partyName"));
     }
 
     public EdiPartyName(String identifier, int implicitTagNumber) {
         super(identifier, implicitTagNumber);
-        nameAssigner = new DirectoryString("nameAssigner");
-        partyName = new DirectoryString("partyName");
+        nameAssigner =
+                new X509Explicit<DirectoryString>(
+                        "nameAssigner", 0, new DirectoryString("nameAssigner"));
+        nameAssigner.setOptional(true);
+        partyName =
+                new X509Explicit<DirectoryString>("partyName", 1, new DirectoryString("partyName"));
     }
 
-    public DirectoryString getNameAssigner() {
+    public X509Explicit<DirectoryString> getNameAssigner() {
         return nameAssigner;
     }
 
-    public void setNameAssigner(DirectoryString nameAssigner) {
+    public void setNameAssigner(X509Explicit<DirectoryString> nameAssigner) {
         this.nameAssigner = nameAssigner;
     }
 
-    public DirectoryString getPartyName() {
+    public X509Explicit<DirectoryString> getPartyName() {
         return partyName;
     }
 
-    public void setPartyName(DirectoryString partyName) {
+    public void setPartyName(X509Explicit<DirectoryString> partyName) {
         this.partyName = partyName;
     }
 

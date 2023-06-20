@@ -8,14 +8,13 @@
  */
 package de.rub.nds.x509attacker.x509.model;
 
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.parser.AlgorithmIdentifierParser;
-import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.serializer.AlgorithmIdentifierSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -28,7 +27,7 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Co
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier algorithm;
 
-    @HoldsModifiableVariable private Asn1Field parameters;
+    @HoldsModifiableVariable private Asn1Encodable parameters;
 
     private AlgorithmIdentifier() {
         super(null);
@@ -39,7 +38,7 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Co
         super(identifier);
         algorithm = new Asn1ObjectIdentifier("algorithm");
         parameters = new Asn1Null("parameters");
-        parameters.setOptional(true);
+        ((Asn1Field) parameters).setOptional(true);
         addChild(algorithm);
         addChild(parameters);
     }
@@ -52,17 +51,12 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Co
         this.algorithm = algorithm;
     }
 
-    public Asn1Field getParameters() {
+    public Asn1Encodable getParameters() {
         return parameters;
     }
 
-    public void setParameters(Asn1Field parameters) {
+    public void setParameters(Asn1Encodable parameters) {
         this.parameters = parameters;
-    }
-
-    @Override
-    public final X509Parser getParser(X509Chooser chooser) {
-        return new AlgorithmIdentifierParser(chooser, this);
     }
 
     @Override

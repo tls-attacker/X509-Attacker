@@ -10,18 +10,15 @@ package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.handler.OtherNameHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
-import de.rub.nds.x509attacker.x509.parser.OtherNameParser;
+import de.rub.nds.x509attacker.x509.parser.AnotherNameParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
-import de.rub.nds.x509attacker.x509.preparator.OtherNamePreparator;
+import de.rub.nds.x509attacker.x509.preparator.AnotherNamePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.OtherNameSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -32,24 +29,24 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class OtherName extends Asn1Sequence implements X509Component {
+public class AnotherName extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier typeId;
 
-    @HoldsModifiableVariable private Asn1Encodable value;
+    @HoldsModifiableVariable private X509Explicit value;
 
-    private OtherName() {
+    private AnotherName() {
         super(null);
     }
 
-    public OtherName(String identifier) {
+    public AnotherName(String identifier) {
         this(identifier, UniversalTagNumber.SEQUENCE.getIntValue());
     }
 
-    public OtherName(String identifier, Integer tagNumber) {
+    public AnotherName(String identifier, Integer tagNumber) {
         super(identifier, tagNumber);
         typeId = new Asn1ObjectIdentifier("typeId");
-        value = new Asn1Null("value");
+        value = new X509Explicit(Asn1Null("value"));
         addChild(typeId);
         addChild(value);
     }
@@ -72,21 +69,21 @@ public class OtherName extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        return new OtherNameHandler(chooser, this);
+        return new AnotherNameHandler(chooser, this);
     }
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new OtherNameParser(chooser, this);
+        return new AnotherNameParser(chooser, this);
     }
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        return new OtherNamePreparator(chooser, this);
+        return new AnotherNamePreparator(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new OtherNameSerializer(chooser, this);
+        return new AnotherNameSerializer(chooser, this);
     }
 }

@@ -37,7 +37,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private AlgorithmIdentifier algorithm;
+    @HoldsModifiableVariable private SubjectPublicKeyAlgorithmIdentifier algorithm;
 
     @HoldsModifiableVariable private PublicKeyBitString subjectPublicKeyBitString;
 
@@ -64,6 +64,10 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
 
     public void setAlgorithm(SubjectPublicKeyAlgorithmIdentifier algorithm) {
         this.algorithm = algorithm;
+    }
+
+    public SubjectPublicKeyAlgorithmIdentifier getAlgorithm() {
+        return algorithm;
     }
 
     public PublicKeyBitString getSubjectPublicKeyBitString() {

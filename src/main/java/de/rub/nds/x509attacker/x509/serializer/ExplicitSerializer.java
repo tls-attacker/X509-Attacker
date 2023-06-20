@@ -9,9 +9,10 @@
 package de.rub.nds.x509attacker.x509.serializer;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.model.OtherName;
+import de.rub.nds.x509attacker.x509.model.X509Component;
+import de.rub.nds.x509attacker.x509.model.X509Explicit;
 
-public class OtherNameSerializer implements X509Serializer {
+public class ExplicitSerializer<InnerField extends X509Component> implements X509Serializer {
 
-    public OtherNameSerializer(X509Chooser chooser, OtherName otherName) {}
+    public ExplicitSerializer(X509Chooser chooser, X509Explicit<InnerField> x509Explicit) {}
 }

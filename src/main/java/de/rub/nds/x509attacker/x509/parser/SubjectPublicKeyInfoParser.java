@@ -11,20 +11,15 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyInfo;
 import java.io.PushbackInputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
-public class SubjectPublicKeyInfoParser extends X509ComponentParser<SubjectPublicKeyInfo> {
-
-    @SuppressWarnings("unused")
-    private static final Logger LOGGER = LogManager.getLogger();
+public class SubjectPublicKeyInfoParser extends X509ComponentContainerParser<SubjectPublicKeyInfo> {
 
     public SubjectPublicKeyInfoParser(X509Chooser chooser, SubjectPublicKeyInfo field) {
         super(chooser, field);
     }
 
     @Override
-    protected void parseContent(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(PushbackInputStream inputStream) {
         encodable.getAlgorithm().getParser(chooser).parse(inputStream);
         encodable.getSubjectPublicKeyBitString().getParser(chooser).parse(inputStream);
     }

@@ -51,6 +51,7 @@ public class PublicKeyBitStringParser extends Asn1Parser<PublicKeyBitString> imp
                 .getParser(chooser)
                 .parse(new ByteArrayInputStream(publicKeyBitString.getUsedBits().getValue()));
 
+        // TODO we are adjusting the context here - check how we want to do this
         publicKeyBitString.getX509PublicKeyContent().getHandler(chooser).adjustContext();
     }
 }
