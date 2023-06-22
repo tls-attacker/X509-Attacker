@@ -22,6 +22,7 @@ import org.apache.logging.log4j.Logger;
 public class AttributeTypeAndValueParser
         extends X509ComponentContainerParser<AttributeTypeAndValue> {
 
+    @SuppressWarnings("unused")
     private static final Logger LOGGER = LogManager.getLogger();
 
     public AttributeTypeAndValueParser(
