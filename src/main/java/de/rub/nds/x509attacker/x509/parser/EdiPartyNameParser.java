@@ -22,7 +22,7 @@ public class EdiPartyNameParser extends X509ComponentContainerParser<EdiPartyNam
 
     @Override
     protected void parseSubcomponents(PushbackInputStream inputStream) {
-        if(ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 0)){
+        if (ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 0)) {
             encodable.getNameAssigner().getParser(chooser).parse(inputStream);
         }
         encodable.getPartyName().getParser(chooser).parse(inputStream);

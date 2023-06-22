@@ -16,7 +16,6 @@ import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1UtcTime;
-import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.asn1.time.TimeEncoder;
 import de.rub.nds.asn1.time.TimeField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -39,20 +38,16 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.joda.time.DateTime;
 
-public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate>
-        implements X509Preparator {
+public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertificate> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final X509Chooser chooser;
-
     public TbsCertificatePreparator(X509Chooser chooser, TbsCertificate tbsCertificate) {
-        super(tbsCertificate);
-        this.chooser = chooser;
+        super(chooser, tbsCertificate);
     }
 
     @Override
-    protected byte[] encodeContent() {
+    public void prepareSubComponents() {
         prepareVersion();
         prepareSerialNumber();
         prepareSignature();
@@ -63,8 +58,6 @@ public class TbsCertificatePreparator extends Asn1FieldPreparator<TbsCertificate
         prepareIssuerUniqueId();
         prepareSubjectUniqueId();
         prepareExtensions();
-        field.setEncodedChildren(field.getSerializer(chooser).serialize());
-        return field.getEncodedChildren().getValue();
     }
 
     private void prepareVersion() {

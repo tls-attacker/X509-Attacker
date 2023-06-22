@@ -11,7 +11,14 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Validity;
 
-public class ValidityPreparator implements X509Preparator {
+public class ValidityPreparator extends X509ContainerPreparator<Validity> {
 
-    public ValidityPreparator(X509Chooser chooser, Validity validity) {}
+    public ValidityPreparator(X509Chooser chooser, Validity validity) {
+        super(chooser, validity);
+    }
+
+    @Override
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+    }
 }

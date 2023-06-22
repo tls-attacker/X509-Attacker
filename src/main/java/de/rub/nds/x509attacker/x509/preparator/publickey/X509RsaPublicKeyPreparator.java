@@ -8,17 +8,14 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
-import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
+import de.rub.nds.x509attacker.x509.preparator.X509Asn1FieldPreparator;
 
-public class X509RsaPublicKeyPreparator extends Asn1FieldPreparator<X509RsaPublicKey> {
-
-    private X509Chooser chooser;
+public class X509RsaPublicKeyPreparator extends X509Asn1FieldPreparator<X509RsaPublicKey> {
 
     public X509RsaPublicKeyPreparator(X509Chooser chooser, X509RsaPublicKey instance) {
-        super(instance);
-        this.chooser = chooser;
+        super(chooser, instance);
     }
 
     @Override

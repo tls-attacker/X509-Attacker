@@ -11,8 +11,15 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyInfo;
 
-public class SubjectPublicKeyInfoPreparator implements X509Preparator {
+public class SubjectPublicKeyInfoPreparator extends X509ContainerPreparator<SubjectPublicKeyInfo> {
 
     public SubjectPublicKeyInfoPreparator(
-            X509Chooser chooser, SubjectPublicKeyInfo subjectPublicKeyInfo) {}
+            X509Chooser chooser, SubjectPublicKeyInfo subjectPublicKeyInfo) {
+        super(chooser, subjectPublicKeyInfo);
+    }
+
+    @Override
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+    }
 }

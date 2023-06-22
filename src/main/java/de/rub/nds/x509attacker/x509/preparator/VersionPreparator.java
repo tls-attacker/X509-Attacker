@@ -11,7 +11,14 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Version;
 
-public class VersionPreparator implements X509Preparator {
+public class VersionPreparator extends X509Asn1FieldPreparator<Version> {
 
-    public VersionPreparator(X509Chooser chooser, Version version) {}
+    public VersionPreparator(X509Chooser chooser, Version version) {
+        super(chooser, version);
+    }
+
+    @Override
+    protected byte[] encodeContent() {
+        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
+    }
 }

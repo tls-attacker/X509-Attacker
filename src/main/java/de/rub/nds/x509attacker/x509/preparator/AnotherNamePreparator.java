@@ -11,7 +11,14 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.AnotherName;
 
-public class AnotherNamePreparator implements X509Preparator {
+public class AnotherNamePreparator extends X509ContainerPreparator<AnotherName> {
 
-    public AnotherNamePreparator(X509Chooser chooser, AnotherName otherName) {}
+    public AnotherNamePreparator(X509Chooser chooser, AnotherName otherName) {
+        super(chooser, otherName);
+    }
+
+    @Override
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+    }
 }

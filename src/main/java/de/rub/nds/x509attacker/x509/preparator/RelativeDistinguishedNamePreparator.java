@@ -11,8 +11,16 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 
-public class RelativeDistinguishedNamePreparator implements X509Preparator {
+public class RelativeDistinguishedNamePreparator
+        extends X509ContainerPreparator<RelativeDistinguishedName> {
 
     public RelativeDistinguishedNamePreparator(
-            X509Chooser chooser, RelativeDistinguishedName relativeDistinguishedName) {}
+            X509Chooser chooser, RelativeDistinguishedName relativeDistinguishedName) {
+        super(chooser, relativeDistinguishedName);
+    }
+
+    @Override
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+    }
 }

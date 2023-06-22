@@ -11,7 +11,14 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.EdiPartyName;
 
-public class EdiPartyNamePreparator implements X509Preparator {
+public class EdiPartyNamePreparator extends X509ContainerPreparator<EdiPartyName> {
 
-    public EdiPartyNamePreparator(X509Chooser chooser, EdiPartyName ediPartyName) {}
+    public EdiPartyNamePreparator(X509Chooser chooser, EdiPartyName ediPartyName) {
+        super(chooser, ediPartyName);
+    }
+
+    @Override
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+    }
 }

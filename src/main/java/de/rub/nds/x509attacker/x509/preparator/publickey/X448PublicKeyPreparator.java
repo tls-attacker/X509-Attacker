@@ -10,17 +10,16 @@ package de.rub.nds.x509attacker.x509.preparator.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509X448PublicKey;
-import de.rub.nds.x509attacker.x509.preparator.X509ComponentPreparator;
-import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.preparator.X509Asn1FieldPreparator;
 
-public class X448PublicKeyPreparator extends X509ComponentPreparator<X509X448PublicKey>
-        implements X509Preparator {
+public class X448PublicKeyPreparator extends X509Asn1FieldPreparator<X509X448PublicKey> {
+
     public X448PublicKeyPreparator(X509Chooser chooser, X509X448PublicKey instance) {
         super(chooser, instance);
     }
 
     @Override
-    public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+    protected byte[] encodeContent() {
+        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
     }
 }

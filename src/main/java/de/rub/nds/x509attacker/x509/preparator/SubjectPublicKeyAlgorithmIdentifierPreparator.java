@@ -11,14 +11,17 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyAlgorithmIdentifier;
 
-public class SubjectPublicKeyAlgorithmIdentifierPreparator implements X509Preparator {
+public class SubjectPublicKeyAlgorithmIdentifierPreparator
+        extends X509ContainerPreparator<SubjectPublicKeyAlgorithmIdentifier> {
 
     public SubjectPublicKeyAlgorithmIdentifierPreparator(
             X509Chooser chooser,
-            SubjectPublicKeyAlgorithmIdentifier subjectPublicKeyAlgorithmIdentifier) {}
+            SubjectPublicKeyAlgorithmIdentifier subjectPublicKeyAlgorithmIdentifier) {
+        super(chooser, subjectPublicKeyAlgorithmIdentifier);
+    }
 
     @Override
-    public void prepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepare'");
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
     }
 }

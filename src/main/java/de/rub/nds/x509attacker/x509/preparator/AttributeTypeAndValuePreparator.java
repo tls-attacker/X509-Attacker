@@ -8,44 +8,31 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Ia5String;
 import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.model.Asn1T61String;
 import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
-import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<AttributeTypeAndValue>
-        implements X509Preparator {
+public class AttributeTypeAndValuePreparator
+        extends X509ContainerPreparator<AttributeTypeAndValue> {
+
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final AttributeTypeAndValue instance;
-
-    private X509Chooser chooser;
-
-    public AttributeTypeAndValuePreparator(X509Chooser chooser, AttributeTypeAndValue instance) {
-        super(instance);
-        this.chooser = chooser;
-        this.instance = instance;
-    }
-
-    @Override
-    protected byte[] encodeContent() {
-        prepareTypeConfig();
-        prepareTypeValue();
-        instance.setEncodedChildren(field.getSerializer(chooser).serialize());
-        return instance.getEncodedChildren().getValue();
+    public AttributeTypeAndValuePreparator(
+            X509Chooser chooser, AttributeTypeAndValue attributeTypeAndValue) {
+        super(chooser, attributeTypeAndValue);
     }
 
     public void prepareTypeValue() {
-        Asn1Field valueField = instance.getValue();
-        String value = instance.getValueConfig();
+        Asn1Encodable valueField = field.getValue();
+        String value = field.getValueConfig();
         if (value == null) {
             LOGGER.warn(
                     "AttributeTypeAndValue value config is not set - using an empty string \"\"");
@@ -66,13 +53,19 @@ public class AttributeTypeAndValuePreparator extends Asn1FieldPreparator<Attribu
     }
 
     private void prepareTypeConfig() {
-        X500AttributeType attributeType = instance.getAttributeTypeConfig();
+        X500AttributeType attributeType = field.getAttributeTypeConfig();
         ObjectIdentifier oid;
         if (attributeType == null) {
             oid = new ObjectIdentifier("1.1");
         } else {
             oid = attributeType.getOid();
         }
-        prepareField(instance.getType(), oid);
+        prepareField(field.getType(), oid);
+    }
+
+    @Override
+    public void prepareSubComponents() {
+        prepareTypeConfig();
+        prepareTypeValue();
     }
 }

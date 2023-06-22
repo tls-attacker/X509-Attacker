@@ -11,7 +11,14 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Extensions;
 
-public class ExtensionsPreparator implements X509Preparator {
+public class ExtensionsPreparator extends X509ContainerPreparator<Extensions> {
 
-    public ExtensionsPreparator(X509Chooser chooser, Extensions extensions) {}
+    public ExtensionsPreparator(X509Chooser chooser, Extensions extensions) {
+        super(chooser, extensions);
+    }
+
+    @Override
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+    }
 }

@@ -11,7 +11,14 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.OrAddress;
 
-public class OrAddressPreparator implements X509Preparator {
+public class OrAddressPreparator extends X509ContainerPreparator<OrAddress> {
 
-    public OrAddressPreparator(X509Chooser chooser, OrAddress orAddress) {}
+    public OrAddressPreparator(X509Chooser chooser, OrAddress orAddress) {
+        super(chooser, orAddress);
+    }
+
+    @Override
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+    }
 }

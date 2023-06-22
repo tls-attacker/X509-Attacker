@@ -11,14 +11,17 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
 
-public class CertificateSignatureAlgorithmIdentifierPreparator implements X509Preparator {
+public class CertificateSignatureAlgorithmIdentifierPreparator
+        extends X509ContainerPreparator<CertificateSignatureAlgorithmIdentifier> {
 
     public CertificateSignatureAlgorithmIdentifierPreparator(
             X509Chooser chooser,
-            CertificateSignatureAlgorithmIdentifier certificateSignatureAlgorithmIdentifier) {}
+            CertificateSignatureAlgorithmIdentifier certificateSignatureAlgorithmIdentifier) {
+        super(chooser, certificateSignatureAlgorithmIdentifier);
+    }
 
     @Override
-    public void prepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepare'");
+    public void prepareSubComponents() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
     }
 }

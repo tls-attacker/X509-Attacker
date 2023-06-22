@@ -8,28 +8,21 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey.parameters;
 
-import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
+import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 
-public class X509DhParameterPreparator extends Asn1FieldPreparator<X509DhParameters>
+public class X509DhParameterPreparator extends X509ContainerPreparator<X509DhParameters>
         implements X509Preparator {
 
-    private X509DhParameters parameters;
-    private X509Chooser chooser;
-
     public X509DhParameterPreparator(X509Chooser chooser, X509DhParameters parameters) {
-        super(parameters);
-        this.parameters = parameters;
-        this.chooser = chooser;
+        super(chooser, parameters);
     }
 
     @Override
-    protected byte[] encodeContent() {
-        parameters.getG().setValue(chooser.getConfig().getDhGenerator());
-        parameters.getP().setValue(chooser.getConfig().getDhModulus());
-        parameters.setEncodedChildren(field.getSerializer(chooser).serialize());
-        return parameters.getEncodedChildren().getValue();
+    public void prepareSubComponents() {
+        field.getG().setValue(chooser.getConfig().getDhGenerator());
+        field.getP().setValue(chooser.getConfig().getDhModulus());
     }
 }

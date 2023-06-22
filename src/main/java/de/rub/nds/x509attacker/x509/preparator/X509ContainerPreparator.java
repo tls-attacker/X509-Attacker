@@ -8,34 +8,28 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.model.X509Component;
 
-public abstract class X509ComponentPreparator<Component extends Asn1Field>
-        extends Asn1FieldPreparator<Component> {
+public abstract class X509ContainerPreparator<Container extends Asn1Container>
+        extends Asn1FieldPreparator<Container> {
 
     protected final X509Chooser chooser;
 
-    protected X509Component component;
-
     /**
-     * TODO not so nice.
-     *
      * @param chooser
-     * @param field
+     * @param container
      */
-    public X509ComponentPreparator(X509Chooser chooser, X509Component field) {
-        super((Component) field);
-        this.component = field;
+    public X509ContainerPreparator(X509Chooser chooser, Container container) {
+        super(container);
         this.chooser = chooser;
     }
 
     @Override
     protected final byte[] encodeContent() {
         prepareSubComponents();
-        return component.getSerializer(chooser).serialize();
+        return encodeChildren(field);
     }
 
     public abstract void prepareSubComponents();

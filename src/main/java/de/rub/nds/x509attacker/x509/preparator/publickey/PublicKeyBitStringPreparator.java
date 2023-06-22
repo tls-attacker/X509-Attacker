@@ -8,33 +8,26 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
-import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
-import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.preparator.X509Asn1FieldPreparator;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class PublicKeyBitStringPreparator extends Asn1FieldPreparator<PublicKeyBitString>
-        implements X509Preparator {
+public class PublicKeyBitStringPreparator extends X509Asn1FieldPreparator<PublicKeyBitString> {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
-    private final PublicKeyBitString publicKeyBitString;
-    private final X509Chooser chooser;
-
     public PublicKeyBitStringPreparator(
             X509Chooser chooser, PublicKeyBitString publicKeyBitString) {
-        super(publicKeyBitString);
-        this.publicKeyBitString = publicKeyBitString;
-        this.chooser = chooser;
+        super(chooser, publicKeyBitString);
     }
 
     @Override
     protected byte[] encodeContent() {
-        if (publicKeyBitString.getX509PublicKeyContent() != null) {
+        if (field.getX509PublicKeyContent() != null) {
             return encodeBitString(
-                    publicKeyBitString.getX509PublicKeyContent().getSerializer(chooser).serialize(),
+                    field.getX509PublicKeyContent().getSerializer(chooser).serialize(),
                     (byte) 0,
                     (byte) 0);
         } else {
