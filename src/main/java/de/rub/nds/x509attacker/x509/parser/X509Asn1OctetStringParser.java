@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.parser.Asn1Parser;
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import java.io.InputStream;
 
@@ -24,6 +25,6 @@ public class X509Asn1OctetStringParser extends Asn1Parser<Asn1OctetString> imple
 
     @Override
     public final void parse(InputStream inputStream) {
-        Asn1ParserHelper.parseAsn1OctetString(encodable, inputStream);
+        ParserHelper.parseAsn1OctetString(encodable, inputStream);
     }
 }

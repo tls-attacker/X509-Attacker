@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.asn1.util.Asn1Header;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -30,7 +31,7 @@ public class X509ChoiceParser implements X509Parser {
     @Override
     public void parse(InputStream inputStream) {
         PushbackInputStream pushbackInputStream = new PushbackInputStream(inputStream);
-        Asn1Header header = Asn1ParserHelper.lookAhead(pushbackInputStream);
+        Asn1Header header = ParserHelper.lookAhead(pushbackInputStream);
         choice.makeSelection(
                 header.getTagClass(),
                 header.getTagConstructed().getBooleanValue(),
@@ -44,7 +45,7 @@ public class X509ChoiceParser implements X509Parser {
             X509Component x509Component = (X509Component) selectedChoice;
             x509Component.getParser(chooser).parse(pushbackInputStream);
         } else {
-            Asn1ParserHelper.parseGenericField(selectedChoice, pushbackInputStream);
+            ParserHelper.parseGenericField(selectedChoice, pushbackInputStream);
         }
     }
 }

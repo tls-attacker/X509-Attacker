@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.parser.Asn1Parser;
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
@@ -33,7 +34,7 @@ public class PublicKeyBitStringParser extends Asn1Parser<PublicKeyBitString> imp
 
     @Override
     public void parse(InputStream inputStream) {
-        Asn1ParserHelper.parseAsn1BitString(publicKeyBitString, inputStream);
+        ParserHelper.parseAsn1BitString(publicKeyBitString, inputStream);
         /**
          * The content of the public key bitstring itself has structure, so we need to parse it as
          * well.

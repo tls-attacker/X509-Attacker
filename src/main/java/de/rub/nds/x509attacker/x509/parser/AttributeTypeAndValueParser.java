@@ -31,7 +31,7 @@ public class AttributeTypeAndValueParser
 
     @Override
     protected void parseSubcomponents(PushbackInputStream inputStream) {
-        Asn1ParserHelper.parseAsn1ObjectIdentifier(encodable.getType(), inputStream);
+        ParserHelper.parseAsn1ObjectIdentifier(encodable.getType(), inputStream);
         // Depending on the Type we can now parse the correct valueConfig
         X500AttributeType attributeType =
                 X500AttributeType.decodeFromOidBytes(
