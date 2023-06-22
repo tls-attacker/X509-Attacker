@@ -6,6 +6,12 @@
  * Licensed under Apache License, Version 2.0
  * http://www.apache.org/licenses/LICENSE-2.0.txt
  */
-package de.rub.nds.x509attacker.x509.model;
+package de.rub.nds.x509attacker.x509.serializer;
 
-public class TimeSerializer {}
+import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.model.Time;
+
+public class TimeSerializer implements X509Serializer {
+
+    public TimeSerializer(X509Chooser chooser, Time time) {}
+}

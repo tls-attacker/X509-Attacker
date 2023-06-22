@@ -27,7 +27,7 @@ import jakarta.xml.bind.annotation.XmlTransient;
 
 public class GeneralName extends Asn1Choice implements X509Component {
 
-    @XmlTransient private final OtherName otherName;
+    @XmlTransient private final AnotherName otherName;
     @XmlTransient private final Asn1Ia5String rfc822Name;
     @XmlTransient private final Asn1Ia5String dnsName;
     @XmlTransient private final OrAddress x400Address;
@@ -40,7 +40,7 @@ public class GeneralName extends Asn1Choice implements X509Component {
     public GeneralName(String identifier) {
         super(
                 identifier,
-                new OtherName("otherName", 0),
+                new AnotherName("otherName", 0),
                 new Asn1Ia5String("rfc822Name", 1),
                 new Asn1Ia5String("dNSName", 2),
                 new OrAddress("x400Address", 3),
@@ -49,7 +49,7 @@ public class GeneralName extends Asn1Choice implements X509Component {
                 new Asn1Ia5String("uniformResourceIdentifier", 6),
                 new Asn1OctetString("iPAddress", 7),
                 new Asn1ObjectIdentifier("registeredID", 8));
-        otherName = (OtherName) getSelecteableEncodables().get(0);
+        otherName = (AnotherName) getSelecteableEncodables().get(0);
         rfc822Name = (Asn1Ia5String) getSelecteableEncodables().get(1);
         dnsName = (Asn1Ia5String) getSelecteableEncodables().get(2);
         x400Address = (OrAddress) getSelecteableEncodables().get(3);
@@ -60,11 +60,12 @@ public class GeneralName extends Asn1Choice implements X509Component {
         registeredId = (ObjectIdentifier) getSelecteableEncodables().get(8);
     }
 
+    @SuppressWarnings("unused")
     private GeneralName() {
         this("generalName");
     }
 
-    public OtherName getOtherName() {
+    public AnotherName getOtherName() {
         return otherName;
     }
 

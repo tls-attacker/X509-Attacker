@@ -17,7 +17,7 @@ import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.DirectoryStringHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
-import de.rub.nds.x509attacker.x509.parser.DirectoryStringParser;
+import de.rub.nds.x509attacker.x509.parser.X509ChoiceParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.DirectoryStringPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
@@ -94,7 +94,7 @@ public class DirectoryString extends Asn1Choice implements X509Component {
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new DirectoryStringParser(chooser, this);
+        return new X509ChoiceParser(chooser, this);
     }
 
     @Override
