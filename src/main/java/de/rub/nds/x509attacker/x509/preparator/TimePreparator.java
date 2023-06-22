@@ -14,4 +14,9 @@ import de.rub.nds.x509attacker.x509.model.Time;
 public class TimePreparator implements X509Preparator {
 
     public TimePreparator(X509Chooser chooser, Time time) {}
+
+    @Override
+    public void prepare() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepare'");
+    }
 }
