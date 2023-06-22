@@ -8,19 +8,22 @@
  */
 package de.rub.nds.x509attacker.x509.parser.publickey.parameters;
 
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
-import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.parser.X509ComponentParser;
 import java.io.InputStream;
 
-public class X509EcNamedCurveParametersParser implements X509Parser {
+public class X509EcNamedCurveParametersParser
+        extends X509ComponentParser<X509EcNamedCurveParameters> {
 
     public X509EcNamedCurveParametersParser(
-            X509Chooser chooser, X509EcNamedCurveParameters x509EcNamedCurveParameters) {}
+            X509Chooser chooser, X509EcNamedCurveParameters x509EcNamedCurveParameters) {
+        super(chooser, x509EcNamedCurveParameters);
+    }
 
     @Override
     public void parse(InputStream inputStream) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'parse'");
+        ParserHelper.parseAsn1ObjectIdentifier(encodable, inputStream);
     }
 }

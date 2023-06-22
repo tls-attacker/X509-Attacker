@@ -8,19 +8,23 @@
  */
 package de.rub.nds.x509attacker.x509.parser.publickey.parameters;
 
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhValidationParms;
-import de.rub.nds.x509attacker.x509.parser.X509Parser;
-import java.io.InputStream;
+import de.rub.nds.x509attacker.x509.parser.X509ComponentContainerParser;
+import java.io.PushbackInputStream;
 
-public class X509DhValidationParmsParser implements X509Parser {
+public class X509DhValidationParmsParser
+        extends X509ComponentContainerParser<X509DhValidationParms> {
 
     public X509DhValidationParmsParser(
-            X509Chooser chooser, X509DhValidationParms x509DhValidationParms) {}
+            X509Chooser chooser, X509DhValidationParms x509DhValidationParms) {
+        super(chooser, x509DhValidationParms);
+    }
 
     @Override
-    public void parse(InputStream inputStream) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'parse'");
+    protected void parseSubcomponents(PushbackInputStream inputStream) {
+        ParserHelper.parseAsn1BitString(encodable.getSeed(), inputStream);
+        ParserHelper.parseAsn1Integer(encodable.getPgenCounter(), inputStream);
     }
 }

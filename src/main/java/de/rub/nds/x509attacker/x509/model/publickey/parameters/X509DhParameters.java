@@ -30,6 +30,8 @@ public class X509DhParameters extends Asn1Sequence implements PublicParameters {
 
     private Asn1Integer p;
     private Asn1Integer g;
+    private Asn1Integer q;
+    private Asn1Integer j;
     private X509DhValidationParms validationParms;
 
     private X509DhParameters() {
@@ -40,10 +42,16 @@ public class X509DhParameters extends Asn1Sequence implements PublicParameters {
         super(identifier);
         this.p = new Asn1Integer("p");
         this.g = new Asn1Integer("g");
+        this.q = new Asn1Integer("q");
+        this.j = new Asn1Integer("j");
+
         this.validationParms = new X509DhValidationParms("validationParms");
-        validationParms.setOptional(true);
+        this.j.setOptional(true);
+        this.validationParms.setOptional(true);
         addChild(p);
         addChild(g);
+        addChild(q);
+        addChild(j);
         addChild(validationParms);
     }
 
@@ -51,11 +59,16 @@ public class X509DhParameters extends Asn1Sequence implements PublicParameters {
         super(identifier);
         this.p = new Asn1Integer("p");
         this.g = new Asn1Integer("g");
+        this.q = new Asn1Integer("q");
+        this.j = new Asn1Integer("j");
+        this.j.setOptional(true);
         if (config.getIncludeDhValidationParameters()) {
             this.validationParms = new X509DhValidationParms("validationParms");
         }
         addChild(p);
         addChild(g);
+        addChild(q);
+        addChild(j);
         if (validationParms != null) {
             addChild(validationParms);
         }
@@ -75,6 +88,22 @@ public class X509DhParameters extends Asn1Sequence implements PublicParameters {
 
     public void setG(Asn1Integer g) {
         this.g = g;
+    }
+
+    public Asn1Integer getQ() {
+        return q;
+    }
+
+    public void setQ(Asn1Integer q) {
+        this.q = q;
+    }
+
+    public Asn1Integer getJ() {
+        return j;
+    }
+
+    public void setJ(Asn1Integer j) {
+        this.j = j;
     }
 
     public X509DhValidationParms getValidationParms() {

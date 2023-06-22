@@ -8,17 +8,31 @@
  */
 package de.rub.nds.x509attacker.x509.parser.publickey.parameters;
 
+import java.io.PushbackInputStream;
+
+import de.rub.nds.asn1.constants.TagClass;
+import de.rub.nds.asn1.constants.UniversalTagNumber;
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
-import de.rub.nds.x509attacker.x509.parser.X509Parser;
-import java.io.InputStream;
+import de.rub.nds.x509attacker.x509.parser.X509ComponentContainerParser;
 
-public class X509DhParametersParser implements X509Parser {
+public class X509DhParametersParser extends X509ComponentContainerParser<X509DhParameters> {
 
-    public X509DhParametersParser(X509Chooser chooser, X509DhParameters x509DhParameters) {}
+    public X509DhParametersParser(X509Chooser chooser, X509DhParameters x509DhParameters) {
+        super(chooser, x509DhParameters);
+    }
 
     @Override
-    public void parse(InputStream inputStream) {
-        throw new UnsupportedOperationException("Unimplemented method 'parse'");
+    protected void parseSubcomponents(PushbackInputStream inputStream) {
+        ParserHelper.parseAsn1Integer(encodable.getP(), inputStream);
+        ParserHelper.parseAsn1Integer(encodable.getG(), inputStream);
+        ParserHelper.parseAsn1Integer(encodable.getQ(), inputStream);
+        if (ParserHelper.canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.INTEGER.getIntValue())) {
+            ParserHelper.parseAsn1Integer(encodable.getP(), inputStream);
+        }
+        if (ParserHelper.canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.SEQUENCE.getIntValue())) {
+            encodable.getValidationParms().getParser(chooser).parse(inputStream);
+        }
     }
 }
