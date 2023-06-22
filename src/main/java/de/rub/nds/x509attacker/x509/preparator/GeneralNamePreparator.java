@@ -14,4 +14,9 @@ import de.rub.nds.x509attacker.x509.model.GeneralName;
 public class GeneralNamePreparator implements X509Preparator {
 
     public GeneralNamePreparator(X509Chooser chooser, GeneralName generalName) {}
+
+    @Override
+    public void prepare() {
+        throw new UnsupportedOperationException("Unimplemented method 'prepare'");
+    }
 }
