@@ -20,6 +20,6 @@ public class OrAddressParser extends X509ComponentContainerParser<OrAddress> {
 
     @Override
     protected void parseSubcomponents(PushbackInputStream inputStream) {
-        throw new UnsupportedOperationException("Unimplemented method 'parseSubcomponents'");
+        throw new UnsupportedOperationException("OrAddress not supported for now.");
     }
 }
