@@ -22,6 +22,9 @@ public class X509DhValidationParmsPreparator
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        prepareField(
+                field.getPgenCounter(), chooser.getConfig().getDhValidationParameterPgenCounter());
+        prepareField(
+                field.getSeed(), chooser.getConfig().getDhValidationParameterSeed(), (byte) 0x00);
     }
 }

@@ -174,6 +174,10 @@ public class X509CertificateConfig {
 
     private X509NamedCurve defaultSubjectNamedCurve = X509NamedCurve.SECP256R1;
 
+    private BigInteger dhValidationParameterPgenCounter = new BigInteger("1");
+
+    private byte[] dhValidationParameterSeed = new byte[32];
+
     public X509CertificateConfig() {
         defaultIssuer = new LinkedList<>();
         defaultIssuer.add(
@@ -186,6 +190,22 @@ public class X509CertificateConfig {
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
         EllipticCurve curve = defaultSubjectNamedCurve.getParameters().getCurve();
         ecPublicKey = curve.mult(ecPrivateKey, curve.getBasePoint()); // TODO Hardcode this
+    }
+
+    public BigInteger getDhValidationParameterPgenCounter() {
+        return dhValidationParameterPgenCounter;
+    }
+
+    public void setDhValidationParameterPgenCounter(BigInteger dhValidationParameterPgenCounter) {
+        this.dhValidationParameterPgenCounter = dhValidationParameterPgenCounter;
+    }
+
+    public byte[] getDhValidationParameterSeed() {
+        return dhValidationParameterSeed;
+    }
+
+    public void setDhValidationParameterSeed(byte[] seed) {
+        this.dhValidationParameterSeed = seed;
     }
 
     public BigInteger getDsaPrimeP() {

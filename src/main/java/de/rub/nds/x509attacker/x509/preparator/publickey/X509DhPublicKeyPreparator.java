@@ -20,6 +20,9 @@ public class X509DhPublicKeyPreparator extends X509Asn1FieldPreparator<X509DhPub
 
     @Override
     protected byte[] encodeContent() {
-        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
+        prepareField(field, chooser.getConfig().getDhPublicKey());
+        return field.getContent()
+                .getOriginalValue(); // We return the original value here, otherwise we will modify
+        // it twice
     }
 }

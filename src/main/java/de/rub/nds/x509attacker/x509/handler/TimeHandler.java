@@ -14,4 +14,10 @@ import de.rub.nds.x509attacker.x509.model.Time;
 public class TimeHandler implements X509Handler {
 
     public TimeHandler(X509Chooser chooser, Time time) {}
+
+    @Override
+    public void adjustContext() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContext'");
+    }
 }

@@ -8,6 +8,8 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
+import de.rub.nds.protocol.constants.PointFormat;
+import de.rub.nds.protocol.crypto.ec.PointFormatter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.preparator.X509Asn1FieldPreparator;
@@ -21,6 +23,13 @@ public class X509EcdhEcdsaPublicKeyPreparator
 
     @Override
     protected byte[] encodeContent() {
-        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
+        prepareField(
+                field,
+                PointFormatter.formatToByteArray(
+                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
+                        chooser.getConfig().getEcPublicKey(),
+                        PointFormat.UNCOMPRESSED)); // TODO hardcoded uncompressed
+        return field.getContent()
+                .getOriginalValue(); // We return the original value here, otherwise we will modify
     }
 }
