@@ -8,6 +8,8 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.model.Asn1Field;
+import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyAlgorithmIdentifier;
@@ -27,7 +29,15 @@ public class SubjectPublicKeyAlgorithmIdentifierPreparator
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        prepareField(field.getAlgorithm(), chooser.getSubjectPublicKeyType().getOid());
+        PublicParameters publicKeyParameters = createPublicKeyParameters();
+        if (publicKeyParameters == null) {
+            field.setParameters(new Asn1Null("parameters"));
+        } else if (publicKeyParameters instanceof Asn1Field) {
+            field.setParameters((Asn1Field) publicKeyParameters);
+        } else {
+            throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
+        }
     }
 
     private PublicParameters createPublicKeyParameters() {

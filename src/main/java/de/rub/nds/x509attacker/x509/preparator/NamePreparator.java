@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Name;
+import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 
 public class NamePreparator extends X509ContainerPreparator<Name> {
 
@@ -19,6 +20,8 @@ public class NamePreparator extends X509ContainerPreparator<Name> {
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        for (RelativeDistinguishedName rdn : field.getRelativeDistinguishedNames()) {
+            rdn.getPreparator(chooser).prepare();
+        }
     }
 }

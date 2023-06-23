@@ -19,6 +19,7 @@ public class ValidityPreparator extends X509ContainerPreparator<Validity> {
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        field.getNotBefore().getPreparator(chooser).prepare();
+        field.getNotAfter().getPreparator(chooser).prepare();
     }
 }

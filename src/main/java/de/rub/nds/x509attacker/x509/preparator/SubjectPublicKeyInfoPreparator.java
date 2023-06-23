@@ -20,6 +20,7 @@ public class SubjectPublicKeyInfoPreparator extends X509ContainerPreparator<Subj
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        field.getAlgorithm().getPreparator(chooser).prepare();
+        field.getSubjectPublicKeyBitString().getPreparator(chooser).prepare();
     }
 }

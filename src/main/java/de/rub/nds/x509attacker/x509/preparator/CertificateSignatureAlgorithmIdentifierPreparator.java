@@ -29,6 +29,7 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
 
     @Override
     public void prepareSubComponents() {
+        prepareField(field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
         PublicParameters signatureParameters = createSignatureParameters();
         if (signatureParameters == null) {
             field.setParameters(new Asn1Null("parameters"));

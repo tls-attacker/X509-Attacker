@@ -15,6 +15,7 @@ import de.rub.nds.asn1.model.Asn1T61String;
 import de.rub.nds.asn1.model.Asn1UniversalString;
 import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.DirectoryStringChoiceType;
 import de.rub.nds.x509attacker.x509.handler.DirectoryStringHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509ChoiceParser;
@@ -43,6 +44,10 @@ public class DirectoryString extends Asn1Choice implements X509Component {
     @XmlTransient private Asn1Utf8String utf8String;
     @XmlTransient private Asn1BmpString bmpString;
 
+    private DirectoryStringChoiceType directoryStringChoiceType;
+
+    private String configValue;
+
     private DirectoryString() {
         super(
                 "directoryString",
@@ -65,6 +70,22 @@ public class DirectoryString extends Asn1Choice implements X509Component {
 
     public DirectoryString(String identifier, int implicitTagNumber) {
         this();
+    }
+
+    public DirectoryStringChoiceType getDirectoryStringChoiceType() {
+        return directoryStringChoiceType;
+    }
+
+    public void setDirectoryStringChoiceType(DirectoryStringChoiceType directoryStringChoiceType) {
+        this.directoryStringChoiceType = directoryStringChoiceType;
+    }
+
+    public String getConfigValue() {
+        return configValue;
+    }
+
+    public void setConfigValue(String configValue) {
+        this.configValue = configValue;
     }
 
     public Asn1T61String getTeletexString() {

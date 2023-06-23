@@ -23,12 +23,15 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.LinkedList;
 import java.util.List;
 
 /** RelativeDistinguishedName ::= SET SIZE (1..MAX) OF AttributeTypeAndValue */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class RelativeDistinguishedName extends Asn1Set implements X509Component {
+
+    private List<AttributeTypeAndValue> attributeTypeAndValueList;
 
     private RelativeDistinguishedName() {
         super(null);
@@ -45,6 +48,7 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
     public RelativeDistinguishedName(
             String identifier, List<Pair<X500AttributeType, String>> attributeList) {
         super(identifier);
+        attributeTypeAndValueList = new LinkedList<>();
         for (Pair<X500AttributeType, String> pair : attributeList) {
             AttributeTypeAndValue attributeTypeAndValue =
                     new AttributeTypeAndValue(
@@ -55,12 +59,14 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
                             pair.getKey(),
                             pair.getValue());
             addChild(attributeTypeAndValue);
+            attributeTypeAndValueList.add(attributeTypeAndValue);
         }
     }
 
     public RelativeDistinguishedName(
             String identifier, Pair<X500AttributeType, String>... attributes) {
         super(identifier);
+        attributeTypeAndValueList = new LinkedList<>();
         for (Pair<X500AttributeType, String> pair : attributes) {
             AttributeTypeAndValue attributeTypeAndValue =
                     new AttributeTypeAndValue(
@@ -71,7 +77,17 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
                             pair.getKey(),
                             pair.getValue());
             addChild(attributeTypeAndValue);
+            attributeTypeAndValueList.add(attributeTypeAndValue);
         }
+    }
+
+    public List<AttributeTypeAndValue> getAttributeTypeAndValueList() {
+        return attributeTypeAndValueList;
+    }
+
+    public void setAttributeTypeAndValueList(
+            List<AttributeTypeAndValue> attributeTypeAndValueList) {
+        this.attributeTypeAndValueList = attributeTypeAndValueList;
     }
 
     @Override

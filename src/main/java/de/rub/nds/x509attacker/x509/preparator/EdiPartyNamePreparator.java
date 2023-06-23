@@ -19,6 +19,6 @@ public class EdiPartyNamePreparator extends X509ContainerPreparator<EdiPartyName
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        throw new UnsupportedOperationException("EdiPartyName is not yet implemented");
     }
 }

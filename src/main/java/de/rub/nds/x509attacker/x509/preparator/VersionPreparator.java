@@ -19,6 +19,7 @@ public class VersionPreparator extends X509Asn1FieldPreparator<Version> {
 
     @Override
     protected byte[] encodeContent() {
-        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
+        prepareField(field, chooser.getConfig().getVersion().getValue());
+        return field.getContent().getOriginalValue();
     }
 }

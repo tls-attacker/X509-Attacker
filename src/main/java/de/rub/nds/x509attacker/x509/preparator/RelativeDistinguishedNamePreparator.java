@@ -21,6 +21,6 @@ public class RelativeDistinguishedNamePreparator
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        field.getAttributeTypeAndValueList().forEach(atv -> atv.getPreparator(chooser).prepare());
     }
 }

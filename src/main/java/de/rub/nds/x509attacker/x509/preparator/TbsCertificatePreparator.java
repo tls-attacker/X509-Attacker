@@ -8,14 +8,9 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Integer;
-import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.model.AlgorithmIdentifier;
-import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyInfo;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
-import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -67,28 +62,7 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareSubjectPublicKeyInfo() {
-        SubjectPublicKeyInfo subjectPublicKeyInfo = field.getSubjectPublicKeyInfo();
-        AlgorithmIdentifier algorithm = subjectPublicKeyInfo.getAlgorithm();
-        algorithm
-                .getAlgorithm()
-                .setValue(chooser.getConfig().getPublicKeyType().getOid().toString());
-        algorithm
-                .getParameters()
-                .setIdentifier(chooser.getConfig().getPublicKeyType().getOid().toString());
-        algorithm.getAlgorithm().getPreparator(chooser).prepare();
-        prepareField(algorithm.getAlgorithm(), chooser.getConfig().getPublicKeyType().getOid());
-        prepareField(algorithm.getParameters());
-        PublicParameters publicKeyParameters = createPublicKeyParameters();
-        if (publicKeyParameters == null) {
-            algorithm.instantiateParameters(new Asn1Null("parameters"));
-        } else if (publicKeyParameters instanceof Asn1Field) {
-            algorithm.instantiateParameters((Asn1Field) publicKeyParameters);
-        } else {
-            throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
-        }
-        algorithm.getParameters().getPreparator(chooser).prepare();
-        subjectPublicKeyInfo.getSubjectPublicKeyBitString().getPreparator(chooser).prepare();
-        subjectPublicKeyInfo.getPreparator(chooser).prepare();
+        field.getSubjectPublicKeyInfo().getPreparator(chooser).prepare();
     }
 
     private void prepareIssuerUniqueId() {
@@ -102,7 +76,8 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     private void prepareSubjectUniqueId() {
         // SubjectUniqueID is an optional field
         if (chooser.getConfig().isIncludeSubjectUniqueId()) {
-            prepareField(field.getSubjectUniqueId(), chooser.getSubjectUniqueId(), (byte) 0);
+            prepareField(
+                    field.getSubjectUniqueId(), chooser.getConfig().getSubjectUniqueId(), (byte) 0);
             field.addChild(field.getSubjectUniqueId());
         }
     }

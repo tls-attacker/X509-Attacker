@@ -19,6 +19,6 @@ public class OrAddressPreparator extends X509ContainerPreparator<OrAddress> {
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        throw new UnsupportedOperationException("OrAddress not implemented yet");
     }
 }

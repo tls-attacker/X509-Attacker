@@ -36,13 +36,13 @@ public class GeneralName extends Asn1Choice implements X509Component {
     @XmlTransient private final EdiPartyName ediPartyName;
     @XmlTransient private final Asn1Ia5String uniformResourceIdentifier;
     @XmlTransient private final Asn1OctetString ipAddress;
-    @XmlTransient private final ObjectIdentifier registeredId;
+    @XmlTransient private final Asn1ObjectIdentifier registeredId;
 
     /** This is the choice we will make */
     private GeneralNameChoiceType generalNameChoiceTypeConfig;
 
     /** The value we will encode into the general name field */
-    private String gneralNameConfigValue;
+    private Object generalNameConfigValue;
 
     public GeneralName(String identifier) {
         super(
@@ -76,8 +76,16 @@ public class GeneralName extends Asn1Choice implements X509Component {
         return generalNameChoiceTypeConfig;
     }
 
-    public String getGneralNameConfigValue() {
-        return gneralNameConfigValue;
+    public Object getGeneralNameConfigValue() {
+        return generalNameConfigValue;
+    }
+
+    public void setGeneralNameChoiceTypeConfig(GeneralNameChoiceType generalNameChoiceTypeConfig) {
+        this.generalNameChoiceTypeConfig = generalNameChoiceTypeConfig;
+    }
+
+    public void setGeneralNameConfigValue(Object generalNameConfigValue) {
+        this.generalNameConfigValue = generalNameConfigValue;
     }
 
     public AnotherName getOtherName() {
@@ -112,7 +120,7 @@ public class GeneralName extends Asn1Choice implements X509Component {
         return ipAddress;
     }
 
-    public ObjectIdentifier getRegisteredId() {
+    public Asn1ObjectIdentifier getRegisteredId() {
         return registeredId;
     }
 

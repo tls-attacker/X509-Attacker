@@ -19,6 +19,6 @@ public class ExtensionsPreparator extends X509ContainerPreparator<Extensions> {
 
     @Override
     public void prepareSubComponents() {
-        throw new UnsupportedOperationException("Unimplemented method 'prepareSubComponents'");
+        throw new UnsupportedOperationException("Extensions not yet implemented");
     }
 }
