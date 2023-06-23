@@ -9,7 +9,7 @@
 package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.constants.UniversalTagNumber;
-import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -35,6 +35,8 @@ public class AnotherName extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private X509Explicit value;
 
+    private String configuredValue;
+
     private AnotherName() {
         super(null);
     }
@@ -59,12 +61,20 @@ public class AnotherName extends Asn1Sequence implements X509Component {
         this.typeId = typeId;
     }
 
-    public Asn1Encodable getValue() {
+    public Asn1Explicit getValue() {
         return value;
     }
 
-    public void setValue(Asn1Encodable value) {
+    public void setValue(Asn1Explicit value) {
         this.value = value;
+    }
+
+    public String getConfiguredValue() {
+        return configuredValue;
+    }
+
+    public void setConfiguredValue(String configuredValue) {
+        this.configuredValue = configuredValue;
     }
 
     @Override

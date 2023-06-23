@@ -13,7 +13,7 @@ import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 
 public abstract class X509ContainerPreparator<Container extends Asn1Container>
-        extends Asn1FieldPreparator<Container> {
+        extends Asn1FieldPreparator<Container> implements X509Preparator {
 
     protected final X509Chooser chooser;
 

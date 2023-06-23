@@ -14,6 +14,7 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.GeneralNameChoiceType;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.x509.handler.GeneralNameHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -36,6 +37,12 @@ public class GeneralName extends Asn1Choice implements X509Component {
     @XmlTransient private final Asn1Ia5String uniformResourceIdentifier;
     @XmlTransient private final Asn1OctetString ipAddress;
     @XmlTransient private final ObjectIdentifier registeredId;
+
+    /** This is the choice we will make */
+    private GeneralNameChoiceType generalNameChoiceTypeConfig;
+
+    /** The value we will encode into the general name field */
+    private String gneralNameConfigValue;
 
     public GeneralName(String identifier) {
         super(
@@ -63,6 +70,14 @@ public class GeneralName extends Asn1Choice implements X509Component {
     @SuppressWarnings("unused")
     private GeneralName() {
         this("generalName");
+    }
+
+    public GeneralNameChoiceType getGeneralNameChoiceTypeConfig() {
+        return generalNameChoiceTypeConfig;
+    }
+
+    public String getGneralNameConfigValue() {
+        return gneralNameConfigValue;
     }
 
     public AnotherName getOtherName() {
