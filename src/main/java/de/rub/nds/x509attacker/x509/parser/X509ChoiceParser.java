@@ -36,7 +36,8 @@ public class X509ChoiceParser implements X509Parser {
     public void parse(InputStream inputStream) {
         try {
             BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
-            LOGGER.debug("Looking ahead. Bytes in stream: {}", inputStream.available());
+            LOGGER.debug(
+                    "Parsing choice. Looking ahead. Bytes in stream: {}", inputStream.available());
             Asn1Header header = ParserHelper.lookAhead(bufferedInputStream);
             choice.makeSelection(
                     header.getTagClass(),

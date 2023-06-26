@@ -29,11 +29,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Validity extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private Time notBefore;
+    @HoldsModifiableVariable private Time notBefore;
 
-    @HoldsModifiableVariable
-    private Time notAfter;
+    @HoldsModifiableVariable private Time notAfter;
 
     private Validity() {
         this("validity");
@@ -43,7 +41,6 @@ public class Validity extends Asn1Sequence implements X509Component {
         super(identifier);
         notBefore = new Time("notBefore", TimeContextHint.NOT_BEFORE);
         notAfter = new Time("notAfter", TimeContextHint.NOT_AFTER);
-
     }
 
     public Time getNotBefore() {
