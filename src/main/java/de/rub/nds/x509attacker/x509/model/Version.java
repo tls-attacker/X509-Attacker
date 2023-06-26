@@ -32,8 +32,8 @@ public class Version extends Asn1Integer implements X509Component {
         super(null);
     }
 
-    public Version(String identifier, int exectedTagNumber) {
-        super(identifier, exectedTagNumber);
+    public Version(String identifier) {
+        super(identifier);
     }
 
     public X509Version getVersion() {

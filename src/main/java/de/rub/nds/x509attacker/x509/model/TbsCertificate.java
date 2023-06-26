@@ -31,7 +31,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class TbsCertificate extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private Version version;
+    @HoldsModifiableVariable private X509Explicit<Version> version;
 
     @HoldsModifiableVariable private Asn1Integer serialNumber;
 
@@ -57,7 +57,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
 
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
-        version = new Version("version", 0);
+        version = new X509Explicit<Version>("versionExplicit", 0, new Version("version"));
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
@@ -98,7 +98,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
 
     public TbsCertificate(String identifier) {
         super(identifier);
-        version = new Version("version", 0);
+        version = new X509Explicit<Version>("versionExplicit", 0, new Version("version"));
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
@@ -123,14 +123,6 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         addChild(issuerUniqueId);
         addChild(subjectUniqueId);
         addChild(explicitExtensions);
-    }
-
-    public Version getVersion() {
-        return version;
-    }
-
-    public void setVersion(Version version) {
-        this.version = version;
     }
 
     public Asn1Integer getSerialNumber() {
@@ -223,5 +215,13 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
         return new X509Asn1FieldSerializer(this);
+    }
+
+    public X509Explicit<Version> getVersion() {
+        return version;
+    }
+
+    public void setVersion(X509Explicit<Version> version) {
+        this.version = version;
     }
 }

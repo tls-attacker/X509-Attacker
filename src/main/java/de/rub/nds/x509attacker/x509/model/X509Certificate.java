@@ -482,7 +482,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public X509Version getX509Version() {
-        return tbsCertificate.getVersion().getVersion();
+        return tbsCertificate.getVersion().getInnerField().getVersion();
     }
 
     public SignatureAlgorithm getSignatureAlgorithm() {
