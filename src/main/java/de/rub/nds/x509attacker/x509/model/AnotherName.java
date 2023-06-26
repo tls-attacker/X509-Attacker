@@ -9,16 +9,17 @@
 package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.constants.UniversalTagNumber;
-import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.handler.AnotherNameHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.AnotherNameParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.AnotherNamePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -33,7 +34,7 @@ public class AnotherName extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier typeId;
 
-    @HoldsModifiableVariable private X509Explicit value;
+    @HoldsModifiableVariable private X509Explicit<X509Component> value;
 
     private String configuredValue;
 
@@ -48,7 +49,9 @@ public class AnotherName extends Asn1Sequence implements X509Component {
     public AnotherName(String identifier, Integer tagNumber) {
         super(identifier, tagNumber);
         typeId = new Asn1ObjectIdentifier("typeId");
-        value = new X509Explicit(Asn1Null("value"));
+        value =
+                new X509Explicit<X509Component>(
+                        "", 0, null); // TODO inner field is null (not implmeneted)
         addChild(typeId);
         addChild(value);
     }
@@ -61,11 +64,11 @@ public class AnotherName extends Asn1Sequence implements X509Component {
         this.typeId = typeId;
     }
 
-    public Asn1Explicit getValue() {
+    public X509Explicit<X509Component> getValue() {
         return value;
     }
 
-    public void setValue(Asn1Explicit value) {
+    public void setValue(X509Explicit<X509Component> value) {
         this.value = value;
     }
 
@@ -94,6 +97,6 @@ public class AnotherName extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new AnotherNameSerializer(chooser, this);
+        return new X509Asn1FieldSerializer(this);
     }
 }

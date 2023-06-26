@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.model;
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1GeneralizedTime;
 import de.rub.nds.asn1.model.Asn1UtcTime;
+import de.rub.nds.asn1.time.TimeField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.TimeContextHint;
 import de.rub.nds.x509attacker.x509.handler.TimeHandler;
@@ -19,10 +20,11 @@ import de.rub.nds.x509attacker.x509.parser.X509ChoiceParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.TimePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.TimeSerializer;
+import de.rub.nds.x509attacker.x509.serializer.X509ChoiceSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
+import org.joda.time.DateTime;
 
-public class Time extends Asn1Choice implements X509Component {
+public class Time extends Asn1Choice implements X509Component, TimeField {
 
     private final TimeContextHint timeContext;
 
@@ -47,11 +49,21 @@ public class Time extends Asn1Choice implements X509Component {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new TimeSerializer(chooser, this);
+        return new X509ChoiceSerializer<Time>(this);
     }
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
         return new TimePreparator(chooser, this);
+    }
+
+    @Override
+    public DateTime getTimeValue() {
+        return ((TimeField) getSelectedChoice()).getTimeValue();
+    }
+
+    @Override
+    public void setValue(String timeValue) {
+        ((TimeField) getSelectedChoice()).setValue(timeValue);
     }
 }

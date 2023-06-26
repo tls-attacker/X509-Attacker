@@ -69,7 +69,8 @@ public class GeneralNamePreparator implements X509Preparator {
             HelperPreparator<Asn1Field> preparator =
                     new HelperPreparator<Asn1Field>(
                             chooser,
-                            generalName.getGeneralNameChoiceType(),
+                            (Asn1Field)
+                                    generalName.getSelectedChoice(), // TODO this is not safe....
                             generalName.getGeneralNameConfigValue());
             preparator.prepare();
         }

@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.handler;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.AnotherName;
 
-public class AnotherNameHandlerer extends X509FieldHandler<AnotherName> {
+public class AnotherNameHandler extends X509FieldHandler<AnotherName> {
 
     public AnotherNameHandler(X509Chooser chooser, AnotherName otherName) {
         super(chooser, otherName);

@@ -18,8 +18,8 @@ import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.parser.publickey.parameters.X509DhValidationParmsParser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.parameters.X509DhValidationParmsPreparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
-import de.rub.nds.x509attacker.x509.serializer.publickey.parameters.X509DhValidationParmsSerializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -76,6 +76,6 @@ public class X509DhValidationParms extends Asn1Sequence implements PublicParamet
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509DhValidationParmsSerializer(chooser, this);
+        return new X509Asn1FieldSerializer(this);
     }
 }

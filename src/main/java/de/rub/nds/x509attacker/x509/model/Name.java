@@ -20,7 +20,7 @@ import de.rub.nds.x509attacker.x509.parser.NameParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.NamePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.NameSerializer;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -102,6 +102,6 @@ public class Name extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new NameSerializer(chooser, this);
+        return new X509Asn1FieldSerializer(this);
     }
 }

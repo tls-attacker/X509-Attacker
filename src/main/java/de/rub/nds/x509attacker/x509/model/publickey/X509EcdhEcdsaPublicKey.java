@@ -97,6 +97,6 @@ public class X509EcdhEcdsaPublicKey extends Asn1OctetString implements PublicKey
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509Asn1FieldSerializer(this); // TODO
+        return new X509Asn1FieldSerializer(this);
     }
 }

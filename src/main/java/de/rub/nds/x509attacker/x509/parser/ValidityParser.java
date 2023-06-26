@@ -8,10 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.constants.TagClass;
-import de.rub.nds.asn1.constants.UniversalTagNumber;
-import de.rub.nds.asn1.parser.ParserHelper;
-import de.rub.nds.asn1.time.TimeField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Validity;
 import java.io.PushbackInputStream;
@@ -24,19 +20,7 @@ public class ValidityParser extends X509ComponentContainerParser<Validity> {
 
     @Override
     protected void parseSubcomponents(PushbackInputStream inputStream) {
-        encodable.setNotBefore(
-                (TimeField)
-                        ParserHelper.parseTagNumberField(
-                                inputStream,
-                                TagClass.UNIVERSAL,
-                                UniversalTagNumber.GENERALIZEDTIME,
-                                UniversalTagNumber.UTCTIME));
-        encodable.setNotAfter(
-                (TimeField)
-                        ParserHelper.parseTagNumberField(
-                                inputStream,
-                                TagClass.UNIVERSAL,
-                                UniversalTagNumber.GENERALIZEDTIME,
-                                UniversalTagNumber.UTCTIME));
+        encodable.getNotBefore().getParser(chooser).parse(inputStream);
+        encodable.getNotAfter().getParser(chooser).parse(inputStream);
     }
 }

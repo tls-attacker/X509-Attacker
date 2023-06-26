@@ -17,7 +17,7 @@ import de.rub.nds.x509attacker.x509.parser.ValidityParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.ValidityPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.ValiditySerializer;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -73,6 +73,6 @@ public class Validity extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new ValiditySerializer(chooser, this);
+        return new X509Asn1FieldSerializer(this);
     }
 }

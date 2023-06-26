@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.model.publickey;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -16,6 +15,6 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public interface PublicKeyContent extends Asn1Encodable, X509Component {
+public interface PublicKeyContent extends X509Component {
     public abstract boolean isEllipticCurve();
 }

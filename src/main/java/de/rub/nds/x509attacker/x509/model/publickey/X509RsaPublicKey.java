@@ -14,8 +14,8 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
-import de.rub.nds.x509attacker.x509.serializer.publickey.X509RsaPublicKeySerializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -72,7 +72,7 @@ public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509RsaPublicKeySerializer(chooser, this);
+        return new X509Asn1FieldSerializer(this);
     }
 
     @Override

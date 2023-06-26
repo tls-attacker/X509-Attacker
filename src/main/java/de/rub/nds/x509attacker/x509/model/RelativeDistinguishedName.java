@@ -18,7 +18,7 @@ import de.rub.nds.x509attacker.x509.parser.RelativeDistinguishedNameParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.RelativeDistinguishedNamePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.RelativeDistinguishedNameSerializer;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -107,6 +107,6 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new RelativeDistinguishedNameSerializer(chooser, this);
+        return new X509Asn1FieldSerializer(this);
     }
 }

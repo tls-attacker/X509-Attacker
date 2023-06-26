@@ -12,7 +12,6 @@ import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1Ia5String;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1OctetString;
-import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.GeneralNameChoiceType;
 import de.rub.nds.x509attacker.constants.NameType;
@@ -22,7 +21,7 @@ import de.rub.nds.x509attacker.x509.parser.X509ChoiceParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.GeneralNamePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.GeneralNameSerializer;
+import de.rub.nds.x509attacker.x509.serializer.X509ChoiceSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlTransient;
 
@@ -64,7 +63,7 @@ public class GeneralName extends Asn1Choice implements X509Component {
         ediPartyName = (EdiPartyName) getSelecteableEncodables().get(5);
         uniformResourceIdentifier = (Asn1Ia5String) getSelecteableEncodables().get(6);
         ipAddress = (Asn1OctetString) getSelecteableEncodables().get(7);
-        registeredId = (ObjectIdentifier) getSelecteableEncodables().get(8);
+        registeredId = (Asn1ObjectIdentifier) getSelecteableEncodables().get(8);
     }
 
     @SuppressWarnings("unused")
@@ -136,7 +135,7 @@ public class GeneralName extends Asn1Choice implements X509Component {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new GeneralNameSerializer(chooser, this);
+        return new X509ChoiceSerializer<GeneralName>(this);
     }
 
     @Override

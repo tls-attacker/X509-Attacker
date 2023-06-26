@@ -11,10 +11,11 @@ package de.rub.nds.x509attacker.x509.model;
 import de.rub.nds.asn1.model.Asn1Explicit;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
+import de.rub.nds.x509attacker.x509.parser.ExplicitParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.ExplicitPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.ExplicitSerializer;
+import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -50,6 +51,6 @@ public class X509Explicit<InnerField extends X509Component> extends Asn1Explicit
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new ExplicitSerializer<InnerField>(chooser, this);
+        return new X509Asn1FieldSerializer(this);
     }
 }
