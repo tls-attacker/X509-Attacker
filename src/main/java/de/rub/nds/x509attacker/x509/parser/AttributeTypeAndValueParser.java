@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -47,14 +46,10 @@ public class AttributeTypeAndValueParser
             case STATE_OR_PROVINCE_NAME:
             case ORGANISATION_NAME:
             case ORGANISATION_UNIT_NAME:
+            case COUNTRY_NAME: // I think this is wrong according to the RFC but is seen in the wild
                 DirectoryString directoryString = new DirectoryString("string");
                 directoryString.getParser(chooser).parse(inputStream);
                 encodable.setValue(directoryString);
-                break;
-            case COUNTRY_NAME:
-                Asn1PrintableString printableString = new Asn1PrintableString("printableString");
-                ParserHelper.parseAsn1PrintableString(printableString, inputStream);
-                encodable.setValue(printableString);
                 break;
             default:
                 throw new ParserException(

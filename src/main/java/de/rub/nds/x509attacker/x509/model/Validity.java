@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.model;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.TimeContextHint;
 import de.rub.nds.x509attacker.x509.handler.ValidityHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.ValidityParser;
@@ -28,16 +29,21 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Validity extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable private Time notBefore;
+    @HoldsModifiableVariable
+    private Time notBefore;
 
-    @HoldsModifiableVariable private Time notAfter;
+    @HoldsModifiableVariable
+    private Time notAfter;
 
     private Validity() {
-        super(null);
+        this("validity");
     }
 
     public Validity(String identifier) {
         super(identifier);
+        notBefore = new Time("notBefore", TimeContextHint.NOT_BEFORE);
+        notAfter = new Time("notAfter", TimeContextHint.NOT_AFTER);
+
     }
 
     public Time getNotBefore() {
