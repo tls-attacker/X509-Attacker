@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.X509Component;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 /**
  * A parser for the X509 module that always parses the the structure of the asn1 field and then
@@ -30,10 +30,10 @@ public abstract class X509ComponentContainerParser<Encodable extends X509Compone
         this.container = (Asn1Container) encodable;
     }
 
-    protected final void parseContent(PushbackInputStream inputStream) {
+    protected final void parseContent(BufferedInputStream inputStream) {
         container.setEncodedChildren(container.getContent().getValue());
         parseSubcomponents(inputStream);
     }
 
-    protected abstract void parseSubcomponents(PushbackInputStream inputStream);
+    protected abstract void parseSubcomponents(BufferedInputStream inputStream);
 }

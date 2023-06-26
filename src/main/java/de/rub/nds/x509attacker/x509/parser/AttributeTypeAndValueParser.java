@@ -15,7 +15,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.DirectoryString;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -31,7 +31,7 @@ public class AttributeTypeAndValueParser
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable.getType(), inputStream);
         // Depending on the Type we can now parse the correct valueConfig
         X500AttributeType attributeType =

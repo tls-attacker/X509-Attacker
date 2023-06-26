@@ -12,8 +12,8 @@ import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.model.Extensions;
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.PushbackInputStream;
 
 public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
 
@@ -22,7 +22,7 @@ public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         try {
             while (inputStream.available() > 0) {
                 Extension element = new Extension("extension");

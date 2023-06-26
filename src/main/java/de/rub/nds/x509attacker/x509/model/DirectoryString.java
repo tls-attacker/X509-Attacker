@@ -51,11 +51,11 @@ public class DirectoryString extends Asn1Choice implements X509Component {
     private DirectoryString() {
         super(
                 "directoryString",
-                new Asn1T61String("TeletexString", 0),
-                new Asn1PrintableString("PrintableString", 1),
-                new Asn1UniversalString("UniversalString", 2),
-                new Asn1Utf8String("UTF8String", 3),
-                new Asn1BmpString("BMPString", 4));
+                new Asn1T61String("TeletexString"),
+                new Asn1PrintableString("PrintableString"),
+                new Asn1UniversalString("UniversalString"),
+                new Asn1Utf8String("UTF8String"),
+                new Asn1BmpString("BMPString"));
         teletexString = (Asn1T61String) getSelecteableEncodables().get(0);
         printableString = (Asn1PrintableString) getSelecteableEncodables().get(1);
         universalString = (Asn1UniversalString) getSelecteableEncodables().get(2);

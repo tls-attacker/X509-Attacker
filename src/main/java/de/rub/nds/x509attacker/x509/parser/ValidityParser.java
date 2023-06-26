@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Validity;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class ValidityParser extends X509ComponentContainerParser<Validity> {
 
@@ -19,7 +19,7 @@ public class ValidityParser extends X509ComponentContainerParser<Validity> {
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         encodable.getNotBefore().getParser(chooser).parse(inputStream);
         encodable.getNotAfter().getParser(chooser).parse(inputStream);
     }

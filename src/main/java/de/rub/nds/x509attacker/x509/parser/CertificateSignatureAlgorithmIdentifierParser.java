@@ -13,7 +13,7 @@ import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class CertificateSignatureAlgorithmIdentifierParser
         extends X509ComponentContainerParser<CertificateSignatureAlgorithmIdentifier> {
@@ -24,7 +24,7 @@ public class CertificateSignatureAlgorithmIdentifierParser
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable.getAlgorithm(), inputStream);
 
         Asn1Null nullField = new Asn1Null("null");

@@ -14,7 +14,7 @@ import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.parser.X509ComponentContainerParser;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class X509DhParametersParser extends X509ComponentContainerParser<X509DhParameters> {
 
@@ -23,7 +23,7 @@ public class X509DhParametersParser extends X509ComponentContainerParser<X509DhP
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1Integer(encodable.getP(), inputStream);
         ParserHelper.parseAsn1Integer(encodable.getG(), inputStream);
         ParserHelper.parseAsn1Integer(encodable.getQ(), inputStream);

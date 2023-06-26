@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.OrAddress;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class OrAddressParser extends X509ComponentContainerParser<OrAddress> {
 
@@ -19,7 +19,7 @@ public class OrAddressParser extends X509ComponentContainerParser<OrAddress> {
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         throw new UnsupportedOperationException("OrAddress not supported for now.");
     }
 }

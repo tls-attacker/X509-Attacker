@@ -12,7 +12,7 @@ import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
 import de.rub.nds.x509attacker.x509.parser.X509ComponentContainerParser;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class X509RsaPublicKeyParser extends X509ComponentContainerParser<X509RsaPublicKey> {
 
@@ -21,7 +21,7 @@ public class X509RsaPublicKeyParser extends X509ComponentContainerParser<X509Rsa
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1Integer(encodable.getModulus(), inputStream);
         ParserHelper.parseAsn1Integer(encodable.getPublicExponent(), inputStream);
     }

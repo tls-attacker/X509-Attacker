@@ -8,18 +8,28 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
+import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.model.X509Explicit;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 
 public class ExplicitParser<InnerField extends X509Component> implements X509Parser {
 
-    public ExplicitParser(X509Chooser chooser, X509Explicit<InnerField> x509Explicit) {}
+    private X509Chooser chooser;
+    private X509Explicit<InnerField> explicit;
+
+    public ExplicitParser(X509Chooser chooser, X509Explicit<InnerField> explicit) {
+        this.chooser = chooser;
+        this.explicit = explicit;
+    }
 
     @Override
     public void parse(InputStream inputStream) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'parse'");
+        ParserHelper.parseStructure(explicit, inputStream);
+        explicit.getInnerField()
+                .getParser(chooser)
+                .parse(new ByteArrayInputStream(explicit.getContent().getValue()));
     }
 }

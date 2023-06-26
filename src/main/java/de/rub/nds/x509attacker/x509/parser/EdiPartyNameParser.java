@@ -12,7 +12,7 @@ import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.EdiPartyName;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class EdiPartyNameParser extends X509ComponentContainerParser<EdiPartyName> {
 
@@ -21,7 +21,7 @@ public class EdiPartyNameParser extends X509ComponentContainerParser<EdiPartyNam
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         if (ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 0)) {
             encodable.getNameAssigner().getParser(chooser).parse(inputStream);
         }

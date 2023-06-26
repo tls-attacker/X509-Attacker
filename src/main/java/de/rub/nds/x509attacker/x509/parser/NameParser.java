@@ -12,8 +12,8 @@ import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Name;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
+import java.io.BufferedInputStream;
 import java.io.IOException;
-import java.io.PushbackInputStream;
 
 public class NameParser extends X509ComponentContainerParser<Name> {
 
@@ -22,7 +22,7 @@ public class NameParser extends X509ComponentContainerParser<Name> {
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         try {
             while (inputStream.available() > 0) {
                 RelativeDistinguishedName rdn = new RelativeDistinguishedName("rdn");

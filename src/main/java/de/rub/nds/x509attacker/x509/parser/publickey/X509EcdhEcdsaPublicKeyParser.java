@@ -13,7 +13,7 @@ import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.parser.X509ComponentFieldParser;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 import java.math.BigInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -28,7 +28,7 @@ public class X509EcdhEcdsaPublicKeyParser extends X509ComponentFieldParser<X509E
     }
 
     @Override
-    protected void parseContent(PushbackInputStream inputStream) {
+    protected void parseContent(BufferedInputStream inputStream) {
         try {
             ParserHelper.parseOctetStringContent(encodable);
             // Test that input stream has correct content length

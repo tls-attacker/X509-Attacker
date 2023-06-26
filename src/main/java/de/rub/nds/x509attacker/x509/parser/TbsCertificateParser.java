@@ -12,7 +12,7 @@ import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertificate> {
 
@@ -21,7 +21,7 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         encodable.getVersion().getParser(chooser).parse(inputStream);
         ParserHelper.parseAsn1Integer(encodable.getSerialNumber(), inputStream);
         encodable.getSignature().getParser(chooser).parse(inputStream);

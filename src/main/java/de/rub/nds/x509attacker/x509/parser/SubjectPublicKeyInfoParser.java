@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyInfo;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class SubjectPublicKeyInfoParser extends X509ComponentContainerParser<SubjectPublicKeyInfo> {
 
@@ -19,7 +19,7 @@ public class SubjectPublicKeyInfoParser extends X509ComponentContainerParser<Sub
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         encodable.getAlgorithm().getParser(chooser).parse(inputStream);
         encodable.getSubjectPublicKeyBitString().getParser(chooser).parse(inputStream);
     }

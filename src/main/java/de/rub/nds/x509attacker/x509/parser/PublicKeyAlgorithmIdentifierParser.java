@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyAlgorithmIdentifier;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class PublicKeyAlgorithmIdentifierParser
         extends X509ComponentContainerParser<SubjectPublicKeyAlgorithmIdentifier> {
@@ -22,7 +22,7 @@ public class PublicKeyAlgorithmIdentifierParser
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable.getAlgorithm(), inputStream);
         encodable.setParameters(ParserHelper.parseUnknown(inputStream));
     }

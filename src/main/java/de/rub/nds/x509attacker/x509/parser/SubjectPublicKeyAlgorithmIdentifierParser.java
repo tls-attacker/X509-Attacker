@@ -16,7 +16,7 @@ import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyAlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
-import java.io.PushbackInputStream;
+import java.io.BufferedInputStream;
 
 public class SubjectPublicKeyAlgorithmIdentifierParser
         extends X509ComponentContainerParser<SubjectPublicKeyAlgorithmIdentifier> {
@@ -27,7 +27,7 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
     }
 
     @Override
-    protected void parseSubcomponents(PushbackInputStream inputStream) {
+    protected void parseSubcomponents(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable.getAlgorithm(), inputStream);
         PublicParameters parameters;
         switch (X509PublicKeyType.decodeFromOidBytes(
