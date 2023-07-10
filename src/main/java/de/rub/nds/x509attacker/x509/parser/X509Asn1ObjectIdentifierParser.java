@@ -12,7 +12,7 @@ import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import java.io.InputStream;
+import java.io.BufferedInputStream;
 
 public class X509Asn1ObjectIdentifierParser extends Asn1Parser<Asn1ObjectIdentifier>
         implements X509Parser {
@@ -25,7 +25,7 @@ public class X509Asn1ObjectIdentifierParser extends Asn1Parser<Asn1ObjectIdentif
     }
 
     @Override
-    public final void parse(InputStream inputStream) {
+    public final void parse(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable, inputStream);
     }
 }

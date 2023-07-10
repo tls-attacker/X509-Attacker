@@ -12,7 +12,7 @@ import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.parser.X509ComponentParser;
-import java.io.InputStream;
+import java.io.BufferedInputStream;
 
 public class X509EcNamedCurveParametersParser
         extends X509ComponentParser<X509EcNamedCurveParameters> {
@@ -23,7 +23,7 @@ public class X509EcNamedCurveParametersParser
     }
 
     @Override
-    public void parse(InputStream inputStream) {
+    public void parse(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable, inputStream);
     }
 }

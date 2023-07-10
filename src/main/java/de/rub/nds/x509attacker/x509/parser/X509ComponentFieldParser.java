@@ -14,7 +14,6 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 
 /**
  * A parser for the X509 module that always parses the the structure of the asn1 field and then
@@ -34,7 +33,7 @@ public abstract class X509ComponentFieldParser<Encodable extends X509Component>
     }
 
     @Override
-    public final void parse(InputStream inputStream) {
+    public final void parse(BufferedInputStream inputStream) {
         ParserHelper.parseStructure(field, inputStream);
         parseContent(
                 new BufferedInputStream(new ByteArrayInputStream(field.getContent().getValue())));

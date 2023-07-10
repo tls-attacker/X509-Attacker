@@ -12,8 +12,8 @@ import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.model.X509Explicit;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
-import java.io.InputStream;
 
 public class ExplicitParser<InnerField extends X509Component> implements X509Parser {
 
@@ -26,10 +26,12 @@ public class ExplicitParser<InnerField extends X509Component> implements X509Par
     }
 
     @Override
-    public void parse(InputStream inputStream) {
+    public void parse(BufferedInputStream inputStream) {
         ParserHelper.parseStructure(explicit, inputStream);
         explicit.getInnerField()
                 .getParser(chooser)
-                .parse(new ByteArrayInputStream(explicit.getContent().getValue()));
+                .parse(
+                        new BufferedInputStream(
+                                new ByteArrayInputStream(explicit.getContent().getValue())));
     }
 }

@@ -13,6 +13,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
 import de.rub.nds.x509attacker.x509.model.X509Certificate;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -49,7 +50,9 @@ public class CertificateIo {
             X509Certificate x509Certificate = new X509Certificate("x509Certificate");
             x509Certificate
                     .getParser(chooser)
-                    .parse(new ByteArrayInputStream(certificateBytes.getBytes()));
+                    .parse(
+                            new BufferedInputStream(
+                                    new ByteArrayInputStream(certificateBytes.getBytes())));
             chain.addCertificate(x509Certificate);
         }
         return chain;
@@ -115,8 +118,8 @@ public class CertificateIo {
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
-        ByteArrayInputStream certificateInputStream =
-                new ByteArrayInputStream(inputStream.readNBytes(length));
+        BufferedInputStream certificateInputStream =
+                new BufferedInputStream(new ByteArrayInputStream(inputStream.readNBytes(length)));
         X509Certificate certificate = new X509Certificate("certificate");
         certificate.getParser(chooser).parse(certificateInputStream);
         X509CertificateChain chain = new X509CertificateChain();
@@ -130,8 +133,8 @@ public class CertificateIo {
         byte[] lengthField = new byte[3];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
-        ByteArrayInputStream certificateInputStream =
-                new ByteArrayInputStream(inputStream.readNBytes(length));
+        BufferedInputStream certificateInputStream =
+                new BufferedInputStream(new ByteArrayInputStream(inputStream.readNBytes(length)));
         X509Certificate certificate = new X509Certificate("certificate");
         certificate.getParser(chooser).parse(certificateInputStream);
         return certificate;
@@ -149,7 +152,9 @@ public class CertificateIo {
                 X509Certificate x509Certificate = new X509Certificate("certificate");
                 x509Certificate
                         .getParser(chooser)
-                        .parse(new ByteArrayInputStream(outputStream.toByteArray()));
+                        .parse(
+                                new BufferedInputStream(
+                                        new ByteArrayInputStream(outputStream.toByteArray())));
                 chain.addCertificate(x509Certificate);
             }
             return chain;
@@ -166,7 +171,9 @@ public class CertificateIo {
             X509Certificate x509Certificate = new X509Certificate("certificate");
             x509Certificate
                     .getParser(chooser)
-                    .parse(new ByteArrayInputStream(certificate.getEncoded()));
+                    .parse(
+                            new BufferedInputStream(
+                                    new ByteArrayInputStream(certificate.getEncoded())));
             chain.addCertificate(x509Certificate);
             return chain;
         } catch (CertificateEncodingException ex) {

@@ -27,6 +27,7 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
         encodable.getSignature().getParser(chooser).parse(inputStream);
         encodable.getIssuer().getParser(chooser).parse(inputStream);
         encodable.getValidity().getParser(chooser).parse(inputStream);
+        encodable.getSubject().getParser(chooser).parse(inputStream);
         encodable.getSubjectPublicKeyInfo().getParser(chooser).parse(inputStream);
         if (ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 1)) {
             ParserHelper.parseAsn1BitString(encodable.getIssuerUniqueId(), inputStream);

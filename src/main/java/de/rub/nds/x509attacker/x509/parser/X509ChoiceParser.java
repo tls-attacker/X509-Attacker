@@ -16,7 +16,6 @@ import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import java.io.BufferedInputStream;
-import java.io.InputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -33,12 +32,11 @@ public class X509ChoiceParser implements X509Parser {
     }
 
     @Override
-    public void parse(InputStream inputStream) {
+    public void parse(BufferedInputStream inputStream) {
         try {
-            BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
             LOGGER.debug(
                     "Parsing choice. Looking ahead. Bytes in stream: {}", inputStream.available());
-            Asn1Header header = ParserHelper.lookAhead(bufferedInputStream);
+            Asn1Header header = ParserHelper.lookAhead(inputStream);
             choice.makeSelection(
                     header.getTagClass(),
                     header.getTagConstructed().getBooleanValue(),
@@ -50,12 +48,15 @@ public class X509ChoiceParser implements X509Parser {
             }
             if (selectedChoice instanceof X509Component) {
                 X509Component x509Component = (X509Component) selectedChoice;
-                x509Component.getParser(chooser).parse(bufferedInputStream);
+                x509Component.getParser(chooser).parse(inputStream);
             } else {
-                ParserHelper.parseGenericField(selectedChoice, bufferedInputStream);
+
+                ParserHelper.parseGenericField(selectedChoice, inputStream);
             }
         } catch (Exception E) {
-            throw new ParserException("Exception occured in X509ChoiceParser", E);
+            throw new ParserException(
+                    "Exception occured in X509ChoiceParser parsing for " + choice.getIdentifier(),
+                    E);
         }
     }
 }

@@ -17,6 +17,7 @@ import org.apache.logging.log4j.Logger;
 
 public class X509ChoiceSerializer<Choice extends Asn1Choice> implements X509Serializer {
 
+    @SuppressWarnings("unused")
     private final Logger LOGGER = LogManager.getLogger();
 
     private final Choice choice;

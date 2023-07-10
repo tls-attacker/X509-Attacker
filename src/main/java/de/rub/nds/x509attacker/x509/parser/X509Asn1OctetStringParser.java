@@ -12,7 +12,7 @@ import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import java.io.InputStream;
+import java.io.BufferedInputStream;
 
 public class X509Asn1OctetStringParser extends Asn1Parser<Asn1OctetString> implements X509Parser {
 
@@ -24,7 +24,7 @@ public class X509Asn1OctetStringParser extends Asn1Parser<Asn1OctetString> imple
     }
 
     @Override
-    public final void parse(InputStream inputStream) {
+    public final void parse(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1OctetString(encodable, inputStream);
     }
 }

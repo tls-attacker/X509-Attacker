@@ -8,8 +8,8 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.InputStream;
+import java.io.BufferedInputStream;
 
 public interface X509Parser {
-    public abstract void parse(InputStream inputStream);
+    public abstract void parse(BufferedInputStream inputStream);
 }

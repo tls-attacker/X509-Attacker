@@ -18,10 +18,10 @@ import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.Name;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -41,7 +41,7 @@ public class NameHandler extends X509FieldHandler<Name> {
         try {
             LOGGER.debug("Reparsing RDN to update context");
             List<RelativeDistinguishedName> parsedRdnSequence = new LinkedList<>();
-            InputStream rdnByteInputStream = getRdnByteInputStream();
+            BufferedInputStream rdnByteInputStream = getRdnByteInputStream();
             while (rdnByteInputStream.available() > 0) {
                 RelativeDistinguishedName relativeDistinguishedName =
                         new RelativeDistinguishedName("parsedRdn");
@@ -76,7 +76,7 @@ public class NameHandler extends X509FieldHandler<Name> {
         }
     }
 
-    private InputStream getRdnByteInputStream() {
+    private BufferedInputStream getRdnByteInputStream() {
         LOGGER.debug("Creating RdnByteInputStream");
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         for (RelativeDistinguishedName rdnName : component.getRelativeDistinguishedNames()) {
@@ -90,6 +90,6 @@ public class NameHandler extends X509FieldHandler<Name> {
         LOGGER.debug(
                 "Serialized RDN Sequence: {}",
                 ArrayConverter.bytesToHexString(outputStream.toByteArray()));
-        return new ByteArrayInputStream(outputStream.toByteArray());
+        return new BufferedInputStream(new ByteArrayInputStream(outputStream.toByteArray()));
     }
 }
