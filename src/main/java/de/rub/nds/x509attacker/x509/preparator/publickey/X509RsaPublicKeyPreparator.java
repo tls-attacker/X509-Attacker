@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
 import de.rub.nds.x509attacker.x509.preparator.X509Asn1FieldPreparator;
@@ -20,10 +21,10 @@ public class X509RsaPublicKeyPreparator extends X509Asn1FieldPreparator<X509RsaP
 
     @Override
     protected byte[] encodeContent() {
-        field.getModulus().setValue(chooser.getConfig().getRsaModulus());
-        field.getPublicExponent().setValue(chooser.getConfig().getRsaPublicExponent());
-        field.getPreparator(chooser).prepare();
-        field.setEncodedChildren(field.getSerializer(chooser).serialize());
+        Asn1PreparatorHelper.prepareField(field.getModulus(), chooser.getConfig().getRsaModulus());
+        Asn1PreparatorHelper.prepareField(
+                field.getPublicExponent(), chooser.getConfig().getRsaPublicExponent());
+        field.setEncodedChildren(encodeChildren(field.getModulus(), field.getPublicExponent()));
         return field.getEncodedChildren().getValue();
     }
 }

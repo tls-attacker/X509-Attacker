@@ -21,18 +21,24 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
+import java.util.List;
 
 /** Extensions ::= SEQUENCE SIZE (1..MAX) OF Extension */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class Extensions extends Asn1Sequence implements X509Component {
 
+    private List<Extension> extensionList;
+
     private Extensions() {
         super(null);
+        extensionList = new ArrayList<>();
     }
 
     public Extensions(String identifier) {
         super(identifier);
+        extensionList = new ArrayList<>();
     }
 
     @Override
@@ -53,5 +59,17 @@ public class Extensions extends Asn1Sequence implements X509Component {
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
         return new X509Asn1FieldSerializer(this);
+    }
+
+    public List<Extension> getExtensionList() {
+        return extensionList;
+    }
+
+    public void setExtensionList(List<Extension> extensionList) {
+        this.extensionList = extensionList;
+    }
+
+    public void addExtension(Extension extension) {
+        this.extensionList.add(extension);
     }
 }

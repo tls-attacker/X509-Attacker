@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 
@@ -22,5 +23,12 @@ public class RelativeDistinguishedNamePreparator
     @Override
     public void prepareSubComponents() {
         field.getAttributeTypeAndValueList().forEach(atv -> atv.getPreparator(chooser).prepare());
+    }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        return encodeChildren(
+                field.getAttributeTypeAndValueList()
+                        .toArray(new Asn1Encodable[field.getAttributeTypeAndValueList().size()]));
     }
 }

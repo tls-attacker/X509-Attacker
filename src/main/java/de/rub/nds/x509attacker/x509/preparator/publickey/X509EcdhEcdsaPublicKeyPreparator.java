@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.crypto.ec.PointFormatter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -23,7 +24,7 @@ public class X509EcdhEcdsaPublicKeyPreparator
 
     @Override
     protected byte[] encodeContent() {
-        prepareField(
+        Asn1PreparatorHelper.prepareField(
                 field,
                 PointFormatter.formatToByteArray(
                         chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),

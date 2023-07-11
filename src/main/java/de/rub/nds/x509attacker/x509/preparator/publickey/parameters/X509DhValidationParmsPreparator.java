@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey.parameters;
 
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhValidationParms;
 import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
@@ -22,9 +23,14 @@ public class X509DhValidationParmsPreparator
 
     @Override
     public void prepareSubComponents() {
-        prepareField(
+        Asn1PreparatorHelper.prepareField(
                 field.getPgenCounter(), chooser.getConfig().getDhValidationParameterPgenCounter());
-        prepareField(
+        Asn1PreparatorHelper.prepareField(
                 field.getSeed(), chooser.getConfig().getDhValidationParameterSeed(), (byte) 0x00);
+    }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        return encodeChildren(field.getPgenCounter(), field.getSeed());
     }
 }

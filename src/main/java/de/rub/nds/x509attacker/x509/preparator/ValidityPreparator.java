@@ -22,4 +22,9 @@ public class ValidityPreparator extends X509ContainerPreparator<Validity> {
         field.getNotBefore().getPreparator(chooser).prepare();
         field.getNotAfter().getPreparator(chooser).prepare();
     }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        return encodeChildren(field.getNotBefore(), field.getNotAfter());
+    }
 }

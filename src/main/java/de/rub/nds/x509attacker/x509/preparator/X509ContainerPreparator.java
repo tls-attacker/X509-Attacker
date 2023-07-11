@@ -29,8 +29,10 @@ public abstract class X509ContainerPreparator<Container extends Asn1Container>
     @Override
     protected final byte[] encodeContent() {
         prepareSubComponents();
-        return encodeChildren(field);
+        return encodeChildrenContent();
     }
 
     public abstract void prepareSubComponents();
+
+    public abstract byte[] encodeChildrenContent();
 }

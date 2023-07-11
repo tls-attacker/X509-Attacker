@@ -42,8 +42,6 @@ public class BasicConstraints extends Asn1Sequence implements X509Component {
         super(identifier);
         ca = new Asn1Boolean("ca");
         pathLenConstraint = new Asn1Integer("pathLenConstraint");
-        addChild(ca);
-        addChild(pathLenConstraint);
     }
 
     public Asn1Boolean getCa() {

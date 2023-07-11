@@ -21,4 +21,9 @@ public class AnotherNamePreparator extends X509ContainerPreparator<AnotherName> 
     public void prepareSubComponents() {
         throw new UnsupportedOperationException("AnotherName not yet implemented for creation");
     }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        throw new UnsupportedOperationException("Unimplemented method 'encodeChildren'");
+    }
 }

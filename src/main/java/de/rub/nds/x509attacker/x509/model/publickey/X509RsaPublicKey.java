@@ -38,8 +38,6 @@ public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
         super(identifier);
         this.modulus = new Asn1Integer("modulus");
         this.publicExponent = new Asn1Integer("publicExponent");
-        addChild(this.modulus);
-        addChild(this.publicExponent);
     }
 
     public Asn1Integer getModulus() {

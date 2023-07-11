@@ -23,4 +23,9 @@ public class SubjectPublicKeyInfoPreparator extends X509ContainerPreparator<Subj
         field.getAlgorithm().getPreparator(chooser).prepare();
         field.getSubjectPublicKeyBitString().getPreparator(chooser).prepare();
     }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        return encodeChildren(field.getAlgorithm(), field.getSubjectPublicKeyBitString());
+    }
 }

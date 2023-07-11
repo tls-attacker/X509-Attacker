@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey.parameters;
 
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
@@ -20,8 +21,13 @@ public class X509DssParametersPreparator extends X509ContainerPreparator<X509Dss
 
     @Override
     public void prepareSubComponents() {
-        prepareField(field.getQ(), chooser.getConfig().getDsaPrimeQ());
-        prepareField(field.getG(), chooser.getConfig().getDsaGenerator());
-        prepareField(field.getP(), chooser.getConfig().getDsaPrimeP());
+        Asn1PreparatorHelper.prepareField(field.getQ(), chooser.getConfig().getDsaPrimeQ());
+        Asn1PreparatorHelper.prepareField(field.getG(), chooser.getConfig().getDsaGenerator());
+        Asn1PreparatorHelper.prepareField(field.getP(), chooser.getConfig().getDsaPrimeP());
+    }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        return encodeChildren(field.getQ(), field.getG(), field.getP());
     }
 }

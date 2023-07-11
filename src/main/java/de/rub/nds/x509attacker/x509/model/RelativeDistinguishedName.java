@@ -35,14 +35,17 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
 
     private RelativeDistinguishedName() {
         super(null);
+        attributeTypeAndValueList = new LinkedList<>();
     }
 
     public RelativeDistinguishedName(String identifier) {
         super(identifier);
+        attributeTypeAndValueList = new LinkedList<>();
     }
 
     public RelativeDistinguishedName(String identifier, int implicitTagNumber) {
         super(identifier, implicitTagNumber);
+        attributeTypeAndValueList = new LinkedList<>();
     }
 
     public RelativeDistinguishedName(
@@ -58,7 +61,6 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
                                     .concat(pair.getValue()),
                             pair.getKey(),
                             pair.getValue());
-            addChild(attributeTypeAndValue);
             attributeTypeAndValueList.add(attributeTypeAndValue);
         }
     }
@@ -76,7 +78,6 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
                                     .concat(pair.getValue()),
                             pair.getKey(),
                             pair.getValue());
-            addChild(attributeTypeAndValue);
             attributeTypeAndValueList.add(attributeTypeAndValue);
         }
     }
@@ -88,6 +89,10 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
     public void setAttributeTypeAndValueList(
             List<AttributeTypeAndValue> attributeTypeAndValueList) {
         this.attributeTypeAndValueList = attributeTypeAndValueList;
+    }
+
+    public void addAttributeTypeAndValue(AttributeTypeAndValue attributeTypeAndValue) {
+        this.attributeTypeAndValueList.add(attributeTypeAndValue);
     }
 
     @Override

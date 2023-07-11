@@ -10,7 +10,6 @@ package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Ia5String;
-import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.model.Asn1Sequence;
@@ -61,17 +60,13 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         this.attributeTypeConfig = attributeTypeConfig;
         this.valueConfig = valueConfig;
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Null("value");
-        addChild(type);
-        addChild(value);
+        value = new Asn1Utf8String("value"); // TODO make this configurable
     }
 
     public AttributeTypeAndValue(String identifier) {
         super(identifier);
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Null("value");
-        addChild(type);
-        addChild(value);
+        value = new Asn1Utf8String("value"); // TODO make this configurable
     }
 
     private AttributeTypeAndValue() {

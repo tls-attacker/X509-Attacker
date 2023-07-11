@@ -52,8 +52,6 @@ public class AnotherName extends Asn1Sequence implements X509Component {
         value =
                 new X509Explicit<X509Component>(
                         "", 0, null); // TODO inner field is null (not implmeneted)
-        addChild(typeId);
-        addChild(value);
     }
 
     public Asn1ObjectIdentifier getTypeId() {

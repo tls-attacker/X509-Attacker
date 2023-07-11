@@ -39,8 +39,6 @@ public class AccessDescription extends Asn1Sequence implements X509Component {
         super(identifier);
         accessMethod = new Asn1ObjectIdentifier("accessMethod");
         accessLocation = new GeneralName("accessLocation");
-        addChild(accessMethod);
-        addChild(accessLocation);
     }
 
     public Asn1ObjectIdentifier getAccessMethod() {

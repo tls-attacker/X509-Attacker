@@ -23,4 +23,9 @@ public class X509DhParameterPreparator extends X509ContainerPreparator<X509DhPar
         field.getG().setValue(chooser.getConfig().getDhGenerator());
         field.getP().setValue(chooser.getConfig().getDhModulus());
     }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        return encodeChildren(field.getG(), field.getP());
+    }
 }

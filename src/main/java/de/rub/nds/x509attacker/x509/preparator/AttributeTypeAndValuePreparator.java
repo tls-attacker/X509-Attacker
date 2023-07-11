@@ -14,6 +14,7 @@ import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.model.Asn1T61String;
 import de.rub.nds.asn1.model.Asn1Utf8String;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
@@ -39,16 +40,17 @@ public class AttributeTypeAndValuePreparator
             value = "";
         }
         if (valueField instanceof Asn1Utf8String) {
-            prepareField((Asn1Utf8String) valueField, value);
-        }
-        if (valueField instanceof Asn1PrintableString) {
-            prepareField((Asn1PrintableString) valueField, value);
-        }
-        if (valueField instanceof Asn1Ia5String) {
-            prepareField((Asn1Ia5String) valueField, value);
-        }
-        if (valueField instanceof Asn1T61String) {
-            prepareField((Asn1T61String) valueField, value);
+            Asn1PreparatorHelper.prepareField((Asn1Utf8String) valueField, value);
+        } else if (valueField instanceof Asn1PrintableString) {
+            Asn1PreparatorHelper.prepareField((Asn1PrintableString) valueField, value);
+        } else if (valueField instanceof Asn1Ia5String) {
+            Asn1PreparatorHelper.prepareField((Asn1Ia5String) valueField, value);
+        } else if (valueField instanceof Asn1T61String) {
+            Asn1PreparatorHelper.prepareField((Asn1T61String) valueField, value);
+        } else {
+            throw new UnsupportedOperationException(
+                    "AttributeTypeAndValue value type not supported yet: "
+                            + valueField.getClass().getSimpleName());
         }
     }
 
@@ -60,12 +62,17 @@ public class AttributeTypeAndValuePreparator
         } else {
             oid = attributeType.getOid();
         }
-        prepareField(field.getType(), oid);
+        Asn1PreparatorHelper.prepareField(field.getType(), oid);
     }
 
     @Override
     public void prepareSubComponents() {
         prepareTypeConfig();
         prepareTypeValue();
+    }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        return encodeChildren(field.getType(), field.getValue());
     }
 }

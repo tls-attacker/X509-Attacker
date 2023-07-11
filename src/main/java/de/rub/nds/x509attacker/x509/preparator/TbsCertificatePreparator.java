@@ -8,9 +8,13 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -42,7 +46,7 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
 
     private void prepareSerialNumber() {
         Asn1Integer serialNumber = field.getSerialNumber();
-        prepareField(serialNumber, chooser.getConfig().getSerialNumber());
+        Asn1PreparatorHelper.prepareField(serialNumber, chooser.getConfig().getSerialNumber());
     }
 
     private void prepareSignature() {
@@ -68,17 +72,16 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     private void prepareIssuerUniqueId() {
         // IssuerUniqueID is an optional field
         if (chooser.getConfig().isIncludeIssuerUniqueId()) {
-            prepareField(field.getIssuerUniqueId(), chooser.getIssuerUniqueId(), (byte) 0);
-            field.addChild(field.getIssuerUniqueId());
+            Asn1PreparatorHelper.prepareField(
+                    field.getIssuerUniqueId(), chooser.getIssuerUniqueId(), (byte) 0);
         }
     }
 
     private void prepareSubjectUniqueId() {
         // SubjectUniqueID is an optional field
         if (chooser.getConfig().isIncludeSubjectUniqueId()) {
-            prepareField(
+            Asn1PreparatorHelper.prepareField(
                     field.getSubjectUniqueId(), chooser.getConfig().getSubjectUniqueId(), (byte) 0);
-            field.addChild(field.getSubjectUniqueId());
         }
     }
 
@@ -86,5 +89,23 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
         if (chooser.getConfig().isIncludeExtensions()) {
             LOGGER.warn("Extensions not supported yet");
         }
+    }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        List<Asn1Encodable> children = new ArrayList<>();
+        children.add(field.getVersion());
+        children.add(field.getSerialNumber());
+        children.add(field.getSignature());
+        children.add(field.getIssuer());
+        children.add(field.getValidity());
+        children.add(field.getSubject());
+        children.add(field.getSubjectPublicKeyInfo());
+        children.add(field.getIssuerUniqueId());
+        children.add(field.getSubjectUniqueId());
+        children.add(field.getExplicitExtensions());
+        // Filter null values
+        children.removeIf(child -> child == null);
+        return encodeChildren(children);
     }
 }

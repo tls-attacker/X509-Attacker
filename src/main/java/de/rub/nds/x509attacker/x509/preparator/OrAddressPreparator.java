@@ -21,4 +21,9 @@ public class OrAddressPreparator extends X509ContainerPreparator<OrAddress> {
     public void prepareSubComponents() {
         throw new UnsupportedOperationException("OrAddress not implemented yet");
     }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        throw new UnsupportedOperationException("Unimplemented method 'encodeChildrenContent'");
+    }
 }

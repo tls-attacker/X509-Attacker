@@ -8,8 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1Field;
-import de.rub.nds.asn1.model.Asn1Null;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
@@ -29,15 +28,16 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
 
     @Override
     public void prepareSubComponents() {
-        prepareField(field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
-        PublicParameters signatureParameters = createSignatureParameters();
+        Asn1PreparatorHelper.prepareField(
+                field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
+        PublicParameters signatureParameters = field.getParameters();
         if (signatureParameters == null) {
-            field.setParameters(new Asn1Null("parameters"));
-        } else if (signatureParameters instanceof Asn1Field) {
-            field.setParameters((Asn1Field) signatureParameters);
-        } else {
-            throw new RuntimeException("Signature Parameters are not an ASN.1 Field");
+            signatureParameters = createSignatureParameters();
+            field.setParameters(signatureParameters);
         }
+        signatureParameters.getPreparator(chooser).prepare();
+        signatureParameters.getHandler(chooser).adjustContext();
+        field.setParameters(signatureParameters);
     }
 
     private PublicParameters createSignatureParameters() {
@@ -50,7 +50,16 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
             case ECDH_ECDSA:
                 return new X509EcNamedCurveParameters("ecNamedCurve");
             default:
-                return null;
+                throw new UnsupportedOperationException("Unnown PublicKeyType");
+        }
+    }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        if (field.getParameters() != null) {
+            return encodeChildren(field.getAlgorithm(), field.getParameters());
+        } else {
+            return encodeChildren(field.getAlgorithm());
         }
     }
 }

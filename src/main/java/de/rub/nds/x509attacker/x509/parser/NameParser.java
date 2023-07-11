@@ -28,7 +28,6 @@ public class NameParser extends X509ComponentContainerParser<Name> {
                 RelativeDistinguishedName rdn = new RelativeDistinguishedName("rdn");
                 X509Parser rdnParser = rdn.getParser(chooser);
                 rdnParser.parse(inputStream);
-                encodable.addChild(rdn);
                 encodable.addRelativeDistinguishedNames(rdn);
             }
 

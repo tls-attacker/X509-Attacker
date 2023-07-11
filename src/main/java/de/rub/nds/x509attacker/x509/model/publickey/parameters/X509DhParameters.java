@@ -48,11 +48,6 @@ public class X509DhParameters extends Asn1Sequence implements PublicParameters {
         this.validationParms = new X509DhValidationParms("validationParms");
         this.j.setOptional(true);
         this.validationParms.setOptional(true);
-        addChild(p);
-        addChild(g);
-        addChild(q);
-        addChild(j);
-        addChild(validationParms);
     }
 
     public X509DhParameters(String identifier, X509CertificateConfig config) {
@@ -64,13 +59,6 @@ public class X509DhParameters extends Asn1Sequence implements PublicParameters {
         this.j.setOptional(true);
         if (config.getIncludeDhValidationParameters()) {
             this.validationParms = new X509DhValidationParms("validationParms");
-        }
-        addChild(p);
-        addChild(g);
-        addChild(q);
-        addChild(j);
-        if (validationParms != null) {
-            addChild(validationParms);
         }
     }
 

@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey.parameters;
 
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.preparator.X509Asn1FieldPreparator;
@@ -22,7 +23,7 @@ public class X509EcNamedCurveParametersPreparator
 
     @Override
     protected byte[] encodeContent() {
-        prepareField(field, chooser.getSubjectNamedCurve().getOid());
+        Asn1PreparatorHelper.prepareField(field, chooser.getSubjectNamedCurve().getOid());
         return field.getContent().getValue();
     }
 }

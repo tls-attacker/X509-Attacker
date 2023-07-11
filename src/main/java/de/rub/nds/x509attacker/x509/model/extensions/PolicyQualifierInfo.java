@@ -45,8 +45,6 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
         super(identifier);
         policyQualifierId = new Asn1ObjectIdentifier("policyQualifiersId");
         qualifier = new Asn1Null("qualifier");
-        addChild(policyQualifierId);
-        addChild(qualifier);
     }
 
     public Asn1ObjectIdentifier getPolicyQualifierId() {

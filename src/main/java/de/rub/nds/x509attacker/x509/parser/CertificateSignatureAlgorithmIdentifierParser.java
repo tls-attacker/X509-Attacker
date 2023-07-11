@@ -8,15 +8,14 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import java.io.BufferedInputStream;
-
 import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.constants.UniversalTagNumber;
-import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
+import java.io.BufferedInputStream;
 
 public class CertificateSignatureAlgorithmIdentifierParser
         extends X509ComponentContainerParser<CertificateSignatureAlgorithmIdentifier> {
@@ -29,9 +28,6 @@ public class CertificateSignatureAlgorithmIdentifierParser
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable.getAlgorithm(), inputStream);
-
-        Asn1Null nullField = new Asn1Null("null");
-
         switch (X509SignatureAlgorithm.decodeFromOidBytes(
                 encodable.getAlgorithm().getValueAsOid().getEncoded())) {
             case DSA_WITH_SHA1:
@@ -46,9 +42,11 @@ public class CertificateSignatureAlgorithmIdentifierParser
             case ECDSA_WITH_SHA256:
             case ECDSA_WITH_SHA384:
             case ECDSA_WITH_SHA512:
-                if (ParserHelper.canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.NULL.getIntValue())) {
-                    encodable.setParameters(nullField);
-                    ParserHelper.parseAsn1Null(nullField, inputStream);
+                if (ParserHelper.canParse(
+                        inputStream, TagClass.UNIVERSAL, UniversalTagNumber.NULL.getIntValue())) {
+                    X509NullParameters nullParameters = new X509NullParameters("nullParameters");
+                    encodable.setParameters(nullParameters);
+                    nullParameters.getParser(chooser).parse(inputStream);
                 }
                 break;
             case MD2_WITH_RSA_ENCRYPTION:
@@ -59,13 +57,12 @@ public class CertificateSignatureAlgorithmIdentifierParser
             case SHA256_WITH_RSA_ENCRYPTION:
             case SHA384_WITH_RSA_ENCRYPTION:
             case SHA512_WITH_RSA_ENCRYPTION:
-                encodable.setParameters(nullField);
-                ParserHelper.parseAsn1Null(nullField, inputStream);
+                X509NullParameters nullParameters = new X509NullParameters("nullParameters");
+                encodable.setParameters(nullParameters);
+                nullParameters.getParser(chooser).parse(inputStream);
                 break;
             default:
-                encodable.setParameters(nullField);
-                ParserHelper.parseAsn1Null(nullField, inputStream);
-                break;
+                throw new UnsupportedOperationException("Encountered unknown signature algorithm");
         }
     }
 }

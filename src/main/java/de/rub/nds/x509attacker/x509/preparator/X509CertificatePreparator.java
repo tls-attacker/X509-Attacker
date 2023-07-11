@@ -8,8 +8,8 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.key.PrivateKeyContainer;
 import de.rub.nds.protocol.crypto.key.RsaPrivateKey;
@@ -37,19 +37,15 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
         this.field.getTbsCertificate().getPreparator(chooser).prepare();
         prepareSignatureAlgorithm();
         prepareSignature();
-        field.setEncodedChildren(field.getSerializer(chooser).serialize());
+        field.setEncodedChildren(
+                encodeChildren(
+                        this.field.getTbsCertificate(),
+                        this.field.getSignatureAlgorithmIdentifier(),
+                        this.field.getSignature()));
         return field.getEncodedChildren().getValue();
     }
 
     private void prepareSignatureAlgorithm() {
-        X509SignatureAlgorithm signatureAlgorithm = chooser.getSignatureAlgorithm();
-        field.getSignatureAlgorithmIdentifier()
-                .getAlgorithm()
-                .setValue(signatureAlgorithm.getOid().toString());
-        prepareField(
-                field.getSignatureAlgorithmIdentifier().getAlgorithm(),
-                signatureAlgorithm.getOid());
-        field.getSignatureAlgorithmIdentifier().setParameters(new Asn1Null("null")); // PARAMETERS
         field.getSignatureAlgorithmIdentifier().getPreparator(chooser).prepare();
     }
 
@@ -74,7 +70,7 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
 
         LOGGER.debug(
                 "Signature: {}", field.getSignatureComputations().getSignatureBytes().getValue());
-        prepareField(
+        Asn1PreparatorHelper.prepareField(
                 field.getSignature(),
                 field.getSignatureComputations().getSignatureBytes().getValue(),
                 (byte) 0);

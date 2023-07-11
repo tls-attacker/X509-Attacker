@@ -28,7 +28,7 @@ public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
                 Extension element = new Extension("extension");
                 element.getParser(chooser).parse(inputStream);
                 element.getHandler(chooser).adjustContext();
-                encodable.addChild(element);
+                encodable.addExtension(element);
             }
         } catch (IOException E) {
             throw new ParserException("IOException in RelativeDistinguishedNameParser", E);

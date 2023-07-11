@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Name;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
@@ -23,5 +24,12 @@ public class NamePreparator extends X509ContainerPreparator<Name> {
         for (RelativeDistinguishedName rdn : field.getRelativeDistinguishedNames()) {
             rdn.getPreparator(chooser).prepare();
         }
+    }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        return encodeChildren(
+                field.getRelativeDistinguishedNames()
+                        .toArray(new Asn1Encodable[field.getRelativeDistinguishedNames().size()]));
     }
 }

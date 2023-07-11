@@ -21,4 +21,9 @@ public class ExtensionsPreparator extends X509ContainerPreparator<Extensions> {
     public void prepareSubComponents() {
         throw new UnsupportedOperationException("Extensions not yet implemented");
     }
+
+    @Override
+    public byte[] encodeChildrenContent() {
+        throw new UnsupportedOperationException("Unimplemented method 'encodeChildrenContent'");
+    }
 }

@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
-import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -17,6 +16,7 @@ import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
 import java.io.BufferedInputStream;
 
 public class SubjectPublicKeyAlgorithmIdentifierParser
@@ -42,18 +42,15 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
             case DSA:
                 parameters = new X509DssParameters("DssParameters");
                 break;
-            default:
-                parameters = null;
+            case RSA:
+                parameters = new X509NullParameters("nullParameters");
                 break;
+            default:
+                throw new UnsupportedOperationException(
+                        "Unknown SubjectPublicKeyAlgorithmIdentifier");
         }
-        if (parameters == null) {
-            Asn1Null nullField = new Asn1Null("null");
-            encodable.setParameters(nullField);
-            ParserHelper.parseAsn1Null(nullField, inputStream);
-        } else {
-            parameters.getParser(chooser).parse(inputStream);
-            parameters.getHandler(chooser).adjustContext();
-            encodable.setParameters(parameters);
-        }
+        parameters.getParser(chooser).parse(inputStream);
+        parameters.getHandler(chooser).adjustContext();
+        encodable.setParameters(parameters);
     }
 }

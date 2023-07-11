@@ -90,9 +90,6 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
         signatureAlgorithmIdentifier =
                 new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1BitString("signature");
-        addChild(tbsCertificate);
-        addChild(signatureAlgorithmIdentifier);
-        addChild(signature);
     }
 
     public X509Certificate(String identifier) {
@@ -101,9 +98,6 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
         signatureAlgorithmIdentifier =
                 new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
         signature = new Asn1BitString("signature");
-        addChild(tbsCertificate);
-        addChild(signatureAlgorithmIdentifier);
-        addChild(signature);
     }
 
     /** Default constructor to please JAXB */
@@ -400,12 +394,11 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     public String getCommonName() {
         for (RelativeDistinguishedName relativeDistinguishedName :
                 getTbsCertificate().getSubject().getRelativeDistinguishedNames()) {
-            for (Asn1Encodable encodable : relativeDistinguishedName.getChildren()) {
-                if (encodable instanceof AttributeTypeAndValue) {
-                    if (((AttributeTypeAndValue) encodable).getX500AttributeTypeFromValue()
-                            == X500AttributeType.COMMON_NAME) {
-                        return ((AttributeTypeAndValue) encodable).getStringValueOfValue();
-                    }
+            for (AttributeTypeAndValue attributeTypeAndValue :
+                    relativeDistinguishedName.getAttributeTypeAndValueList()) {
+                if ((attributeTypeAndValue).getX500AttributeTypeFromValue()
+                        == X500AttributeType.COMMON_NAME) {
+                    return attributeTypeAndValue.getStringValueOfValue();
                 }
             }
         }
@@ -452,11 +445,10 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     private String getRdnString(List<RelativeDistinguishedName> relativeDistinguishedNames) {
         StringBuilder builder = new StringBuilder();
         for (RelativeDistinguishedName relativeDistinguishedName : relativeDistinguishedNames) {
-            for (Asn1Encodable encodable : relativeDistinguishedName.getChildren()) {
-                if (encodable instanceof AttributeTypeAndValue) {
-                    builder.append(((AttributeTypeAndValue) encodable).getStringRepresentation());
-                    builder.append(" ");
-                }
+            for (AttributeTypeAndValue attributeTypeAndValue :
+                    relativeDistinguishedName.getAttributeTypeAndValueList()) {
+                builder.append(attributeTypeAndValue.getStringRepresentation());
+                builder.append(" ");
             }
         }
         return builder.toString();

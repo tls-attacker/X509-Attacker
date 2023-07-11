@@ -48,9 +48,6 @@ public class Extension extends Asn1Sequence implements X509Component {
         critical = new Asn1Boolean("critical");
         critical.setOptional(true);
         extnValue = new Asn1OctetString("extensionValue");
-        addChild(extnID);
-        addChild(critical);
-        addChild(extnValue);
     }
 
     public Asn1ObjectIdentifier getExtnID() {

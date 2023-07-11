@@ -14,6 +14,7 @@ import de.rub.nds.asn1.model.Asn1PrintableString;
 import de.rub.nds.asn1.model.Asn1T61String;
 import de.rub.nds.asn1.model.Asn1UniversalString;
 import de.rub.nds.asn1.model.Asn1Utf8String;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.DirectoryString;
 
@@ -71,15 +72,15 @@ public class DirectoryStringPreparator implements X509Preparator {
         @Override
         protected byte[] encodeContent() {
             if (field instanceof Asn1BmpString) {
-                prepareField(((Asn1BmpString) field), value);
+                Asn1PreparatorHelper.prepareField(((Asn1BmpString) field), value);
             } else if (field instanceof Asn1PrintableString) {
-                prepareField(((Asn1PrintableString) field), value);
+                Asn1PreparatorHelper.prepareField(((Asn1PrintableString) field), value);
             } else if (field instanceof Asn1T61String) {
-                prepareField(((Asn1T61String) field), value);
+                Asn1PreparatorHelper.prepareField(((Asn1T61String) field), value);
             } else if (field instanceof Asn1UniversalString) {
-                prepareField(((Asn1UniversalString) field), value);
+                Asn1PreparatorHelper.prepareField(((Asn1UniversalString) field), value);
             } else if (field instanceof Asn1Utf8String) {
-                prepareField(((Asn1Utf8String) field), value);
+                Asn1PreparatorHelper.prepareField(((Asn1Utf8String) field), value);
             } else {
                 throw new UnsupportedOperationException(
                         "Unimplemented Asn1Field: " + field.getClass().getName());

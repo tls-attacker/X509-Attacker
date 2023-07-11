@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.preparator.X509Asn1FieldPreparator;
@@ -26,7 +27,8 @@ public class PublicKeyBitStringPreparator extends X509Asn1FieldPreparator<Public
     @Override
     protected byte[] encodeContent() {
         if (field.getX509PublicKeyContent() != null) {
-            return encodeBitString(
+            field.getX509PublicKeyContent().getPreparator(chooser).prepare();
+            return Asn1PreparatorHelper.encodeBitString(
                     field.getX509PublicKeyContent().getSerializer(chooser).serialize(),
                     (byte) 0,
                     (byte) 0);

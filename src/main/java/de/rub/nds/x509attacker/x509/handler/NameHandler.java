@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.handler;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -53,14 +52,12 @@ public class NameHandler extends X509FieldHandler<Name> {
             LOGGER.debug("Converting parsed RDN to context RDN");
             List<Pair<X500AttributeType, String>> rdnList = new LinkedList<>();
             for (RelativeDistinguishedName parsedRdn : parsedRdnSequence) {
-                for (Asn1Encodable encodable : parsedRdn.getChildren()) {
-                    if (encodable instanceof AttributeTypeAndValue) {
-                        rdnList.add(
-                                new Pair<>(
-                                        ((AttributeTypeAndValue) encodable)
-                                                .getAttributeTypeConfig(),
-                                        ((AttributeTypeAndValue) encodable).getValueConfig()));
-                    }
+                for (AttributeTypeAndValue attributeTypeAndValue :
+                        parsedRdn.getAttributeTypeAndValueList()) {
+                    rdnList.add(
+                            new Pair<>(
+                                    attributeTypeAndValue.getAttributeTypeConfig(),
+                                    attributeTypeAndValue.getValueConfig()));
                 }
             }
             LOGGER.debug("Converted into {} elements", rdnList.size());

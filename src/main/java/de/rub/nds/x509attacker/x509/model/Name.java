@@ -68,7 +68,6 @@ public class Name extends Asn1Sequence implements X509Component {
             RelativeDistinguishedName relativeDistinguishedName =
                     new RelativeDistinguishedName("relativeDistinguishedName", attributePair);
             relativeDistinguishedNames.add(relativeDistinguishedName);
-            addChild(relativeDistinguishedName);
         }
     }
 

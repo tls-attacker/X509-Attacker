@@ -40,9 +40,6 @@ public class X509DssParameters extends Asn1Sequence implements PublicParameters 
         this.p = new Asn1Integer("p");
         this.q = new Asn1Integer("q");
         this.g = new Asn1Integer("g");
-        addChild(p);
-        addChild(q);
-        addChild(g);
     }
 
     public Asn1Integer getP() {

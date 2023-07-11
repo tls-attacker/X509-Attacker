@@ -50,9 +50,6 @@ public class AuthorityKeyIdentifier extends Asn1Sequence implements X509Componen
         keyIdentifier = new Asn1OctetString("keyIdentifier");
         authorityCertIssuer = new GeneralNames("authorityCertIssuer");
         authorityCertSerialNumber = new Asn1Integer("authorityCertSerialNumber");
-        addChild(keyIdentifier);
-        addChild(authorityCertIssuer);
-        addChild(authorityCertSerialNumber);
     }
 
     public Asn1OctetString getKeyIdentifier() {

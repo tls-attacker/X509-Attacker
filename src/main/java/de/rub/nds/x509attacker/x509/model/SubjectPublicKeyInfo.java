@@ -8,8 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.model;
 
-import de.rub.nds.asn1.model.Asn1Field;
-import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -17,8 +15,10 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.x509.handler.SubjectPublicKeyInfoHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
 import de.rub.nds.x509attacker.x509.parser.SubjectPublicKeyInfoParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.SubjectPublicKeyInfoPreparator;
@@ -50,16 +50,12 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
         algorithm = new SubjectPublicKeyAlgorithmIdentifier("algorithm");
         subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring", config);
         initPublicKeyParameters(config);
-        addChild(algorithm);
-        addChild(subjectPublicKeyBitString);
     }
 
     public SubjectPublicKeyInfo(String identifier) {
         super(identifier);
         algorithm = new SubjectPublicKeyAlgorithmIdentifier("algorithm");
         subjectPublicKeyBitString = new PublicKeyBitString("subjectPublicKeyBitstring");
-        addChild(algorithm);
-        addChild(subjectPublicKeyBitString);
     }
 
     public void setAlgorithm(SubjectPublicKeyAlgorithmIdentifier algorithm) {
@@ -79,41 +75,32 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
     }
 
     private void initPublicKeyParameters(X509CertificateConfig config) {
-        Asn1Field field = null;
+        PublicParameters publicParameters = null;
         switch (config.getPublicKeyType()) {
             case DH:
-                field = new X509DhParameters("dhParameters");
-                break;
-            case RSA:
+                publicParameters = new X509DhParameters("dhParameters");
                 break;
             case ECDH_ECDSA:
-                field = new X509EcNamedCurveParameters("namedCurveParameters");
+                publicParameters = new X509EcNamedCurveParameters("namedCurveParameters");
+                break;
+            case RSA:
+                publicParameters = new X509NullParameters("nullParameters");
                 break;
             case ECDH_ONLY:
-                break;
             case ED25519:
-                break;
             case ED448:
-                break;
             case DSA:
-                break;
             case X25519:
-                break;
             case X448:
-                break;
             case RSASSA_PSS:
-                break;
+                publicParameters = new X509NullParameters("nullParameters");
             default:
                 throw new UnsupportedOperationException(
                         "PublicKeyType: "
                                 + config.getPublicKeyType().getHumanReadableName()
                                 + " is not supported");
         }
-        if (field != null) {
-            algorithm.setParameters(field);
-        } else {
-            algorithm.setParameters(new Asn1Null("parameters"));
-        }
+        algorithm.setParameters(publicParameters);
     }
 
     @Override

@@ -43,9 +43,6 @@ public class DistributionPoint extends Asn1Sequence implements X509Component {
         distributionPointName = new DistributionPointName(identifier);
         reasons = new ReasonFlags(identifier);
         crlIssuer = new GeneralNames("crlIssuer");
-        addChild(distributionPointName);
-        addChild(reasons);
-        addChild(crlIssuer);
     }
 
     public DistributionPointName getDistributionPointName() {

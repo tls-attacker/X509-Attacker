@@ -29,7 +29,7 @@ public class RelativeDistinguishedNameParser
             while (inputStream.available() > 0) {
                 AttributeTypeAndValue element = new AttributeTypeAndValue("attributeTypeAndValue");
                 element.getParser(chooser).parse(inputStream);
-                encodable.addChild(element);
+                encodable.addAttributeTypeAndValue(element);
             }
         } catch (IOException E) {
             throw new ParserException("IOException in RelativeDistinguishedNameParser", E);

@@ -13,6 +13,7 @@ import de.rub.nds.asn1.model.Asn1Ia5String;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.GeneralName;
 import de.rub.nds.x509attacker.x509.model.X509Component;
@@ -89,11 +90,12 @@ public class GeneralNamePreparator implements X509Preparator {
         @Override
         protected byte[] encodeContent() {
             if (field instanceof Asn1Ia5String) {
-                prepareField(((Asn1Ia5String) field), (String) value);
+                Asn1PreparatorHelper.prepareField(((Asn1Ia5String) field), (String) value);
             } else if (field instanceof Asn1ObjectIdentifier) {
-                prepareField(((Asn1ObjectIdentifier) field), new ObjectIdentifier((String) value));
+                Asn1PreparatorHelper.prepareField(
+                        ((Asn1ObjectIdentifier) field), new ObjectIdentifier((String) value));
             } else if (field instanceof Asn1OctetString) {
-                prepareField(((Asn1OctetString) field), (byte[]) value);
+                Asn1PreparatorHelper.prepareField(((Asn1OctetString) field), (byte[]) value);
             } else {
                 throw new UnsupportedOperationException(
                         "Unimplemented Asn1Field: " + field.getClass().getName());

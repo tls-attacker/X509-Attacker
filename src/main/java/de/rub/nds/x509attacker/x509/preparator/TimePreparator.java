@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.asn1.model.Asn1GeneralizedTime;
 import de.rub.nds.asn1.model.Asn1UtcTime;
-import de.rub.nds.asn1.time.TimeEncoder;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.asn1.time.TimeField;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.TimeContextHint;
@@ -60,43 +60,7 @@ public class TimePreparator implements X509Preparator {
                 throw new UnsupportedOperationException(
                         "Unimplemented time encoding: " + timeEncoding);
         }
-        encodeTime(
-                dateTime,
-                timeField,
-                timeEncoding,
-                accurracy,
-                chooser.getConfig().getTimezoneOffsetInMinutes());
-    }
-
-    private void encodeTime(
-            DateTime date,
-            TimeField time,
-            ValidityEncoding encoding,
-            TimeAccurracy accurracy,
-            int timezoneInMinutes) {
-        String value = null;
-        switch (encoding) {
-            case GENERALIZED_TIME_DIFFERENTIAL:
-                value =
-                        TimeEncoder.encodeGeneralizedTimeUtcWithDifferential(
-                                date, accurracy, timezoneInMinutes);
-                break;
-            case GENERALIZED_TIME_LOCAL:
-                value = TimeEncoder.encodeGeneralizedTimeLocalTime(date, accurracy);
-                break;
-            case GENERALIZED_TIME_UTC:
-                value = TimeEncoder.encodeGeneralizedTimeUtc(date, accurracy);
-                break;
-            case UTC:
-                value = TimeEncoder.encodeFullUtc(date, accurracy);
-                break;
-            case UTC_DIFFERENTIAL:
-                value = TimeEncoder.encodeUtcWithDifferential(date, accurracy, timezoneInMinutes);
-                break;
-            default:
-                throw new UnsupportedOperationException(
-                        "Unsupported validity encoding:" + encoding.name());
-        }
-        time.setValue(value);
+        time.makeSelection(timeField);
+        Asn1PreparatorHelper.prepareField(timeField, dateTime, accurracy);
     }
 }

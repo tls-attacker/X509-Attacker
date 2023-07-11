@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Version;
 
@@ -19,7 +20,7 @@ public class VersionPreparator extends X509Asn1FieldPreparator<Version> {
 
     @Override
     protected byte[] encodeContent() {
-        prepareField(field, chooser.getConfig().getVersion().getValue());
+        Asn1PreparatorHelper.prepareField(field, chooser.getConfig().getVersion().getValue());
         return field.getContent().getOriginalValue();
     }
 }
