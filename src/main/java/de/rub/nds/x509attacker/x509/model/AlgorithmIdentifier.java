@@ -8,13 +8,11 @@
  */
 package de.rub.nds.x509attacker.x509.model;
 
-import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
-import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
 import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -37,8 +35,7 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Co
     public AlgorithmIdentifier(String identifier) {
         super(identifier);
         algorithm = new Asn1ObjectIdentifier("algorithm");
-        parameters = new X509NullParameters("null parameters");
-        ((Asn1Field) parameters).setOptional(true);
+        parameters = null;
     }
 
     public Asn1ObjectIdentifier getAlgorithm() {

@@ -16,6 +16,7 @@ import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
 
 public class CertificateSignatureAlgorithmIdentifierPreparator
         extends X509ContainerPreparator<CertificateSignatureAlgorithmIdentifier> {
@@ -49,6 +50,8 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
                 return new X509DssParameters("dssParameters");
             case ECDH_ECDSA:
                 return new X509EcNamedCurveParameters("ecNamedCurve");
+            case RSA:
+                return new X509NullParameters("nullParameters");
             default:
                 throw new UnsupportedOperationException("Unnown PublicKeyType");
         }
