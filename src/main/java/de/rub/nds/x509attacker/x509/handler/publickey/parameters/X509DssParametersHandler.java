@@ -20,6 +20,8 @@ public class X509DssParametersHandler extends X509FieldHandler<X509DssParameters
 
     @Override
     public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+        context.setSubjectDsaPrimeDivisorQ(component.getQ().getValue().getValue());
+        context.setSubjectDsaPrimeModulusP(component.getP().getValue().getValue());
+        context.setSubjectDsaGeneratorG(component.getG().getValue().getValue());
     }
 }

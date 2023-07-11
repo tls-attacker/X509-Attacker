@@ -8,30 +8,31 @@
  */
 package de.rub.nds.x509attacker.x509.parser.publickey;
 
-import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
-import de.rub.nds.x509attacker.x509.parser.X509ComponentFieldParser;
+import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import java.io.BufferedInputStream;
 import java.math.BigInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-public class X509EcdhEcdsaPublicKeyParser extends X509ComponentFieldParser<X509EcdhEcdsaPublicKey> {
+public class X509EcdhEcdsaPublicKeyParser implements X509Parser {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private X509Chooser chooser;
+
+    private X509EcdhEcdsaPublicKey ecdhEcdsaPublicKey;
+
     public X509EcdhEcdsaPublicKeyParser(
             X509Chooser chooser, X509EcdhEcdsaPublicKey ecdhEcdsaPublicKey) {
-        super(chooser, ecdhEcdsaPublicKey);
+        this.chooser = chooser;
+        this.ecdhEcdsaPublicKey = ecdhEcdsaPublicKey;
     }
 
-    @Override
-    protected void parseContent(BufferedInputStream inputStream) {
+    public void parse(BufferedInputStream inputStream) {
         try {
-            ParserHelper.parseOctetStringContent(encodable);
-            // Test that input stream has correct content length
             if (inputStream.available() == 0) {
                 throw new ParserException("Cannot parse point format");
             }
@@ -53,9 +54,10 @@ public class X509EcdhEcdsaPublicKeyParser extends X509ComponentFieldParser<X509E
                 }
                 byte[] x = inputStream.readNBytes(byteLength);
                 byte[] y = inputStream.readNBytes(byteLength);
-                encodable.setFormatByte(formatByte);
-                encodable.setxCoordinate(new BigInteger(1, x));
-                encodable.setyCoordinate(new BigInteger(1, y));
+                ecdhEcdsaPublicKey.setFormatByte(formatByte);
+                ecdhEcdsaPublicKey.setxCoordinate(new BigInteger(1, x));
+                ecdhEcdsaPublicKey.setyCoordinate(new BigInteger(1, y));
+                LOGGER.debug("Parsed public key contents successfully.");
             }
         } catch (Exception E) {
             throw new ParserException(E);

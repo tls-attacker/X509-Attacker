@@ -15,6 +15,7 @@ import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyAlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
+import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import java.io.BufferedInputStream;
 
@@ -34,10 +35,12 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
                 encodable.getAlgorithm().getValueAsOid().getEncoded())) {
             case ECDH_ECDSA:
                 parameters = new X509EcNamedCurveParameters("EcNamedCurveParameters");
-                parameters.getParser(chooser).parse(inputStream);
                 break;
             case DH:
                 parameters = new X509DhParameters("DhParameters");
+                break;
+            case DSA:
+                parameters = new X509DssParameters("DssParameters");
                 break;
             default:
                 parameters = null;
@@ -48,6 +51,8 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
             encodable.setParameters(nullField);
             ParserHelper.parseAsn1Null(nullField, inputStream);
         } else {
+            parameters.getParser(chooser).parse(inputStream);
+            parameters.getHandler(chooser).adjustContext();
             encodable.setParameters(parameters);
         }
     }

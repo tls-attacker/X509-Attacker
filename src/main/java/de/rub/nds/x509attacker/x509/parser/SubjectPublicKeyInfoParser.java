@@ -21,6 +21,7 @@ public class SubjectPublicKeyInfoParser extends X509ComponentContainerParser<Sub
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
         encodable.getAlgorithm().getParser(chooser).parse(inputStream);
+        encodable.getAlgorithm().getHandler(chooser).adjustContext();
         encodable.getSubjectPublicKeyBitString().getParser(chooser).parse(inputStream);
     }
 }

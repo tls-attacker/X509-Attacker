@@ -85,6 +85,10 @@ public class Name extends Asn1Sequence implements X509Component {
         this.relativeDistinguishedNames = relativeDistinguishedNames;
     }
 
+    public void addRelativeDistinguishedNames(RelativeDistinguishedName relativeDistinguishedName) {
+        this.relativeDistinguishedNames.add(relativeDistinguishedName);
+    }
+
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
         return new NameHandler(chooser, this);

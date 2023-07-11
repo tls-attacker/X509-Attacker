@@ -150,17 +150,23 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         return X500AttributeType.decodeFromOidBytes(oid.getEncoded());
     }
 
-    public String getStringValueOfValue() {
-        if (value instanceof Asn1Ia5String) {
-            return ((Asn1Ia5String) value).getValue().getValue();
-        } else if (value instanceof Asn1PrintableString) {
-            return ((Asn1PrintableString) value).getValue().getValue();
-        } else if (value instanceof Asn1T61String) {
-            return ((Asn1T61String) (value)).getValue().getValue();
-        } else if (value instanceof Asn1Utf8String) {
-            return ((Asn1Utf8String) value).getValue().getValue();
+    private String getStringValueOfEncoable(Asn1Encodable tempEncodable) {
+        if (tempEncodable instanceof Asn1Ia5String) {
+            return ((Asn1Ia5String) tempEncodable).getValue().getValue();
+        } else if (tempEncodable instanceof Asn1PrintableString) {
+            return ((Asn1PrintableString) tempEncodable).getValue().getValue();
+        } else if (tempEncodable instanceof Asn1T61String) {
+            return ((Asn1T61String) (tempEncodable)).getValue().getValue();
+        } else if (tempEncodable instanceof Asn1Utf8String) {
+            return ((Asn1Utf8String) tempEncodable).getValue().getValue();
+        } else if (tempEncodable instanceof DirectoryString) {
+            return getStringValueOfEncoable(((DirectoryString) tempEncodable).getSelectedChoice());
         } else {
-            return value.toString();
+            return tempEncodable.toString();
         }
+    }
+
+    public String getStringValueOfValue() {
+        return getStringValueOfEncoable(value);
     }
 }

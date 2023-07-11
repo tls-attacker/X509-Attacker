@@ -8,12 +8,15 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
+import java.io.BufferedInputStream;
+
+import de.rub.nds.asn1.constants.TagClass;
+import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.model.Asn1Null;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
-import java.io.BufferedInputStream;
 
 public class CertificateSignatureAlgorithmIdentifierParser
         extends X509ComponentContainerParser<CertificateSignatureAlgorithmIdentifier> {
@@ -36,16 +39,17 @@ public class CertificateSignatureAlgorithmIdentifierParser
             case DSA_WITH_SHA256:
             case DSA_WITH_SHA384:
             case DSA_WITH_SHA512:
-                encodable.setParameters(nullField);
-                ParserHelper.parseAsn1Null(nullField, inputStream);
+                // No parameters, not even null
                 break;
             case ECDSA_WITH_SHA1:
             case ECDSA_WITH_SHA224:
             case ECDSA_WITH_SHA256:
             case ECDSA_WITH_SHA384:
             case ECDSA_WITH_SHA512:
-                encodable.setParameters(nullField);
-                ParserHelper.parseAsn1Null(nullField, inputStream);
+                if (ParserHelper.canParse(inputStream, TagClass.UNIVERSAL, UniversalTagNumber.NULL.getIntValue())) {
+                    encodable.setParameters(nullField);
+                    ParserHelper.parseAsn1Null(nullField, inputStream);
+                }
                 break;
             case MD2_WITH_RSA_ENCRYPTION:
             case MD4_WITH_RSA_ENCRYPTION:

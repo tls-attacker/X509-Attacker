@@ -52,6 +52,12 @@ public class X509Context {
 
     private BigInteger subjectDsaPublicKeyY = null;
 
+    private BigInteger subjectDsaPrimeModulusP = null;
+
+    private BigInteger subjectDsaPrimeDivisorQ = null;
+
+    private BigInteger subjectDsaGeneratorG = null;
+
     private BigInteger subjectDsaPrivateKey = null;
 
     private BigInteger subjectEcPrivateKey = null;
@@ -300,5 +306,29 @@ public class X509Context {
 
     public void setSubjectUniqueId(byte[] subjectUniqueId) {
         this.subjectUniqueId = subjectUniqueId;
+    }
+
+    public BigInteger getSubjectDsaPrimeModulusP() {
+        return subjectDsaPrimeModulusP;
+    }
+
+    public void setSubjectDsaPrimeModulusP(BigInteger subjectDsaPrimeModulusP) {
+        this.subjectDsaPrimeModulusP = subjectDsaPrimeModulusP;
+    }
+
+    public BigInteger getSubjectDsaPrimeDivisorQ() {
+        return subjectDsaPrimeDivisorQ;
+    }
+
+    public void setSubjectDsaPrimeDivisorQ(BigInteger subjectDsaPrimeDivisorQ) {
+        this.subjectDsaPrimeDivisorQ = subjectDsaPrimeDivisorQ;
+    }
+
+    public BigInteger getSubjectDsaGeneratorG() {
+        return subjectDsaGeneratorG;
+    }
+
+    public void setSubjectDsaGeneratorG(BigInteger subjectDsaGeneratorG) {
+        this.subjectDsaGeneratorG = subjectDsaGeneratorG;
     }
 }

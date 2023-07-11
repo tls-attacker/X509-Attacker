@@ -29,7 +29,9 @@ public class NameParser extends X509ComponentContainerParser<Name> {
                 X509Parser rdnParser = rdn.getParser(chooser);
                 rdnParser.parse(inputStream);
                 encodable.addChild(rdn);
+                encodable.addRelativeDistinguishedNames(rdn);
             }
+
         } catch (IOException e) {
             throw new ParserException("IOException during parsing Name: " + e.getMessage(), e);
         }

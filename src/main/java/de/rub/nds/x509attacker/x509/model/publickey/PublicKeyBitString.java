@@ -25,10 +25,14 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PublicKeyBitString extends Asn1BitString implements X509Component {
+
+    private final Logger LOGGER = LogManager.getLogger();
 
     @XmlAnyElement(lax = true)
     private PublicKeyContent x509PublicKeyContent;
@@ -75,6 +79,7 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
     }
 
     public final PublicKeyContent createX509PublicKeyContent(X509PublicKeyType publicKeyType) {
+        LOGGER.debug("Creating X509PublicKeyContent for PublicKeyType: " + publicKeyType.name());
         switch (publicKeyType) {
             case DH:
                 return new X509DhPublicKey();
