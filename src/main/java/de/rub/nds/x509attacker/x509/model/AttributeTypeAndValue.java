@@ -29,6 +29,7 @@ import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -48,7 +49,9 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier type;
 
-    @HoldsModifiableVariable private Asn1Encodable value;
+    @HoldsModifiableVariable
+    @XmlAnyElement(lax = true)
+    private Asn1Encodable value;
 
     private X500AttributeType attributeTypeConfig;
 

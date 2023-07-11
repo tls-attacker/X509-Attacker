@@ -94,6 +94,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
             case X448:
             case RSASSA_PSS:
                 publicParameters = new X509NullParameters("nullParameters");
+                break;
             default:
                 throw new UnsupportedOperationException(
                         "PublicKeyType: "
