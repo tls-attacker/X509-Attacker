@@ -32,7 +32,7 @@ import org.apache.logging.log4j.Logger;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PublicKeyBitString extends Asn1BitString implements X509Component {
 
-    private final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     @XmlAnyElement(lax = true)
     private PublicKeyContent x509PublicKeyContent;
