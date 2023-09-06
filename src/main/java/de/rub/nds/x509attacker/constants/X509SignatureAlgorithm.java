@@ -55,12 +55,17 @@ public enum X509SignatureAlgorithm {
             "1.2.840.113549.1.1.14",
             SignatureAlgorithm.RSA_PKCS1,
             HashAlgorithm.SHA512_224), // TODO is this correct?
+    RSASSA_PSS(
+            "RSASSA-PSS",
+            "1.2.840.113549.1.1.10",
+            SignatureAlgorithm.RSA_PSS,
+            null), // Hash algorithm is defined by parameters
     DSA_WITH_SHA1("DSAwithSHA1", "1.2.840.10040.4.3", SignatureAlgorithm.DSA, HashAlgorithm.SHA1),
     DSA_WITH_SHA224(
             "DSAwithSHA224",
             "2.16.840.1.101.3.4.3.1",
             SignatureAlgorithm.DSA,
-            HashAlgorithm.SHA512_224), // TODO Is this correct?
+            HashAlgorithm.SHA512_224), // TODO Is this correct?s
     DSA_WITH_SHA256(
             "DSAwithSHA256",
             "2.16.840.1.101.3.4.3.2",
