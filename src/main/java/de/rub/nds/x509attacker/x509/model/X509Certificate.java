@@ -483,6 +483,18 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
         return X509SignatureAlgorithm.decodeFromOidBytes(oid.getEncoded()).getSignatureAlgorithm();
     }
 
+    public X509SignatureAlgorithm getX509SignatureAlgorithm() {
+        ObjectIdentifier oid =
+                new ObjectIdentifier(
+                        getSignatureAlgorithmIdentifier().getAlgorithm().getValue().getValue());
+        return X509SignatureAlgorithm.decodeFromOidBytes(oid.getEncoded());
+    }
+
+    public ObjectIdentifier getX509SignatureAlgorithmObjectIdentifier() {
+        return new ObjectIdentifier(
+                getSignatureAlgorithmIdentifier().getAlgorithm().getValue().getValue());
+    }
+
     public List<KeyUsage> getKeyUsages() {
         return null; // TODO implement
     }
