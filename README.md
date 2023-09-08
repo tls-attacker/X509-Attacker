@@ -3,10 +3,8 @@
 ![licence](https://img.shields.io/badge/License-Apachev2-brightgreen.svg)
 [![Build Status](http://hydrogen.cloud.nds.rub.de/buildStatus/icon.svg?job=X509-Attacker)](http://hydrogen.cloud.nds.rub.de/job/X509-Attacker/)
 
-X.509-Attacker is a tool based on ASN.1 Tool for creating arbitrary certificates; including especially invalid and
-malformed certificates. Since X.509 certificates encode their contents in ASN.1, this tool extends the features of
-ASN.1 Tool (https://github.com/tls-attacker/ASN.1-Tool) in terms of certificate signing. Also, X.509-Attacker
-introduces a feature of referencing XML elements in order to avoid redundancies when defining certificates in XML.
+X.509-Attacker is a tool based on ASN.1-Attacker for creating arbitrary certificates; including especially invalid and
+malformed certificates.
 
 # Installation
 
@@ -33,15 +31,17 @@ If you want to use this project as a dependency, you do not have to compile it y
 <dependency>
     <groupId>de.rub.nds</groupId>
     <artifactId>x509-attacker</artifactId>
-    <version>2.0.0</version>
+    <version>3.0.0</version>
 </dependency>
 ```
 
 # Acknowledgements
 
 The framework was initially developed by Nils Kafka (nils.kafka@ruhr-uni-bochum.de) during his master thesis.
-Extended by Joshua Waldner
+Extended by Joshua Waldner.
+
+In 2023, the project was rewritten by Robert Merget (Technology Innovation Institute).
 
 # Projects
 
-This framework is used in future versions of TLS-Attacker (https://github.com/tls-attacker/TLS-Attacker-Development/)
+This framework is used by TLS-Attacker (https://github.com/tls-attacker/TLS-Attacker/)
