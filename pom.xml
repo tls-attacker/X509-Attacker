@@ -58,6 +58,7 @@
     </properties>
 
     <dependencies>
+        <!-- scope: compile -->
         <dependency>
             <groupId>de.rub.nds</groupId>
             <artifactId>asn1-attacker</artifactId>
@@ -66,7 +67,6 @@
             <groupId>de.rub.nds</groupId>
             <artifactId>modifiable-variable</artifactId>
         </dependency>
-        <!-- scope: compile -->
         <dependency>
             <groupId>de.rub.nds</groupId>
             <artifactId>protocol-attacker</artifactId>
