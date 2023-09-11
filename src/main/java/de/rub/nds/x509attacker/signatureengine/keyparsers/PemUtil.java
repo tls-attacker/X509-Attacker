@@ -100,9 +100,9 @@ public class PemUtil {
         return tlsCerts;
     }
 
-    public static Certificate readCertificate(File f)
+    public static Certificate readCertificate(File file)
             throws FileNotFoundException, CertificateException, IOException {
-        return readCertificate(new FileInputStream(f));
+        return readCertificate(new FileInputStream(file));
     }
 
     public static PrivateKey readPrivateKey(InputStream stream) {
@@ -122,7 +122,6 @@ public class PemUtil {
                     return privKey;
                 }
             }
-            // TODO this looks weired
             PrivateKeyInfo privKeyInfo = (PrivateKeyInfo) obj;
             return converter.getPrivateKey(privKeyInfo);
         } catch (Exception e) {
@@ -137,9 +136,9 @@ public class PemUtil {
         }
     }
 
-    public static PrivateKey readPrivateKey(File f) {
+    public static PrivateKey readPrivateKey(File file) {
         try {
-            return readPrivateKey(new FileInputStream(f));
+            return readPrivateKey(new FileInputStream(file));
         } catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }
@@ -162,7 +161,6 @@ public class PemUtil {
                     return pubKey;
                 }
             }
-            // TODO this looks weired
             SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
             return converter.getPublicKey(publicKeyInfo);
         } catch (Exception e) {
@@ -177,9 +175,9 @@ public class PemUtil {
         }
     }
 
-    public static PublicKey readPublicKey(File f) {
+    public static PublicKey readPublicKey(File file) {
         try {
-            return readPublicKey(new FileInputStream(f));
+            return readPublicKey(new FileInputStream(file));
         } catch (FileNotFoundException ex) {
             throw new RuntimeException(ex);
         }
