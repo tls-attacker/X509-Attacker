@@ -17,7 +17,6 @@ import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import java.math.BigInteger;
-import java.util.Arrays;
 import java.util.List;
 
 public class X509Context {
@@ -265,15 +264,11 @@ public class X509Context {
     }
 
     public byte[] getIssuerUniqueId() {
-        if (issuerUniqueId != null) {
-            return Arrays.copyOf(issuerUniqueId, issuerUniqueId.length);
-        } else {
-            return null;
-        }
+        return issuerUniqueId;
     }
 
     public void setIssuerUniqueId(byte[] issuerUniqueId) {
-        this.issuerUniqueId = Arrays.copyOf(issuerUniqueId, issuerUniqueId.length);
+        this.issuerUniqueId = issuerUniqueId;
     }
 
     public X509PublicKeyType getIssuerPublicKeyType() {
