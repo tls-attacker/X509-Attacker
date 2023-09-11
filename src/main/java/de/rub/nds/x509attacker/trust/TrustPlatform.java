@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.trust;
 
+import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
@@ -22,9 +23,9 @@ public class TrustPlatform {
 
     private final Date lastUpdate;
 
-    private final List<TrustAnchor> trustAnchors;
+    private final List<X509Certificate> trustAnchors;
 
-    private final List<TrustAnchor> blockedTrustAnchors;
+    private final List<X509Certificate> blockedTrustAnchors;
 
     public TrustPlatform() {
         blockedTrustAnchors = null;
@@ -40,8 +41,8 @@ public class TrustPlatform {
             String version,
             String url,
             Date lastUpdate,
-            List<TrustAnchor> certificateEntries,
-            List<TrustAnchor> blockedCertificateEntries) {
+            List<X509Certificate> certificateEntries,
+            List<X509Certificate> blockedCertificateEntries) {
         this.platform = platform;
         this.version = version;
         this.url = url;
@@ -66,16 +67,16 @@ public class TrustPlatform {
         return lastUpdate;
     }
 
-    public List<TrustAnchor> getTrustAnchors() {
+    public List<X509Certificate> getTrustAnchors() {
         return trustAnchors;
     }
 
-    public List<TrustAnchor> getBlockedTrustAnchors() {
+    public List<X509Certificate> getBlockedTrustAnchors() {
         return blockedTrustAnchors;
     }
 
     public boolean isTrusted(byte[] sha256Fingerprint) {
-        for (TrustAnchor anchor : trustAnchors) {
+        for (X509Certificate anchor : trustAnchors) {
             if (Arrays.equals(anchor.getSha256Fingerprint(), sha256Fingerprint)) {
                 return true;
             }
@@ -84,7 +85,7 @@ public class TrustPlatform {
     }
 
     public boolean isBlacklisted(byte[] sha256Fingerprint) {
-        for (TrustAnchor anchor : blockedTrustAnchors) {
+        for (X509Certificate anchor : blockedTrustAnchors) {
             if (Arrays.equals(anchor.getSha256Fingerprint(), sha256Fingerprint)) {
                 return true;
             }
@@ -100,8 +101,8 @@ public class TrustPlatform {
      *     for
      * @return The relevant trustAnchor or null if not found
      */
-    public TrustAnchor getTrustedCertificateEntry(byte[] sha256Fingerprint) {
-        for (TrustAnchor anchor : trustAnchors) {
+    public X509Certificate getTrustedCertificateEntry(byte[] sha256Fingerprint) {
+        for (X509Certificate anchor : trustAnchors) {
             if (Arrays.equals(anchor.getSha256Fingerprint(), sha256Fingerprint)) {
                 return anchor;
             }
@@ -117,8 +118,8 @@ public class TrustPlatform {
      *     for
      * @return The relevant trustAnchor or null if not found
      */
-    public TrustAnchor getBlacklistedCertificateEntry(byte[] sha256Fingerprint) {
-        for (TrustAnchor anchor : blockedTrustAnchors) {
+    public X509Certificate getBlacklistedCertificateEntry(byte[] sha256Fingerprint) {
+        for (X509Certificate anchor : blockedTrustAnchors) {
             if (Arrays.equals(anchor.getSha256Fingerprint(), sha256Fingerprint)) {
                 return anchor;
             }

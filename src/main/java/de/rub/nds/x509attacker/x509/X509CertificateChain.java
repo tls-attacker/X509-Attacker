@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.x509;
 
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
-import de.rub.nds.x509attacker.trust.TrustAnchor;
 import de.rub.nds.x509attacker.trust.TrustPath;
 import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -17,6 +16,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
 import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.security.cert.TrustAnchor;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -133,7 +133,7 @@ public class X509CertificateChain {
         return false;
     }
 
-    public List<TrustPath> getAllTrustPaths(List<TrustAnchor> trustAnchorList) {
+    public List<TrustPath> getAllTrustPaths(List<X509Certificate> trustAnchorList) {
         return new LinkedList<>();
     }
 
@@ -165,7 +165,7 @@ public class X509CertificateChain {
     }
 
     public Boolean hasIncompleteChain() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("hasIncompleteChain is not implemented yet");
     }
 
     public Boolean allSignaturesValid() {

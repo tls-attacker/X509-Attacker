@@ -24,9 +24,9 @@ public class TrustAnchorManager {
 
     private List<TrustPlatform> trustPlatformList;
 
-    private HashMap<ComparableByteArray, TrustAnchor> trustAnchors;
+    private HashMap<ComparableByteArray, X509Certificate> trustAnchors;
 
-    private Set<TrustAnchor> trustAnchorSet;
+    private Set<X509Certificate> trustAnchorSet;
 
     public TrustAnchorManager() {
         this.trustPlatformList = new LinkedList<>();
@@ -36,12 +36,12 @@ public class TrustAnchorManager {
 
     public void addTrustPlaform(TrustPlatform platform) {
         trustPlatformList.add(platform);
-        for (TrustAnchor anchor : platform.getTrustAnchors()) {
+        for (X509Certificate anchor : platform.getTrustAnchors()) {
             if (!trustAnchors.containsKey(new ComparableByteArray(anchor.getSha256Fingerprint()))) {
                 trustAnchors.put(new ComparableByteArray(anchor.getSha256Fingerprint()), anchor);
             }
         }
-        for (TrustAnchor entry : platform.getBlockedTrustAnchors()) {
+        for (X509Certificate entry : platform.getBlockedTrustAnchors()) {
             if (!trustAnchors.containsKey(new ComparableByteArray(entry.getSha256Fingerprint()))) {
                 trustAnchors.put(new ComparableByteArray(entry.getSha256Fingerprint()), entry);
             }
@@ -61,7 +61,7 @@ public class TrustAnchorManager {
         }
     }
 
-    public Set<TrustAnchor> getTrustAnchorSet() {
+    public Set<X509Certificate> getTrustAnchorSet() {
         return trustAnchorSet;
     }
 }
