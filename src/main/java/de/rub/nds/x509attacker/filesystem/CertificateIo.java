@@ -35,6 +35,8 @@ public class CertificateIo {
 
     private static final String CERTIFICATE_PEM_SUFFIX = "-----END CERTIFICATE-----";
 
+    private static final int LENGTH_FIELD_BYTE_LENGTH = 3;
+
     private CertificateIo() {}
 
     public static X509CertificateChain readPemChain(File file) throws IOException {
@@ -100,7 +102,7 @@ public class CertificateIo {
         X509CertificateChain chain = new X509CertificateChain();
 
         // Outer length field
-        byte[] lengthField = new byte[3];
+        byte[] lengthField = new byte[LENGTH_FIELD_BYTE_LENGTH];
         inputStream.read(lengthField);
         int outLength = ArrayConverter.bytesToInt(lengthField);
         ByteArrayInputStream subCertificateListStream =
@@ -115,7 +117,7 @@ public class CertificateIo {
             throws IOException {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
-        byte[] lengthField = new byte[3];
+        byte[] lengthField = new byte[LENGTH_FIELD_BYTE_LENGTH];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
         BufferedInputStream certificateInputStream =
@@ -130,7 +132,7 @@ public class CertificateIo {
     public static X509Certificate readRawCertificate(InputStream inputStream) throws IOException {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
-        byte[] lengthField = new byte[3];
+        byte[] lengthField = new byte[LENGTH_FIELD_BYTE_LENGTH];
         inputStream.read(lengthField);
         int length = ArrayConverter.bytesToInt(lengthField);
         BufferedInputStream certificateInputStream =
