@@ -46,14 +46,14 @@ public class PemUtil {
             pemWriter = new PemWriter(new FileWriter(targetFile));
             pemWriter.writeObject(pemObject);
         } catch (IOException ex) {
-            LOGGER.warn(ex);
+            throw new RuntimeException(ex);
         } finally {
             try {
                 if (pemWriter != null) {
                     pemWriter.close();
                 }
             } catch (IOException ex) {
-                LOGGER.warn(ex);
+                throw new RuntimeException(ex);
             }
         }
     }
@@ -76,7 +76,7 @@ public class PemUtil {
                     pemWriter.close();
                 }
             } catch (IOException ex) {
-                LOGGER.error(ex);
+                throw new RuntimeException(ex);
             }
         }
     }
