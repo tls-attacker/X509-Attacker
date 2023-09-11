@@ -85,7 +85,7 @@ public class X509CertificateChain {
     }
 
     public Boolean isChainOrdered() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("isChainOrdered is not yet implemented");
     }
 
     /**
@@ -104,7 +104,7 @@ public class X509CertificateChain {
     }
 
     public Boolean containsKnownTrustAnchor(List<TrustAnchor> anchor) {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("containsKnownTrustAnchor is not yet implemented");
     }
 
     public Boolean containsMultipleLeafs() {
