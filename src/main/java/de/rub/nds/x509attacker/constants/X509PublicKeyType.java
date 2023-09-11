@@ -14,22 +14,22 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum X509PublicKeyType {
-    RSA("RSA", "1.2.840.113549.1.1.1"), // rfc3279
-    DSA("DSA", "1.2.840.10040.4.1"), // rfc3279
-    DH("Diffie-Hellman", "1.2.840.113549.1.3.1"), // rfc3279
-    KEA("Key Exchange Algorithm", "2.16.840.1.101.2.1.1.22"), // rfc3279
-    ECDH_ECDSA("Elliptic Curve", "1.2.840.10045.2.1"), // rfc3279, used for ECDH and ECDSA
-    RSASSA_PSS("RSA-PSS", "1.2.840.113549.1.1.10"), // rfc4055
-    RSAES_OAEP("RSA-OAEP", "1.2.840.113549.1.1.7"), // rfc4055
-    GOST_R3411_94("GOST_R3411_94", "1.2.643.2.2.20"), // RFC 4491
-    GOST_R3411_2001("GOST_R3411_2001", "1.2.643.2.2.19"), // RFC 4491
-    GOST_R3411_2012("GOST_R3411_2001", "1.2.643.2.2.19"), // RFC 4491
-    ECDH_ONLY("ECDH", "1.3.132.1.12"), // rfc5480
-    ECMQV("ECMQV", "1.3.132.1.13"), // rfc5480
-    X25519("X25519", "1.3.101.110"), // rfc8410
-    X448("X448", "1.3.101.111"), // rfc8410
-    ED25519("Ed25519", "1.3.101.112"), // rfc8410
-    ED448("Ed448", "1.3.101.113"); // rfc8410
+    RSA("RSA", "1.2.840.113549.1.1.1"), // RFC3279
+    DSA("DSA", "1.2.840.10040.4.1"), // RFC3279
+    DH("Diffie-Hellman", "1.2.840.113549.1.3.1"), // RFC3279
+    KEA("Key Exchange Algorithm", "2.16.840.1.101.2.1.1.22"), // RFC3279
+    ECDH_ECDSA("Elliptic Curve", "1.2.840.10045.2.1"), // RFC3279, used for ECDH and ECDSA
+    RSASSA_PSS("RSA-PSS", "1.2.840.113549.1.1.10"), // RFC4055
+    RSAES_OAEP("RSA-OAEP", "1.2.840.113549.1.1.7"), // RFC4055
+    GOST_R3411_94("GOST_R3411_94", "1.2.643.2.2.20"), // RFC4491
+    GOST_R3411_2001("GOST_R3411_2001", "1.2.643.2.2.19"), // RFC4491
+    GOST_R3411_2012("GOST_R3411_2001", "1.2.643.2.2.19"), // RFC4491
+    ECDH_ONLY("ECDH", "1.3.132.1.12"), // RFC5480
+    ECMQV("ECMQV", "1.3.132.1.13"), // RFC5480
+    X25519("X25519", "1.3.101.110"), // RFC8410
+    X448("X448", "1.3.101.111"), // RFC8410
+    ED25519("Ed25519", "1.3.101.112"), // RFC8410
+    ED448("Ed448", "1.3.101.113"); // RFC8410
 
     private static final Map<String, X509PublicKeyType> oidMap = new HashMap<>();
 
