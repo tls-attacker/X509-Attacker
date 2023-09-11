@@ -71,7 +71,7 @@ public enum X509PublicKeyType {
             case ECDH_ONLY:
                 return false;
             case ECMQV:
-                throw new UnsupportedOperationException("Not implemented");
+                throw new UnsupportedOperationException("Not implemented: " + this);
             case ED25519:
                 return signatureAlgorithm == SignatureAlgorithm.ED25519;
             case ED448:
@@ -85,7 +85,7 @@ public enum X509PublicKeyType {
                 return signatureAlgorithm == SignatureAlgorithm.GOSTR34102012_256
                         || signatureAlgorithm == SignatureAlgorithm.GOSTR34102012_512;
             case KEA:
-                throw new UnsupportedOperationException("Not implemented");
+                throw new UnsupportedOperationException("Not implemented: " + this);
             case RSA:
                 return signatureAlgorithm == SignatureAlgorithm.RSA_PKCS1;
             case RSASSA_PSS:
@@ -95,9 +95,9 @@ public enum X509PublicKeyType {
             case X448:
                 return false;
             case RSAES_OAEP:
-                throw new UnsupportedOperationException("Not implemented");
+                throw new UnsupportedOperationException("Not implemented: " + this);
             default:
-                throw new UnsupportedOperationException("Not implemented");
+                throw new UnsupportedOperationException("Not implemented: " + this);
         }
     }
 }
