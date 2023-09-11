@@ -9,12 +9,23 @@
 package de.rub.nds.x509attacker.trust;
 
 import de.rub.nds.x509attacker.x509.model.X509Certificate;
+import java.util.Arrays;
 import java.util.List;
 
 public class TrustPath {
 
+    /**
+     * A sorted list of certificates that form the trust path. The first certificate is the
+     * end-entity certificate, the last certificate is the trust anchor.
+     */
     private List<X509Certificate> certificateList;
 
+    /**
+     * Creates a new TrustPath. *
+     *
+     * @param certificateList A sorted list of certificates that form the trust path. The first
+     *     certificate is the end-entity certificate, the last certificate is the trust anchor.
+     */
     public TrustPath(List<X509Certificate> certificateList) {
         this.certificateList = certificateList;
     }
@@ -23,8 +34,8 @@ public class TrustPath {
         return certificateList;
     }
 
-    public void setCertificateList(List<X509Certificate> certificateList) {
-        this.certificateList = certificateList;
+    public X509Certificate getTrustAnchor() {
+        return certificateList.get(certificateList.size() - 1);
     }
 
     public Boolean containsExpiredCertificate() {
@@ -46,6 +57,14 @@ public class TrustPath {
     }
 
     public Boolean containsWeakSignature() {
-        return null; // TODO Implement
+        for (X509Certificate certificate : certificateList) {
+            if (Arrays.equals(
+                            certificate.getSha256Fingerprint(),
+                            getTrustAnchor().getSha256Fingerprint())
+                    && certificate.isWeakSignature()) {
+                return true;
+            }
+        }
+        return false;
     }
 }

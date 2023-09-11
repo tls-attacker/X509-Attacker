@@ -75,6 +75,15 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
+    private static final X509SignatureAlgorithm[] WEAK_SIGNATURE_ALGORITHMS = {
+        X509SignatureAlgorithm.DSA_WITH_SHA1,
+        X509SignatureAlgorithm.ECDSA_WITH_SHA1,
+        X509SignatureAlgorithm.MD2_WITH_RSA_ENCRYPTION,
+        X509SignatureAlgorithm.MD5_WITH_RSA_ENCRYPTION,
+        X509SignatureAlgorithm.MD4_WITH_RSA_ENCRYPTION,
+        X509SignatureAlgorithm.SHA1_WITH_RSA_ENCRYPTION
+    };
+
     @HoldsModifiableVariable private TbsCertificate tbsCertificate;
 
     @HoldsModifiableVariable
@@ -552,5 +561,14 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
         return new X509Asn1FieldSerializer(this);
+    }
+
+    public boolean isWeakSignature() {
+        for (X509SignatureAlgorithm algorithm : WEAK_SIGNATURE_ALGORITHMS) {
+            if (algorithm == getX509SignatureAlgorithm()) {
+                return true;
+            }
+        }
+        return false;
     }
 }
