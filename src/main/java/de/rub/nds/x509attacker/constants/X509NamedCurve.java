@@ -79,18 +79,12 @@ public enum X509NamedCurve {
         this.parameters = parameters;
     }
 
-    public int computeByteLength() {
-        return (int) Math.ceil(((double) getBitLength()) / 8);
-    }
-
     public int getBitLength() {
-        return parameters.getBitLength();
+        return parameters.getElementSizeBits();
     }
 
     public int getByteLength() {
-        return parameters.getBitLength() % 8 == 0
-                ? parameters.getBitLength() / 8
-                : (parameters.getBitLength() / 8) + 1;
+        return parameters.getElementSizeBytes();
     }
 
     public ObjectIdentifier getOid() {
