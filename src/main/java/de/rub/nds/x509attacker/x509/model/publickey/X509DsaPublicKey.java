@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.model.publickey;
 
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509DsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.X509Asn1IntegerParser;
@@ -31,11 +32,6 @@ public class X509DsaPublicKey extends Asn1Integer implements PublicKeyContent {
     }
 
     @Override
-    public boolean isEllipticCurve() {
-        return false;
-    }
-
-    @Override
     public X509Handler getHandler(X509Chooser chooser) {
         return new X509DsaPublicKeyHandler(chooser, this);
     }
@@ -53,5 +49,10 @@ public class X509DsaPublicKey extends Asn1Integer implements PublicKeyContent {
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
         return new X509Asn1FieldSerializer(this);
+    }
+
+    @Override
+    public X509PublicKeyType getX509PublicKeyType() {
+        return X509PublicKeyType.DSA;
     }
 }

@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.model.publickey;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509RsaPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
@@ -77,7 +78,7 @@ public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
     }
 
     @Override
-    public boolean isEllipticCurve() {
-        return false;
+    public X509PublicKeyType getX509PublicKeyType() {
+        return X509PublicKeyType.RSA;
     }
 }

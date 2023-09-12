@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.model.publickey;
 
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -16,5 +17,5 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public interface PublicKeyContent extends X509Component {
-    public abstract boolean isEllipticCurve();
+    public abstract X509PublicKeyType getX509PublicKeyType();
 }

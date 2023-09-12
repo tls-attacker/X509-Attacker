@@ -146,17 +146,6 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
                         .serialize());
     }
 
-    public boolean isEllipticCurveCertificate() {
-
-        PublicKeyContent publicKey = getPublicKey();
-        if (publicKey != null) {
-            return publicKey.isEllipticCurve();
-        } else {
-            // Certificate does not seem to have a public key
-            return false;
-        }
-    }
-
     public X509PublicKeyType getCertificateKeyType() {
         PublicKeyContent publicKey = getPublicKey();
         if (publicKey == null) {
@@ -197,7 +186,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public NamedEllipticCurveParameters getEllipticCurve() {
-        if (isEllipticCurveCertificate()) {
+        if (getPublicKey().getX509PublicKeyType().isEc()) {
             PublicKeyContent publicKey = getPublicKey();
             if (publicKey instanceof X509X25519PublicKey) {
                 return NamedEllipticCurveParameters.CURVE_X25519;

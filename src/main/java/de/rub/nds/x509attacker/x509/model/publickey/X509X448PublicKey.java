@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.model.publickey;
 
 import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509X448PublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
@@ -26,11 +27,6 @@ public class X509X448PublicKey extends Asn1OctetString implements PublicKeyConte
 
     public X509X448PublicKey() {
         super("x448PublicKey");
-    }
-
-    @Override
-    public boolean isEllipticCurve() {
-        return true;
     }
 
     @Override
@@ -51,5 +47,10 @@ public class X509X448PublicKey extends Asn1OctetString implements PublicKeyConte
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
         return new X509Asn1FieldSerializer(this);
+    }
+
+    @Override
+    public X509PublicKeyType getX509PublicKeyType() {
+        return X509PublicKeyType.X448;
     }
 }

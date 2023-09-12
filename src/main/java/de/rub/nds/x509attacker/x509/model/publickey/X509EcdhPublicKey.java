@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509EcdhPublicKeyHandler;
 import de.rub.nds.x509attacker.x509.parser.X509Asn1OctetStringParser;
@@ -62,11 +63,6 @@ public class X509EcdhPublicKey extends Asn1OctetString implements PublicKeyConte
     }
 
     @Override
-    public boolean isEllipticCurve() {
-        return true;
-    }
-
-    @Override
     public X509Handler getHandler(X509Chooser chooser) {
         return new X509EcdhPublicKeyHandler(chooser, this);
     }
@@ -84,5 +80,10 @@ public class X509EcdhPublicKey extends Asn1OctetString implements PublicKeyConte
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
         return new X509Asn1FieldSerializer(this);
+    }
+
+    @Override
+    public X509PublicKeyType getX509PublicKeyType() {
+        return X509PublicKeyType.ECDH_ONLY;
     }
 }

@@ -100,4 +100,29 @@ public enum X509PublicKeyType {
                 throw new UnsupportedOperationException("Not implemented: " + this);
         }
     }
+
+    public boolean isEc() {
+        switch (this) {
+            case ECDH_ECDSA:
+            case ECDH_ONLY:
+            case ECMQV:
+            case ED25519:
+            case ED448:
+            case GOST_R3411_2001:
+            case GOST_R3411_2012:
+            case GOST_R3411_94:
+            case X25519:
+            case X448:
+                return true;
+            case DH:
+            case DSA:
+            case KEA:
+            case RSA:
+            case RSAES_OAEP:
+            case RSASSA_PSS:
+                return false;
+            default:
+                throw new UnsupportedOperationException("Not yet implemented: " + this.name());
+        }
+    }
 }
