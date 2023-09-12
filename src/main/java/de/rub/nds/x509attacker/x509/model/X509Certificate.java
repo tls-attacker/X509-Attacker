@@ -42,8 +42,6 @@ import de.rub.nds.x509attacker.x509.model.publickey.X509DhPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509DsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhPublicKey;
-import de.rub.nds.x509attacker.x509.model.publickey.X509Ed25519PublicKey;
-import de.rub.nds.x509attacker.x509.model.publickey.X509Ed448PublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509X25519PublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509X448PublicKey;
@@ -147,42 +145,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public X509PublicKeyType getCertificateKeyType() {
-        PublicKeyContent publicKey = getPublicKey();
-        if (publicKey == null) {
-            return null;
-        }
-        if (publicKey instanceof X509DhPublicKey) {
-            return X509PublicKeyType.DH;
-        }
-        if (publicKey instanceof X509RsaPublicKey) {
-            return X509PublicKeyType.RSA;
-        }
-        if (publicKey instanceof X509DsaPublicKey) {
-            return X509PublicKeyType.DSA;
-        }
-        if (publicKey instanceof X509EcdhEcdsaPublicKey) {
-            return X509PublicKeyType.ECDH_ECDSA;
-        }
-        if (publicKey instanceof X509EcdhPublicKey) {
-            return X509PublicKeyType.ECDH_ONLY;
-        }
-        if (publicKey instanceof X509Ed25519PublicKey) {
-            return X509PublicKeyType.ED25519;
-        }
-        if (publicKey instanceof X509Ed448PublicKey) {
-            return X509PublicKeyType.ED448;
-        }
-        if (publicKey instanceof X509X25519PublicKey) {
-            return X509PublicKeyType.X25519;
-        }
-        if (publicKey instanceof X509X448PublicKey) {
-            return X509PublicKeyType.X448;
-        }
-        LOGGER.warn(
-                "The public key "
-                        + publicKey.toString()
-                        + " has not been correctly integrated into TLS-Attacker. Returning NONE");
-        return null;
+        return getPublicKey().getX509PublicKeyType();
     }
 
     public NamedEllipticCurveParameters getEllipticCurve() {
