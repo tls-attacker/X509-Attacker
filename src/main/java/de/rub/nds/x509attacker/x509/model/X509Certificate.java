@@ -310,11 +310,11 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public Boolean isRevokedCrl() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("isRevokedCrl not implemented yet");
     }
 
     public Boolean isRevokedOcsp() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("isRevokedOcsp not implemented yet");
     }
 
     public HashAlgorithm getHashAlgorithm() {
@@ -325,7 +325,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public Boolean hasWeakBlacklistedDebianKey() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("hasWeakBlacklistedDebianKey not implemented yet");
     }
 
     /**
@@ -414,31 +414,32 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public List<String> getSubjectAlternativeNames() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("getSubjectAlternativeNames not implemented yet");
     }
 
     public Boolean hasSanExtension() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("hasSanExtension not implemented yet");
     }
 
     public Boolean hasExtendedKeyUsageExtension() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("hasExtendedKeyUsageExtension not implemented yet");
     }
 
     public Boolean hasSignedCertificateTransparencyEntry() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException(
+                "hasSignedCertificateTransparencyEntry not implemented yet");
     }
 
     public Boolean hasOcsp() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("hasOcsp not implemented yet");
     }
 
     public Boolean hasCertificateRevocationList() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("hasCertificateRevocationList not implemented yet");
     }
 
     public Boolean isOcspMustStaple() {
-        return null; // TODO Implement
+        throw new UnsupportedOperationException("isOcspMustStaple not implemented yet");
     }
 
     /**
@@ -505,11 +506,11 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public List<KeyUsage> getKeyUsages() {
-        return null; // TODO implement
+        throw new UnsupportedOperationException("getKeyUsages not implemented yet");
     }
 
     public List<ExtendedKeyUsage> getExtendedKeyUsages() {
-        return null; // TODO implement
+        throw new UnsupportedOperationException("getExtendedKeyUsages not implemented yet");
     }
 
     public SignatureComputations getSignatureComputations() {
@@ -521,11 +522,11 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public byte[] getAkid() {
-        return null;
+        throw new UnsupportedOperationException("getAkid not implemented yet");
     }
 
     public byte[] getSkid() {
-        return null;
+        throw new UnsupportedOperationException("getSkid not implemented yet");
     }
 
     @Override
