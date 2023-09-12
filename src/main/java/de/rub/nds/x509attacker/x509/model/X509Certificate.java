@@ -43,8 +43,6 @@ import de.rub.nds.x509attacker.x509.model.publickey.X509DsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
-import de.rub.nds.x509attacker.x509.model.publickey.X509X25519PublicKey;
-import de.rub.nds.x509attacker.x509.model.publickey.X509X448PublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
@@ -151,12 +149,12 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     public NamedEllipticCurveParameters getEllipticCurve() {
         if (getPublicKey().getX509PublicKeyType().isEc()) {
             PublicKeyContent publicKey = getPublicKey();
-            if (publicKey instanceof X509X25519PublicKey) {
+            if (publicKey.getX509PublicKeyType() == X509PublicKeyType.X25519) {
                 return NamedEllipticCurveParameters.CURVE_X25519;
-            } else if (publicKey instanceof X509X448PublicKey) {
+            } else if (y.getX509PublicKeyType() == X509PublicKeyType.X448) {
                 return NamedEllipticCurveParameters.CURVE_X448;
-            } else if (publicKey instanceof X509EcdhEcdsaPublicKey
-                    || publicKey instanceof X509EcdhPublicKey) {
+            } else if (publicKey.getX509PublicKeyType() == X509PublicKeyType.ECDH_ECDSA
+                    || publicKey.getX509PublicKeyType() == X509PublicKeyType.ECDH_ONLY) {
                 Asn1Encodable parameters =
                         getTbsCertificate()
                                 .getSubjectPublicKeyInfo()
@@ -173,7 +171,8 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
                 }
 
             } else {
-                throw new UnsupportedOperationException("not implemented yet");
+                throw new UnsupportedOperationException(
+                        "not implemented yet: " + publicKey.getX509PublicKeyType().name());
             }
         } else {
             return null;
