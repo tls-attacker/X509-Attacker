@@ -571,4 +571,8 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
         }
         return false;
     }
+
+    public Boolean isSignatureValid() {
+        return signatureComputations.getSignatureValid();
+    }
 }

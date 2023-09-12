@@ -169,11 +169,16 @@ public class X509CertificateChain {
     }
 
     public Boolean allSignaturesValid() {
-        return null; // TODO Implement
+        for (X509Certificate certificate : certificateList) {
+            if (!certificate.isSignatureValid()) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public Boolean isExtendedValidation() {
-        return null; // TODO implement
+        throw new UnsupportedOperationException("isExtendedValidation is not implemented yet");
     }
 
     @Override
