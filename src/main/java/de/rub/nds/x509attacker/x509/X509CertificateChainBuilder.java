@@ -15,9 +15,9 @@ import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import java.util.List;
 
-public class X509CertificateChainBuidler {
+public class X509CertificateChainBuilder {
 
-    public X509CertificateChainBuidler() {}
+    public X509CertificateChainBuilder() {}
 
     public X509CertificateChain buildChain(List<X509CertificateConfig> certificateConfigs) {
         return buildChain(certificateConfigs.toArray(X509CertificateConfig[]::new));

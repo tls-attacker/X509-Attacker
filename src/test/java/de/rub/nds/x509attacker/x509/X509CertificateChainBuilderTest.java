@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 import org.junit.jupiter.api.Test;
 
-public class X509CertificateChainBuidlerTest {
+public class X509CertificateChainBuilderTest {
 
     private static final Logger LOGGER = LogManager.getLogger();
 
@@ -79,7 +79,7 @@ public class X509CertificateChainBuidlerTest {
                         16));
         leafConfig.setRsaPublicKey(new BigInteger("01", 16));
 
-        X509CertificateChainBuidler builder = new X509CertificateChainBuidler();
+        X509CertificateChainBuilder builder = new X509CertificateChainBuilder();
 
         X509CertificateChain chain = builder.buildChain(rootConfig, intermediateConfig, leafConfig);
         for (X509Certificate cert : chain.getCertificateList()) {
