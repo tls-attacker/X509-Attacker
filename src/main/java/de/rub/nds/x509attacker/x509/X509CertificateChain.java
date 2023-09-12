@@ -90,7 +90,6 @@ public class X509CertificateChain {
 
     /**
      * A chain is considered to contain a trust anchor if it contains a self signed certificate.
-     * TODO not sure if this correctly interacts with bridge CA's
      *
      * @return
      */
