@@ -69,7 +69,7 @@ public class NameHandler extends X509FieldHandler<Name> {
                 throw new RuntimeException("Unknown NameType: " + component.getType().name());
             }
         } catch (IOException ex) {
-            LOGGER.warn("Problem adjusting context");
+            throw new RuntimeException("Could not adjust Name in Context", ex);
         }
     }
 
@@ -81,7 +81,7 @@ public class NameHandler extends X509FieldHandler<Name> {
             try {
                 outputStream.write(rdnName.getSerializer(chooser).serialize());
             } catch (IOException ex) {
-                LOGGER.error(ex);
+                throw new RuntimeException("Could not adjust Name in Context", ex);
             }
         }
         LOGGER.debug(
