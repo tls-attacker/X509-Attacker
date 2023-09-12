@@ -49,9 +49,10 @@ public class AnotherName extends Asn1Sequence implements X509Component {
     public AnotherName(String identifier, Integer tagNumber) {
         super(identifier, tagNumber);
         typeId = new Asn1ObjectIdentifier("typeId");
-        value =
-                new X509Explicit<X509Component>(
-                        "", 0, null); // TODO inner field is null (not implmeneted)
+        // What the inner field is will be determined by the type-id
+        // right now it is null, preparator or parse might overwrite this.
+        // TODO Ideally we would have the value preset from the config
+        value = new X509Explicit<X509Component>("", 0, null);
     }
 
     public Asn1ObjectIdentifier getTypeId() {
