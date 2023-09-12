@@ -33,6 +33,7 @@ import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.constants.X509Version;
+import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.handler.X509CertificateHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
@@ -140,8 +141,9 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public byte[] getSha256Fingerprint() {
-        // TODO Not sure it is safe to pass null here
-        return HashCalculator.computeSha256(this.getSerializer(null).serialize());
+        return HashCalculator.computeSha256(
+                this.getSerializer(new X509Chooser(new X509CertificateConfig(), new X509Context()))
+                        .serialize());
     }
 
     public boolean isEllipticCurveCertificate() {
