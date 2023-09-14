@@ -53,7 +53,7 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
             case RSA:
                 return new X509NullParameters("nullParameters");
             default:
-                throw new UnsupportedOperationException("Unnown PublicKeyType");
+                throw new UnsupportedOperationException("Unnown PublicKeyType: " + publicKeyType);
         }
     }
 
