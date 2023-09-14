@@ -16,13 +16,15 @@ import java.io.BufferedInputStream;
 
 public class EdiPartyNameParser extends X509ComponentContainerParser<EdiPartyName> {
 
+    private static final int EXPLICIT_TAG_NUMBER = 0;
+
     public EdiPartyNameParser(X509Chooser chooser, EdiPartyName ediPartyName) {
         super(chooser, ediPartyName);
     }
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
-        if (ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 0)) {
+        if (ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, EXPLICIT_TAG_NUMBER)) {
             encodable.getNameAssigner().getParser(chooser).parse(inputStream);
         }
         encodable.getPartyName().getParser(chooser).parse(inputStream);
