@@ -22,7 +22,10 @@ public class RelativeDistinguishedNamePreparator
 
     @Override
     public void prepareSubComponents() {
-        field.getAttributeTypeAndValueList().forEach(atv -> atv.getPreparator(chooser).prepare());
+        field.getAttributeTypeAndValueList()
+                .forEach(
+                        attributeTypeAndValue ->
+                                attributeTypeAndValue.getPreparator(chooser).prepare());
     }
 
     @Override
