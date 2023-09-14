@@ -66,14 +66,16 @@ public class GeneralNamePreparator implements X509Preparator {
         }
         if (generalName instanceof X509Component) {
             ((X509Component) generalName).getPreparator(chooser).prepare();
-        } else {
+        } else if (generalName.getSelectedChoice() instanceof Asn1Field) {
             HelperPreparator<Asn1Field> preparator =
-                    new HelperPreparator<Asn1Field>(
+                    new HelperPreparator<>(
                             chooser,
-                            (Asn1Field)
-                                    generalName.getSelectedChoice(), // TODO this is not safe....
+                            (Asn1Field) generalName.getSelectedChoice(),
                             generalName.getGeneralNameConfigValue());
             preparator.prepare();
+        } else {
+            throw new UnsupportedOperationException(
+                    "GeneralName only supports Asn1Field and X509 Components at the time");
         }
     }
 
