@@ -13,9 +13,13 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhValidationParms;
 import de.rub.nds.x509attacker.x509.parser.X509ComponentContainerParser;
 import java.io.BufferedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class X509DhValidationParmsParser
         extends X509ComponentContainerParser<X509DhValidationParms> {
+
+    private Logger LOGGER = LogManager.getLogger();
 
     public X509DhValidationParmsParser(
             X509Chooser chooser, X509DhValidationParms x509DhValidationParms) {
@@ -24,7 +28,18 @@ public class X509DhValidationParmsParser
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
-        ParserHelper.parseAsn1BitString(encodable.getSeed(), inputStream);
+        LOGGER.debug("Parsing DhValidationParms");
+        parseSeed(inputStream);
+        parsePgenCounter(inputStream);
+    }
+
+    private void parsePgenCounter(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsed PgenCounter: {}", encodable.getPgenCounter().getValue().getValue());
         ParserHelper.parseAsn1Integer(encodable.getPgenCounter(), inputStream);
+    }
+
+    private void parseSeed(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsed Seed: {}", encodable.getSeed().getContent().getValue().getValue());
+        ParserHelper.parseAsn1BitString(encodable.getSeed(), inputStream);
     }
 }
