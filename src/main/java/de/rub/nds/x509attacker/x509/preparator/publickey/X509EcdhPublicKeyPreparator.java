@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
-import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.crypto.ec.PointFormatter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhPublicKey;
@@ -28,7 +27,7 @@ public class X509EcdhPublicKeyPreparator extends X509Asn1FieldPreparator<X509Ecd
                 PointFormatter.formatToByteArray(
                         chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
                         chooser.getConfig().getEcPublicKey(),
-                        PointFormat.UNCOMPRESSED)); // TODO hardcoded uncompressed
+                        chooser.getConfig().getDefaultEcPointFormat()));
         return field.getContent()
                 .getOriginalValue(); // We return the original value here, otherwise we will modify
     }
