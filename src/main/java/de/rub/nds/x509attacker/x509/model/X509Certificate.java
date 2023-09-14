@@ -161,7 +161,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public PublicParameters getPublicParameters() {
-        throw new UnsupportedOperationException("not implemented yet");
+        return getTbsCertificate().getSubjectPublicKeyInfo().getAlgorithm().getParameters();
     }
 
     public X509NamedCurve getSignatureNamedGroup() {
