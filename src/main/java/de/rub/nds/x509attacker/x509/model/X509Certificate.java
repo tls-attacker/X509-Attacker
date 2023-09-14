@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.model.Asn1BitString;
-import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
@@ -17,12 +16,10 @@ import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.hash.HashCalculator;
-import de.rub.nds.protocol.crypto.key.DhPublicKey;
-import de.rub.nds.protocol.crypto.key.DsaPublicKey;
 import de.rub.nds.protocol.crypto.key.EcdhPublicKey;
 import de.rub.nds.protocol.crypto.key.EcdsaPublicKey;
+import de.rub.nds.protocol.crypto.key.EddsaPublicKey;
 import de.rub.nds.protocol.crypto.key.PublicKeyContainer;
-import de.rub.nds.protocol.crypto.key.RsaPublicKey;
 import de.rub.nds.protocol.crypto.signature.SignatureComputations;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -38,15 +35,7 @@ import de.rub.nds.x509attacker.x509.handler.X509CertificateHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyContent;
-import de.rub.nds.x509attacker.x509.model.publickey.X509DhPublicKey;
-import de.rub.nds.x509attacker.x509.model.publickey.X509DsaPublicKey;
-import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
-import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhPublicKey;
-import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
-import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
-import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
-import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.parser.X509CertificateParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
@@ -56,7 +45,6 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.math.BigInteger;
 import java.net.InetAddress;
 import java.net.UnknownHostException;
 import java.util.Arrays;
@@ -147,36 +135,18 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public NamedEllipticCurveParameters getEllipticCurve() {
-        if (getPublicKey().getX509PublicKeyType().isEc()) {
-            PublicKeyContent publicKey = getPublicKey();
-            if (publicKey.getX509PublicKeyType() == X509PublicKeyType.X25519) {
-                return NamedEllipticCurveParameters.CURVE_X25519;
-            } else if (y.getX509PublicKeyType() == X509PublicKeyType.X448) {
-                return NamedEllipticCurveParameters.CURVE_X448;
-            } else if (publicKey.getX509PublicKeyType() == X509PublicKeyType.ECDH_ECDSA
-                    || publicKey.getX509PublicKeyType() == X509PublicKeyType.ECDH_ONLY) {
-                Asn1Encodable parameters =
-                        getTbsCertificate()
-                                .getSubjectPublicKeyInfo()
-                                .getAlgorithm()
-                                .getParameters();
-                if (parameters instanceof X509EcNamedCurveParameters) {
-                    String algorithmOid =
-                            ((X509EcNamedCurveParameters) parameters).getValue().getValue();
-                    ObjectIdentifier oid = new ObjectIdentifier(algorithmOid);
-                    return X509NamedCurve.decodeFromOidBytes(oid.getEncoded()).getParameters();
-                } else {
-                    LOGGER.warn("ECDH/ECDSA certificate without NamedCurveParameters");
-                    return null;
-                }
-
-            } else {
-                throw new UnsupportedOperationException(
-                        "not implemented yet: " + publicKey.getX509PublicKeyType().name());
-            }
-        } else {
-            return null;
+        PublicKeyContainer publicKeyContainer = getPublicKeyContainer();
+        if (publicKeyContainer instanceof EcdsaPublicKey) {
+            return ((EcdsaPublicKey) publicKeyContainer).getParameters();
         }
+        if (publicKeyContainer instanceof EcdhPublicKey) {
+            return ((EcdhPublicKey) publicKeyContainer).getParameters();
+        }
+        if (publicKeyContainer instanceof EddsaPublicKey) {
+            return ((EddsaPublicKey) publicKeyContainer).getParameters();
+        }
+        LOGGER.warn("X.509 Certificate does not contain an EC PublicKey. Returning null.");
+        return null;
     }
 
     public PublicKeyContent getPublicKey() {
@@ -199,51 +169,11 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public PublicKeyContainer getPublicKeyContainer() {
-        X509PublicKeyType certificateKeyType = getCertificateKeyType();
-        switch (certificateKeyType) {
-            case DH:
-                BigInteger publicKey = ((X509DhPublicKey) getPublicKey()).getValue().getValue();
-                BigInteger generator =
-                        ((X509DhParameters) getPublicParameters()).getG().getValue().getValue();
-                BigInteger modulus =
-                        ((X509DhParameters) getPublicParameters()).getP().getValue().getValue();
-                return new DhPublicKey(publicKey, generator, modulus);
-            case DSA:
-                BigInteger Q =
-                        ((X509DssParameters) getPublicParameters()).getQ().getValue().getValue();
-                BigInteger X = ((X509DsaPublicKey) getPublicKey()).getValue().getValue();
-                generator =
-                        ((X509DssParameters) getPublicParameters()).getG().getValue().getValue();
-                modulus = ((X509DssParameters) getPublicParameters()).getP().getValue().getValue();
-                return new DsaPublicKey(Q, X, generator, modulus);
-            case ECDH_ECDSA:
-                BigInteger xCoordinate =
-                        ((X509EcdhEcdsaPublicKey) getPublicKey()).getxCoordinate().getValue();
-                BigInteger yCoordinate =
-                        ((X509EcdhEcdsaPublicKey) getPublicKey()).getyCoordinate().getValue();
-                NamedEllipticCurveParameters parameters =
-                        (NamedEllipticCurveParameters) getEllipticCurve();
-
-                return new EcdsaPublicKey(
-                        parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
-            case ECDH_ONLY:
-                xCoordinate = ((X509EcdhPublicKey) getPublicKey()).getxCoordinate().getValue();
-                yCoordinate = ((X509EcdhPublicKey) getPublicKey()).getyCoordinate().getValue();
-                parameters = (NamedEllipticCurveParameters) getEllipticCurve();
-                return new EcdhPublicKey(
-                        parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
-            case RSA:
-                modulus = ((X509RsaPublicKey) getPublicKey()).getModulus().getValue().getValue();
-                BigInteger publicExponent =
-                        ((X509RsaPublicKey) getPublicKey())
-                                .getPublicExponent()
-                                .getValue()
-                                .getValue();
-                return new RsaPublicKey(publicExponent, modulus);
-            default:
-                throw new UnsupportedOperationException(
-                        "PublicKeyContainer " + certificateKeyType + " not yet implemented");
-        }
+        Optional<TbsCertificate> optionalTbs = Optional.ofNullable(getTbsCertificate());
+        return optionalTbs
+                .map(TbsCertificate::getSubjectPublicKeyInfo)
+                .get()
+                .getPublicKeyContainer();
     }
 
     public DateTime getNotBefore() {
