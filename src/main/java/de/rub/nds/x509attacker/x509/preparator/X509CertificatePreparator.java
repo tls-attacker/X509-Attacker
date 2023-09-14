@@ -34,14 +34,14 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
 
     @Override
     protected byte[] encodeContent() {
-        this.field.getTbsCertificate().getPreparator(chooser).prepare();
+        field.getTbsCertificate().getPreparator(chooser).prepare();
         prepareSignatureAlgorithm();
         prepareSignature();
         field.setEncodedChildren(
                 encodeChildren(
-                        this.field.getTbsCertificate(),
-                        this.field.getSignatureAlgorithmIdentifier(),
-                        this.field.getSignature()));
+                        field.getTbsCertificate(),
+                        field.getSignatureAlgorithmIdentifier(),
+                        field.getSignature()));
         return field.getEncodedChildren().getValue();
     }
 
