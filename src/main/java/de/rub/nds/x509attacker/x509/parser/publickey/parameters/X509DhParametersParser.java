@@ -31,8 +31,7 @@ public class X509DhParametersParser extends X509ComponentContainerParser<X509DhP
         // which effectivly makes this not parseable. One can sort of solve this by testing the
         // parsed value
         // if the parsed value divides p-1. If it does, then it is q - if it does not, then it is j.
-        // This is not a perfect solution, but it is the best we can do.
-        // Right now we are not doing this. If you need this, have fun.
+        // This is not a perfect solution, but it is the best we could do.
         if (ParserHelper.canParse(
                 inputStream, TagClass.UNIVERSAL, UniversalTagNumber.INTEGER.getIntValue())) {
             ParserHelper.parseAsn1Integer(encodable.getQ(), inputStream);
