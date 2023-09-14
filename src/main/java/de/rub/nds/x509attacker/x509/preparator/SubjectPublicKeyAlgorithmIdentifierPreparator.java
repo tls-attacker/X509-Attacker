@@ -50,7 +50,7 @@ public class SubjectPublicKeyAlgorithmIdentifierPreparator
             case ECDH_ECDSA:
                 return new X509EcNamedCurveParameters("ecNamedCurve");
             default:
-                throw new UnsupportedOperationException("Unnown PublicKeyType");
+                throw new UnsupportedOperationException("Unnown PublicKeyType: " + publicKeyType);
         }
     }
 
