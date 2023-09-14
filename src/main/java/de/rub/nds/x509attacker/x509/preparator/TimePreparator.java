@@ -50,11 +50,11 @@ public class TimePreparator implements X509Preparator {
             case GENERALIZED_TIME_DIFFERENTIAL:
             case GENERALIZED_TIME_LOCAL:
             case GENERALIZED_TIME_UTC:
-                timeField = new Asn1UtcTime("utcTime");
+                timeField = new Asn1GeneralizedTime("generalizedTime");
                 break;
             case UTC:
             case UTC_DIFFERENTIAL:
-                timeField = new Asn1GeneralizedTime("generalizedTime");
+                timeField = new Asn1UtcTime("utcTime");
                 break;
             default:
                 throw new UnsupportedOperationException(
