@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.config;
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
+import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
@@ -178,6 +179,8 @@ public class X509CertificateConfig {
 
     private byte[] dhValidationParameterSeed = new byte[32];
 
+    private PointFormat defaultEcPointFormat = PointFormat.UNCOMPRESSED;
+
     public X509CertificateConfig() {
         defaultIssuer = new LinkedList<>();
         defaultIssuer.add(
@@ -196,6 +199,14 @@ public class X509CertificateConfig {
                                 "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
                         new BigInteger(
                                 "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
+    }
+
+    public PointFormat getDefaultEcPointFormat() {
+        return defaultEcPointFormat;
+    }
+
+    public void setDefaultEcPointFormat(PointFormat defaultEcPointFormat) {
+        this.defaultEcPointFormat = defaultEcPointFormat;
     }
 
     public BigInteger getDhValidationParameterPgenCounter() {
