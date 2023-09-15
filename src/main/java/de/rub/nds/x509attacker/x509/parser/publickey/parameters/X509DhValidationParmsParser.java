@@ -39,7 +39,7 @@ public class X509DhValidationParmsParser
     }
 
     private void parseSeed(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsed Seed: {}", encodable.getSeed().getContent().getValue().getValue());
+        LOGGER.debug("Parsed Seed: {}", encodable.getSeed().getContent().getValue());
         ParserHelper.parseAsn1BitString(encodable.getSeed(), inputStream);
     }
 }
