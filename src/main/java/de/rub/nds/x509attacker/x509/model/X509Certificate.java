@@ -26,7 +26,6 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.ExtendedKeyUsage;
 import de.rub.nds.x509attacker.constants.KeyUsage;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
-import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.constants.X509Version;
@@ -162,10 +161,6 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
 
     public PublicParameters getPublicParameters() {
         return getTbsCertificate().getSubjectPublicKeyInfo().getAlgorithm().getParameters();
-    }
-
-    public X509NamedCurve getSignatureNamedGroup() {
-        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public PublicKeyContainer getPublicKeyContainer() {

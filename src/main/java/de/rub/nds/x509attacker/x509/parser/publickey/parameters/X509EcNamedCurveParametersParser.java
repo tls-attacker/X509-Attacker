@@ -30,6 +30,10 @@ public class X509EcNamedCurveParametersParser
     @Override
     public void parse(BufferedInputStream inputStream) {
         LOGGER.debug("Parsing X509EcNamedCurveParameters");
+        parseX509NamedCurveOid(inputStream);
+    }
+
+    private void parseX509NamedCurveOid(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable, inputStream);
         X509NamedCurve namedCurve =
                 X509NamedCurve.decodeFromOidBytes(encodable.getValueAsOid().getEncoded());

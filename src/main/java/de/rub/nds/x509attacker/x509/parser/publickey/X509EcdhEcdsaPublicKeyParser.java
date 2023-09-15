@@ -16,6 +16,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import java.io.BufferedInputStream;
+import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -39,22 +40,32 @@ public class X509EcdhEcdsaPublicKeyParser implements X509Parser {
             if (inputStream.available() == 0) {
                 throw new ParserException("Cannot parse point format");
             }
-            byte[] encodedPointBytes = inputStream.readAllBytes();
-            Point point =
-                    PointFormatter.formatFromByteArray(
-                            chooser.getSubjectNamedCurve().getParameters(), encodedPointBytes);
+            byte[] encodedPointBytes = readEncodedPointBytes(inputStream);
+            Point point = decodePoint(encodedPointBytes);
             byte formatByte = (byte) encodedPointBytes[0];
             LOGGER.debug("Curve: {}", chooser.getSubjectNamedCurve().name());
             PointFormat format = PointFormat.fromAnsiX509FormatIdentifier(formatByte);
-            LOGGER.debug("Format: {} ({})", formatByte, format == null ? "unknown" : format.name());
+            LOGGER.debug(
+                    "Parsed Format: {} ({})",
+                    formatByte,
+                    format == null ? "unknown" : format.name());
 
             ecdhEcdsaPublicKey.setFormatByte(formatByte);
             ecdhEcdsaPublicKey.setxCoordinate(point.getFieldX().getData());
             ecdhEcdsaPublicKey.setyCoordinate(point.getFieldY().getData());
-            LOGGER.debug("X: {}", ecdhEcdsaPublicKey.getxCoordinate().getValue());
-            LOGGER.debug("Y: {}", ecdhEcdsaPublicKey.getyCoordinate().getValue());
+            LOGGER.debug("Parsed X: {}", ecdhEcdsaPublicKey.getxCoordinate().getValue());
+            LOGGER.debug("Parsed Y: {}", ecdhEcdsaPublicKey.getyCoordinate().getValue());
         } catch (Exception E) {
             throw new ParserException(E);
         }
+    }
+
+    private byte[] readEncodedPointBytes(BufferedInputStream inputStream) throws IOException {
+        return inputStream.readAllBytes();
+    }
+
+    private Point decodePoint(byte[] encodedPointBytes) {
+        return PointFormatter.formatFromByteArray(
+                chooser.getSubjectNamedCurve().getParameters(), encodedPointBytes);
     }
 }
