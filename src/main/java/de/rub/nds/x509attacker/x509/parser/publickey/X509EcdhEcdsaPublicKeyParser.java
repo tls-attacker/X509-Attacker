@@ -8,12 +8,14 @@
  */
 package de.rub.nds.x509attacker.x509.parser.publickey;
 
+import de.rub.nds.protocol.constants.PointFormat;
+import de.rub.nds.protocol.crypto.ec.Point;
+import de.rub.nds.protocol.crypto.ec.PointFormatter;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import java.io.BufferedInputStream;
-import java.math.BigInteger;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -32,33 +34,25 @@ public class X509EcdhEcdsaPublicKeyParser implements X509Parser {
     }
 
     public void parse(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing X509EcdhEcdsaPublicKey");
         try {
             if (inputStream.available() == 0) {
                 throw new ParserException("Cannot parse point format");
             }
-            byte formatByte = (byte) (inputStream.read() & 0xFF);
-            if (formatByte != 0x04) {
-                throw new UnsupportedOperationException(
-                        "Currently only supporting uncompressed points");
-            } else {
-                int byteLength = chooser.getSubjectNamedCurve().getByteLength();
-                LOGGER.debug("Curve: " + chooser.getSubjectNamedCurve().name());
-                // There should be two coordinates in the stream so twice the byte length
+            byte[] encodedPointBytes = inputStream.readAllBytes();
+            Point point =
+                    PointFormatter.formatFromByteArray(
+                            chooser.getSubjectNamedCurve().getParameters(), encodedPointBytes);
+            byte formatByte = (byte) encodedPointBytes[0];
+            LOGGER.debug("Curve: {}", chooser.getSubjectNamedCurve().name());
+            PointFormat format = PointFormat.fromAnsiX509FormatIdentifier(formatByte);
+            LOGGER.debug("Format: {} ({})", formatByte, format == null ? "unknown" : format.name());
 
-                if (inputStream.available() != byteLength * 2) {
-                    throw new ParserException(
-                            "Not exact bytes in input stream to parse two coordinates: "
-                                    + inputStream.available()
-                                    + " should be "
-                                    + byteLength * 2);
-                }
-                byte[] x = inputStream.readNBytes(byteLength);
-                byte[] y = inputStream.readNBytes(byteLength);
-                ecdhEcdsaPublicKey.setFormatByte(formatByte);
-                ecdhEcdsaPublicKey.setxCoordinate(new BigInteger(1, x));
-                ecdhEcdsaPublicKey.setyCoordinate(new BigInteger(1, y));
-                LOGGER.debug("Parsed public key contents successfully.");
-            }
+            ecdhEcdsaPublicKey.setFormatByte(formatByte);
+            ecdhEcdsaPublicKey.setxCoordinate(point.getFieldX().getData());
+            ecdhEcdsaPublicKey.setyCoordinate(point.getFieldY().getData());
+            LOGGER.debug("X: {}", ecdhEcdsaPublicKey.getxCoordinate().getValue());
+            LOGGER.debug("Y: {}", ecdhEcdsaPublicKey.getyCoordinate().getValue());
         } catch (Exception E) {
             throw new ParserException(E);
         }
