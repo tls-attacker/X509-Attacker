@@ -13,8 +13,12 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
 import de.rub.nds.x509attacker.x509.parser.X509ComponentContainerParser;
 import java.io.BufferedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class X509RsaPublicKeyParser extends X509ComponentContainerParser<X509RsaPublicKey> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public X509RsaPublicKeyParser(X509Chooser chooser, X509RsaPublicKey rsaPublicKey) {
         super(chooser, rsaPublicKey);
@@ -22,7 +26,20 @@ public class X509RsaPublicKeyParser extends X509ComponentContainerParser<X509Rsa
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing X509RsaPublicKey");
+        parseModulus(inputStream);
+    }
+
+    private void parseModulus(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1Integer(encodable.getModulus(), inputStream);
+        LOGGER.debug("Parsed Modulus (N): {}", encodable.getModulus().getValue().getValue());
+        parsePublicExponent(inputStream);
+    }
+
+    private void parsePublicExponent(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1Integer(encodable.getPublicExponent(), inputStream);
+        LOGGER.debug(
+                "Parsed Public exponent (e): {}",
+                encodable.getPublicExponent().getValue().getValue());
     }
 }
