@@ -16,9 +16,13 @@ import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
 import java.io.BufferedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class CertificateSignatureAlgorithmIdentifierParser
         extends X509ComponentContainerParser<CertificateSignatureAlgorithmIdentifier> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public CertificateSignatureAlgorithmIdentifierParser(
             X509Chooser chooser, CertificateSignatureAlgorithmIdentifier algorithmIdentifier) {

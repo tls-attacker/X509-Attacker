@@ -42,15 +42,13 @@ public class X509EcdhEcdsaPublicKeyParser implements X509Parser {
             }
             byte[] encodedPointBytes = readEncodedPointBytes(inputStream);
             Point point = decodePoint(encodedPointBytes);
-            byte formatByte = (byte) encodedPointBytes[0];
+            LOGGER.debug("Encoded Point Bytes: {}", encodedPointBytes);
             LOGGER.debug("Curve: {}", chooser.getSubjectNamedCurve().name());
-            PointFormat format = PointFormat.fromAnsiX509FormatIdentifier(formatByte);
-            LOGGER.debug(
-                    "Parsed Format: {} ({})",
-                    formatByte,
-                    format == null ? "unknown" : format.name());
+            PointFormat format = PointFormatter.getPointFormat(encodedPointBytes);
+            Byte formatByte = encodedPointBytes.length > 0 ? encodedPointBytes[0] : null;
+            LOGGER.debug("Parsed Format: {} ({})", formatByte, format);
 
-            ecdhEcdsaPublicKey.setFormatByte(formatByte);
+            ecdhEcdsaPublicKey.setEncodedPointBytes(encodedPointBytes);
             ecdhEcdsaPublicKey.setxCoordinate(point.getFieldX().getData());
             ecdhEcdsaPublicKey.setyCoordinate(point.getFieldY().getData());
             LOGGER.debug("Parsed X: {}", ecdhEcdsaPublicKey.getxCoordinate().getValue());

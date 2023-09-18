@@ -11,7 +11,7 @@ package de.rub.nds.x509attacker.x509.model.publickey;
 import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
-import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
+import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -34,7 +34,7 @@ public class X509EcdhEcdsaPublicKey extends Asn1OctetString implements PublicKey
     private ModifiableBigInteger xCoordinate;
     private ModifiableBigInteger yCoordinate;
 
-    private ModifiableByte formatByte;
+    private ModifiableByteArray encodedPointBytes;
 
     public X509EcdhEcdsaPublicKey() {
         super("ecPublicKey");
@@ -64,16 +64,17 @@ public class X509EcdhEcdsaPublicKey extends Asn1OctetString implements PublicKey
         this.yCoordinate = ModifiableVariableFactory.safelySetValue(this.yCoordinate, yCoordinate);
     }
 
-    public ModifiableByte getFormatByte() {
-        return formatByte;
+    public ModifiableByteArray getEncodedPointBytes() {
+        return encodedPointBytes;
     }
 
-    public void setFormatByte(ModifiableByte formatByte) {
-        this.formatByte = formatByte;
+    public void setEncodedPointBytes(ModifiableByteArray encodedPointBytes) {
+        this.encodedPointBytes = encodedPointBytes;
     }
 
-    public void setFormatByte(Byte formatByte) {
-        this.formatByte = ModifiableVariableFactory.safelySetValue(this.formatByte, formatByte);
+    public void setEncodedPointBytes(byte[] encodedPointBytes) {
+        this.encodedPointBytes =
+                ModifiableVariableFactory.safelySetValue(this.encodedPointBytes, encodedPointBytes);
     }
 
     @Override
