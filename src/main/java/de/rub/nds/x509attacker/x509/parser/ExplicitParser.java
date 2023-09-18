@@ -14,8 +14,12 @@ import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.model.X509Explicit;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ExplicitParser<InnerField extends X509Component> implements X509Parser {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private X509Chooser chooser;
     private X509Explicit<InnerField> explicit;
@@ -27,6 +31,7 @@ public class ExplicitParser<InnerField extends X509Component> implements X509Par
 
     @Override
     public void parse(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing X509Explicit");
         ParserHelper.parseStructure(explicit, inputStream);
         explicit.getInnerField()
                 .getParser(chooser)

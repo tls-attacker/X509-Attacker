@@ -34,6 +34,7 @@ public class PublicKeyBitStringParser extends Asn1Parser<PublicKeyBitString> imp
 
     @Override
     public void parse(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing PublicKeyBitString");
         ParserHelper.parseAsn1BitString(publicKeyBitString, inputStream);
         /**
          * The content of the public key bitstring itself has structure, so we need to parse it as

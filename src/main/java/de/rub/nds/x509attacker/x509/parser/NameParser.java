@@ -14,8 +14,12 @@ import de.rub.nds.x509attacker.x509.model.Name;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class NameParser extends X509ComponentContainerParser<Name> {
+
+    private final Logger LOGGER = LogManager.getLogger();
 
     public NameParser(X509Chooser chooser, Name name) {
         super(chooser, name);
@@ -23,8 +27,10 @@ public class NameParser extends X509ComponentContainerParser<Name> {
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing Name");
         try {
             while (inputStream.available() > 0) {
+                LOGGER.debug("Parsing RelativeDistinguisedName");
                 RelativeDistinguishedName rdn = new RelativeDistinguishedName("rdn");
                 X509Parser rdnParser = rdn.getParser(chooser);
                 rdnParser.parse(inputStream);
