@@ -21,8 +21,6 @@ import de.rub.nds.x509attacker.x509.parser.TbsCertificateParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.TbsCertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
-import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -184,11 +182,6 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
         return new TbsCertificatePreparator(chooser, this);
-    }
-
-    @Override
-    public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509Asn1FieldSerializer(this);
     }
 
     public X509Explicit<Version> getVersion() {

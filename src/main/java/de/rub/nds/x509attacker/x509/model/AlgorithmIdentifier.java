@@ -11,10 +11,7 @@ package de.rub.nds.x509attacker.x509.model;
 import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
-import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
-import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
-import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
@@ -55,10 +52,5 @@ public abstract class AlgorithmIdentifier extends Asn1Sequence implements X509Co
 
     public void setParameters(PublicParameters parameters) {
         this.parameters = parameters;
-    }
-
-    @Override
-    public final X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509Asn1FieldSerializer(this);
     }
 }

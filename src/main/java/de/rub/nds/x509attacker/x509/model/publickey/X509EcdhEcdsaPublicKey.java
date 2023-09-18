@@ -20,8 +20,6 @@ import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.parser.publickey.X509EcdhEcdsaPublicKeyParser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.preparator.publickey.X509EcdhEcdsaPublicKeyPreparator;
-import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
-import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -90,11 +88,6 @@ public class X509EcdhEcdsaPublicKey extends Asn1OctetString implements PublicKey
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
         return new X509EcdhEcdsaPublicKeyPreparator(chooser, this);
-    }
-
-    @Override
-    public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509Asn1FieldSerializer(this);
     }
 
     @Override

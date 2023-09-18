@@ -16,8 +16,6 @@ import de.rub.nds.x509attacker.x509.parser.OrAddressParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.OrAddressPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
-import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 
 public class OrAddress extends Asn1Sequence implements X509Component {
 
@@ -37,11 +35,6 @@ public class OrAddress extends Asn1Sequence implements X509Component {
     @Override
     public X509Parser getParser(X509Chooser chooser) {
         return new OrAddressParser(chooser, this);
-    }
-
-    @Override
-    public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509Asn1FieldSerializer(this);
     }
 
     @Override
