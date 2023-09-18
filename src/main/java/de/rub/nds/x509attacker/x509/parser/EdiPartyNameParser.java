@@ -13,8 +13,12 @@ import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.EdiPartyName;
 import java.io.BufferedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class EdiPartyNameParser extends X509ComponentContainerParser<EdiPartyName> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private static final int EXPLICIT_TAG_NUMBER = 0;
 
@@ -25,8 +29,17 @@ public class EdiPartyNameParser extends X509ComponentContainerParser<EdiPartyNam
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
         if (ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, EXPLICIT_TAG_NUMBER)) {
+            LOGGER.debug("Trying to parse optional NameAssigner");
             encodable.getNameAssigner().getParser(chooser).parse(inputStream);
         }
         encodable.getPartyName().getParser(chooser).parse(inputStream);
+        LOGGER.debug(
+                "Parsed PartyName: {}",
+                encodable
+                        .getPartyName()
+                        .getInnerField()
+                        .getPrintableString()
+                        .getValue()
+                        .getValue());
     }
 }
