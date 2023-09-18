@@ -31,15 +31,28 @@ public class CertificateSignatureAlgorithmIdentifierParser
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing CertificateSignatureAlgorithmIdentifier");
         ParserHelper.parseAsn1ObjectIdentifier(encodable.getAlgorithm(), inputStream);
-        switch (X509SignatureAlgorithm.decodeFromOidBytes(
-                encodable.getAlgorithm().getValueAsOid().getEncoded())) {
+        X509SignatureAlgorithm signatureAlgorithm =
+                X509SignatureAlgorithm.decodeFromOidBytes(
+                        encodable.getAlgorithm().getValueAsOid().getEncoded());
+        LOGGER.debug(
+                "Parsed Oid: {} ({})",
+                encodable.getAlgorithm().getValue().getValue(),
+                signatureAlgorithm != null ? signatureAlgorithm.name() : "unknown");
+        if (signatureAlgorithm == null) {
+            LOGGER.debug("Unkown Signature Algorithm. Not parsing anything");
+            return;
+        }
+
+        switch (signatureAlgorithm) {
             case DSA_WITH_SHA1:
             case DSA_WITH_SHA224:
             case DSA_WITH_SHA256:
             case DSA_WITH_SHA384:
             case DSA_WITH_SHA512:
                 // No parameters, not even null
+                LOGGER.debug("{} has no parameters. Not parsing any.", signatureAlgorithm.name());
                 break;
             case ECDSA_WITH_SHA1:
             case ECDSA_WITH_SHA224:
@@ -48,6 +61,9 @@ public class CertificateSignatureAlgorithmIdentifierParser
             case ECDSA_WITH_SHA512:
                 if (ParserHelper.canParse(
                         inputStream, TagClass.UNIVERSAL, UniversalTagNumber.NULL.getIntValue())) {
+                    LOGGER.debug(
+                            "{} seems to have X509NullParameters. Parsing X509NullParameters",
+                            signatureAlgorithm.name());
                     X509NullParameters nullParameters = new X509NullParameters("nullParameters");
                     encodable.setParameters(nullParameters);
                     nullParameters.getParser(chooser).parse(inputStream);
@@ -64,9 +80,13 @@ public class CertificateSignatureAlgorithmIdentifierParser
                 X509NullParameters nullParameters = new X509NullParameters("nullParameters");
                 encodable.setParameters(nullParameters);
                 nullParameters.getParser(chooser).parse(inputStream);
+                LOGGER.debug(
+                        "{} must have X509NullParameters. Parsed X509NullParameters",
+                        signatureAlgorithm.name());
                 break;
             default:
-                throw new UnsupportedOperationException("Encountered unknown signature algorithm");
+                throw new UnsupportedOperationException(
+                        "Encountered unknown signature algorithm: " + signatureAlgorithm.name());
         }
     }
 }
