@@ -19,8 +19,17 @@ public class X509DsaPublicKeyHandler extends X509FieldHandler<X509DsaPublicKey> 
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+        context.setSubjectDsaPrivateKey(config.getDsaPrivateKey());
+    }
+
     public void adjustContext() {
         context.setSubjectDsaPublicKeyY(component.getValue().getValue());
-        context.setSubjectDsaPrivateKey(config.getDsaPrivateKey());
     }
 }

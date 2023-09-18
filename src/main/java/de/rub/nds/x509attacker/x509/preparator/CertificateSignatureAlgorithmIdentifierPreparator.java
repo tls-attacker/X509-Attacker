@@ -37,7 +37,7 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
             field.setParameters(signatureParameters);
         }
         signatureParameters.getPreparator(chooser).prepare();
-        signatureParameters.getHandler(chooser).adjustContext();
+        signatureParameters.getHandler(chooser).adjustContextAfterParse();
         field.setParameters(signatureParameters);
     }
 

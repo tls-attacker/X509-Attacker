@@ -18,7 +18,12 @@ public class X509CertificateHandler extends X509FieldHandler<X509Certificate> {
     }
 
     @Override
-    public void adjustContext() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContext'");
+    public void adjustContextAfterParse() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
     }
 }

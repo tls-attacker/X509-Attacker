@@ -18,7 +18,12 @@ public class VersionHandler extends X509FieldHandler<Version> {
     }
 
     @Override
-    public void adjustContext() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContext'");
+    public void adjustContextAfterParse() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
     }
 }

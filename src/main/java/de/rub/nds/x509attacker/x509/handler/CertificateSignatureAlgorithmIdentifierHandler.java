@@ -22,6 +22,15 @@ public class CertificateSignatureAlgorithmIdentifierHandler
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+    }
+
     public void adjustContext() {
         context.setSubjectSignatureAlgorithm(
                 X509SignatureAlgorithm.decodeFromOidBytes(

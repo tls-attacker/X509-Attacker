@@ -66,7 +66,7 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
         }
         LOGGER.debug("Expecting {}", parameters.getClass().getSimpleName());
         parameters.getParser(chooser).parse(inputStream);
-        parameters.getHandler(chooser).adjustContext();
+        parameters.getHandler(chooser).adjustContextAfterParse();
         encodable.setParameters(parameters);
     }
 }

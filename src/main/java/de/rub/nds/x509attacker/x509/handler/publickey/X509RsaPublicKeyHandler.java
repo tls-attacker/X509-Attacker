@@ -20,9 +20,18 @@ public class X509RsaPublicKeyHandler extends X509FieldHandler<X509RsaPublicKey> 
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+        context.setSubjectRsaPrivateKey(config.getRsaPrivateKey());
+    }
+
     public void adjustContext() {
         context.setSubjectPublicKeyType(X509PublicKeyType.RSA);
         context.setSubjectRsaModulus(component.getModulus().getValue().getValue());
-        context.setSubjectRsaPrivateKey(config.getRsaPrivateKey());
     }
 }

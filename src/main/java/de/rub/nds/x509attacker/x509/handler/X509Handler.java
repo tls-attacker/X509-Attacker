@@ -10,5 +10,7 @@ package de.rub.nds.x509attacker.x509.handler;
 
 public interface X509Handler {
 
-    public abstract void adjustContext();
+    public abstract void adjustContextAfterParse();
+
+    public abstract void adjustContextAfterPrepare();
 }

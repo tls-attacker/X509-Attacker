@@ -21,6 +21,16 @@ public class X509EcdhPublicKeyHandler extends X509FieldHandler<X509EcdhPublicKey
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+        // TODO adjust private key
+    }
+
     public void adjustContext() {
         X509NamedCurve subjectNamedCurve = chooser.getSubjectNamedCurve();
         EllipticCurve curve = subjectNamedCurve.getParameters().getCurve();

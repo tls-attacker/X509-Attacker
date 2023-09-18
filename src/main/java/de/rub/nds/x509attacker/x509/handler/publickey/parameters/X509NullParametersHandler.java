@@ -19,7 +19,12 @@ public class X509NullParametersHandler extends X509FieldHandler<X509NullParamete
     }
 
     @Override
-    public void adjustContext() {
+    public void adjustContextAfterParse() {
+        // Nothing to do
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
         // Nothing to do
     }
 }

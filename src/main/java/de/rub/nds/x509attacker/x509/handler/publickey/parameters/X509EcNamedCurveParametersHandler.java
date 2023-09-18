@@ -26,6 +26,15 @@ public class X509EcNamedCurveParametersHandler
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+    }
+
     public void adjustContext() {
         X509NamedCurve namedCurve =
                 X509NamedCurve.decodeFromOidBytes(component.getValueAsOid().getEncoded());

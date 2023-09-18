@@ -18,7 +18,12 @@ public class AnotherNameHandler extends X509FieldHandler<AnotherName> {
     }
 
     @Override
-    public void adjustContext() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContext'");
+    public void adjustContextAfterParse() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
     }
 }

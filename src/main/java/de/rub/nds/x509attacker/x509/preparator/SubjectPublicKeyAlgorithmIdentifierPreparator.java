@@ -36,7 +36,7 @@ public class SubjectPublicKeyAlgorithmIdentifierPreparator
             field.setParameters(publicKeyParameters);
         }
         publicKeyParameters.getPreparator(chooser).prepare();
-        publicKeyParameters.getHandler(chooser).adjustContext();
+        publicKeyParameters.getHandler(chooser).adjustContextAfterParse();
         field.setParameters(publicKeyParameters);
     }
 

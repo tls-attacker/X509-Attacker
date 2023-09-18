@@ -18,7 +18,12 @@ public class EmptyHandler<Type extends X509Component> extends X509FieldHandler<T
     }
 
     @Override
-    public void adjustContext() {
+    public void adjustContextAfterParse() {
+        // Nothing to do
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
         // Nothing to do
     }
 }

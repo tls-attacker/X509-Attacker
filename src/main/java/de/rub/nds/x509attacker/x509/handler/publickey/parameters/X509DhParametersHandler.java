@@ -19,6 +19,15 @@ public class X509DhParametersHandler extends X509FieldHandler<X509DhParameters> 
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+    }
+
     public void adjustContext() {
         chooser.getContext().setSubjectDhGenerator(component.getG().getValue().getValue());
         chooser.getContext().setSubjectDhModulus(component.getP().getValue().getValue());

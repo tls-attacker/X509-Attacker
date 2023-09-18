@@ -19,7 +19,12 @@ public class X509Ed448PublicKeyHandler extends X509FieldHandler<X509Ed448PublicK
     }
 
     @Override
-    public void adjustContext() {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public void adjustContextAfterParse() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
     }
 }

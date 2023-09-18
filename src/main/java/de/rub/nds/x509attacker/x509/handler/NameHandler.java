@@ -36,6 +36,15 @@ public class NameHandler extends X509FieldHandler<Name> {
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+    }
+
     public void adjustContext() {
         try {
             LOGGER.debug("Reparsing RDN to update context");

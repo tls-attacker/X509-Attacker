@@ -33,7 +33,7 @@ public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
                 LOGGER.debug("Parsing Extension");
                 Extension element = new Extension("extension");
                 element.getParser(chooser).parse(inputStream);
-                element.getHandler(chooser).adjustContext();
+                element.getHandler(chooser).adjustContextAfterParse();
                 encodable.addExtension(element);
             }
         } catch (IOException E) {

@@ -19,6 +19,15 @@ public class X509DhPublicKeyHandler extends X509FieldHandler<X509DhPublicKey> {
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+    }
+
     public void adjustContext() {
         context.setSubjectDhPublicKey(component.getValue().getValue());
     }

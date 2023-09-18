@@ -26,6 +26,15 @@ public class SubjectPublicKeyAlgorithmIdentifierHandler
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+    }
+
     public void adjustContext() {
         ObjectIdentifier objectIdentifier = component.getAlgorithm().getValueAsOid();
         LOGGER.debug("ObjectIdentifier: {}", objectIdentifier);

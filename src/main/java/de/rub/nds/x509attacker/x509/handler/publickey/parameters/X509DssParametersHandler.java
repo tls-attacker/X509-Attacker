@@ -19,6 +19,15 @@ public class X509DssParametersHandler extends X509FieldHandler<X509DssParameters
     }
 
     @Override
+    public void adjustContextAfterParse() {
+        adjustContext();
+    }
+
+    @Override
+    public void adjustContextAfterPrepare() {
+        adjustContext();
+    }
+
     public void adjustContext() {
         context.setSubjectDsaPrimeDivisorQ(component.getQ().getValue().getValue());
         context.setSubjectDsaPrimeModulusP(component.getP().getValue().getValue());
