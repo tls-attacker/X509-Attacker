@@ -41,7 +41,7 @@ public class CertificateSignatureAlgorithmIdentifierParser
                 encodable.getAlgorithm().getValue().getValue(),
                 signatureAlgorithm != null ? signatureAlgorithm.name() : "unknown");
         if (signatureAlgorithm == null) {
-            LOGGER.debug("Unkown Signature Algorithm. Not parsing anything");
+            LOGGER.debug("Unkown signature algorithm. Not parsing anything");
             return;
         }
 
