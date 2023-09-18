@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.constants.TagClass;
+import de.rub.nds.asn1.model.Asn1UnknownField;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
@@ -27,6 +28,7 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
         if (hasVersionField(inputStream)) {
+            LOGGER.debug("Assuming Certificate has a Version field");
             parseVersion(inputStream);
         }
         parseSerialNumber(inputStream);
@@ -36,93 +38,84 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
         parseSubject(inputStream);
         parseSubjectPublicKey(inputStream);
         if (hasIssuerUniqueId(inputStream)) {
+            LOGGER.debug("Assuming Certificate has an IssuerUniqueID field");
             parseIssuerUniqueId(inputStream);
         }
         if (hasSubjectUniqueId(inputStream)) {
+            LOGGER.debug("Assuming Certificate has a SubjectUniqueID field");
             parseSubjectUniqueId(inputStream);
         }
         if (hasExtensions(inputStream)) {
+            LOGGER.debug("Assuming Certificate has an Extensions field");
             parseExtensions(inputStream);
         }
     }
 
     private void parseExtensions(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing Extensions");
-        ParserHelper.parseUnknown(inputStream); // TODO not yet implemented
-        // encodable.getExplicitExtensions().getParser(chooser).parse(inputStream);
+        LOGGER.debug("Parsing Extensions as Unknwon Asn1Field since we did not implement them yet");
+        Asn1UnknownField extensions =
+                ParserHelper.parseUnknown(inputStream); // TODO not yet implemented
+        LOGGER.debug("Extensions are not yet visible in the TbsCertificate");
     }
 
     private void parseSubjectUniqueId(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing extensions");
         ParserHelper.parseAsn1BitString(encodable.getSubjectUniqueId(), inputStream);
-        LOGGER.debug("Finished parsing extensions");
+        LOGGER.debug(
+                "Parsed SubjectUniqueID: {}",
+                encodable.getSubjectUniqueId().getUsedBits().getValue());
     }
 
     private void parseIssuerUniqueId(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing issuer unique id");
         ParserHelper.parseAsn1BitString(encodable.getIssuerUniqueId(), inputStream);
-        LOGGER.debug("Finished parsing issuer unique id");
+        LOGGER.debug(
+                "Parsed IssuerUniqueID: {}",
+                encodable.getSubjectUniqueId().getUsedBits().getValue());
     }
 
     private boolean hasVersionField(BufferedInputStream inputStream) {
-        LOGGER.debug("Checking if Version can be parsed");
         return ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 0);
     }
 
     private boolean hasExtensions(BufferedInputStream inputStream) {
-        LOGGER.debug("Checking if tbsCertificate contains extensions");
         return ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 3);
     }
 
     private boolean hasSubjectUniqueId(BufferedInputStream inputStream) {
-        LOGGER.debug("Checking if tbsCertificate contains subject unique id");
         return ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 2);
     }
 
     private boolean hasIssuerUniqueId(BufferedInputStream inputStream) {
-        LOGGER.debug("Checking if tbsCertificate contains issuer unique id");
         return ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, 1);
     }
 
     private void parseSubjectPublicKey(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing subject public key info");
         encodable.getSubjectPublicKeyInfo().getParser(chooser).parse(inputStream);
-        LOGGER.debug("Finished parsing subject public key");
     }
 
     private void parseSubject(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing subject");
         encodable.getSubject().getParser(chooser).parse(inputStream);
-        LOGGER.debug("Finished parsing subject");
     }
 
     private void parseValidity(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing validity");
         encodable.getValidity().getParser(chooser).parse(inputStream);
-        LOGGER.debug("Finished parsing validity");
     }
 
     private void parseIssuer(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing issuer");
         encodable.getIssuer().getParser(chooser).parse(inputStream);
-        LOGGER.debug("Finished parsing issuer");
     }
 
     private void parseSignatureInformation(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing signature information");
         encodable.getSignature().getParser(chooser).parse(inputStream);
-        LOGGER.debug("Finished parsing signature information");
     }
 
     private void parseSerialNumber(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing serial number");
         ParserHelper.parseAsn1Integer(encodable.getSerialNumber(), inputStream);
-        LOGGER.debug("Finished parsing serial number");
+        LOGGER.debug("Parsed SerialNumber: {}", encodable.getSerialNumber().getValue());
     }
 
     private void parseVersion(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing version");
         encodable.getVersion().getParser(chooser).parse(inputStream);
-        LOGGER.debug("Finished parsing version");
+        LOGGER.debug(
+                "Parsed Version: {}", encodable.getVersion().getInnerField().getValue().getValue());
     }
 }

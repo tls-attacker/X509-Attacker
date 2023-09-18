@@ -11,8 +11,12 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.SubjectPublicKeyInfo;
 import java.io.BufferedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SubjectPublicKeyInfoParser extends X509ComponentContainerParser<SubjectPublicKeyInfo> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public SubjectPublicKeyInfoParser(X509Chooser chooser, SubjectPublicKeyInfo field) {
         super(chooser, field);
@@ -20,8 +24,15 @@ public class SubjectPublicKeyInfoParser extends X509ComponentContainerParser<Sub
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing SubjectPublicKeyInfo");
         encodable.getAlgorithm().getParser(chooser).parse(inputStream);
+        LOGGER.debug(
+                "Parsed Algorithm: {}",
+                encodable.getAlgorithm().getAlgorithm().getValue().getValue());
         encodable.getAlgorithm().getHandler(chooser).adjustContext();
         encodable.getSubjectPublicKeyBitString().getParser(chooser).parse(inputStream);
+        LOGGER.debug(
+                "Parsed Algorithm: {}",
+                encodable.getAlgorithm().getAlgorithm().getValue().getValue());
     }
 }

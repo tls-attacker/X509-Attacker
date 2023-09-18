@@ -11,8 +11,12 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Validity;
 import java.io.BufferedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ValidityParser extends X509ComponentContainerParser<Validity> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public ValidityParser(X509Chooser chooser, Validity validity) {
         super(chooser, validity);
@@ -20,7 +24,13 @@ public class ValidityParser extends X509ComponentContainerParser<Validity> {
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing Validity");
         encodable.getNotBefore().getParser(chooser).parse(inputStream);
+        LOGGER.debug(
+                "Parsed NotBefore Date as:"
+                        + encodable.getNotBefore().getTimeValue().toLocalDate());
         encodable.getNotAfter().getParser(chooser).parse(inputStream);
+        LOGGER.debug(
+                "Parsed NotAfter Date as:" + encodable.getNotAfter().getTimeValue().toLocalDate());
     }
 }

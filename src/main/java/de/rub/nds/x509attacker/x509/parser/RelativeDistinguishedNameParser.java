@@ -14,9 +14,13 @@ import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class RelativeDistinguishedNameParser
         extends X509ComponentContainerParser<RelativeDistinguishedName> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public RelativeDistinguishedNameParser(
             X509Chooser chooser, RelativeDistinguishedName relativeDistinguishedName) {
@@ -25,8 +29,10 @@ public class RelativeDistinguishedNameParser
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing RelativeDistinguishedName");
         try {
             while (inputStream.available() > 0) {
+                LOGGER.debug("Parsing AttributeTypeAndValue");
                 AttributeTypeAndValue element = new AttributeTypeAndValue("attributeTypeAndValue");
                 element.getParser(chooser).parse(inputStream);
                 encodable.addAttributeTypeAndValue(element);

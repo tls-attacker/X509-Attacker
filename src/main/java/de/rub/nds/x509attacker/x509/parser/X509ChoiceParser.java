@@ -37,6 +37,7 @@ public class X509ChoiceParser implements X509Parser {
             LOGGER.debug(
                     "Parsing choice. Looking ahead. Bytes in stream: {}", inputStream.available());
             Asn1Header header = ParserHelper.lookAhead(inputStream);
+            LOGGER.debug("Found header: {}", header.toString());
             choice.makeSelection(
                     header.getTagClass(),
                     header.getTagConstructed().getBooleanValue(),
@@ -45,6 +46,11 @@ public class X509ChoiceParser implements X509Parser {
             if (selectedChoice == null) {
                 throw new ParserException(
                         "Cannot make a selection for CHOICE: " + choice.getIdentifier());
+            } else {
+                LOGGER.debug(
+                        "Selected: {} ({})",
+                        selectedChoice.getIdentifier(),
+                        selectedChoice.getClass().getSimpleName());
             }
             if (selectedChoice instanceof X509Component) {
                 X509Component x509Component = (X509Component) selectedChoice;
@@ -53,6 +59,7 @@ public class X509ChoiceParser implements X509Parser {
 
                 ParserHelper.parseGenericField(selectedChoice, inputStream);
             }
+            LOGGER.debug("Finished parsing of X509Choice");
         } catch (Exception E) {
             throw new ParserException(
                     "Exception occured in X509ChoiceParser parsing for " + choice.getIdentifier(),

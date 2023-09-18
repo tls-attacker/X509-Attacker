@@ -13,8 +13,12 @@ import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import java.io.BufferedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class X509Asn1IntegerParser extends Asn1Parser<Asn1Integer> implements X509Parser {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     protected final X509Chooser chooser;
 
@@ -25,6 +29,11 @@ public class X509Asn1IntegerParser extends Asn1Parser<Asn1Integer> implements X5
 
     @Override
     public final void parse(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing Asn1Integer ({})", encodable.getIdentifier());
         ParserHelper.parseAsn1Integer(encodable, inputStream);
+        LOGGER.debug(
+                "Parsed Asn1Integer ({}): {}",
+                encodable.getIdentifier(),
+                encodable.getValue().getValue());
     }
 }

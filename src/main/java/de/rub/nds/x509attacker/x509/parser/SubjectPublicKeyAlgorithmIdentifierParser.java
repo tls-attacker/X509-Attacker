@@ -18,9 +18,13 @@ import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
 import java.io.BufferedInputStream;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class SubjectPublicKeyAlgorithmIdentifierParser
         extends X509ComponentContainerParser<SubjectPublicKeyAlgorithmIdentifier> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public SubjectPublicKeyAlgorithmIdentifierParser(
             X509Chooser chooser, SubjectPublicKeyAlgorithmIdentifier algorithmIdentifier) {
@@ -29,10 +33,21 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
 
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
+        LOGGER.debug("Parsing SubjectPublicKeyAlgorithmIdentifier");
         ParserHelper.parseAsn1ObjectIdentifier(encodable.getAlgorithm(), inputStream);
         PublicParameters parameters;
-        switch (X509PublicKeyType.decodeFromOidBytes(
-                encodable.getAlgorithm().getValueAsOid().getEncoded())) {
+        X509PublicKeyType publicKeyType =
+                X509PublicKeyType.decodeFromOidBytes(
+                        encodable.getAlgorithm().getValueAsOid().getEncoded());
+        LOGGER.debug(
+                "X509PublicKeyType: {} ({})",
+                publicKeyType,
+                publicKeyType == null ? "unknown" : publicKeyType.name());
+        if (publicKeyType == null) {
+            LOGGER.debug("Unknown public key type. Not parsing parameters");
+            return;
+        }
+        switch (publicKeyType) {
             case ECDH_ECDSA:
                 parameters = new X509EcNamedCurveParameters("EcNamedCurveParameters");
                 break;
@@ -47,8 +62,9 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
                 break;
             default:
                 throw new UnsupportedOperationException(
-                        "Unknown SubjectPublicKeyAlgorithmIdentifier");
+                        "Unknown SubjectPublicKeyAlgorithmIdentifier: " + publicKeyType.name());
         }
+        LOGGER.debug("Expecting {}", parameters.getClass().getSimpleName());
         parameters.getParser(chooser).parse(inputStream);
         parameters.getHandler(chooser).adjustContext();
         encodable.setParameters(parameters);
