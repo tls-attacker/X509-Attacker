@@ -90,22 +90,27 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
 
     private void parseSubjectPublicKey(BufferedInputStream inputStream) {
         encodable.getSubjectPublicKeyInfo().getParser(chooser).parse(inputStream);
+        encodable.getSubjectPublicKeyInfo().getHandler(chooser).adjustContextAfterParse();
     }
 
     private void parseSubject(BufferedInputStream inputStream) {
         encodable.getSubject().getParser(chooser).parse(inputStream);
+        encodable.getSubject().getHandler(chooser).adjustContextAfterParse();
     }
 
     private void parseValidity(BufferedInputStream inputStream) {
         encodable.getValidity().getParser(chooser).parse(inputStream);
+        encodable.getValidity().getHandler(chooser).adjustContextAfterParse();
     }
 
     private void parseIssuer(BufferedInputStream inputStream) {
         encodable.getIssuer().getParser(chooser).parse(inputStream);
+        encodable.getIssuer().getHandler(chooser).adjustContextAfterParse();
     }
 
     private void parseSignatureInformation(BufferedInputStream inputStream) {
         encodable.getSignature().getParser(chooser).parse(inputStream);
+        encodable.getSignature().getHandler(chooser).adjustContextAfterParse();
     }
 
     private void parseSerialNumber(BufferedInputStream inputStream) {
@@ -115,6 +120,7 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
 
     private void parseVersion(BufferedInputStream inputStream) {
         encodable.getVersion().getParser(chooser).parse(inputStream);
+        encodable.getVersion().getHandler(chooser).adjustContextAfterParse();
         LOGGER.debug(
                 "Parsed Version: {}", encodable.getVersion().getInnerField().getValue().getValue());
     }

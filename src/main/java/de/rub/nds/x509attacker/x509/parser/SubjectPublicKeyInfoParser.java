@@ -34,5 +34,6 @@ public class SubjectPublicKeyInfoParser extends X509ComponentContainerParser<Sub
         LOGGER.debug(
                 "Parsed Algorithm: {}",
                 encodable.getAlgorithm().getAlgorithm().getValue().getValue());
+        encodable.getSubjectPublicKeyBitString().getHandler(chooser).adjustContextAfterParse();
     }
 }

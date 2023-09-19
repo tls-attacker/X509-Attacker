@@ -31,8 +31,10 @@ public class EdiPartyNameParser extends X509ComponentContainerParser<EdiPartyNam
         if (ParserHelper.canParse(inputStream, TagClass.CONTEXT_SPECIFIC, EXPLICIT_TAG_NUMBER)) {
             LOGGER.debug("Trying to parse optional NameAssigner");
             encodable.getNameAssigner().getParser(chooser).parse(inputStream);
+            encodable.getNameAssigner().getHandler(chooser).adjustContextAfterParse();
         }
         encodable.getPartyName().getParser(chooser).parse(inputStream);
+        encodable.getPartyName().getHandler(chooser).adjustContextAfterParse();
         LOGGER.debug(
                 "Parsed PartyName: {}",
                 encodable

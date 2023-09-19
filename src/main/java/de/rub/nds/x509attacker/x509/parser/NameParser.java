@@ -31,10 +31,11 @@ public class NameParser extends X509ComponentContainerParser<Name> {
         try {
             while (inputStream.available() > 0) {
                 LOGGER.debug("Parsing RelativeDistinguisedName");
-                RelativeDistinguishedName rdn = new RelativeDistinguishedName("rdn");
-                X509Parser rdnParser = rdn.getParser(chooser);
-                rdnParser.parse(inputStream);
-                encodable.addRelativeDistinguishedNames(rdn);
+                RelativeDistinguishedName relativeDistinguishedName =
+                        new RelativeDistinguishedName("rdn");
+                relativeDistinguishedName.getParser(chooser).parse(inputStream);
+                relativeDistinguishedName.getHandler(chooser).adjustContextAfterParse();
+                encodable.addRelativeDistinguishedNames(relativeDistinguishedName);
             }
 
         } catch (IOException e) {

@@ -55,6 +55,7 @@ public class X509ChoiceParser implements X509Parser {
             if (selectedChoice instanceof X509Component) {
                 X509Component x509Component = (X509Component) selectedChoice;
                 x509Component.getParser(chooser).parse(inputStream);
+                x509Component.getHandler(chooser).adjustContextAfterParse();
             } else {
 
                 ParserHelper.parseGenericField(selectedChoice, inputStream);

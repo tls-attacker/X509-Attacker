@@ -38,6 +38,7 @@ public class X509CertificateParser extends X509ComponentContainerParser<X509Cert
 
     private void parseSignatureAlgorithmIdentifier(BufferedInputStream inputStream) {
         encodable.getSignatureAlgorithmIdentifier().getParser(chooser).parse(inputStream);
+        encodable.getSignatureAlgorithmIdentifier().getHandler(chooser).adjustContextAfterParse();
         LOGGER.debug(
                 "Parsed SignatureAlgorithmIdentifier: {}",
                 encodable.getSignatureAlgorithmIdentifier().getAlgorithm().getValue().getValue());
@@ -45,6 +46,7 @@ public class X509CertificateParser extends X509ComponentContainerParser<X509Cert
 
     private void parseTbsCertificate(BufferedInputStream inputStream) {
         encodable.getTbsCertificate().getParser(chooser).parse(inputStream);
+        encodable.getTbsCertificate().getHandler(chooser).adjustContextAfterParse();
         LOGGER.debug("Parsed TbsCertificate");
     }
 }

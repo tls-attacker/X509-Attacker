@@ -25,11 +25,21 @@ public class ValidityParser extends X509ComponentContainerParser<Validity> {
     @Override
     protected void parseSubcomponents(BufferedInputStream inputStream) {
         LOGGER.debug("Parsing Validity");
+        parseNotBefore(inputStream);
+        parseNotAfter(inputStream);
+    }
+
+    private void parseNotBefore(BufferedInputStream inputStream) {
         encodable.getNotBefore().getParser(chooser).parse(inputStream);
+        encodable.getNotBefore().getHandler(chooser).adjustContextAfterParse();
         LOGGER.debug(
                 "Parsed NotBefore Date as:"
                         + encodable.getNotBefore().getTimeValue().toLocalDate());
+    }
+
+    private void parseNotAfter(BufferedInputStream inputStream) {
         encodable.getNotAfter().getParser(chooser).parse(inputStream);
+        encodable.getNotAfter().getHandler(chooser).adjustContextAfterParse();
         LOGGER.debug(
                 "Parsed NotAfter Date as:" + encodable.getNotAfter().getTimeValue().toLocalDate());
     }

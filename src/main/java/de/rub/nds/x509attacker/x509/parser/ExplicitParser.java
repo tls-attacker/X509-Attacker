@@ -38,5 +38,6 @@ public class ExplicitParser<InnerField extends X509Component> implements X509Par
                 .parse(
                         new BufferedInputStream(
                                 new ByteArrayInputStream(explicit.getContent().getValue())));
+        explicit.getInnerField().getHandler(chooser).adjustContextAfterParse();
     }
 }

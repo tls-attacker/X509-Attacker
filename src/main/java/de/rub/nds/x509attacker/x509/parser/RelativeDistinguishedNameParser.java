@@ -33,9 +33,11 @@ public class RelativeDistinguishedNameParser
         try {
             while (inputStream.available() > 0) {
                 LOGGER.debug("Parsing AttributeTypeAndValue");
-                AttributeTypeAndValue element = new AttributeTypeAndValue("attributeTypeAndValue");
-                element.getParser(chooser).parse(inputStream);
-                encodable.addAttributeTypeAndValue(element);
+                AttributeTypeAndValue attributeTypeAndValue =
+                        new AttributeTypeAndValue("attributeTypeAndValue");
+                attributeTypeAndValue.getParser(chooser).parse(inputStream);
+                attributeTypeAndValue.getHandler(chooser).adjustContextAfterParse();
+                encodable.addAttributeTypeAndValue(attributeTypeAndValue);
             }
         } catch (IOException E) {
             throw new ParserException("IOException in RelativeDistinguishedNameParser", E);

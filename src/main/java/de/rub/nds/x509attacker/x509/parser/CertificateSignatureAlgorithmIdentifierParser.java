@@ -67,6 +67,7 @@ public class CertificateSignatureAlgorithmIdentifierParser
                     X509NullParameters nullParameters = new X509NullParameters("nullParameters");
                     encodable.setParameters(nullParameters);
                     nullParameters.getParser(chooser).parse(inputStream);
+                    nullParameters.getHandler(chooser).adjustContextAfterParse();
                 }
                 break;
             case MD2_WITH_RSA_ENCRYPTION:
@@ -80,6 +81,7 @@ public class CertificateSignatureAlgorithmIdentifierParser
                 X509NullParameters nullParameters = new X509NullParameters("nullParameters");
                 encodable.setParameters(nullParameters);
                 nullParameters.getParser(chooser).parse(inputStream);
+                nullParameters.getHandler(chooser).adjustContextAfterParse();
                 LOGGER.debug(
                         "{} must have X509NullParameters. Parsed X509NullParameters",
                         signatureAlgorithm.name());

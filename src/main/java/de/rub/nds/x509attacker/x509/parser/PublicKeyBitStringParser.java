@@ -40,11 +40,11 @@ public class PublicKeyBitStringParser extends Asn1Parser<PublicKeyBitString> imp
          * The content of the public key bitstring itself has structure, so we need to parse it as
          * well.
          */
-        publicKeyBitString.setX509PublicKeyContent(
-                publicKeyBitString.createX509PublicKeyContent(chooser.getSubjectPublicKeyType()));
         LOGGER.debug(
                 "PublicKey content: {}",
                 ArrayConverter.bytesToHexString(publicKeyBitString.getUsedBits().getValue()));
+        publicKeyBitString.setX509PublicKeyContent(
+                publicKeyBitString.createX509PublicKeyContent(chooser.getSubjectPublicKeyType()));
         publicKeyBitString
                 .getX509PublicKeyContent()
                 .getParser(chooser)
@@ -52,8 +52,6 @@ public class PublicKeyBitStringParser extends Asn1Parser<PublicKeyBitString> imp
                         new BufferedInputStream(
                                 new ByteArrayInputStream(
                                         publicKeyBitString.getUsedBits().getValue())));
-
-        // TODO we are adjusting the context here - check how we want to do this
         publicKeyBitString.getX509PublicKeyContent().getHandler(chooser).adjustContextAfterParse();
     }
 }

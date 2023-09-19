@@ -68,6 +68,7 @@ public class AttributeTypeAndValueParser
         LOGGER.debug("Parsing: {} as DirectoryString", attributeType.toString());
         DirectoryString directoryString = new DirectoryString("string");
         directoryString.getParser(chooser).parse(inputStream);
+        directoryString.getHandler(chooser).adjustContextAfterParse();
         encodable.setValue(directoryString);
     }
 
