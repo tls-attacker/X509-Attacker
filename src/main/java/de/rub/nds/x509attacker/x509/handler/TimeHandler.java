@@ -8,20 +8,44 @@
  */
 package de.rub.nds.x509attacker.x509.handler;
 
+import de.rub.nds.protocol.exception.ContextHandlingException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.model.Time;
 
 public class TimeHandler implements X509Handler {
 
-    public TimeHandler(X509Chooser chooser, Time time) {}
+    private X509Context context;
+
+    private Time time;
+
+    public TimeHandler(X509Chooser chooser, Time time) {
+        this.context = chooser.getContext();
+        this.time = time;
+    }
 
     @Override
     public void adjustContextAfterParse() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+        adjustContext();
     }
 
     @Override
     public void adjustContextAfterPrepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
+        adjustContext();
+    }
+
+    public void adjustContext() {
+        switch (time.getTimeContext()) {
+            case NOT_AFTER:
+                context.setNotAfter(time.getTimeValue());
+                break;
+            case NOT_BEFORE:
+                context.setNotBefore(time.getTimeValue());
+                break;
+            default:
+                throw new ContextHandlingException(
+                        "Cannot adjust context. Unexpected TimeContextHint: "
+                                + time.getTimeContext());
+        }
     }
 }

@@ -19,11 +19,11 @@ public class GeneralNameHandler extends X509FieldHandler<GeneralName> {
 
     @Override
     public void adjustContextAfterParse() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+        // Nothing to do right now
     }
 
     @Override
     public void adjustContextAfterPrepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
+        // Nothing to do right now
     }
 }

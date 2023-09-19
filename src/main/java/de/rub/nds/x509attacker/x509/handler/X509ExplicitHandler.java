@@ -18,12 +18,8 @@ public class X509ExplicitHandler extends X509FieldHandler<X509ExplicitComponent>
     }
 
     @Override
-    public void adjustContextAfterParse() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
-    }
+    public void adjustContextAfterParse() {}
 
     @Override
-    public void adjustContextAfterPrepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
-    }
+    public void adjustContextAfterPrepare() {}
 }

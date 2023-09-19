@@ -16,8 +16,10 @@ import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
+import de.rub.nds.x509attacker.constants.X509Version;
 import java.math.BigInteger;
 import java.util.List;
+import org.joda.time.DateTime;
 
 public class X509Context {
 
@@ -77,6 +79,18 @@ public class X509Context {
 
     private BigInteger subjectDhGenerator = null;
 
+    private byte[] subjectDhValidationParamsSeed = null;
+
+    private BigInteger subjectDhValidationParamsPgen = null;
+
+    private BigInteger serialNumber = null;
+
+    private DateTime notBefore = null;
+
+    private DateTime notAfter = null;
+
+    private X509Version version = null;
+
     private X509CertificateConfig config;
 
     private X509Chooser chooser;
@@ -88,6 +102,54 @@ public class X509Context {
     public X509Context(X509CertificateConfig config) {
         this.config = config;
         this.chooser = new X509Chooser(config, this);
+    }
+
+    public X509Version getVersion() {
+        return version;
+    }
+
+    public void setVersion(X509Version version) {
+        this.version = version;
+    }
+
+    public DateTime getNotBefore() {
+        return notBefore;
+    }
+
+    public void setNotBefore(DateTime notBefore) {
+        this.notBefore = notBefore;
+    }
+
+    public DateTime getNotAfter() {
+        return notAfter;
+    }
+
+    public void setNotAfter(DateTime notAfter) {
+        this.notAfter = notAfter;
+    }
+
+    public BigInteger getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(BigInteger serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public byte[] getSubjectDhValidationParamsSeed() {
+        return subjectDhValidationParamsSeed;
+    }
+
+    public void setSubjectDhValidationParamsSeed(byte[] subjectDhValidationParamsSeed) {
+        this.subjectDhValidationParamsSeed = subjectDhValidationParamsSeed;
+    }
+
+    public BigInteger getSubjectDhValidationParamsPgen() {
+        return subjectDhValidationParamsPgen;
+    }
+
+    public void setSubjectDhValidationParamsPgen(BigInteger subjectDhValidationParamsPgen) {
+        this.subjectDhValidationParamsPgen = subjectDhValidationParamsPgen;
     }
 
     public X509CertificateConfig getConfig() {

@@ -28,16 +28,15 @@ public class X509EcdhEcdsaPublicKeyHandler extends X509FieldHandler<X509EcdhEcds
     @Override
     public void adjustContextAfterPrepare() {
         adjustContext();
-        // TODO adjust private key
+        context.setSubjectEcPrivateKey(config.getDefaultIssuerEcPrivateKey());
     }
 
     public void adjustContext() {
         X509NamedCurve subjectNamedCurve = chooser.getSubjectNamedCurve();
         EllipticCurve curve = subjectNamedCurve.getParameters().getCurve();
-        chooser.getContext()
-                .setSubjectEcPublicKey(
-                        curve.getPoint(
-                                component.getxCoordinate().getValue(),
-                                component.getyCoordinate().getValue()));
+        context.setSubjectEcPublicKey(
+                curve.getPoint(
+                        component.getxCoordinate().getValue(),
+                        component.getyCoordinate().getValue()));
     }
 }

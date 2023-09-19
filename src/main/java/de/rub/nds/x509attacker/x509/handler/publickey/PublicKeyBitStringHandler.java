@@ -20,11 +20,11 @@ public class PublicKeyBitStringHandler extends X509FieldHandler<PublicKeyBitStri
 
     @Override
     public void adjustContextAfterParse() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+        // Nothing to do
     }
 
     @Override
     public void adjustContextAfterPrepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
+        // Nothing to do
     }
 }

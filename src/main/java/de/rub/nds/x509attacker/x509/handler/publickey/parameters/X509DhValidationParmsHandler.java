@@ -20,11 +20,16 @@ public class X509DhValidationParmsHandler extends X509FieldHandler<X509DhValidat
 
     @Override
     public void adjustContextAfterParse() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+        adjustContext();
     }
 
     @Override
     public void adjustContextAfterPrepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
+        adjustContext();
+    }
+
+    public void adjustContext() {
+        context.setSubjectDhValidationParamsPgen(component.getPgenCounter().getValue().getValue());
+        context.setSubjectDhValidationParamsSeed(component.getSeed().getContent().getValue());
     }
 }

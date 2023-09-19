@@ -16,7 +16,6 @@ import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.Name;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
-import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
@@ -46,39 +45,24 @@ public class NameHandler extends X509FieldHandler<Name> {
     }
 
     public void adjustContext() {
-        try {
-            LOGGER.debug("Reparsing RDN to update context");
-            List<RelativeDistinguishedName> parsedRdnSequence = new LinkedList<>();
-            BufferedInputStream rdnByteInputStream = getRdnByteInputStream();
-            while (rdnByteInputStream.available() > 0) {
-                RelativeDistinguishedName relativeDistinguishedName =
-                        new RelativeDistinguishedName("parsedRdn");
-                X509Parser parser = relativeDistinguishedName.getParser(chooser);
-                parser.parse(rdnByteInputStream);
-                parsedRdnSequence.add(relativeDistinguishedName);
+        LOGGER.debug("Converting RDN to context RDN");
+        List<Pair<X500AttributeType, String>> rdnList = new LinkedList<>();
+        for (RelativeDistinguishedName parsedRdn : component.getRelativeDistinguishedNames()) {
+            for (AttributeTypeAndValue attributeTypeAndValue :
+                    parsedRdn.getAttributeTypeAndValueList()) {
+                rdnList.add(
+                        new Pair<>(
+                                attributeTypeAndValue.getAttributeTypeConfig(),
+                                attributeTypeAndValue.getValueConfig()));
             }
-            LOGGER.debug("Parsed {} elements", parsedRdnSequence.size());
-            LOGGER.debug("Converting parsed RDN to context RDN");
-            List<Pair<X500AttributeType, String>> rdnList = new LinkedList<>();
-            for (RelativeDistinguishedName parsedRdn : parsedRdnSequence) {
-                for (AttributeTypeAndValue attributeTypeAndValue :
-                        parsedRdn.getAttributeTypeAndValueList()) {
-                    rdnList.add(
-                            new Pair<>(
-                                    attributeTypeAndValue.getAttributeTypeConfig(),
-                                    attributeTypeAndValue.getValueConfig()));
-                }
-            }
-            LOGGER.debug("Converted into {} elements", rdnList.size());
-            if (component.getType() == NameType.ISSUER) {
-                context.setIssuer(rdnList);
-            } else if (component.getType() == NameType.SUBJECT) {
-                context.setSubject(rdnList);
-            } else {
-                throw new RuntimeException("Unknown NameType: " + component.getType().name());
-            }
-        } catch (IOException ex) {
-            throw new RuntimeException("Could not adjust Name in Context", ex);
+        }
+        LOGGER.debug("Converted into {} elements", rdnList.size());
+        if (component.getType() == NameType.ISSUER) {
+            context.setIssuer(rdnList);
+        } else if (component.getType() == NameType.SUBJECT) {
+            context.setSubject(rdnList);
+        } else {
+            throw new RuntimeException("Unknown NameType: " + component.getType().name());
         }
     }
 

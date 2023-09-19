@@ -19,11 +19,25 @@ public class TbsCertificateHandler extends X509FieldHandler<TbsCertificate> {
 
     @Override
     public void adjustContextAfterParse() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+        adjustContext();
     }
 
     @Override
     public void adjustContextAfterPrepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
+        adjustContext();
+    }
+
+    public void adjustContext() {
+        if (component.getSerialNumber() != null) {
+            context.setSerialNumber(component.getSerialNumber().getValue().getValue());
+        }
+        if (component.getSubjectUniqueId() != null
+                && component.getSubjectUniqueId().getContent() != null) {
+            context.setSubjectUniqueId(component.getSubjectUniqueId().getContent().getValue());
+        }
+        if (component.getIssuerUniqueId() != null
+                && component.getIssuerUniqueId().getContent() != null) {
+            context.setIssuerUniqueId(component.getIssuerUniqueId().getContent().getValue());
+        }
     }
 }
