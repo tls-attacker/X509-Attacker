@@ -28,12 +28,12 @@ public class X509RsaPublicKeyParser extends X509ComponentContainerParser<X509Rsa
     protected void parseSubcomponents(BufferedInputStream inputStream) {
         LOGGER.debug("Parsing X509RsaPublicKey");
         parseModulus(inputStream);
+        parsePublicExponent(inputStream);
     }
 
     private void parseModulus(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1Integer(encodable.getModulus(), inputStream);
         LOGGER.debug("Parsed Modulus (N): {}", encodable.getModulus().getValue().getValue());
-        parsePublicExponent(inputStream);
     }
 
     private void parsePublicExponent(BufferedInputStream inputStream) {

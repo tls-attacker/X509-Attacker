@@ -66,6 +66,7 @@ public class X509DhParametersParser extends X509ComponentContainerParser<X509DhP
 
     private void parseValidationParams(BufferedInputStream inputStream) {
         encodable.getValidationParms().getParser(chooser).parse(inputStream);
+        encodable.getValidationParms().getHandler(chooser).adjustContextAfterParse();
     }
 
     private void parseJ(BufferedInputStream inputStream) {
@@ -75,16 +76,16 @@ public class X509DhParametersParser extends X509ComponentContainerParser<X509DhP
 
     private void parseQ(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1Integer(encodable.getQ(), inputStream);
-        LOGGER.debug("Parsed Q: {}", encodable.getP().getValue().getValue());
+        LOGGER.debug("Parsed Q: {}", encodable.getQ().getValue().getValue());
     }
 
     private void parseG(BufferedInputStream inputStream) {
         ParserHelper.parseAsn1Integer(encodable.getG(), inputStream);
-        LOGGER.debug("Parsed G (generator): {}", encodable.getP().getValue().getValue());
+        LOGGER.debug("Parsed G (generator): {}", encodable.getG().getValue().getValue());
     }
 
     private void parseP(BufferedInputStream inputStream) {
-        parseJ(inputStream);
+        ParserHelper.parseAsn1Integer(encodable.getP(), inputStream);
         LOGGER.debug("Parsed P (modulus): {}", encodable.getP().getValue().getValue());
     }
 }
