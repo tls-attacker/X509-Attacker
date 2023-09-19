@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.handler;
 
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.NameType;
@@ -16,10 +15,6 @@ import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.Name;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.LinkedList;
 import java.util.List;
 import org.apache.logging.log4j.LogManager;
@@ -64,22 +59,5 @@ public class NameHandler extends X509FieldHandler<Name> {
         } else {
             throw new RuntimeException("Unknown NameType: " + component.getType().name());
         }
-    }
-
-    private BufferedInputStream getRdnByteInputStream() {
-        LOGGER.debug("Creating RdnByteInputStream");
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        for (RelativeDistinguishedName rdnName : component.getRelativeDistinguishedNames()) {
-            LOGGER.debug("Adding {}", rdnName.getIdentifier());
-            try {
-                outputStream.write(rdnName.getSerializer(chooser).serialize());
-            } catch (IOException ex) {
-                throw new RuntimeException("Could not adjust Name in Context", ex);
-            }
-        }
-        LOGGER.debug(
-                "Serialized RDN Sequence: {}",
-                ArrayConverter.bytesToHexString(outputStream.toByteArray()));
-        return new BufferedInputStream(new ByteArrayInputStream(outputStream.toByteArray()));
     }
 }
