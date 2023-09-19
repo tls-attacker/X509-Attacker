@@ -20,8 +20,18 @@ public class SubjectPublicKeyInfoPreparator extends X509ContainerPreparator<Subj
 
     @Override
     public void prepareSubComponents() {
+        prepareAlgorithm();
+        prepareSubjectPublicKeyBitString();
+    }
+
+    private void prepareAlgorithm() {
         field.getAlgorithm().getPreparator(chooser).prepare();
+        field.getAlgorithm().getHandler(chooser).adjustContextAfterPrepare();
+    }
+
+    private void prepareSubjectPublicKeyBitString() {
         field.getSubjectPublicKeyBitString().getPreparator(chooser).prepare();
+        field.getSubjectPublicKeyBitString().getHandler(chooser).adjustContextAfterPrepare();
     }
 
     @Override

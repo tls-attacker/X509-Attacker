@@ -21,8 +21,10 @@ public class NamePreparator extends X509ContainerPreparator<Name> {
 
     @Override
     public void prepareSubComponents() {
-        for (RelativeDistinguishedName rdn : field.getRelativeDistinguishedNames()) {
-            rdn.getPreparator(chooser).prepare();
+        for (RelativeDistinguishedName relativeDistinguishedName :
+                field.getRelativeDistinguishedNames()) {
+            relativeDistinguishedName.getPreparator(chooser).prepare();
+            relativeDistinguishedName.getHandler(chooser).adjustContextAfterPrepare();
         }
     }
 

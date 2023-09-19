@@ -57,6 +57,7 @@ public class DirectoryStringPreparator implements X509Preparator {
                         (Asn1Field) directoryString.getSelectedChoice(),
                         directoryString.getConfigValue());
         helper.prepare();
+        // TODO we are not adjusting the context here.
     }
 
     /** Small hack to get access to helper function */

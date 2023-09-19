@@ -73,6 +73,7 @@ public class GeneralNamePreparator implements X509Preparator {
                             (Asn1Field) generalName.getSelectedChoice(),
                             generalName.getGeneralNameConfigValue());
             preparator.prepare();
+            // TODO we are not adjusting the context here
         } else {
             throw new UnsupportedOperationException(
                     "GeneralName only supports Asn1Field and X509 Components at the time");

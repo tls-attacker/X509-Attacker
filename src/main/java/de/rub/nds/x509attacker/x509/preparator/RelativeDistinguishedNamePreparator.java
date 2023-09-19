@@ -10,7 +10,9 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
+import java.util.List;
 
 public class RelativeDistinguishedNamePreparator
         extends X509ContainerPreparator<RelativeDistinguishedName> {
@@ -22,10 +24,12 @@ public class RelativeDistinguishedNamePreparator
 
     @Override
     public void prepareSubComponents() {
-        field.getAttributeTypeAndValueList()
-                .forEach(
-                        attributeTypeAndValue ->
-                                attributeTypeAndValue.getPreparator(chooser).prepare());
+        List<AttributeTypeAndValue> attributeTypeAndValueList =
+                field.getAttributeTypeAndValueList();
+        for (AttributeTypeAndValue attributeTypeAndValue : attributeTypeAndValueList) {
+            attributeTypeAndValue.getPreparator(chooser).prepare();
+            attributeTypeAndValue.getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     @Override

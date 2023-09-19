@@ -23,6 +23,7 @@ public class ExplicitPreparator<InnerField extends X509Component>
     @Override
     protected byte[] encodeContent() {
         field.getInnerField().getPreparator(chooser).prepare();
+        field.getInnerField().getHandler(chooser).adjustContextAfterPrepare();
         return ArrayConverter.concatenate(
                 field.getInnerField().getTagOctets().getValue(),
                 field.getInnerField().getLengthOctets().getValue(),

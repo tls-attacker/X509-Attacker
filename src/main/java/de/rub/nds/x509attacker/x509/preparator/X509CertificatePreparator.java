@@ -34,7 +34,7 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
 
     @Override
     protected byte[] encodeContent() {
-        field.getTbsCertificate().getPreparator(chooser).prepare();
+        prepareTbsCertificate();
         prepareSignatureAlgorithm();
         prepareSignature();
         field.setEncodedChildren(
@@ -45,8 +45,14 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
         return field.getEncodedChildren().getValue();
     }
 
+    private void prepareTbsCertificate() {
+        field.getTbsCertificate().getPreparator(chooser).prepare();
+        field.getTbsCertificate().getHandler(chooser).adjustContextAfterPrepare();
+    }
+
     private void prepareSignatureAlgorithm() {
         field.getSignatureAlgorithmIdentifier().getPreparator(chooser).prepare();
+        field.getSignatureAlgorithmIdentifier().getHandler(chooser).adjustContextAfterPrepare();
     }
 
     private void prepareSignature() {

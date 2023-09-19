@@ -28,6 +28,7 @@ public class PublicKeyBitStringPreparator extends X509Asn1FieldPreparator<Public
     protected byte[] encodeContent() {
         if (field.getX509PublicKeyContent() != null) {
             field.getX509PublicKeyContent().getPreparator(chooser).prepare();
+            field.getX509PublicKeyContent().getHandler(chooser).adjustContextAfterPrepare();
             return Asn1PreparatorHelper.encodeBitString(
                     field.getX509PublicKeyContent().getSerializer(chooser).serialize(),
                     (byte) 0,

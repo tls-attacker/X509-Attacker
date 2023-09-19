@@ -19,8 +19,18 @@ public class ValidityPreparator extends X509ContainerPreparator<Validity> {
 
     @Override
     public void prepareSubComponents() {
+        prepareNotBefore();
+        prepareNotAfter();
+    }
+
+    private void prepareNotBefore() {
         field.getNotBefore().getPreparator(chooser).prepare();
+        field.getNotBefore().getHandler(chooser).adjustContextAfterPrepare();
+    }
+
+    private void prepareNotAfter() {
         field.getNotAfter().getPreparator(chooser).prepare();
+        field.getNotAfter().getHandler(chooser).adjustContextAfterPrepare();
     }
 
     @Override

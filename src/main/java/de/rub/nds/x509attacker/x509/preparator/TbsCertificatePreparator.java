@@ -51,22 +51,27 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
 
     private void prepareSignature() {
         field.getSignature().getPreparator(chooser).prepare();
+        field.getSignature().getHandler(chooser).adjustContextAfterPrepare();
     }
 
     private void prepareIssuer() {
         field.getIssuer().getPreparator(chooser).prepare();
+        field.getIssuer().getHandler(chooser).adjustContextAfterPrepare();
     }
 
     private void prepareValidity() {
         field.getValidity().getPreparator(chooser).prepare();
+        field.getValidity().getHandler(chooser).adjustContextAfterPrepare();
     }
 
     private void prepareSubject() {
         field.getSubject().getPreparator(chooser).prepare();
+        field.getSubject().getHandler(chooser).adjustContextAfterPrepare();
     }
 
     private void prepareSubjectPublicKeyInfo() {
         field.getSubjectPublicKeyInfo().getPreparator(chooser).prepare();
+        field.getSubjectPublicKeyInfo().getHandler(chooser).adjustContextAfterPrepare();
     }
 
     private void prepareIssuerUniqueId() {
