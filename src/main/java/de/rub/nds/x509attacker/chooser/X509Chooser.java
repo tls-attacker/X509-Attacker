@@ -197,4 +197,28 @@ public class X509Chooser {
             return config.getDhPublicKey();
         }
     }
+
+    public BigInteger getDsaPrimeP() {
+        if (context.getSubjectDsaPrimeModulusP() != null) {
+            return context.getSubjectDsaPrimeModulusP();
+        } else {
+            return config.getDsaPrimeP();
+        }
+    }
+
+    public BigInteger getDsaPrimeQ() {
+        if (context.getSubjectDsaPrimeDivisorQ() != null) {
+            return context.getSubjectDsaPrimeDivisorQ();
+        } else {
+            return config.getDsaPrimeQ();
+        }
+    }
+
+    public BigInteger getDsaGenerator() {
+        if (context.getSubjectDsaGeneratorG() != null) {
+            return context.getSubjectDsaGeneratorG();
+        } else {
+            return config.getDsaGenerator();
+        }
+    }
 }
