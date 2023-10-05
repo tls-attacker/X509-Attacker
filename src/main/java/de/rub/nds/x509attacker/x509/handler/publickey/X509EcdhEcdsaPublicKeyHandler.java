@@ -33,7 +33,7 @@ public class X509EcdhEcdsaPublicKeyHandler extends X509FieldHandler<X509EcdhEcds
 
     public void adjustContext() {
         X509NamedCurve subjectNamedCurve = chooser.getSubjectNamedCurve();
-        EllipticCurve curve = subjectNamedCurve.getParameters().getCurve();
+        EllipticCurve curve = subjectNamedCurve.getParameters().getGroup();
         context.setSubjectEcPublicKey(
                 curve.getPoint(
                         component.getxCoordinate().getValue(),

@@ -14,6 +14,8 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
+import de.rub.nds.protocol.crypto.key.EcdhPublicKey;
+import de.rub.nds.protocol.crypto.key.PublicKeyContainer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -21,7 +23,10 @@ import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.handler.X509CertificateHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.X509Certificate;
+import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
+import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import org.joda.time.DateTime;
@@ -96,7 +101,11 @@ public class X509CertificateTest {
     void testGetKeyUsages() {}
 
     @Test
-    void testGetNotAfter() {}
+    void testGetNotAfter() {
+        assertEquals(
+                new DateTime(2023, 5, 29, 8, 20, 2, 0, DateTimeZone.UTC).toInstant(),
+                ecCertificate.getNotAfter().toInstant());
+    }
 
     @Test
     void testGetNotBefore() {
@@ -106,13 +115,23 @@ public class X509CertificateTest {
     }
 
     @Test
-    void testGetPreparator() {}
+    void testGetPreparator() {
+        X509Preparator preparator = ecCertificate.getPreparator(chooser);
+        assertTrue(preparator != null);
+        assertTrue(preparator instanceof X509CertificatePreparator);
+    }
 
     @Test
-    void testGetPublicKey() {}
+    void testGetPublicKey() {
+        assertTrue(ecCertificate.getPublicKey() instanceof X509EcdhEcdsaPublicKey);
+        assertEquals(
+                ecCertificate.getPublicKey().getX509PublicKeyType(), X509PublicKeyType.ECDH_ECDSA);
+    }
 
     @Test
-    void testGetPublicKeyContainer() {}
+    void testGetPublicKeyContainer() {
+        PublicKeyContainer container = new EcdhPublicKey(null, null);
+    }
 
     @Test
     void testGetPublicParameters() {}

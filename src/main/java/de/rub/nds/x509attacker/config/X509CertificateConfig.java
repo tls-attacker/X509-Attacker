@@ -191,7 +191,7 @@ public class X509CertificateConfig {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
-        EllipticCurve curve = defaultSubjectNamedCurve.getParameters().getCurve();
+        EllipticCurve curve = defaultSubjectNamedCurve.getParameters().getGroup();
         // Hardcoded public key, fitting to the default values (SECP256R1 with k=3)
         ecPublicKey =
                 curve.getPoint(

@@ -176,7 +176,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
                                                 .getEncoded())
                                 .getParameters();
                 return new EcdsaPublicKey(
-                        parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
+                        parameters.getGroup().getPoint(xCoordinate, yCoordinate), parameters);
             case ECDH_ONLY:
                 xCoordinate = ((X509EcdhPublicKey) content).getxCoordinate().getValue();
                 yCoordinate = ((X509EcdhPublicKey) content).getyCoordinate().getValue();
@@ -187,7 +187,7 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
                                                 .getEncoded())
                                 .getParameters();
                 return new EcdhPublicKey(
-                        parameters.getCurve().getPoint(xCoordinate, yCoordinate), parameters);
+                        parameters.getGroup().getPoint(xCoordinate, yCoordinate), parameters);
             case RSA:
                 modulus = ((X509RsaPublicKey) content).getModulus().getValue().getValue();
                 BigInteger publicExponent =
