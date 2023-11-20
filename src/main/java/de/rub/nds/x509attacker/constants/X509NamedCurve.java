@@ -10,6 +10,8 @@ package de.rub.nds.x509attacker.constants;
 
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
+import de.rub.nds.protocol.crypto.ec.EllipticCurve;
+import java.security.interfaces.ECPrivateKey;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -94,6 +96,25 @@ public enum X509NamedCurve {
     public static X509NamedCurve decodeFromOidBytes(byte[] oidBytes) {
         ObjectIdentifier objectIdentifier = new ObjectIdentifier(oidBytes);
         return oidMap.get(objectIdentifier.toString());
+    }
+
+    public static X509NamedCurve getX509NamedCurve(ECPrivateKey ecPrivateKey) {
+        for (X509NamedCurve curveConstant : values()) {
+            EllipticCurve curve = curveConstant.getParameters().getGroup();
+            if (ecPrivateKey
+                            .getParams()
+                            .getGenerator()
+                            .getAffineX()
+                            .equals(curve.getBasePoint().getFieldX().getData())
+                    && ecPrivateKey
+                            .getParams()
+                            .getGenerator()
+                            .getAffineY()
+                            .equals(curve.getBasePoint().getFieldY().getData())) {
+                return curveConstant;
+            }
+        }
+        return null;
     }
 
     public NamedEllipticCurveParameters getParameters() {
