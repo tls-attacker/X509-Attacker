@@ -83,23 +83,23 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
             case ECDH_ONLY:
                 return new X509EcdhPublicKey();
             case ECMQV:
-                throw new UnsupportedOperationException("ECMQV no supported");
+                throw new UnsupportedOperationException("ECMQV not supported");
             case ED25519:
                 return new X509Ed25519PublicKey();
             case ED448:
                 return new X509Ed448PublicKey();
             case GOST_R3411_2001:
-                throw new UnsupportedOperationException("GOST_R3411_2001 no supported");
+                throw new UnsupportedOperationException("GOST_R3411_2001 not supported");
             case GOST_R3411_94:
                 throw new UnsupportedOperationException("GOST_R3411_94 no supported");
             case KEA:
-                throw new UnsupportedOperationException("KEA no supported");
+                throw new UnsupportedOperationException("KEA not supported");
             case RSA:
                 return new X509RsaPublicKey("rsaPublicKey");
             case RSAES_OAEP:
-                throw new UnsupportedOperationException("RSAoaep no supported");
+                throw new UnsupportedOperationException("RSAoaep not supported");
             case RSASSA_PSS:
-                throw new UnsupportedOperationException("RSASSA_PSS no supported");
+                throw new UnsupportedOperationException("RSASSA_PSS not supported");
             case X25519:
                 return new X509X25519PublicKey();
             case X448:
