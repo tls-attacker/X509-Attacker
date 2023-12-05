@@ -11,9 +11,13 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.asn1.model.Asn1Container;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import java.util.logging.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public abstract class X509ContainerPreparator<Container extends Asn1Container>
         extends Asn1FieldPreparator<Container> implements X509Preparator {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     protected final X509Chooser chooser;
 
@@ -28,6 +32,7 @@ public abstract class X509ContainerPreparator<Container extends Asn1Container>
 
     @Override
     protected final byte[] encodeContent() {
+        LOGGER.debug("Encoding content of {}", field.getClass().getSimpleName());
         prepareSubComponents();
         return encodeChildrenContent();
     }
