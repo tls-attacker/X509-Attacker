@@ -61,13 +61,13 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
         this.attributeTypeConfig = attributeTypeConfig;
         this.valueConfig = valueConfig;
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Utf8String("value"); // TODO make this configurable
+        value = new Asn1PrintableString("value"); // TODO make this configurable
     }
 
     public AttributeTypeAndValue(String identifier) {
         super(identifier);
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1Utf8String("value"); // TODO make this configurable
+        value = new Asn1PrintableString("value"); // TODO make this configurable
     }
 
     private AttributeTypeAndValue() {
