@@ -21,13 +21,13 @@ public class X509DssParametersPreparator extends X509ContainerPreparator<X509Dss
 
     @Override
     public void prepareSubComponents() {
+        Asn1PreparatorHelper.prepareField(field.getP(), chooser.getConfig().getDsaPrimeP());
         Asn1PreparatorHelper.prepareField(field.getQ(), chooser.getConfig().getDsaPrimeQ());
         Asn1PreparatorHelper.prepareField(field.getG(), chooser.getConfig().getDsaGenerator());
-        Asn1PreparatorHelper.prepareField(field.getP(), chooser.getConfig().getDsaPrimeP());
     }
 
     @Override
     public byte[] encodeChildrenContent() {
-        return encodeChildren(field.getQ(), field.getG(), field.getP());
+        return encodeChildren(field.getP(), field.getQ(), field.getG());
     }
 }
