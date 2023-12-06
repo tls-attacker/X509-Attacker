@@ -9,11 +9,17 @@
 package de.rub.nds.x509attacker.x509.preparator.publickey;
 
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.X509DsaPublicKey;
 import de.rub.nds.x509attacker.x509.preparator.X509Asn1FieldPreparator;
+import java.math.BigInteger;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class X509DsaPublicKeyPreparator extends X509Asn1FieldPreparator<X509DsaPublicKey> {
+
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public X509DsaPublicKeyPreparator(X509DsaPublicKey instance, X509Chooser chooser) {
         super(chooser, instance);
@@ -21,9 +27,11 @@ public class X509DsaPublicKeyPreparator extends X509Asn1FieldPreparator<X509DsaP
 
     @Override
     protected byte[] encodeContent() {
-        Asn1PreparatorHelper.prepareField(field, chooser.getConfig().getDsaPublicKeyY());
-        return field.getContent()
-                .getOriginalValue(); // We return the original value here, otherwise we will modify
-        // it twice
+        BigInteger publicKey =
+                chooser.getDsaGenerator()
+                        .modPow(chooser.getConfig().getDsaPrivateKey(), chooser.getDsaPrimeP());
+        LOGGER.debug("Computed dsa public key as: {}", publicKey);
+        Asn1PreparatorHelper.prepareField(field, publicKey);
+        return ArrayConverter.bigIntegerToByteArray(publicKey);
     }
 }
