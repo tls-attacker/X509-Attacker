@@ -29,7 +29,7 @@ public class SubjectPublicKeyAlgorithmIdentifierPreparator
     @Override
     public void prepareSubComponents() {
         Asn1PreparatorHelper.prepareField(
-                field.getAlgorithm(), chooser.getSubjectPublicKeyType().getOid());
+                field.getAlgorithm(), chooser.getConfig().getPublicKeyType().getOid());
         PublicParameters publicKeyParameters = field.getParameters();
         if (publicKeyParameters == null) {
             publicKeyParameters = createPublicKeyParameters();
