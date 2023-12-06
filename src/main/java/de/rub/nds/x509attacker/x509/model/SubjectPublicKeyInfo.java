@@ -101,10 +101,12 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
             case RSA:
                 publicParameters = new X509NullParameters("nullParameters");
                 break;
+            case DSA:
+                publicParameters = new X509DssParameters("dssParameters");
+                break;
             case ECDH_ONLY:
             case ED25519:
             case ED448:
-            case DSA:
             case X25519:
             case X448:
             case RSASSA_PSS:
