@@ -29,6 +29,8 @@ public class X509EcdhEcdsaPublicKeyPreparator
                         chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
                         chooser.getConfig().getEcPublicKey(),
                         chooser.getConfig().getDefaultEcPointFormat()));
+        field.setxCoordinate(chooser.getConfig().getEcPublicKey().getFieldX().getData());
+        field.setyCoordinate(chooser.getConfig().getEcPublicKey().getFieldY().getData());
         return field.getContent()
                 .getOriginalValue(); // We return the original value here, otherwise we will modify
         // twice
