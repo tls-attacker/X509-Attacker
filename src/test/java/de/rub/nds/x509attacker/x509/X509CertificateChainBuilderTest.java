@@ -81,7 +81,9 @@ public class X509CertificateChainBuilderTest {
 
         X509CertificateChainBuilder builder = new X509CertificateChainBuilder();
 
-        X509CertificateChain chain = builder.buildChain(rootConfig, intermediateConfig, leafConfig);
+        X509CertificateChain chain =
+                builder.buildChain(rootConfig, intermediateConfig, leafConfig)
+                        .getCertificateChain();
         for (X509Certificate cert : chain.getCertificateList()) {
             LOGGER.info( // TODO not sure we can pass null here
                     "Cert: "

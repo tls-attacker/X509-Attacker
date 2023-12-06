@@ -19,14 +19,28 @@ public class X509CertificateChainBuilder {
 
     public X509CertificateChainBuilder() {}
 
-    public X509CertificateChain buildChain(List<X509CertificateConfig> certificateConfigs) {
+    /**
+     * Builds a certificate chain from a list of certificate configs. The first certificate in the
+     * chain is the leaf
+     *
+     * @param certificateConfigs
+     * @return
+     */
+    public X509ChainCreationResult buildChain(List<X509CertificateConfig> certificateConfigs) {
         return buildChain(certificateConfigs.toArray(X509CertificateConfig[]::new));
     }
 
-    public X509CertificateChain buildChain(X509CertificateConfig... certificateConfigs) {
+    /**
+     * Builds a certificate chain from an array of certificate configs. The first certificate in the
+     * chain is the leaf
+     *
+     * @param certificateConfigs
+     * @return
+     */
+    public X509ChainCreationResult buildChain(X509CertificateConfig... certificateConfigs) {
         X509CertificateChain chain = new X509CertificateChain();
         X509Context context = new X509Context();
-        for (int i = 0; i < certificateConfigs.length; i++) {
+        for (int i = certificateConfigs.length - 1; i >= 0; i--) {
             X509CertificateConfig config = certificateConfigs[i];
             if (context.getSubject() != null) {
                 config.setIssuer(context.getSubject());
@@ -37,8 +51,8 @@ public class X509CertificateChainBuilder {
             X509CertificatePreparator preparator =
                     new X509CertificatePreparator(chooser, certificate);
             preparator.prepare();
-            chain.addCertificate(certificate);
+            chain.addCertificate(0, certificate);
         }
-        return chain;
+        return new X509ChainCreationResult(chain, context);
     }
 }
