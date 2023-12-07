@@ -211,7 +211,8 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
      */
     public Boolean isLeaf() {
         String commonName = getCommonName();
-        return commonName != null && isIpOrDomain(commonName) || hasSanExtension() == Boolean.TRUE;
+        return commonName != null
+                && isIpOrDomain(commonName); // || hasSanExtension() == Boolean.TRUE; TODO
     }
 
     private boolean isIpOrDomain(String input) {
