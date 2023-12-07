@@ -14,6 +14,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509RsaPublicKeyHandler;
+import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.parser.publickey.X509RsaPublicKeyParser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
@@ -21,10 +22,12 @@ import de.rub.nds.x509attacker.x509.preparator.publickey.X509RsaPublicKeyPrepara
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
+public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent, X509Component {
 
     private Asn1Integer modulus;
     private Asn1Integer publicExponent;
@@ -73,5 +76,25 @@ public class X509RsaPublicKey extends Asn1Sequence implements PublicKeyContent {
     @Override
     public X509PublicKeyType getX509PublicKeyType() {
         return X509PublicKeyType.RSA;
+    }
+
+    @Override
+    public void prepare(X509Chooser chooser) {
+        getPreparator(chooser).prepare();
+    }
+
+    @Override
+    public byte[] getEncoded(X509Chooser chooser) {
+        return getSerializer(chooser).serialize();
+    }
+
+    @Override
+    public void adjustInContext(X509Chooser chooser) {
+        getHandler(chooser).adjustContextAfterParse();
+    }
+
+    @Override
+    public void readIn(X509Chooser chooser, byte[] bytesToRead) {
+        getParser(chooser).parse(new BufferedInputStream(new ByteArrayInputStream(bytesToRead)));
     }
 }

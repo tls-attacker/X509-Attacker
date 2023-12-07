@@ -14,7 +14,6 @@ import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
 import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -47,11 +46,7 @@ public class PublicKeyBitStringParser extends Asn1Parser<PublicKeyBitString> imp
                 publicKeyBitString.createX509PublicKeyContent(chooser.getSubjectPublicKeyType()));
         publicKeyBitString
                 .getX509PublicKeyContent()
-                .getParser(chooser)
-                .parse(
-                        new BufferedInputStream(
-                                new ByteArrayInputStream(
-                                        publicKeyBitString.getUsedBits().getValue())));
-        publicKeyBitString.getX509PublicKeyContent().getHandler(chooser).adjustContextAfterParse();
+                .readIn(chooser, publicKeyBitString.getUsedBits().getValue());
+        publicKeyBitString.getX509PublicKeyContent().adjustInContext(chooser);
     }
 }

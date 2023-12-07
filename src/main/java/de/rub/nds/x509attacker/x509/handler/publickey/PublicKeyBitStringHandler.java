@@ -27,4 +27,8 @@ public class PublicKeyBitStringHandler extends X509FieldHandler<PublicKeyBitStri
     public void adjustContextAfterPrepare() {
         // Nothing to do
     }
+
+    public void adjustContext() {
+        component.getX509PublicKeyContent().adjustInContext(chooser);
+    }
 }

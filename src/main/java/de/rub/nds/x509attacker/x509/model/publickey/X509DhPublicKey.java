@@ -13,6 +13,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509DhPublicKeyHandler;
+import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Asn1IntegerParser;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
@@ -20,10 +21,12 @@ import de.rub.nds.x509attacker.x509.preparator.publickey.X509DhPublicKeyPreparat
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509DhPublicKey extends Asn1Integer implements PublicKeyContent {
+public class X509DhPublicKey extends Asn1Integer implements PublicKeyContent, X509Component {
 
     public X509DhPublicKey() {
         super("dhPublicKey");
@@ -47,5 +50,25 @@ public class X509DhPublicKey extends Asn1Integer implements PublicKeyContent {
     @Override
     public X509PublicKeyType getX509PublicKeyType() {
         return X509PublicKeyType.DH;
+    }
+
+    @Override
+    public void prepare(X509Chooser chooser) {
+        getPreparator(chooser).prepare();
+    }
+
+    @Override
+    public byte[] getEncoded(X509Chooser chooser) {
+        return getSerializer(chooser).serialize();
+    }
+
+    @Override
+    public void adjustInContext(X509Chooser chooser) {
+        getHandler(chooser).adjustContextAfterParse();
+    }
+
+    @Override
+    public void readIn(X509Chooser chooser, byte[] bytesToRead) {
+        getParser(chooser).parse(new BufferedInputStream(new ByteArrayInputStream(bytesToRead)));
     }
 }

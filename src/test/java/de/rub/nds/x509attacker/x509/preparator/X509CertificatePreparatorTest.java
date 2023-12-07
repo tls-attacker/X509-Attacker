@@ -42,6 +42,7 @@ public class X509CertificatePreparatorTest {
         byte[] serializedCertificate = x509Certificate.getSerializer(chooser).serialize();
         LOGGER.info(ArrayConverter.bytesToHexString(serializedCertificate));
         X509Certificate secondX509Certificate = new X509Certificate("x509Certificate");
+
         secondX509Certificate
                 .getParser(chooser)
                 .parse(new BufferedInputStream(new ByteArrayInputStream(serializedCertificate)));

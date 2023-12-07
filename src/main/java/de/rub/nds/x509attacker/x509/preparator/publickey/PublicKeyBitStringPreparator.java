@@ -27,12 +27,11 @@ public class PublicKeyBitStringPreparator extends X509Asn1FieldPreparator<Public
     @Override
     protected byte[] encodeContent() {
         if (field.getX509PublicKeyContent() != null) {
-            field.getX509PublicKeyContent().getPreparator(chooser).prepare();
-            field.getX509PublicKeyContent().getHandler(chooser).adjustContextAfterPrepare();
+            field.getX509PublicKeyContent().prepare(chooser);
+            field.getX509PublicKeyContent().adjustInContext(chooser);
+
             return Asn1PreparatorHelper.encodeBitString(
-                    field.getX509PublicKeyContent().getSerializer(chooser).serialize(),
-                    (byte) 0,
-                    (byte) 0);
+                    field.getX509PublicKeyContent().getEncoded(chooser), (byte) 0, (byte) 0);
         } else {
             LOGGER.warn("Could not encode public key. Encoding: new byte[0] instead");
             return new byte[0];

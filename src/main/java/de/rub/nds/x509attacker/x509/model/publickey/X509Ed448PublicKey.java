@@ -13,15 +13,18 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.publickey.X509Ed448PublicKeyHandler;
+import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509Ed448PublicKey extends Asn1OctetString implements PublicKeyContent {
+public class X509Ed448PublicKey extends Asn1OctetString implements PublicKeyContent, X509Component {
 
     public X509Ed448PublicKey() {
         super("ed448PublicKey");
@@ -45,5 +48,25 @@ public class X509Ed448PublicKey extends Asn1OctetString implements PublicKeyCont
     @Override
     public X509PublicKeyType getX509PublicKeyType() {
         return X509PublicKeyType.ED448;
+    }
+
+    @Override
+    public void prepare(X509Chooser chooser) {
+        getPreparator(chooser).prepare();
+    }
+
+    @Override
+    public byte[] getEncoded(X509Chooser chooser) {
+        return getSerializer(chooser).serialize();
+    }
+
+    @Override
+    public void adjustInContext(X509Chooser chooser) {
+        getHandler(chooser).adjustContextAfterParse();
+    }
+
+    @Override
+    public void readIn(X509Chooser chooser, byte[] bytesToRead) {
+        getParser(chooser).parse(new BufferedInputStream(new ByteArrayInputStream(bytesToRead)));
     }
 }
