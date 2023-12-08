@@ -239,7 +239,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     public Boolean isValidLeafForUri(String uri) {
         if (isLeaf()) {
             // It is a leaf, now we need to check the domain name
-            return isCommonNameValidForUri(uri) || isSanValidForUri(uri);
+            return isCommonNameValidForUri(uri); // TODO || isSanValidForUri(uri);
         } else {
             return false;
         }
