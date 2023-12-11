@@ -38,13 +38,13 @@ public class DirectoryStringPreparator implements X509Preparator {
                 directoryString.makeSelection(directoryString.getPrintableString());
                 break;
             case TELETEX_STRING:
-                directoryString.makeSelection(directoryString.getBmpString());
+                directoryString.makeSelection(directoryString.getTeletexString());
                 break;
             case UNIVERSAL_STRING:
-                directoryString.makeSelection(directoryString.getBmpString());
+                directoryString.makeSelection(directoryString.getUniversalString());
                 break;
             case UTF8_STRING:
-                directoryString.makeSelection(directoryString.getBmpString());
+                directoryString.makeSelection(directoryString.getUtf8String());
                 break;
             default:
                 throw new UnsupportedOperationException(
