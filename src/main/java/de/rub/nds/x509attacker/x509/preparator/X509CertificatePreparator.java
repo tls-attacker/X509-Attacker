@@ -88,7 +88,7 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
                 throw new UnsupportedOperationException(
                         "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");
             case RSA_PKCS1:
-            case RSA_PSS:
+            case RSA_SSA_PSS:
                 return new RsaPrivateKey(
                         chooser.getIssuerRsaModulus(), chooser.getIssuerRsaPrivateKey());
             case DSA:

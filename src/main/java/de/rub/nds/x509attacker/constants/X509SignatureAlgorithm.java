@@ -58,7 +58,7 @@ public enum X509SignatureAlgorithm {
     RSASSA_PSS(
             "RSASSA-PSS",
             "1.2.840.113549.1.1.10",
-            SignatureAlgorithm.RSA_PSS,
+            SignatureAlgorithm.RSA_SSA_PSS,
             null), // Hash algorithm is defined by parameters
     DSA_WITH_SHA1("DSAwithSHA1", "1.2.840.10040.4.3", SignatureAlgorithm.DSA, HashAlgorithm.SHA1),
     DSA_WITH_SHA224(
