@@ -122,9 +122,10 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public byte[] getSha256Fingerprint() {
-        return HashCalculator.computeSha256(
+        return HashCalculator.compute(
                 this.getSerializer(new X509Chooser(new X509CertificateConfig(), new X509Context()))
-                        .serialize());
+                        .serialize(),
+                HashAlgorithm.SHA256);
     }
 
     public X509PublicKeyType getCertificateKeyType() {
