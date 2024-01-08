@@ -31,6 +31,8 @@ public class Validity extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private Time notAfter;
 
+    /** Private no-arg constructor to please JAXB */
+    @SuppressWarnings("unused")
     private Validity() {
         this("validity");
     }
