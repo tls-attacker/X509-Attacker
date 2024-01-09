@@ -21,7 +21,6 @@ import java.security.PublicKey;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.Collection;
-import org.apache.logging.log4j.LogManager;
 import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
@@ -34,8 +33,6 @@ import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
 
 public class PemUtil {
-
-    private static final org.apache.logging.log4j.Logger LOGGER = LogManager.getLogger();
 
     private PemUtil() {}
 

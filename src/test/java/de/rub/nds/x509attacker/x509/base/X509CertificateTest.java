@@ -14,8 +14,6 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.NamedEllipticCurveParameters;
-import de.rub.nds.protocol.crypto.key.EcdhPublicKey;
-import de.rub.nds.protocol.crypto.key.PublicKeyContainer;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -129,9 +127,7 @@ public class X509CertificateTest {
     }
 
     @Test
-    void testGetPublicKeyContainer() {
-        PublicKeyContainer container = new EcdhPublicKey(null, null);
-    }
+    void testGetPublicKeyContainer() {}
 
     @Test
     void testGetPublicParameters() {}
