@@ -20,7 +20,8 @@ public enum X500AttributeType {
     LOCALITY("locality", "L", "2.5.4.7"),
     STATE_OR_PROVINCE_NAME("state", "S", "2.5.4.8"),
     ORGANISATION_NAME("organisation", "O", "2.5.4.10"),
-    ORGANISATION_UNIT_NAME("organisation unit", "OU", "2.5.4.11");
+    ORGANISATION_UNIT_NAME("organisation unit", "OU", "2.5.4.11"),
+    DN_QUALIFIER("dn_qualifier", "DN", "2.5.4.46");
 
     private static final Map<String, X500AttributeType> oidMap = new HashMap<>();
 
