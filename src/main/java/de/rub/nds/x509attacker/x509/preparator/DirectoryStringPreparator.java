@@ -33,18 +33,28 @@ public class DirectoryStringPreparator implements X509Preparator {
         switch (directoryString.getDirectoryStringChoiceType()) {
             case BMP_STRING:
                 directoryString.makeSelection(directoryString.getBmpString());
+                directoryString.setConfigValue(
+                        directoryString.getBmpString().getValue().getValue());
                 break;
             case PRINTABLE_STRING:
                 directoryString.makeSelection(directoryString.getPrintableString());
+                directoryString.setConfigValue(
+                        directoryString.getPrintableString().getValue().getValue());
                 break;
             case TELETEX_STRING:
                 directoryString.makeSelection(directoryString.getTeletexString());
+                directoryString.setConfigValue(
+                        directoryString.getTeletexString().getValue().getValue());
                 break;
             case UNIVERSAL_STRING:
                 directoryString.makeSelection(directoryString.getUniversalString());
+                directoryString.setConfigValue(
+                        directoryString.getUniversalString().getValue().getValue());
                 break;
             case UTF8_STRING:
                 directoryString.makeSelection(directoryString.getUtf8String());
+                directoryString.setConfigValue(
+                        directoryString.getUtf8String().getValue().getValue());
                 break;
             default:
                 throw new UnsupportedOperationException(
@@ -52,7 +62,7 @@ public class DirectoryStringPreparator implements X509Preparator {
                                 + directoryString.getDirectoryStringChoiceType());
         }
         HelperPreparator<Asn1Field> helper =
-                new HelperPreparator<Asn1Field>(
+                new HelperPreparator<>(
                         chooser,
                         (Asn1Field) directoryString.getSelectedChoice(),
                         directoryString.getConfigValue());

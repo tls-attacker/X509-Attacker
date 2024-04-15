@@ -18,6 +18,7 @@ import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
+import de.rub.nds.x509attacker.x509.model.DirectoryString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -34,7 +35,7 @@ public class AttributeTypeAndValuePreparator
     public void prepareTypeValue() {
         Asn1Encodable valueField = field.getValue();
         String value = field.getValueConfig();
-        if (value == null) {
+        if (value == null && !(valueField instanceof DirectoryString)) {
             LOGGER.warn(
                     "AttributeTypeAndValue value config is not set - using an empty string \"\"");
             value = "";
@@ -47,6 +48,10 @@ public class AttributeTypeAndValuePreparator
             Asn1PreparatorHelper.prepareField((Asn1Ia5String) valueField, value);
         } else if (valueField instanceof Asn1T61String) {
             Asn1PreparatorHelper.prepareField((Asn1T61String) valueField, value);
+        } else if (valueField instanceof DirectoryString) {
+            DirectoryStringPreparator directoryStringPreparator =
+                    new DirectoryStringPreparator(chooser, (DirectoryString) valueField);
+            directoryStringPreparator.prepare();
         } else {
             throw new UnsupportedOperationException(
                     "AttributeTypeAndValue value type not supported yet: "

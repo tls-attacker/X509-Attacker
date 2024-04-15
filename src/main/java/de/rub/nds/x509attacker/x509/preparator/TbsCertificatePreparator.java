@@ -15,6 +15,7 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -110,7 +111,7 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
         children.add(field.getSubjectUniqueId());
         children.add(field.getExplicitExtensions());
         // Filter null values
-        children.removeIf(child -> child == null);
+        children.removeIf(Objects::isNull);
         return encodeChildren(children);
     }
 }
