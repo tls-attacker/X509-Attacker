@@ -53,6 +53,7 @@ public class AttributeTypeAndValueParser
                 case ORGANISATION_NAME:
                 case ORGANISATION_UNIT_NAME:
                 case COUNTRY_NAME:
+                    encodable.setAttributeTypeConfig(attributeType);
                     // I think this is wrong according to the RFC but is seen in the wild
                     parseDirectoryString(inputStream, attributeType);
                     break;
