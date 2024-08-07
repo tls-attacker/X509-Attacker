@@ -11,16 +11,14 @@ package de.rub.nds.x509attacker.config;
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
+import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.PointFormat;
+import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
-import de.rub.nds.x509attacker.constants.ValidityEncoding;
-import de.rub.nds.x509attacker.constants.X500AttributeType;
-import de.rub.nds.x509attacker.constants.X509NamedCurve;
-import de.rub.nds.x509attacker.constants.X509PublicKeyType;
-import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
-import de.rub.nds.x509attacker.constants.X509Version;
+import de.rub.nds.x509attacker.constants.*;
+import de.rub.nds.x509attacker.x509.model.Extension;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;
@@ -29,10 +27,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigInteger;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
 
@@ -41,10 +36,16 @@ import org.joda.time.DateTimeZone;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509CertificateConfig {
 
+    // TODO: maybe delete
+    private boolean selfSigned = false;
+
+    // TODO: maybe delete
+    private CertificateChainPositionType chainPosition = CertificateChainPositionType.ENTITY;
+
     private X509SignatureAlgorithm signatureAlgorithm =
             X509SignatureAlgorithm.SHA256_WITH_RSA_ENCRYPTION;
 
-    private X509Version version = X509Version.V3;
+    private BigInteger version = X509Version.V3.getValue();
 
     private BigInteger serialNumber =
             new BigInteger("1122334455667788990000998877665544332211", 16);
@@ -85,6 +86,9 @@ public class X509CertificateConfig {
 
     private boolean includeExtensions = false;
 
+    // TODO: implement and change to extension config
+    private List<Extension> extensions = new ArrayList<>();
+
     private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;
 
     private X509PublicKeyType defaultIssuerPublicKeyType = X509PublicKeyType.RSA;
@@ -120,11 +124,21 @@ public class X509CertificateConfig {
                     ArrayConverter.hexStringToByteArray(
                             "3c991ffbb26fce963dae6540ce45904079c50398b0c32fa8485ada51dd9614e150bc8983ab6996ce4d7f8237aeeef9ec97a10e6c0949417b8412cc5711a8482f540d6b030da4e1ed591c152062775e61e6fef897c3b12a38185c12d8feddbe85298dc41324b2450d83e3b90a419373380b60ee1ca9094437c0be19fb73184726"));
 
+    private X509NamedCurve defaultSubjectNamedCurve = X509NamedCurve.SECP256R1;
+
     private BigInteger dsaPrivateKey = new BigInteger("FFFF", 16);
 
     private BigInteger ecPrivateKey = new BigInteger("03", 16);
 
-    private Point ecPublicKey = null;
+    private EllipticCurve ecCurve = defaultSubjectNamedCurve.getParameters().getGroup();
+
+    private Point ecPublicKey =
+            ecCurve.getPoint(
+                    new BigInteger(
+                            "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
+                    new BigInteger(
+                            "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
+    ;
 
     private BigInteger dhPublicKey =
             new BigInteger(
@@ -175,8 +189,6 @@ public class X509CertificateConfig {
 
     private Boolean includeDhValidationParameters = false;
 
-    private X509NamedCurve defaultSubjectNamedCurve = X509NamedCurve.SECP256R1;
-
     private BigInteger dhValidationParameterPgenCounter = new BigInteger("1");
 
     private byte[] dhValidationParameterSeed = new byte[32];
@@ -193,14 +205,22 @@ public class X509CertificateConfig {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
-        EllipticCurve curve = defaultSubjectNamedCurve.getParameters().getGroup();
-        // Hardcoded public key, fitting to the default values (SECP256R1 with k=3)
-        ecPublicKey =
-                curve.getPoint(
-                        new BigInteger(
-                                "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
-                        new BigInteger(
-                                "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
+    }
+
+    public boolean isSelfSigned() {
+        return selfSigned;
+    }
+
+    public void setSelfSigned(boolean selfSigned) {
+        this.selfSigned = selfSigned;
+    }
+
+    public CertificateChainPositionType getChainPosition() {
+        return chainPosition;
+    }
+
+    public void setChainPosition(CertificateChainPositionType chainPosition) {
+        this.chainPosition = chainPosition;
     }
 
     public PointFormat getDefaultEcPointFormat() {
@@ -412,11 +432,19 @@ public class X509CertificateConfig {
         this.signatureAlgorithm = signatureAlgorithm;
     }
 
-    public X509Version getVersion() {
+    public X509Version getVersionAsEnum() {
+        return X509Version.convert(version);
+    }
+
+    public BigInteger getVersion() {
         return version;
     }
 
     public void setVersion(X509Version version) {
+        this.version = version.getValue();
+    }
+
+    public void setVersion(BigInteger version) {
         this.version = version;
     }
 
@@ -484,6 +512,18 @@ public class X509CertificateConfig {
         this.includeExtensions = includeExtensions;
     }
 
+    public List<Extension> getExtensions() {
+        return extensions;
+    }
+
+    public void setExtensions(List<Extension> extensions) {
+        this.extensions = extensions;
+    }
+
+    public void addExtensions(Extension... extensions) {
+        this.extensions.addAll(List.of(extensions));
+    }
+
     public X509PublicKeyType getPublicKeyType() {
         return publicKeyType;
     }
@@ -514,6 +554,14 @@ public class X509CertificateConfig {
 
     public void setEcPrivateKey(BigInteger ecPrivateKey) {
         this.ecPrivateKey = ecPrivateKey;
+    }
+
+    public EllipticCurve getEcCurve() {
+        return ecCurve;
+    }
+
+    public void setEcCurve(EllipticCurve ecCurve) {
+        this.ecCurve = ecCurve;
     }
 
     public BigInteger getDhPrivateKey() {
@@ -554,5 +602,35 @@ public class X509CertificateConfig {
 
     public void setDhPublicKey(BigInteger dhPublicKey) {
         this.dhPublicKey = dhPublicKey;
+    }
+
+    public void amendSignatureAlgorithm(SignatureAlgorithm signatureAlgorithm) {
+        if (this.signatureAlgorithm == null) {
+            throw new UnsupportedOperationException("Cannot amend SignatureAlgorithm if None");
+        }
+        HashAlgorithm hashAlgorithm = this.signatureAlgorithm.getHashAlgorithm();
+        this.signatureAlgorithm =
+                Arrays.stream(X509SignatureAlgorithm.values())
+                        .filter(
+                                x ->
+                                        x.getSignatureAlgorithm() == signatureAlgorithm
+                                                && x.getHashAlgorithm() == hashAlgorithm)
+                        .findFirst()
+                        .orElseThrow();
+    }
+
+    public void amendSignatureAlgorithm(HashAlgorithm hashAlgorithm) {
+        if (this.signatureAlgorithm == null) {
+            throw new UnsupportedOperationException("Cannot amend SignatureAlgorithm if None");
+        }
+        SignatureAlgorithm signatureAlgorithm = this.signatureAlgorithm.getSignatureAlgorithm();
+        this.signatureAlgorithm =
+                Arrays.stream(X509SignatureAlgorithm.values())
+                        .filter(
+                                x ->
+                                        x.getSignatureAlgorithm() == signatureAlgorithm
+                                                && x.getHashAlgorithm() == hashAlgorithm)
+                        .findFirst()
+                        .orElseThrow();
     }
 }

@@ -16,6 +16,7 @@ public enum X500AttributeType {
 
     /** https://www.alvestrand.no/objectid/2.5.4.html */
     COMMON_NAME("commonName", "CN", "2.5.4.3"),
+    SERIAL_NUMBER("serialNumber", "S", "2.5.4.5"),
     COUNTRY_NAME("country", "C", "2.5.4.6"),
     LOCALITY("locality", "L", "2.5.4.7"),
     STATE_OR_PROVINCE_NAME("state", "S", "2.5.4.8"),
