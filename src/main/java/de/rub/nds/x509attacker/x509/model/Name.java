@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.DirectoryStringChoiceType;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.handler.NameHandler;
@@ -58,13 +59,17 @@ public class Name extends Asn1Sequence implements X509Component {
     }
 
     public Name(
-            String identifier, NameType type, List<Pair<X500AttributeType, String>> attributeList) {
+            String identifier,
+            NameType type,
+            List<Pair<X500AttributeType, String>> attributeList,
+            DirectoryStringChoiceType choiceType) {
         super(identifier);
         this.type = type;
         relativeDistinguishedNames = new LinkedList<>();
         for (Pair<X500AttributeType, String> attributePair : attributeList) {
             RelativeDistinguishedName relativeDistinguishedName =
-                    new RelativeDistinguishedName("relativeDistinguishedName", attributePair);
+                    new RelativeDistinguishedName(
+                            "relativeDistinguishedName", attributeList, choiceType);
             relativeDistinguishedNames.add(relativeDistinguishedName);
         }
     }

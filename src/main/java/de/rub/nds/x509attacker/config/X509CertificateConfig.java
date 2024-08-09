@@ -63,6 +63,11 @@ public class X509CertificateConfig {
     @XmlElementWrapper
     private List<Pair<X500AttributeType, String>> subject;
 
+    @XmlElement(name = "attributeField")
+    @XmlElementWrapper
+    private DirectoryStringChoiceType defaultDirectoryStringType =
+            DirectoryStringChoiceType.UTF8_STRING;
+
     private DateTime notBefore =
             new DateTime(2023, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2023
 
@@ -510,6 +515,15 @@ public class X509CertificateConfig {
 
     public void setSubject(List<Pair<X500AttributeType, String>> subject) {
         this.subject = subject;
+    }
+
+    public DirectoryStringChoiceType getDefaultDirectoryStringType() {
+        return defaultDirectoryStringType;
+    }
+
+    public void setDefaultDirectoryStringType(
+            DirectoryStringChoiceType defaultDirectoryStringType) {
+        this.defaultDirectoryStringType = defaultDirectoryStringType;
     }
 
     public DateTime getNotBefore() {

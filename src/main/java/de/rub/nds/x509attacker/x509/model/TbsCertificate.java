@@ -59,9 +59,19 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
-        issuer = new Name("issuer", NameType.ISSUER, config.getDefaultIssuer());
+        issuer =
+                new Name(
+                        "issuer",
+                        NameType.ISSUER,
+                        config.getDefaultIssuer(),
+                        config.getDefaultDirectoryStringType());
         validity = new Validity("validity");
-        subject = new Name("subject", NameType.SUBJECT, config.getSubject());
+        subject =
+                new Name(
+                        "subject",
+                        NameType.SUBJECT,
+                        config.getSubject(),
+                        config.getDefaultDirectoryStringType());
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
         if (config.isIncludeIssuerUniqueId()) {
             issuerUniqueId = new Asn1BitString("issuerUniqueID", 1);

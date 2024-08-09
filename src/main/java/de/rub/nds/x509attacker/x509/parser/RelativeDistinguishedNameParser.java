@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.DirectoryStringChoiceType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.RelativeDistinguishedName;
 import java.io.BufferedInputStream;
@@ -34,7 +35,9 @@ public class RelativeDistinguishedNameParser
             while (inputStream.available() > 0) {
                 LOGGER.debug("Parsing AttributeTypeAndValue");
                 AttributeTypeAndValue attributeTypeAndValue =
-                        new AttributeTypeAndValue("attributeTypeAndValue");
+                        new AttributeTypeAndValue(
+                                "attributeTypeAndValue",
+                                DirectoryStringChoiceType.PRINTABLE_STRING);
                 attributeTypeAndValue.getParser(chooser).parse(inputStream);
                 attributeTypeAndValue.getHandler(chooser).adjustContextAfterParse();
                 encodable.addAttributeTypeAndValue(attributeTypeAndValue);
