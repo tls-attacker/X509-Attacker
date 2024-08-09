@@ -83,6 +83,7 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
     }
 
     private PrivateKeyContainer getPrivateKeyForAlgorithm(SignatureAlgorithm signatureAlgorithm) {
+        // TODO: get correct values from config and implement ECDSA and DSA
         switch (signatureAlgorithm) {
             case ECDSA:
                 throw new UnsupportedOperationException(

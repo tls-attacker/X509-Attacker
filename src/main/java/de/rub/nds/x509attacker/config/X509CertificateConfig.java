@@ -16,6 +16,7 @@ import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
+import de.rub.nds.protocol.crypto.key.RsaPublicKey;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.constants.*;
 import de.rub.nds.x509attacker.x509.model.Extension;
@@ -27,6 +28,10 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigInteger;
+import java.security.KeyPair;
+import java.security.PrivateKey;
+import java.security.PublicKey;
+import java.security.interfaces.*;
 import java.util.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -37,7 +42,7 @@ import org.joda.time.DateTimeZone;
 public class X509CertificateConfig {
 
     // TODO: maybe delete
-    private boolean selfSigned = false;
+    private boolean selfSigned = true;
 
     // TODO: maybe delete
     private CertificateChainPositionType chainPosition = CertificateChainPositionType.ENTITY;
@@ -112,13 +117,13 @@ public class X509CertificateConfig {
 
     private BigInteger defaultIssuerRsaPublicKey = new BigInteger("65537", 10);
 
-    private BigInteger dsaPublicKeyY =
+    private BigInteger dsaPublicKey =
             new BigInteger(
                     1,
                     ArrayConverter.hexStringToByteArray(
                             "3c991ffbb26fce963dae6540ce45904079c50398b0c32fa8485ada51dd9614e150bc8983ab6996ce4d7f8237aeeef9ec97a10e6c0949417b8412cc5711a8482f540d6b030da4e1ed591c152062775e61e6fef897c3b12a38185c12d8feddbe85298dc41324b2450d83e3b90a419373380b60ee1ca9094437c0be19fb73184726"));
 
-    private BigInteger defaultIssuerDsaPublicKeyY =
+    private BigInteger defaultIssuerDsaPublicKey =
             new BigInteger(
                     1,
                     ArrayConverter.hexStringToByteArray(
@@ -138,7 +143,13 @@ public class X509CertificateConfig {
                             "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
                     new BigInteger(
                             "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
-    ;
+
+    private Point defaultIssuerECPublicKey =
+            ecCurve.getPoint(
+                    new BigInteger(
+                            "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
+                    new BigInteger(
+                            "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
 
     private BigInteger dhPublicKey =
             new BigInteger(
@@ -205,6 +216,35 @@ public class X509CertificateConfig {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+    }
+
+    public void applyKeyPair(KeyPair keyPair) {
+        PublicKey publicKey = keyPair.getPublic();
+        PrivateKey privateKey = keyPair.getPrivate();
+
+        // apply public key
+        if (publicKey instanceof RsaPublicKey) {
+            rsaModulus = ((RsaPublicKey) publicKey).getModulus();
+            rsaPublicKey = ((RsaPublicKey) publicKey).getPublicExponent();
+        } else if (publicKey instanceof DSAPublicKey) {
+            dsaPublicKey = ((DSAPublicKey) publicKey).getY();
+            DSAParams params = ((DSAPublicKey) publicKey).getParams();
+            dsaPrimeP = params.getP();
+            dsaPrimeQ = params.getQ();
+            dsaGenerator = params.getG();
+        } else if (publicKey instanceof ECPublicKey) {
+            // TODO: set EC values here
+            // ecPublicKey = new Point()(ECPublicKey) publicKey).getW().;
+        }
+
+        // apply private key
+        if (privateKey instanceof RSAPrivateKey) {
+            rsaPrivateKey = ((RSAPrivateKey) privateKey).getPrivateExponent();
+        } else if (privateKey instanceof DSAPrivateKey) {
+            dsaPrivateKey = ((DSAPrivateKey) privateKey).getX();
+        } else if (privateKey instanceof ECPrivateKey) {
+            // TODO: set EC values here
+        }
     }
 
     public boolean isSelfSigned() {
@@ -279,20 +319,20 @@ public class X509CertificateConfig {
         this.defaultSubjectNamedCurve = defaultSubjectNamedCurve;
     }
 
-    public BigInteger getDsaPublicKeyY() {
-        return dsaPublicKeyY;
+    public BigInteger getDsaPublicKey() {
+        return dsaPublicKey;
     }
 
-    public void setDsaPublicKeyY(BigInteger dsaPublicKeyY) {
-        this.dsaPublicKeyY = dsaPublicKeyY;
+    public void setDsaPublicKey(BigInteger dsaPublicKey) {
+        this.dsaPublicKey = dsaPublicKey;
     }
 
-    public BigInteger getDefaultIssuerDsaPublicKeyY() {
-        return defaultIssuerDsaPublicKeyY;
+    public BigInteger getDefaultIssuerDsaPublicKey() {
+        return defaultIssuerDsaPublicKey;
     }
 
-    public void setDefaultIssuerDsaPublicKeyY(BigInteger defaultIssuerDsaPublicKeyY) {
-        this.defaultIssuerDsaPublicKeyY = defaultIssuerDsaPublicKeyY;
+    public void setDefaultIssuerDsaPublicKey(BigInteger defaultIssuerDsaPublicKey) {
+        this.defaultIssuerDsaPublicKey = defaultIssuerDsaPublicKey;
     }
 
     public X509PublicKeyType getDefaultIssuerPublicKeyType() {
@@ -594,6 +634,14 @@ public class X509CertificateConfig {
 
     public void setEcPublicKey(Point ecPublicKey) {
         this.ecPublicKey = ecPublicKey;
+    }
+
+    public Point getDefaultIssuerECPublicKey() {
+        return defaultIssuerECPublicKey;
+    }
+
+    public void setDefaultIssuerECPublicKey(Point defaultIssuerECPublicKey) {
+        this.defaultIssuerECPublicKey = defaultIssuerECPublicKey;
     }
 
     public BigInteger getDhPublicKey() {
