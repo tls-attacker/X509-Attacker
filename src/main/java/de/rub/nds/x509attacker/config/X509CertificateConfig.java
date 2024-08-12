@@ -18,6 +18,7 @@ import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.crypto.key.RsaPublicKey;
 import de.rub.nds.protocol.xml.Pair;
+import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
 import de.rub.nds.x509attacker.constants.*;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import jakarta.xml.bind.annotation.XmlAccessType;
@@ -97,7 +98,7 @@ public class X509CertificateConfig {
     private boolean includeExtensions = false;
 
     // TODO: implement and change to extension config
-    private List<Extension> extensions = new ArrayList<>();
+    private List<ExtensionConfig> extensions = new ArrayList<>();
 
     private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;
 
@@ -566,15 +567,15 @@ public class X509CertificateConfig {
         this.includeExtensions = includeExtensions;
     }
 
-    public List<Extension> getExtensions() {
+    public List<ExtensionConfig> getExtensions() {
         return extensions;
     }
 
-    public void setExtensions(List<Extension> extensions) {
+    public void setExtensions(List<ExtensionConfig> extensions) {
         this.extensions = extensions;
     }
 
-    public void addExtensions(Extension... extensions) {
+    public void addExtensions(ExtensionConfig... extensions) {
         this.extensions.addAll(List.of(extensions));
     }
 

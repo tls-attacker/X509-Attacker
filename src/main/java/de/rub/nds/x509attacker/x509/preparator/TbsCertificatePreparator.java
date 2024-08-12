@@ -12,12 +12,16 @@ import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.model.Extensions;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import de.rub.nds.x509attacker.x509.model.X509Explicit;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Objects;
 
 public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertificate> {
 
@@ -93,7 +97,8 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
 
     private void prepareExtensions() {
         if (chooser.getConfig().isIncludeExtensions()) {
-            LOGGER.warn("Extensions not supported yet");
+            field.getExplicitExtensions().getPreparator(chooser).prepare();
+            field.getExplicitExtensions().getHandler(chooser).adjustContextAfterPrepare();
         }
     }
 

@@ -14,6 +14,7 @@ import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
@@ -28,7 +29,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class Extension extends Asn1Sequence implements X509Component {
+public abstract class Extension<Config extends ExtensionConfig> extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier extnID;
 
@@ -73,17 +74,20 @@ public class Extension extends Asn1Sequence implements X509Component {
     }
 
     @Override
-    public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
-    }
+    public abstract X509Handler getHandler(X509Chooser chooser);
 
     @Override
-    public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public abstract X509Parser getParser(X509Chooser chooser);
+
+    /**
+     * For extensions use getPreparator with config instead.
+     */
+    @Override
+    public final X509Preparator getPreparator(X509Chooser chooser) {
+
+        throw new UnsupportedOperationException("Use getPreparator with Config instead");
     }
 
-    @Override
-    public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
-    }
+    // TODO: how to solve this gracefully? also how to handle chooser with extension configs?
+    public abstract X509Preparator getPreparator(X509Chooser chooser, Config config);
 }

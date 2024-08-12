@@ -82,15 +82,14 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
             subjectUniqueId.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            explicitExtensions =
-                    new X509Explicit<Extensions>(
-                            "extensionsExplicit", 3, new Extensions("extensions"));
+            explicitExtensions = new X509Explicit<>("extensionsExplicit", 3, new Extensions("extensions"));
+            explicitExtensions.setOptional(true);
         }
     }
 
     public TbsCertificate(String identifier) {
         super(identifier);
-        version = new X509Explicit<Version>("versionExplicit", 0, new Version("version"));
+        version = new X509Explicit<>("versionExplicit", 0, new Version("version"));
         version.setOptional(true);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
@@ -103,7 +102,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         subjectUniqueId = new Asn1BitString("subjectUniqueID", 2);
         subjectUniqueId.setOptional(true);
         explicitExtensions =
-                new X509Explicit<Extensions>("extensionsExplicit", 3, new Extensions("extensions"));
+                new X509Explicit<>("extensionsExplicit", 3, new Extensions("extensions"));
         explicitExtensions.setOptional(true);
     }
 

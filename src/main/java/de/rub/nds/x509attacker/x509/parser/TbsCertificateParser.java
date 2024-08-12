@@ -52,6 +52,9 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
     }
 
     private void parseExtensions(BufferedInputStream inputStream) {
+        encodable.getExplicitExtensions().getParser(chooser).parse(inputStream);
+        encodable.getExplicitExtensions().getHandler(chooser).adjustContextAfterParse();
+        // TODO: probably parse oid and call extension parser based on oid
         LOGGER.debug("Parsing Extensions as Unknwon Asn1Field since we did not implement them yet");
         Asn1UnknownField extensions =
                 ParserHelper.parseUnknown(inputStream); // TODO not yet implemented
