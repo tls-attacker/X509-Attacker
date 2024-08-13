@@ -13,15 +13,13 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.model.Extensions;
-import de.rub.nds.x509attacker.x509.preparator.extension.ExtensionPreparator;
-
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * Preparator for {@link Extensions}. Delegates preparation of extensions to respective preparator and adds all to extension list.
+ * Preparator for {@link Extensions}. Delegates preparation of extensions to respective preparator
+ * and adds all to extension list.
  */
 public class ExtensionsPreparator extends X509ContainerPreparator<Extensions> {
 
@@ -32,7 +30,10 @@ public class ExtensionsPreparator extends X509ContainerPreparator<Extensions> {
     @Override
     public void prepareSubComponents() {
         // prepare all present extensions
-        for (ExtensionConfig config: chooser.getConfig().getExtensions().stream().filter(ExtensionConfig::isPresent).collect(Collectors.toList())) {
+        for (ExtensionConfig config :
+                chooser.getConfig().getExtensions().stream()
+                        .filter(ExtensionConfig::isPresent)
+                        .collect(Collectors.toList())) {
             Extension extension = config.getExtensionFromConfig();
             extension.getPreparator(chooser, config).prepare();
             field.getExtensionList().add(extension);

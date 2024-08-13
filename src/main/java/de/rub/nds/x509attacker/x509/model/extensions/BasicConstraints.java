@@ -12,14 +12,14 @@ import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
+import de.rub.nds.x509attacker.config.extension.BasicConstraintsConfig;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.handler.extension.BasicConstraintsHandler;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.parser.extension.BasicConstraintsParser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
+import de.rub.nds.x509attacker.x509.preparator.extension.BasicConstraintsPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -30,7 +30,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class BasicConstraints extends Extension {
+public class BasicConstraints extends Extension<BasicConstraintsConfig> {
 
     @HoldsModifiableVariable private Asn1Boolean ca;
 
@@ -72,11 +72,8 @@ public class BasicConstraints extends Extension {
         return new BasicConstraintsParser(chooser, this);
     }
 
-
     @Override
-    public X509Preparator getPreparator(X509Chooser chooser, ExtensionConfig config) {
-        return null;
+    public X509Preparator getPreparator(X509Chooser chooser, BasicConstraintsConfig config) {
+        return new BasicConstraintsPreparator(chooser, this, config);
     }
-
-
 }

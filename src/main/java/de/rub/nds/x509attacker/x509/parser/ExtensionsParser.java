@@ -16,11 +16,11 @@ import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509ExtensionType;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.model.Extensions;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
+import de.rub.nds.x509attacker.x509.model.extensions.Unknown;
 import java.io.BufferedInputStream;
 import java.io.IOException;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
 
@@ -37,9 +37,10 @@ public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
             while (inputStream.available() > 0) {
                 LOGGER.debug("Parsing Extension");
                 // peek at oid in stream and parse correct extension
-                Extension extension = X509ExtensionType.decodeFromOidBytes(
-                        peekNextObjectIdentifier(inputStream).getEncoded()
-                ).generateExtension();
+                Extension extension =
+                        X509ExtensionType.decodeFromOidBytes(
+                                        peekNextObjectIdentifier(inputStream).getEncoded())
+                                .generateExtension();
                 extension.getParser(chooser).parse(inputStream);
                 extension.getHandler(chooser).adjustContextAfterParse();
                 encodable.addExtension(extension);
@@ -50,7 +51,9 @@ public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
     }
 
     /**
-     * Peeks at the OID of the next extension in the list. Allows to choose the correct extension parser.
+     * Peeks at the OID of the next extension in the list. Allows to choose the correct extension
+     * parser.
+     *
      * @param inputStream Contains remaining certificate bytes
      * @return ObjectIdentifier
      */
@@ -59,9 +62,10 @@ public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
             Asn1ObjectIdentifier oid = new Asn1ObjectIdentifier("oid");
             inputStream.mark(inputStream.available());
             // parse extension structure header
-            ParserHelper.parseStructure(new Extension("extension"), inputStream);
+            ParserHelper.parseStructure(new Unknown("extension"), inputStream);
             // parse OID
-            X509Asn1ObjectIdentifierParser oidParser = new X509Asn1ObjectIdentifierParser(chooser, oid);
+            X509Asn1ObjectIdentifierParser oidParser =
+                    new X509Asn1ObjectIdentifierParser(chooser, oid);
             oidParser.parse(inputStream);
             inputStream.reset();
             return oid.getValueAsOid();

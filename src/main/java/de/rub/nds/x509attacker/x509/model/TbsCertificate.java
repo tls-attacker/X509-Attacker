@@ -82,7 +82,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
             subjectUniqueId.setOptional(true);
         }
         if (config.isIncludeExtensions()) {
-            explicitExtensions = new X509Explicit<>("extensionsExplicit", 3, new Extensions("extensions"));
+            explicitExtensions =
+                    new X509Explicit<>("extensionsExplicit", 3, new Extensions("extensions"));
             explicitExtensions.setOptional(true);
         }
     }

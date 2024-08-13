@@ -29,7 +29,8 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public abstract class Extension<Config extends ExtensionConfig> extends Asn1Sequence implements X509Component {
+public abstract class Extension<Config extends ExtensionConfig> extends Asn1Sequence
+        implements X509Component {
 
     @HoldsModifiableVariable private Asn1ObjectIdentifier extnID;
 
@@ -79,9 +80,7 @@ public abstract class Extension<Config extends ExtensionConfig> extends Asn1Sequ
     @Override
     public abstract X509Parser getParser(X509Chooser chooser);
 
-    /**
-     * For extensions use getPreparator with config instead.
-     */
+    /** For extensions use getPreparator with config instead. */
     @Override
     public final X509Preparator getPreparator(X509Chooser chooser) {
 

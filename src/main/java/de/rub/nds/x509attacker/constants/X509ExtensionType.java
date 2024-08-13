@@ -12,7 +12,6 @@ import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.model.extensions.BasicConstraints;
 import de.rub.nds.x509attacker.x509.model.extensions.Unknown;
-
 import java.util.HashMap;
 import java.util.Map;
 

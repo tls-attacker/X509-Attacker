@@ -20,7 +20,6 @@ import de.rub.nds.protocol.crypto.key.RsaPublicKey;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
 import de.rub.nds.x509attacker.constants.*;
-import de.rub.nds.x509attacker.x509.model.Extension;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElement;

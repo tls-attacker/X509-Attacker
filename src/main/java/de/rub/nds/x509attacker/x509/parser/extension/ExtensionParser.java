@@ -1,3 +1,11 @@
+/*
+ * X.509-Attacker - A Library for Arbitrary X.509 Certificates
+ *
+ * Copyright 2014-2023 Ruhr University Bochum, Paderborn University, Technology Innovation Institute, and Hackmanit GmbH
+ *
+ * Licensed under Apache License, Version 2.0
+ * http://www.apache.org/licenses/LICENSE-2.0.txt
+ */
 package de.rub.nds.x509attacker.x509.parser.extension;
 
 import de.rub.nds.asn1.constants.TagClass;
@@ -5,17 +13,17 @@ import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.parser.X509ComponentContainerParser;
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-
 /**
- * Parent parser for all extensions. Parses OID, criticality, and content bytes. Delegates content byte parsing to the
- * implementing subclass.
+ * Parent parser for all extensions. Parses OID, criticality, and content bytes. Delegates content
+ * byte parsing to the implementing subclass.
  */
-abstract class ExtensionParser<Encodable extends Extension> extends X509ComponentContainerParser<Encodable> {
+abstract class ExtensionParser<Encodable extends Extension>
+        extends X509ComponentContainerParser<Encodable> {
 
     private final Logger LOGGER = LogManager.getLogger();
 
@@ -36,10 +44,8 @@ abstract class ExtensionParser<Encodable extends Extension> extends X509Componen
         // allow extension-specific parser to take over
         parseExtensionContent(
                 new BufferedInputStream(
-                        new ByteArrayInputStream(
-                                encodable.getExtnValue().getValue().getValue()
-                        )));
-        }
+                        new ByteArrayInputStream(encodable.getExtnValue().getValue().getValue())));
+    }
 
     private void parseOid(BufferedInputStream bufferedInputStream) {
         ParserHelper.parseAsn1ObjectIdentifier(encodable.getExtnID(), bufferedInputStream);
