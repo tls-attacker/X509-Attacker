@@ -268,6 +268,14 @@ public class X509CertificateConfig {
         this.chainPosition = chainPosition;
     }
 
+    public boolean isEntity() {
+        return this.chainPosition == CertificateChainPositionType.ENTITY;
+    }
+
+    public boolean isIntermediate() {
+        return !isEntity();
+    }
+
     public PointFormat getDefaultEcPointFormat() {
         return defaultEcPointFormat;
     }
