@@ -18,7 +18,7 @@ import de.rub.nds.x509attacker.x509.model.Extension;
  */
 public abstract class ExtensionConfig {
     private final ObjectIdentifier extensionId;
-    private final String name;
+    protected final String name;
     private boolean present = false;
     private boolean critical = false;
 

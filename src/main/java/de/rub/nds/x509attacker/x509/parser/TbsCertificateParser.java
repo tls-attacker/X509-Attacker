@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.constants.TagClass;
-import de.rub.nds.asn1.model.Asn1UnknownField;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
@@ -54,10 +53,6 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
     private void parseExtensions(BufferedInputStream inputStream) {
         encodable.getExplicitExtensions().getParser(chooser).parse(inputStream);
         encodable.getExplicitExtensions().getHandler(chooser).adjustContextAfterParse();
-        // TODO: probably parse oid and call extension parser based on oid
-        LOGGER.debug("Parsing Extensions as Unknwon Asn1Field since we did not implement them yet");
-        Asn1UnknownField extensions =
-                ParserHelper.parseUnknown(inputStream); // TODO not yet implemented
         LOGGER.debug("Extensions are not yet visible in the TbsCertificate");
     }
 

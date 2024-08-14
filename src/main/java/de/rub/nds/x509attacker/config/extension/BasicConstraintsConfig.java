@@ -8,26 +8,27 @@
  */
 package de.rub.nds.x509attacker.config.extension;
 
+import de.rub.nds.x509attacker.constants.DefaultEncodingRule;
 import de.rub.nds.x509attacker.constants.X509ExtensionType;
 import de.rub.nds.x509attacker.x509.model.extensions.BasicConstraints;
 
 /** Configuration for the {@link BasicConstraints} extension. */
 public class BasicConstraintsConfig extends ExtensionConfig {
-    boolean caPresent = true;
+    DefaultEncodingRule includeCA = DefaultEncodingRule.FOLLOW_DEFAULT;
     boolean ca = false;
-    boolean pathLenConstraintPresent = false;
+    DefaultEncodingRule includePathLenConstraint = DefaultEncodingRule.FOLLOW_DEFAULT;
     int pathLenConstraint = 0;
 
     public BasicConstraintsConfig() {
         super(X509ExtensionType.BASIC_CONSTRAINTS.getOid(), "basicConstraints");
     }
 
-    public boolean isCaPresent() {
-        return caPresent;
+    public DefaultEncodingRule getIncludeCA() {
+        return includeCA;
     }
 
-    public void setCaPresent(boolean caPresent) {
-        this.caPresent = caPresent;
+    public void setIncludeCA(DefaultEncodingRule includeCA) {
+        this.includeCA = includeCA;
     }
 
     public boolean isCa() {
@@ -38,12 +39,12 @@ public class BasicConstraintsConfig extends ExtensionConfig {
         this.ca = ca;
     }
 
-    public boolean isPathLenConstraintPresent() {
-        return pathLenConstraintPresent;
+    public DefaultEncodingRule getIncludePathLenConstraint() {
+        return includePathLenConstraint;
     }
 
-    public void setPathLenConstraintPresent(boolean pathLenConstraintPresent) {
-        this.pathLenConstraintPresent = pathLenConstraintPresent;
+    public void setIncludePathLenConstraint(DefaultEncodingRule includePathLenConstraint) {
+        this.includePathLenConstraint = includePathLenConstraint;
     }
 
     public int getPathLenConstraint() {

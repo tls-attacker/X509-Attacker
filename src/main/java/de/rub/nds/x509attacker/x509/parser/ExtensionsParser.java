@@ -18,6 +18,7 @@ import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.model.Extensions;
 import de.rub.nds.x509attacker.x509.model.extensions.Unknown;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -62,11 +63,14 @@ public class ExtensionsParser extends X509ComponentContainerParser<Extensions> {
             Asn1ObjectIdentifier oid = new Asn1ObjectIdentifier("oid");
             inputStream.mark(inputStream.available());
             // parse extension structure header
-            ParserHelper.parseStructure(new Unknown("extension"), inputStream);
+            Unknown unknown = new Unknown("extension");
+            ParserHelper.parseStructure(unknown, inputStream);
             // parse OID
             X509Asn1ObjectIdentifierParser oidParser =
                     new X509Asn1ObjectIdentifierParser(chooser, oid);
-            oidParser.parse(inputStream);
+            oidParser.parse(
+                    new BufferedInputStream(
+                            new ByteArrayInputStream(unknown.getContent().getOriginalValue())));
             inputStream.reset();
             return oid.getValueAsOid();
         } catch (IOException e) {

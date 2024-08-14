@@ -14,6 +14,7 @@ import de.rub.nds.x509attacker.x509.model.extensions.BasicConstraints;
 import de.rub.nds.x509attacker.x509.model.extensions.Unknown;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public enum X509ExtensionType {
 
@@ -50,7 +51,8 @@ public enum X509ExtensionType {
     // external
     AUTHORITY_INFORMATION_ACCESS("1.3.6.1.5.5.7.1.1"),
     OCSP_NO_CHECK("1.3.6.1.5.5.7.48.1.5"),
-    NETSCAPE_CERTIFICATE_TYPE("2.16.840.1.113730.1.1");
+    NETSCAPE_CERTIFICATE_TYPE("2.16.840.1.113730.1.1"),
+    UNKNOWN("0");
 
     private static final Map<String, X509ExtensionType> oidMap = new HashMap<>();
 
@@ -72,13 +74,15 @@ public enum X509ExtensionType {
 
     public static X509ExtensionType decodeFromOidBytes(byte[] oidBytes) {
         ObjectIdentifier objectIdentifier = new ObjectIdentifier(oidBytes);
-        return oidMap.get(objectIdentifier.toString());
+        X509ExtensionType res = oidMap.get(objectIdentifier.toString());
+        return Objects.requireNonNullElse(res, UNKNOWN);
     }
 
     public Extension generateExtension() {
         switch (this) {
             case BASIC_CONSTRAINTS:
                 return new BasicConstraints("basicConstraints");
+            case UNKNOWN:
             default:
                 // TODO: return explicit unknown extension?
                 return new Unknown("UnknownExtension");

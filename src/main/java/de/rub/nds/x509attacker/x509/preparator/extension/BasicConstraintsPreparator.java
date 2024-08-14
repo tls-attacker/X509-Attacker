@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.preparator.extension;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.extension.BasicConstraintsConfig;
+import de.rub.nds.x509attacker.constants.DefaultEncodingRule;
 import de.rub.nds.x509attacker.x509.model.extensions.BasicConstraints;
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -34,10 +35,16 @@ public class BasicConstraintsPreparator
     @Override
     public byte[] extensionEncodeChildrenContent() {
         List<Asn1Encodable> children = new ArrayList<>();
-        if (config.isCaPresent()) {
+        // per default only include if CA is true
+        if (config.getIncludeCA() == DefaultEncodingRule.ENCODE
+                || config.getIncludeCA() == DefaultEncodingRule.FOLLOW_DEFAULT
+                        && field.getCa().getValue().getValue()) {
             children.add(field.getCa());
         }
-        if (config.isPathLenConstraintPresent()) {
+        // by default only include if CA is true
+        if (config.getIncludePathLenConstraint() == DefaultEncodingRule.ENCODE
+                || config.getIncludePathLenConstraint() == DefaultEncodingRule.FOLLOW_DEFAULT
+                        && field.getCa().getValue().getValue()) {
             children.add(field.getCritical());
         }
         return encodeChildren(children);

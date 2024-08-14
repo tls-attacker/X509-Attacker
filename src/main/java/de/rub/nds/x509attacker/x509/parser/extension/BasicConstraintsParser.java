@@ -9,10 +9,12 @@
 package de.rub.nds.x509attacker.x509.parser.extension;
 
 import de.rub.nds.asn1.constants.TagClass;
+import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.extensions.BasicConstraints;
 import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -26,11 +28,17 @@ public class BasicConstraintsParser extends ExtensionParser<BasicConstraints> {
 
     @Override
     protected void parseExtensionContent(BufferedInputStream inputStream) {
-        if (hasCAField(inputStream)) {
-            parseCA(inputStream);
+        // parse sequence
+        Asn1UnknownSequence unknownSequence = new Asn1UnknownSequence("unknownSequence");
+        ParserHelper.parseStructure(unknownSequence, inputStream);
+        BufferedInputStream contentStream =
+                new BufferedInputStream(
+                        new ByteArrayInputStream(unknownSequence.getContent().getValue()));
+        if (hasCAField(contentStream)) {
+            parseCA(contentStream);
         }
-        if (hasPathLenConstraint(inputStream)) {
-            parsePathLengthConstraint(inputStream);
+        if (hasPathLenConstraint(contentStream)) {
+            parsePathLengthConstraint(contentStream);
             if (!encodable.getCa().getValue().getValue()) {
                 LOGGER.debug("PathLenConstraint set on non-CA certificate!");
             }

@@ -24,7 +24,7 @@ public class UnknownConfig extends ExtensionConfig {
 
     @Override
     public Extension getExtensionFromConfig() {
-        return new Unknown("unkown");
+        return new Unknown(name);
     }
 
     public byte[] getContent() {
