@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.model;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.TimeContextHint;
 import de.rub.nds.x509attacker.x509.handler.ValidityHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -35,6 +36,16 @@ public class Validity extends Asn1Sequence implements X509Component {
     @SuppressWarnings("unused")
     private Validity() {
         this("validity");
+    }
+
+    public Validity(String identifier, X509CertificateConfig certificateConfig) {
+        super(identifier);
+        if (certificateConfig.isIncludeNotBefore()) {
+            notBefore = new Time("notBefore", TimeContextHint.NOT_BEFORE);
+        }
+        if (certificateConfig.isIncludeNotAfter()) {
+            notAfter = new Time("notAfter", TimeContextHint.NOT_AFTER);
+        }
     }
 
     public Validity(String identifier) {

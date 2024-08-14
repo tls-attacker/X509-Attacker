@@ -90,13 +90,26 @@ public class X509CertificateConfig {
     @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
     private byte[] subjectUniqueId = new byte[16];
 
-    private boolean includeIssuerUniqueId = false;
+    private boolean includeIssuerUniqueId = true;
 
-    private boolean includeSubjectUniqueId = false;
+    private boolean includeSubjectUniqueId = true;
 
-    private boolean includeExtensions = false;
+    private boolean includeExtensions = true;
 
-    // TODO: implement and change to extension config
+    private boolean includeSignatureAlgorithm = true;
+
+    private boolean includeSubjectPublicKeyInfo = true;
+
+    private boolean includeTbsSignature = true;
+
+    private boolean includeSerialNumber = true;
+
+    private boolean includeNotBefore = true;
+
+    private boolean includeNotAfter = true;
+
+    private boolean includeValidity = true;
+
     private List<ExtensionConfig> extensions = new ArrayList<>();
 
     private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;
@@ -572,6 +585,62 @@ public class X509CertificateConfig {
 
     public void setIncludeExtensions(boolean includeExtensions) {
         this.includeExtensions = includeExtensions;
+    }
+
+    public boolean isIncludeSignatureAlgorithm() {
+        return includeSignatureAlgorithm;
+    }
+
+    public void setIncludeSignatureAlgorithm(boolean includeSignatureAlgorithm) {
+        this.includeSignatureAlgorithm = includeSignatureAlgorithm;
+    }
+
+    public boolean isIncludeSubjectPublicKeyInfo() {
+        return includeSubjectPublicKeyInfo;
+    }
+
+    public void setIncludeSubjectPublicKeyInfo(boolean includeSubjectPublicKeyInfo) {
+        this.includeSubjectPublicKeyInfo = includeSubjectPublicKeyInfo;
+    }
+
+    public boolean isIncludeTbsSignature() {
+        return includeTbsSignature;
+    }
+
+    public void setIncludeTbsSignature(boolean includeTbsSignature) {
+        this.includeTbsSignature = includeTbsSignature;
+    }
+
+    public boolean isIncludeSerialNumber() {
+        return includeSerialNumber;
+    }
+
+    public void setIncludeSerialNumber(boolean includeSerialNumber) {
+        this.includeSerialNumber = includeSerialNumber;
+    }
+
+    public boolean isIncludeNotBefore() {
+        return includeNotBefore;
+    }
+
+    public void setIncludeNotBefore(boolean includeNotBefore) {
+        this.includeNotBefore = includeNotBefore;
+    }
+
+    public boolean isIncludeNotAfter() {
+        return includeNotAfter;
+    }
+
+    public void setIncludeNotAfter(boolean includeNotAfter) {
+        this.includeNotAfter = includeNotAfter;
+    }
+
+    public boolean isIncludeValidity() {
+        return includeValidity;
+    }
+
+    public void setIncludeValidity(boolean includeValidity) {
+        this.includeValidity = includeValidity;
     }
 
     public List<ExtensionConfig> getExtensions() {

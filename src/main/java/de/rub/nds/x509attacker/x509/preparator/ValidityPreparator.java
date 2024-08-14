@@ -8,8 +8,12 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.Validity;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class ValidityPreparator extends X509ContainerPreparator<Validity> {
 
@@ -24,17 +28,25 @@ public class ValidityPreparator extends X509ContainerPreparator<Validity> {
     }
 
     private void prepareNotBefore() {
-        field.getNotBefore().getPreparator(chooser).prepare();
-        field.getNotBefore().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeNotBefore()) {
+            field.getNotBefore().getPreparator(chooser).prepare();
+            field.getNotBefore().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareNotAfter() {
-        field.getNotAfter().getPreparator(chooser).prepare();
-        field.getNotAfter().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeNotAfter()) {
+            field.getNotAfter().getPreparator(chooser).prepare();
+            field.getNotAfter().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     @Override
     public byte[] encodeChildrenContent() {
-        return encodeChildren(field.getNotBefore(), field.getNotAfter());
+        List<Asn1Encodable> children = new ArrayList<>();
+        children.add(field.getNotBefore());
+        children.add(field.getNotAfter());
+        children.removeIf(Objects::isNull);
+        return encodeChildren(children);
     }
 }

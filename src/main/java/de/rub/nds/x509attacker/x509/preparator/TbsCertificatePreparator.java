@@ -46,8 +46,10 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareSerialNumber() {
-        Asn1Integer serialNumber = field.getSerialNumber();
-        Asn1PreparatorHelper.prepareField(serialNumber, chooser.getConfig().getSerialNumber());
+        if (chooser.getConfig().isIncludeSerialNumber()) {
+            Asn1Integer serialNumber = field.getSerialNumber();
+            Asn1PreparatorHelper.prepareField(serialNumber, chooser.getConfig().getSerialNumber());
+        }
     }
 
     private void prepareSignature() {
@@ -61,8 +63,10 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareValidity() {
-        field.getValidity().getPreparator(chooser).prepare();
-        field.getValidity().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeValidity()) {
+            field.getValidity().getPreparator(chooser).prepare();
+            field.getValidity().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareSubject() {
@@ -71,8 +75,10 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareSubjectPublicKeyInfo() {
-        field.getSubjectPublicKeyInfo().getPreparator(chooser).prepare();
-        field.getSubjectPublicKeyInfo().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeSubjectPublicKeyInfo()) {
+            field.getSubjectPublicKeyInfo().getPreparator(chooser).prepare();
+            field.getSubjectPublicKeyInfo().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareIssuerUniqueId() {

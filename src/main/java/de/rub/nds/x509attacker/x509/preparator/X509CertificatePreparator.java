@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
@@ -17,6 +18,9 @@ import de.rub.nds.protocol.crypto.signature.SignatureCalculator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -36,12 +40,15 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
     protected byte[] encodeContent() {
         prepareTbsCertificate();
         prepareSignatureAlgorithm();
-        prepareSignature();
-        field.setEncodedChildren(
-                encodeChildren(
-                        field.getTbsCertificate(),
-                        field.getSignatureAlgorithmIdentifier(),
-                        field.getSignature()));
+        if (chooser.getConfig().isIncludeTbsSignature()) {
+            prepareSignature();
+        }
+        List<Asn1Encodable> children = new ArrayList<>();
+        children.add(field.getTbsCertificate());
+        children.add(field.getSignatureAlgorithmIdentifier());
+        children.add(field.getSignature());
+        children.removeIf(Objects::isNull);
+        field.setEncodedChildren(encodeChildren(children));
         return field.getEncodedChildren().getValue();
     }
 

@@ -59,10 +59,14 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
 
     @Override
     public byte[] encodeChildrenContent() {
-        if (field.getParameters() != null) {
-            return encodeChildren(field.getAlgorithm(), field.getParameters());
+        if (chooser.getConfig().isIncludeSignatureAlgorithm()) {
+            if (field.getParameters() != null) {
+                return encodeChildren(field.getAlgorithm(), field.getParameters());
+            } else {
+                return encodeChildren(field.getAlgorithm());
+            }
         } else {
-            return encodeChildren(field.getAlgorithm());
+            return new byte[] {};
         }
     }
 }
