@@ -1,5 +1,6 @@
 package de.rub.nds.x509attacker.util;
 
+import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.util.List;
@@ -29,12 +30,11 @@ public class MimicryEngine {
         X509CertificateChain mimicryCertificateChain = new X509CertificateChain();
         for (X509Certificate cert : originalChain.getCertificateList()) {
             X509Certificate copy;
-            try {
-                copy = CertificateIo
-                        .readRawCertificate(new ByteArrayInputStream(cert.getSerializer(null).serialize()));
-            } catch (IOException e) {
-                throw new RuntimeException("Could not write/read certificate");
-            }
+            X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+            copy = new X509Certificate("cert");
+            copy.getParser(chooser).parse(
+                    new BufferedInputStream(new ByteArrayInputStream(cert.getSerializer(chooser).serialize())));
+
             mimicryCertificateChain.addCertificate(copy);
         }
 
@@ -52,7 +52,7 @@ public class MimicryEngine {
             adjustSignature(signatureKeyConfig, currenCertificate);
 
         }
-        return originalChain;
+        return mimicryCertificateChain;
     }
 
     private static void adjustSignature(X509CertificateConfig signatureKeyConfig, X509Certificate certificate) {
