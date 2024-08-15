@@ -2,6 +2,7 @@ package de.rub.nds.x509attacker.util;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedInputStream;
@@ -87,10 +88,27 @@ public class MimicryEngineTest {
                 } else {
                     fail("Unknown Key Type: " + rereadCertificiate.getCertificateKeyType());
                 }
+                assertTrue(isRoughlySameLength(originalCertificate.getSignature().getContent().getValue().length,
+                        rereadCertificiate.getSignature()
+                                .getContent().getValue().length));
             }
         } catch (Exception E) {
             LOGGER.debug("Problem", E);
             fail(resourcePath, E);
+        }
+    }
+
+    /**
+     * Fuzzy comparison because the encoded length can changed depending on leading bits...
+     * @param a
+     * @param b
+     * @return
+     */
+    public boolean isRoughlySameLength(int a, int b) {
+        if (a < b - 64 || a > b + 64) {
+            return false;
+        } else {
+            return true;
         }
     }
 
