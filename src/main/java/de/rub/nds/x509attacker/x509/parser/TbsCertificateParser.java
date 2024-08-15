@@ -8,14 +8,18 @@
  */
 package de.rub.nds.x509attacker.x509.parser;
 
+import java.io.BufferedInputStream;
+
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.model.Asn1UnknownField;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.x509.model.Extensions;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
-import java.io.BufferedInputStream;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
+import de.rub.nds.x509attacker.x509.model.X509Explicit;
 
 public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertificate> {
 
@@ -30,6 +34,8 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
         if (hasVersionField(inputStream)) {
             LOGGER.debug("Assuming Certificate has a Version field");
             parseVersion(inputStream);
+        } else {
+            encodable.setVersion(null);
         }
         parseSerialNumber(inputStream);
         parseSignatureInformation(inputStream);
@@ -40,21 +46,37 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
         if (hasIssuerUniqueId(inputStream)) {
             LOGGER.debug("Assuming Certificate has an IssuerUniqueID field");
             parseIssuerUniqueId(inputStream);
+        } else {
+            encodable.setIssuerUniqueId(null);
         }
         if (hasSubjectUniqueId(inputStream)) {
             LOGGER.debug("Assuming Certificate has a SubjectUniqueID field");
             parseSubjectUniqueId(inputStream);
+        } else {
+            encodable.setSubjectUniqueId(null);
         }
         if (hasExtensions(inputStream)) {
             LOGGER.debug("Assuming Certificate has an Extensions field");
             parseExtensions(inputStream);
+        } else {
+            encodable.setExplicitExtensions(null);
         }
     }
 
     private void parseExtensions(BufferedInputStream inputStream) {
         LOGGER.debug("Parsing Extensions as Unknwon Asn1Field since we did not implement them yet");
-        Asn1UnknownField extensions =
-                ParserHelper.parseUnknown(inputStream); // TODO not yet implemented
+        Asn1UnknownField extensions = ParserHelper.parseUnknown(inputStream); // TODO not yet implemented
+        //TODO WIP placeholder
+        encodable.setExplicitExtensions(new X509Explicit<Extensions>("Extensions", 3, new Extensions("Extensions")));
+        encodable.getExplicitExtensions().setTagClass(extensions.getTagClass().getValue());
+        encodable.getExplicitExtensions().setTagConstructed(extensions.getTagConstructed().getValue());
+        encodable.getExplicitExtensions().setContent(extensions.getContent().getValue());
+        encodable.getExplicitExtensions().setLength(extensions.getLength().getValue());
+        encodable.getExplicitExtensions().setLengthOctets(extensions.getLengthOctets().getValue());
+        encodable.getExplicitExtensions().setTagNumber(extensions.getTagNumber().getValue());
+        encodable.getExplicitExtensions().setTagOctets(extensions.getTagOctets().getValue());
+        //End of placeholder
+
         LOGGER.debug("Extensions are not yet visible in the TbsCertificate");
     }
 

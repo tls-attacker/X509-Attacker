@@ -17,6 +17,8 @@ import org.apache.logging.log4j.Logger;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
+import de.rub.nds.protocol.crypto.key.DsaPrivateKey;
+import de.rub.nds.protocol.crypto.key.EcdsaPrivateKey;
 import de.rub.nds.protocol.crypto.key.PrivateKeyContainer;
 import de.rub.nds.protocol.crypto.key.RsaPrivateKey;
 import de.rub.nds.protocol.crypto.signature.SignatureCalculator;
@@ -72,15 +74,16 @@ public class X509CertificatePreparator extends X509ContainerPreparator<X509Certi
     private PrivateKeyContainer getPrivateKeyForAlgorithm(SignatureAlgorithm signatureAlgorithm) {
         switch (signatureAlgorithm) {
             case ECDSA:
-                throw new UnsupportedOperationException(
-                        "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");
+                return new EcdsaPrivateKey(chooser.getIssuerEcPrivateKey(), chooser.getConfig().getDefaultIssuerNonce(),
+                        chooser.getIssuerNamedCurve().getParameters());
             case RSA_PKCS1:
             case RSA_SSA_PSS:
                 return new RsaPrivateKey(
                         chooser.getIssuerRsaModulus(), chooser.getIssuerRsaPrivateKey());
             case DSA:
-                throw new UnsupportedOperationException(
-                        "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");
+                return new DsaPrivateKey(chooser.getDsaPrimeQ(), chooser.getIssuerDsaPrivateKey(),
+                        chooser.getConfig().getDefaultIssuerDsaNonce(), chooser.getDsaGenerator(),
+                        chooser.getDsaPrimeP());
             default:
                 throw new UnsupportedOperationException(
                         "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");

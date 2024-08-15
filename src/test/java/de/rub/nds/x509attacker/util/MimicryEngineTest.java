@@ -1,7 +1,12 @@
 package de.rub.nds.x509attacker.util;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.fail;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayInputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 
@@ -11,9 +16,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
+import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.filesystem.CertificateIo;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
+import de.rub.nds.x509attacker.x509.model.X509Certificate;
 
 public class MimicryEngineTest {
 
@@ -26,15 +35,35 @@ public class MimicryEngineTest {
     @MethodSource("testCertsProvider")
     public void testCreateMimicryCertificate(String resourcePath) {
         LOGGER.debug("Testing: " + resourcePath);
+        byte[] original = null;
+        byte[] forged = null;
         try {
-            X509CertificateChain chain = CertificateIo.readPemChain(getClass().getResourceAsStream(resourcePath));
-            X509CertificateChain forgedCertificate = MimicryEngine
-                    .createMimicryCertificate(List.of(new X509CertificateConfig()), chain);
+            X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
+            X509CertificateChain originalChain = CertificateIo
+                    .readPemChain(getClass().getResourceAsStream(resourcePath));
+            X509CertificateChain forgedChain = MimicryEngine
+                    .createMimicryCertificate(List.of(new X509CertificateConfig()), originalChain);
+            for (int i = 0; i < originalChain.size(); i++) {
+                original = originalChain.getCertificate(i).getSerializer(chooser).serialize();
+                forged = forgedChain.getCertificate(i).getSerializer(chooser).serialize();
+                X509Certificate rereadCertificiate = new X509Certificate("cert");
+                rereadCertificiate.getParser(chooser)
+                        .parse(new BufferedInputStream(new ByteArrayInputStream(forged)));
+                X509Certificate originalCertificate = originalChain.getCertificate(i);
+                assertEquals(originalCertificate.getPublicKey().getX509PublicKeyType(),
+                        rereadCertificiate.getPublicKey().getX509PublicKeyType());
+                //assertTrue(original.length == forged.length);
+                assertFalse(Arrays.equals(original, forged));
+
+            }
         } catch (Exception E) {
+            System.out.println("Original: " + ArrayConverter.bytesToHexString(original));
+            System.out.println("Forged: " + ArrayConverter.bytesToHexString(forged));
+
+            //E.printStackTrace();
             LOGGER.debug("Problem", E);
             fail(resourcePath, E);
         }
-
     }
 
     static Stream<Arguments> testCertsProvider() {

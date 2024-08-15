@@ -102,15 +102,24 @@ public enum X509NamedCurve {
         for (X509NamedCurve curveConstant : values()) {
             EllipticCurve curve = curveConstant.getParameters().getGroup();
             if (ecPrivateKey
-                            .getParams()
-                            .getGenerator()
-                            .getAffineX()
-                            .equals(curve.getBasePoint().getFieldX().getData())
+                    .getParams()
+                    .getGenerator()
+                    .getAffineX()
+                    .equals(curve.getBasePoint().getFieldX().getData())
                     && ecPrivateKey
                             .getParams()
                             .getGenerator()
                             .getAffineY()
                             .equals(curve.getBasePoint().getFieldY().getData())) {
+                return curveConstant;
+            }
+        }
+        return null;
+    }
+
+    public static X509NamedCurve getX509NamedCurve(NamedEllipticCurveParameters namedEllipticCurveParameters) {
+        for (X509NamedCurve curveConstant : values()) {
+            if (curveConstant.getParameters().equals(namedEllipticCurveParameters)) {
                 return curveConstant;
             }
         }
