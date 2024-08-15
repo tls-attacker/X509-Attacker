@@ -6,6 +6,7 @@ import static org.junit.jupiter.api.Assertions.fail;
 
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
@@ -16,9 +17,13 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
 
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.protocol.crypto.ec.Point;
+import de.rub.nds.protocol.crypto.key.DsaPublicKey;
+import de.rub.nds.protocol.crypto.key.EcdsaPublicKey;
+import de.rub.nds.protocol.crypto.key.RsaPublicKey;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.filesystem.CertificateIo;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
@@ -41,8 +46,9 @@ public class MimicryEngineTest {
             X509Chooser chooser = new X509Chooser(new X509CertificateConfig(), new X509Context());
             X509CertificateChain originalChain = CertificateIo
                     .readPemChain(getClass().getResourceAsStream(resourcePath));
+            X509CertificateConfig finalConfig = new X509CertificateConfig(); //This will store the private keys
             X509CertificateChain forgedChain = MimicryEngine
-                    .createMimicryCertificate(List.of(new X509CertificateConfig()), originalChain);
+                    .createMimicryCertificate(List.of(finalConfig), originalChain);
             for (int i = 0; i < originalChain.size(); i++) {
                 original = originalChain.getCertificate(i).getSerializer(chooser).serialize();
                 forged = forgedChain.getCertificate(i).getSerializer(chooser).serialize();
@@ -52,15 +58,37 @@ public class MimicryEngineTest {
                 X509Certificate originalCertificate = originalChain.getCertificate(i);
                 assertEquals(originalCertificate.getPublicKey().getX509PublicKeyType(),
                         rereadCertificiate.getPublicKey().getX509PublicKeyType());
-                //assertTrue(original.length == forged.length);
                 assertFalse(Arrays.equals(original, forged));
+                if (rereadCertificiate.getCertificateKeyType() == X509PublicKeyType.RSA) {
+                    RsaPublicKey publicKey = (RsaPublicKey) rereadCertificiate.getPublicKeyContainer();
+                    assertEquals(finalConfig.getRsaModulus(), publicKey.getModulus());
+                    assertEquals(finalConfig.getRsaPublicExponent(), publicKey.getPublicExponent());
+                } else if (rereadCertificiate.getCertificateKeyType() == X509PublicKeyType.ECDH_ECDSA) {
+                    //Expected point:
+                    Point expectedPublicKey = originalCertificate.getEllipticCurve().getGroup()
+                            .nTimesGroupOperationOnGenerator(finalConfig.getEcPrivateKey());
 
+                    EcdsaPublicKey publicKey = (EcdsaPublicKey) rereadCertificiate.getPublicKeyContainer();
+                    assertEquals(((EcdsaPublicKey) originalCertificate.getPublicKeyContainer()).getParameters(),
+                            publicKey.getParameters());
+                    assertEquals(expectedPublicKey, publicKey.getPublicPoint());
+
+                } else if (rereadCertificiate.getCertificateKeyType() == X509PublicKeyType.DSA) {
+                    DsaPublicKey publicKey = (DsaPublicKey) rereadCertificiate.getPublicKeyContainer();
+                    DsaPublicKey originialPublicKey = (DsaPublicKey) originalCertificate.getPublicKeyContainer();
+                    assertEquals(originialPublicKey.getGenerator(), publicKey.getGenerator());
+                    assertEquals(originialPublicKey.getModulus(), publicKey.getModulus());
+                    assertEquals(originialPublicKey.getQ(), publicKey.getQ());
+                    // Compute expected public key
+                    BigInteger expectedPublicKey = originialPublicKey.getGenerator().modPow(
+                            finalConfig.getDsaPrivateKey(),
+                            originialPublicKey.getModulus());
+                    assertEquals(expectedPublicKey, publicKey.getY());
+                } else {
+                    fail("Unknown Key Type: " + rereadCertificiate.getCertificateKeyType());
+                }
             }
         } catch (Exception E) {
-            System.out.println("Original: " + ArrayConverter.bytesToHexString(original));
-            System.out.println("Forged: " + ArrayConverter.bytesToHexString(forged));
-
-            //E.printStackTrace();
             LOGGER.debug("Problem", E);
             fail(resourcePath, E);
         }

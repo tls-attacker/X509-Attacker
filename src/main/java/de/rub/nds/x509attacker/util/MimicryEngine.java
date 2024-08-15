@@ -25,7 +25,9 @@ import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
 
 /**
- * A class to rewrite certificates. Takes in a base certificate chain and a config private keys and changes the public key and signature in the provided certificate 
+ * A class to rewrite certificates. Takes in a base certificate chain and a config private keys and changes the
+ * public key and signature in the provided certificate. It may be necessary that the mimicry engine changes the
+ * keys provided to better mimic the original certificate. The new keys will be writen to the config. 
  */
 public class MimicryEngine {
 
