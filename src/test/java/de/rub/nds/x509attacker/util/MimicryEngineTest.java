@@ -49,7 +49,7 @@ public class MimicryEngineTest {
                     .readPemChain(getClass().getResourceAsStream(resourcePath));
             X509CertificateConfig finalConfig = new X509CertificateConfig(); //This will store the private keys
             X509CertificateChain forgedChain = MimicryEngine
-                    .createMimicryCertificate(List.of(finalConfig), originalChain);
+                    .createMimicryCertificateChain(List.of(finalConfig), originalChain);
             for (int i = 0; i < originalChain.size(); i++) {
                 original = originalChain.getCertificate(i).getSerializer(chooser).serialize();
                 forged = forgedChain.getCertificate(i).getSerializer(chooser).serialize();

@@ -31,7 +31,7 @@ import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
  */
 public class MimicryEngine {
 
-    public static X509CertificateChain createMimicryCertificate(List<X509CertificateConfig> privateKeyConfigs,
+    public static X509CertificateChain createMimicryCertificateChain(List<X509CertificateConfig> privateKeyConfigs,
             X509CertificateChain originalChain) {
         if (privateKeyConfigs.size() != originalChain.size()) {
             throw new IllegalArgumentException("Number of private keys must match number of certificates in the chain");
