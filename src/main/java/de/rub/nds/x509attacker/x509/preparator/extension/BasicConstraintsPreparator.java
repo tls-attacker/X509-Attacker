@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.preparator.extension;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.extension.BasicConstraintsConfig;
 import de.rub.nds.x509attacker.constants.DefaultEncodingRule;
@@ -27,9 +28,9 @@ public class BasicConstraintsPreparator
 
     @Override
     public void extensionPrepareSubComponents() {
-        field.getCa().setValue(config.isCa());
-        field.getPathLenConstraint()
-                .setValue(new BigInteger(String.valueOf(config.getPathLenConstraint())));
+        Asn1PreparatorHelper.prepareField(field.getCa(), config.isCa());
+        Asn1PreparatorHelper.prepareField(
+                field.getPathLenConstraint(), BigInteger.valueOf(config.getPathLenConstraint()));
     }
 
     @Override

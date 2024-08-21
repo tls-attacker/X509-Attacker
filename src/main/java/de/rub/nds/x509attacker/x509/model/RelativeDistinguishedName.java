@@ -54,6 +54,10 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
         super(identifier);
         attributeTypeAndValueList = new LinkedList<>();
         for (Pair<X500AttributeType, String> pair : attributeList) {
+            // per default follow correct encoding for country name
+            if (pair.getKey() == X500AttributeType.COUNTRY_NAME) {
+                choiceType = DirectoryStringChoiceType.PRINTABLE_STRING;
+            }
             AttributeTypeAndValue attributeTypeAndValue =
                     new AttributeTypeAndValue(
                             pair.getKey()

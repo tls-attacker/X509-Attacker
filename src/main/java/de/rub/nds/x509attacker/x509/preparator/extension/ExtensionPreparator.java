@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.preparator.extension;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
 import de.rub.nds.x509attacker.constants.DefaultEncodingRule;
@@ -22,7 +23,7 @@ import java.util.List;
  * bytes. Delegates extension preparation to the implementing subclass.
  */
 public abstract class ExtensionPreparator<
-                Encodable extends Extension, Config extends ExtensionConfig>
+                Encodable extends Extension<Config>, Config extends ExtensionConfig>
         extends X509ContainerPreparator<Encodable> {
 
     protected final Config config;
@@ -34,10 +35,10 @@ public abstract class ExtensionPreparator<
 
     @Override
     public void prepareSubComponents() {
-        field.getExtnID().setValue(config.getExtensionId().toString());
-        field.getCritical().setValue(config.isCritical());
+        Asn1PreparatorHelper.prepareField(field.getExtnID(), config.getExtensionId());
+        Asn1PreparatorHelper.prepareField(field.getCritical(), config.isCritical());
         extensionPrepareSubComponents();
-        field.getExtnValue().setValue(extensionEncodeChildrenContent());
+        Asn1PreparatorHelper.prepareField(field.getExtnValue(), extensionEncodeChildrenContent());
     }
 
     @Override

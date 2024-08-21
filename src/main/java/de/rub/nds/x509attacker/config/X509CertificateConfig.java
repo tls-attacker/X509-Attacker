@@ -88,9 +88,9 @@ public class X509CertificateConfig {
     @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
     private byte[] subjectUniqueId = new byte[16];
 
-    private boolean includeIssuerUniqueId = true;
+    private boolean includeIssuerUniqueId = false;
 
-    private boolean includeSubjectUniqueId = true;
+    private boolean includeSubjectUniqueId = false;
 
     private boolean includeExtensions = true;
 
