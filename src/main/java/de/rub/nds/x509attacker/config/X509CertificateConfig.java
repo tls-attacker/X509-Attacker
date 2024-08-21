@@ -14,7 +14,6 @@ import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
 import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
-import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.crypto.key.RsaPublicKey;
 import de.rub.nds.protocol.xml.Pair;
@@ -64,7 +63,6 @@ public class X509CertificateConfig {
     private List<Pair<X500AttributeType, String>> subject;
 
     @XmlElement(name = "attributeField")
-    @XmlElementWrapper
     private DirectoryStringChoiceType defaultDirectoryStringType =
             DirectoryStringChoiceType.UTF8_STRING;
 
@@ -153,21 +151,25 @@ public class X509CertificateConfig {
 
     private BigInteger ecPrivateKey = new BigInteger("03", 16);
 
-    private EllipticCurve ecCurve = defaultSubjectNamedCurve.getParameters().getGroup();
-
     private Point ecPublicKey =
-            ecCurve.getPoint(
-                    new BigInteger(
-                            "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
-                    new BigInteger(
-                            "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
+            defaultSubjectNamedCurve
+                    .getParameters()
+                    .getGroup()
+                    .getPoint(
+                            new BigInteger(
+                                    "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
+                            new BigInteger(
+                                    "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
 
     private Point defaultIssuerECPublicKey =
-            ecCurve.getPoint(
-                    new BigInteger(
-                            "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
-                    new BigInteger(
-                            "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
+            defaultSubjectNamedCurve
+                    .getParameters()
+                    .getGroup()
+                    .getPoint(
+                            new BigInteger(
+                                    "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
+                            new BigInteger(
+                                    "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
 
     private BigInteger dhPublicKey =
             new BigInteger(
@@ -685,14 +687,6 @@ public class X509CertificateConfig {
 
     public void setEcPrivateKey(BigInteger ecPrivateKey) {
         this.ecPrivateKey = ecPrivateKey;
-    }
-
-    public EllipticCurve getEcCurve() {
-        return ecCurve;
-    }
-
-    public void setEcCurve(EllipticCurve ecCurve) {
-        this.ecCurve = ecCurve;
     }
 
     public BigInteger getDhPrivateKey() {
