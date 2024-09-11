@@ -131,6 +131,11 @@ public class X509CertificateConfig {
 
     private BigInteger rsaPublicKey = new BigInteger("65537", 10);
 
+    private byte[] rsaPssSalt =
+            ArrayConverter.hexStringToByteArray("000102030405060708090A0B0C0D0E0F");
+
+    private HashAlgorithm rsaPssHashAlgorithm = HashAlgorithm.SHA256;
+
     private BigInteger defaultIssuerRsaPublicKey = new BigInteger("65537", 10);
 
     private BigInteger dsaPublicKey =
@@ -419,8 +424,24 @@ public class X509CertificateConfig {
         this.rsaPublicKey = rsaPublicKey;
     }
 
+    public byte[] getRsaPssSalt() {
+        return rsaPssSalt;
+    }
+
+    public void setRsaPssSalt(byte[] rsaPssSalt) {
+        this.rsaPssSalt = rsaPssSalt;
+    }
+
     public byte[] getDefaultIssuerUniqueId() {
         return Arrays.copyOf(defaultIssuerUniqueId, defaultIssuerUniqueId.length);
+    }
+
+    public HashAlgorithm getRsaPssHashAlgorithm() {
+        return rsaPssHashAlgorithm;
+    }
+
+    public void setRsaPssHashAlgorithm(HashAlgorithm rsaPssHashAlgorithm) {
+        this.rsaPssHashAlgorithm = rsaPssHashAlgorithm;
     }
 
     public void setDefaultIssuerUniqueId(byte[] defaultIssuerUniqueId) {

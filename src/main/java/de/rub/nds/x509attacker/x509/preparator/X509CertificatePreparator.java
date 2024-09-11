@@ -11,9 +11,11 @@ package de.rub.nds.x509attacker.x509.preparator;
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.preparator.Asn1FieldPreparator;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
+import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.key.PrivateKeyContainer;
 import de.rub.nds.protocol.crypto.key.RsaPrivateKey;
+import de.rub.nds.protocol.crypto.signature.RsaSsaPssSignatureComputations;
 import de.rub.nds.protocol.crypto.signature.SignatureCalculator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
@@ -70,16 +72,27 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
             field.setSignatureComputations(
                     signatureCalculator.createSignatureComputations(
                             signatureAlgorithm.getSignatureAlgorithm()));
+            if (signatureAlgorithm == X509SignatureAlgorithm.RSASSA_PSS) {
+                ((RsaSsaPssSignatureComputations) field.getSignatureComputations())
+                        .setSalt(chooser.getRsaPssSalt());
+            }
         }
 
         byte[] toBeSigned = this.field.getTbsCertificate().getSerializer(chooser).serialize();
         LOGGER.debug("To be signed: {}", toBeSigned);
+        HashAlgorithm hashAlgorithm;
+        if (signatureAlgorithm == X509SignatureAlgorithm.RSASSA_PSS) {
+            hashAlgorithm = chooser.getRsaPssHashAlgorithm();
+        } else {
+            hashAlgorithm = chooser.getSignatureAlgorithm().getHashAlgorithm();
+        }
+
         signatureCalculator.computeSignature(
                 field.getSignatureComputations(),
                 getPrivateKeyForAlgorithm(signatureAlgorithm.getSignatureAlgorithm()),
                 toBeSigned,
                 signatureAlgorithm.getSignatureAlgorithm(),
-                chooser.getSignatureAlgorithm().getHashAlgorithm());
+                hashAlgorithm);
 
         LOGGER.debug(
                 "Signature: {}", field.getSignatureComputations().getSignatureBytes().getValue());

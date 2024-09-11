@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.context;
 
+import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -91,6 +92,10 @@ public class X509Context {
 
     private X509Version version = null;
 
+    private byte[] rsaPssSalt = null;
+
+    private HashAlgorithm rsaPssHashAlgorithm;
+
     private X509CertificateConfig config;
 
     private X509Chooser chooser;
@@ -110,6 +115,22 @@ public class X509Context {
 
     public void setVersion(X509Version version) {
         this.version = version;
+    }
+
+    public byte[] getRsaPssSalt() {
+        return rsaPssSalt;
+    }
+
+    public void setRsaPssSalt(byte[] rsaPssSalt) {
+        this.rsaPssSalt = rsaPssSalt;
+    }
+
+    public HashAlgorithm getRsaPssHashAlgorithm() {
+        return rsaPssHashAlgorithm;
+    }
+
+    public void setRsaPssHashAlgorithm(HashAlgorithm rsaPssHashAlgorithm) {
+        this.rsaPssHashAlgorithm = rsaPssHashAlgorithm;
     }
 
     public DateTime getNotBefore() {

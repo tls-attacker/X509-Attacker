@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.chooser;
 
+import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -219,6 +220,22 @@ public class X509Chooser {
             return context.getSubjectDsaGeneratorG();
         } else {
             return config.getDsaGenerator();
+        }
+    }
+
+    public byte[] getRsaPssSalt() {
+        if (context.getRsaPssSalt() != null) {
+            return context.getRsaPssSalt();
+        } else {
+            return config.getRsaPssSalt();
+        }
+    }
+
+    public HashAlgorithm getRsaPssHashAlgorithm() {
+        if (context.getRsaPssHashAlgorithm() != null) {
+            return context.getRsaPssHashAlgorithm();
+        } else {
+            return config.getRsaPssHashAlgorithm();
         }
     }
 }
