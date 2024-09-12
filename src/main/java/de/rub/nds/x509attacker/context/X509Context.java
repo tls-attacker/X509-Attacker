@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.context;
 
 import de.rub.nds.protocol.constants.HashAlgorithm;
+import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -36,6 +37,8 @@ public class X509Context {
 
     private BigInteger issuerEcPrivateKey = null;
 
+    private Point issuerEcPublicKey = null;
+
     private X509PublicKeyType issuerPublicKeyType = null;
 
     private byte[] issuerUniqueId = null;
@@ -56,11 +59,21 @@ public class X509Context {
 
     private BigInteger subjectDsaPublicKeyY = null;
 
+    private EllipticCurve issuerEllipticCurve = null;
+
+    private EllipticCurve subjectEllipticCurve = null;
+
     private BigInteger subjectDsaPrimeModulusP = null;
 
     private BigInteger subjectDsaPrimeDivisorQ = null;
 
     private BigInteger subjectDsaGeneratorG = null;
+
+    private BigInteger issuerDsaPrimeModulusP = null;
+
+    private BigInteger issuerDsaPrimeDivisorQ = null;
+
+    private BigInteger issuerDsaGeneratorG = null;
 
     private BigInteger subjectDsaPrivateK = null;
 
@@ -139,13 +152,7 @@ public class X509Context {
         this.rsaPssHashAlgorithm = rsaPssHashAlgorithm;
     }
 
-    public BigInteger getEcdsaNonce() {
-        return ecdsaNonce;
-    }
 
-    public void setEcdsaNonce(BigInteger ecdsaNonce) {
-        this.ecdsaNonce = ecdsaNonce;
-    }
 
     public DateTime getNotBefore() {
         return notBefore;
@@ -384,6 +391,14 @@ public class X509Context {
         this.issuerUniqueId = issuerUniqueId;
     }
 
+    public Point getIssuerEcPublicKey() {
+        return issuerEcPublicKey;
+    }
+
+    public void setIssuerEcPublicKey(Point issuerEcPublicKey) {
+        this.issuerEcPublicKey = issuerEcPublicKey;
+    }
+
     public X509PublicKeyType getIssuerPublicKeyType() {
         return issuerPublicKeyType;
     }
@@ -416,6 +431,22 @@ public class X509Context {
         this.subjectUniqueId = subjectUniqueId;
     }
 
+    public EllipticCurve getIssuerEllipticCurve() {
+        return issuerEllipticCurve;
+    }
+
+    public void setIssuerEllipticCurve(EllipticCurve issuerEllipticCurve) {
+        this.issuerEllipticCurve = issuerEllipticCurve;
+    }
+
+    public EllipticCurve getSubjectEllipticCurve() {
+        return subjectEllipticCurve;
+    }
+
+    public void setSubjectEllipticCurve(EllipticCurve subjectEllipticCurve) {
+        this.subjectEllipticCurve = subjectEllipticCurve;
+    }
+
     public BigInteger getSubjectDsaPrimeModulusP() {
         return subjectDsaPrimeModulusP;
     }
@@ -438,5 +469,37 @@ public class X509Context {
 
     public void setSubjectDsaGeneratorG(BigInteger subjectDsaGeneratorG) {
         this.subjectDsaGeneratorG = subjectDsaGeneratorG;
+    }
+
+    public BigInteger getIssuerDsaPrimeModulusP() {
+        return issuerDsaPrimeModulusP;
+    }
+
+    public void setIssuerDsaPrimeModulusP(BigInteger issuerDsaPrimeModulusP) {
+        this.issuerDsaPrimeModulusP = issuerDsaPrimeModulusP;
+    }
+
+    public BigInteger getIssuerDsaPrimeDivisorQ() {
+        return issuerDsaPrimeDivisorQ;
+    }
+
+    public void setIssuerDsaPrimeDivisorQ(BigInteger issuerDsaPrimeDivisorQ) {
+        this.issuerDsaPrimeDivisorQ = issuerDsaPrimeDivisorQ;
+    }
+
+    public BigInteger getIssuerDsaGeneratorG() {
+        return issuerDsaGeneratorG;
+    }
+
+    public void setIssuerDsaGeneratorG(BigInteger issuerDsaGeneratorG) {
+        this.issuerDsaGeneratorG = issuerDsaGeneratorG;
+    }
+
+    public BigInteger getEcdsaNonce() {
+        return ecdsaNonce;
+    }
+
+    public void setEcdsaNonce(BigInteger ecdsaNonce) {
+        this.ecdsaNonce = ecdsaNonce;
     }
 }

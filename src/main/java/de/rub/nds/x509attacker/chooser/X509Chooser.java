@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.chooser;
 
 import de.rub.nds.protocol.constants.HashAlgorithm;
+import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -67,7 +68,7 @@ public class X509Chooser {
         if (context.getIssuerRsaModulus() != null) {
             return context.getIssuerRsaModulus();
         } else {
-            return config.getRsaModulus();
+            return config.getDefaultIssuerRsaModulus();
         }
     }
 
@@ -92,6 +93,14 @@ public class X509Chooser {
             return context.getIssuerEcPrivateKey();
         } else {
             return config.getDefaultIssuerEcPrivateKey();
+        }
+    }
+
+    public Point getIssuerEcPublicKey() {
+        if (context.getIssuerEcPrivateKey() != null) {
+            return context.getIssuerEcPublicKey();
+        } else {
+            return config.getDefaultIssuerEcPublicKey();
         }
     }
 
@@ -163,7 +172,7 @@ public class X509Chooser {
         if (context.getSubjectRsaModulus() != null) {
             return context.getSubjectRsaModulus();
         } else {
-            return config.getRsaModulus();
+            return config.getDefaultSubjectRsaModulus();
         }
     }
 
@@ -215,27 +224,67 @@ public class X509Chooser {
         }
     }
 
-    public BigInteger getDsaPrimeP() {
+    public BigInteger getSubjectDsaPrimeP() {
         if (context.getSubjectDsaPrimeModulusP() != null) {
             return context.getSubjectDsaPrimeModulusP();
         } else {
-            return config.getDsaPrimeP();
+            return config.getDefaultSubjectDsaPrimeP();
         }
     }
 
-    public BigInteger getDsaPrimeQ() {
+    public BigInteger getSubjectDsaPrimeQ() {
         if (context.getSubjectDsaPrimeDivisorQ() != null) {
             return context.getSubjectDsaPrimeDivisorQ();
         } else {
-            return config.getDsaPrimeQ();
+            return config.getDefaultSubjectDsaPrimeQ();
         }
     }
 
-    public BigInteger getDsaGenerator() {
+    public BigInteger getSubjectDsaGenerator() {
         if (context.getSubjectDsaGeneratorG() != null) {
             return context.getSubjectDsaGeneratorG();
         } else {
-            return config.getDsaGenerator();
+            return config.getDefaultSubjectDsaGenerator();
+        }
+    }
+
+    public BigInteger getIssuerDsaPrimeP() {
+        if (context.getIssuerDsaPrimeModulusP() != null) {
+            return context.getIssuerDsaPrimeModulusP();
+        } else {
+            return config.getDefaultIssuerDsaPrimeP();
+        }
+    }
+
+    public BigInteger getIssuerDsaPrimeQ() {
+        if (context.getIssuerDsaPrimeDivisorQ() != null) {
+            return context.getIssuerDsaPrimeDivisorQ();
+        } else {
+            return config.getDefaultIssuerDsaPrimeQ();
+        }
+    }
+
+    public BigInteger getIssuerDsaGenerator() {
+        if (context.getIssuerDsaGeneratorG() != null) {
+            return context.getIssuerDsaGeneratorG();
+        } else {
+            return config.getDefaultIssuerDsaGenerator();
+        }
+    }
+
+    public EllipticCurve getDefaultIssuerEllipticCurve() {
+        if (context.getIssuerEllipticCurve() != null) {
+            return context.getIssuerEllipticCurve();
+        } else {
+            return config.getDefaultIssuerEllipticCurve();
+        }
+    }
+
+    public EllipticCurve getDefaultSubjectEllipticCurve() {
+        if (context.getSubjectEllipticCurve() != null) {
+            return context.getSubjectEllipticCurve();
+        } else {
+            return config.getDefaultSubjectEllipticCurve();
         }
     }
 
@@ -262,4 +311,6 @@ public class X509Chooser {
             return config.getDefaultEcPrivateKeyK();
         }
     }
+
+
 }

@@ -111,18 +111,18 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
                 return new EcdsaPrivateKey(
                         chooser.getIssuerEcPrivateKey(),
                         chooser.getEcdsaNonce(),
-                        chooser.getSubjectNamedCurve().getParameters());
+                        chooser.getDefaultIssuerEllipticCurve());
             case RSA_PKCS1:
             case RSA_SSA_PSS:
                 return new RsaPrivateKey(
                         chooser.getIssuerRsaModulus(), chooser.getIssuerRsaPrivateKey());
             case DSA:
                 return new DsaPrivateKey(
-                        chooser.getDsaPrimeQ(),
+                        chooser.getIssuerDsaPrimeQ(),
                         chooser.getIssuerDsaPrivateKeyX(),
                         chooser.getIssuerDsaPrivateK(),
-                        chooser.getDsaGenerator(),
-                        chooser.getDsaPrimeP());
+                        chooser.getIssuerDsaGenerator(),
+                        chooser.getIssuerDsaPrimeP());
             default:
                 throw new UnsupportedOperationException(
                         "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");

@@ -126,7 +126,12 @@ public class X509CertificateConfig {
 
     private HashAlgorithm rsaPssHashAlgorithm = HashAlgorithm.SHA256;
 
-    private BigInteger rsaModulus =
+    private BigInteger defaultIssuerRsaModulus =
+            new BigInteger(
+                    "00c8820d6c3ce84c8430f6835abfc7d7a912e1664f44578751f376501a8c68476c3072d919c5d39bd0dbe080e71db83bd4ab2f2f9bde3dffb0080f510a5f6929c196551f2b3c369be051054c877573195558fd282035934dc86edab8d4b1b7f555e5b2fee7275384a756ef86cb86793b5d1333f0973203cb96966766e655cd2cccae1940e4494b8e9fb5279593b75afd0b378243e51a88f6eb88def522a8cd5c6c082286a04269a2879760fcba45005d7f2672dd228809d47274f0fe0ea5531c2bd95366c05bf69edc0f3c3189866edca0c57adcca93250ae78d9eaca0393a95ff9952fc47fb7679dd3803e6a7a6fa771861e3d99e4b551a4084668b111b7eef7d",
+                    16);
+
+    private BigInteger defaultSubjectRsaModulus =
             new BigInteger(
                     "00c8820d6c3ce84c8430f6835abfc7d7a912e1664f44578751f376501a8c68476c3072d919c5d39bd0dbe080e71db83bd4ab2f2f9bde3dffb0080f510a5f6929c196551f2b3c369be051054c877573195558fd282035934dc86edab8d4b1b7f555e5b2fee7275384a756ef86cb86793b5d1333f0973203cb96966766e655cd2cccae1940e4494b8e9fb5279593b75afd0b378243e51a88f6eb88def522a8cd5c6c082286a04269a2879760fcba45005d7f2672dd228809d47274f0fe0ea5531c2bd95366c05bf69edc0f3c3189866edca0c57adcca93250ae78d9eaca0393a95ff9952fc47fb7679dd3803e6a7a6fa771861e3d99e4b551a4084668b111b7eef7d",
                     16);
@@ -147,19 +152,37 @@ public class X509CertificateConfig {
 
     // DSA keys
 
-    private BigInteger dsaPrimeP =
+    private BigInteger defaultIssuerDsaPrimeP =
             new BigInteger(
                     1,
                     ArrayConverter.hexStringToByteArray(
                             "E0A67598CD1B763BC98C8ABB333E5DDA0CD3AA0E5E1FB5BA8A7B4EABC10BA338FAE06DD4B90FDA70D7CF0CB0C638BE3341BEC0AF8A7330A3307DED2299A0EE606DF035177A239C34A912C202AA5F83B9C4A7CF0235B5316BFC6EFB9A248411258B30B839AF172440F32563056CB67A861158DDD90E6A894C72A5BBEF9E286C6B"));
 
-    private BigInteger dsaPrimeQ =
+    private BigInteger defaultSubjectDsaPrimeP =
+            new BigInteger(
+                    1,
+                    ArrayConverter.hexStringToByteArray(
+                            "E0A67598CD1B763BC98C8ABB333E5DDA0CD3AA0E5E1FB5BA8A7B4EABC10BA338FAE06DD4B90FDA70D7CF0CB0C638BE3341BEC0AF8A7330A3307DED2299A0EE606DF035177A239C34A912C202AA5F83B9C4A7CF0235B5316BFC6EFB9A248411258B30B839AF172440F32563056CB67A861158DDD90E6A894C72A5BBEF9E286C6B"));
+
+    private BigInteger defaultIssuerDsaPrimeQ =
             new BigInteger(
                     1,
                     ArrayConverter.hexStringToByteArray(
                             "E950511EAB424B9A19A2AEB4E159B7844C589C4F"));
 
-    private BigInteger dsaGenerator =
+    private BigInteger defaultSubjectDsaPrimeQ =
+            new BigInteger(
+                    1,
+                    ArrayConverter.hexStringToByteArray(
+                            "E950511EAB424B9A19A2AEB4E159B7844C589C4F"));
+
+    private BigInteger defaultIssuerDsaGenerator =
+            new BigInteger(
+                    1,
+                    ArrayConverter.hexStringToByteArray(
+                            "D29D5121B0423C2769AB21843E5A3240FF19CACC792264E3BB6BE4F78EDD1B15C4DFF7F1D905431F0AB16790E1F773B5CE01C804E509066A9919F5195F4ABC58189FD9FF987389CB5BEDF21B4DAB4F8B76A055FFE2770988FE2EC2DE11AD92219F0B351869AC24DA3D7BA87011A701CE8EE7BFE49486ED4527B7186CA4610A75"));
+
+    private BigInteger defaultSubjectDsaGenerator =
             new BigInteger(
                     1,
                     ArrayConverter.hexStringToByteArray(
@@ -189,7 +212,9 @@ public class X509CertificateConfig {
 
     private PointFormat defaultEcPointFormat = PointFormat.UNCOMPRESSED;
 
-    private X509NamedCurve defaultNamedCurve = X509NamedCurve.SECP256R1;
+    private EllipticCurve defaultIssuerEllipticCurve = X509NamedCurve.SECP256R1.getParameters().getGroup();
+
+    private EllipticCurve defaultSubjectEllipticCurve = X509NamedCurve.SECP256R1.getParameters().getGroup();
 
     private BigInteger defaultEcPrivateKeyK = new BigInteger("FFFF", 16);
 
@@ -197,10 +222,8 @@ public class X509CertificateConfig {
 
     private BigInteger defaultSubjectEcPrivateKey = new BigInteger("03", 16);
 
-    private Point defaultIssuerECPublicKey =
-            defaultNamedCurve
-                    .getParameters()
-                    .getGroup()
+    private Point defaultIssuerEcPublicKey =
+            defaultSubjectEllipticCurve
                     .getPoint(
                             new BigInteger(
                                     "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
@@ -208,9 +231,7 @@ public class X509CertificateConfig {
                                     "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
 
     private Point defaultSubjectEcPublicKey =
-            defaultNamedCurve
-                    .getParameters()
-                    .getGroup()
+            defaultSubjectEllipticCurve
                     .getPoint(
                             new BigInteger(
                                     "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
@@ -257,20 +278,20 @@ public class X509CertificateConfig {
     }
 
     // TODO: change issuer or subject?
-    public void applyKeyPair(KeyPair keyPair) {
+    public void setSubjectKeys(KeyPair keyPair) {
         PublicKey publicKey = keyPair.getPublic();
         PrivateKey privateKey = keyPair.getPrivate();
 
         // apply public key
         if (publicKey instanceof RSAPublicKey) {
-            rsaModulus = ((RSAPublicKey) publicKey).getModulus();
-            defaultIssuerRsaPublicKey = ((RSAPublicKey) publicKey).getPublicExponent();
+            defaultSubjectRsaModulus = ((RSAPublicKey) publicKey).getModulus();
+            defaultSubjectRsaPublicKey = ((RSAPublicKey) publicKey).getPublicExponent();
         } else if (publicKey instanceof DSAPublicKey) {
-            defaultIssuerDsaPublicKey = ((DSAPublicKey) publicKey).getY();
+            defaultSubjectDsaPublicKey = ((DSAPublicKey) publicKey).getY();
             DSAParams params = ((DSAPublicKey) publicKey).getParams();
-            dsaPrimeP = params.getP();
-            dsaPrimeQ = params.getQ();
-            dsaGenerator = params.getG();
+            defaultSubjectDsaPrimeP = params.getP();
+            defaultSubjectDsaPrimeQ = params.getQ();
+            defaultSubjectDsaGenerator = params.getG();
         } else if (publicKey instanceof ECPublicKey) {
 
             // get curve parameters
@@ -315,16 +336,16 @@ public class X509CertificateConfig {
             // extract curve point
             BigInteger x = ((ECPublicKey) publicKey).getW().getAffineY();
             BigInteger y = ((ECPublicKey) publicKey).getW().getAffineY();
-            defaultIssuerECPublicKey = ellipticCurve.getPoint(x, y);
+            defaultSubjectEcPublicKey = ellipticCurve.getPoint(x, y);
         }
 
         // apply private key
         if (privateKey instanceof RSAPrivateKey) {
-            defaultIssuerRsaPrivateKey = ((RSAPrivateKey) privateKey).getPrivateExponent();
+            defaultSubjectRsaPrivateKey = ((RSAPrivateKey) privateKey).getPrivateExponent();
         } else if (privateKey instanceof DSAPrivateKey) {
-            defaultIssuerDsaPrivateKeyX = ((DSAPrivateKey) privateKey).getX();
+            defaultSubjectDsaPrivateKeyX = ((DSAPrivateKey) privateKey).getX();
         } else if (privateKey instanceof ECPrivateKey) {
-            defaultIssuerEcPrivateKey = ((ECPrivateKey) privateKey).getS();
+            defaultSubjectEcPrivateKey = ((ECPrivateKey) privateKey).getS();
         }
     }
 
@@ -376,36 +397,92 @@ public class X509CertificateConfig {
         this.dhValidationParameterSeed = seed;
     }
 
-    public BigInteger getDsaPrimeP() {
-        return dsaPrimeP;
+    public BigInteger getDefaultIssuerRsaModulus() {
+        return defaultIssuerRsaModulus;
     }
 
-    public void setDsaPrimeP(BigInteger dsaPrimeP) {
-        this.dsaPrimeP = dsaPrimeP;
+    public void setDefaultIssuerRsaModulus(BigInteger defaultIssuerRsaModulus) {
+        this.defaultIssuerRsaModulus = defaultIssuerRsaModulus;
     }
 
-    public BigInteger getDsaPrimeQ() {
-        return dsaPrimeQ;
+    public BigInteger getDefaultSubjectRsaModulus() {
+        return defaultSubjectRsaModulus;
     }
 
-    public void setDsaPrimeQ(BigInteger dsaPrimeQ) {
-        this.dsaPrimeQ = dsaPrimeQ;
+    public void setDefaultSubjectRsaModulus(BigInteger defaultSubjectRsaModulus) {
+        this.defaultSubjectRsaModulus = defaultSubjectRsaModulus;
     }
 
-    public BigInteger getDsaGenerator() {
-        return dsaGenerator;
+    public BigInteger getDefaultSubjectRsaPublicKey() {
+        return defaultSubjectRsaPublicKey;
     }
 
-    public void setDsaGenerator(BigInteger dsaGenerator) {
-        this.dsaGenerator = dsaGenerator;
+    public BigInteger getDefaultIssuerDsaPrimeP() {
+        return defaultIssuerDsaPrimeP;
+    }
+
+    public void setDefaultIssuerDsaPrimeP(BigInteger defaultIssuerDsaPrimeP) {
+        this.defaultIssuerDsaPrimeP = defaultIssuerDsaPrimeP;
+    }
+
+    public BigInteger getDefaultSubjectDsaPrimeP() {
+        return defaultSubjectDsaPrimeP;
+    }
+
+    public void setDefaultSubjectDsaPrimeP(BigInteger defaultSubjectDsaPrimeP) {
+        this.defaultSubjectDsaPrimeP = defaultSubjectDsaPrimeP;
+    }
+
+    public BigInteger getDefaultIssuerDsaPrimeQ() {
+        return defaultIssuerDsaPrimeQ;
+    }
+
+    public void setDefaultIssuerDsaPrimeQ(BigInteger defaultIssuerDsaPrimeQ) {
+        this.defaultIssuerDsaPrimeQ = defaultIssuerDsaPrimeQ;
+    }
+
+    public BigInteger getDefaultSubjectDsaPrimeQ() {
+        return defaultSubjectDsaPrimeQ;
+    }
+
+    public void setDefaultSubjectDsaPrimeQ(BigInteger defaultSubjectDsaPrimeQ) {
+        this.defaultSubjectDsaPrimeQ = defaultSubjectDsaPrimeQ;
+    }
+
+    public BigInteger getDefaultIssuerDsaGenerator() {
+        return defaultIssuerDsaGenerator;
+    }
+
+    public void setDefaultIssuerDsaGenerator(BigInteger defaultIssuerDsaGenerator) {
+        this.defaultIssuerDsaGenerator = defaultIssuerDsaGenerator;
+    }
+
+    public BigInteger getDefaultSubjectDsaGenerator() {
+        return defaultSubjectDsaGenerator;
+    }
+
+    public void setDefaultSubjectDsaGenerator(BigInteger defaultSubjectDsaGenerator) {
+        this.defaultSubjectDsaGenerator = defaultSubjectDsaGenerator;
     }
 
     public X509NamedCurve getDefaultNamedCurve() {
         return defaultNamedCurve;
     }
 
-    public void setDefaultNamedCurve(X509NamedCurve defaultNamedCurve) {
-        this.defaultNamedCurve = defaultNamedCurve;
+    public EllipticCurve getDefaultIssuerEllipticCurve() {
+        return defaultIssuerEllipticCurve;
+    }
+
+    public void setDefaultIssuerEllipticCurve(EllipticCurve defaultIssuerEllipticCurve) {
+        this.defaultIssuerEllipticCurve = defaultIssuerEllipticCurve;
+    }
+
+    public EllipticCurve getDefaultSubjectEllipticCurve() {
+        return defaultSubjectEllipticCurve;
+    }
+
+    public void setDefaultSubjectEllipticCurve(EllipticCurve defaultSubjectEllipticCurve) {
+        this.defaultSubjectEllipticCurve = defaultSubjectEllipticCurve;
     }
 
     public X509PublicKeyType getDefaultIssuerPublicKeyType() {
@@ -567,14 +644,6 @@ public class X509CertificateConfig {
 
     public void setDefaultNotAfterEncoding(ValidityEncoding defaultNotAfterEncoding) {
         this.defaultNotAfterEncoding = defaultNotAfterEncoding;
-    }
-
-    public BigInteger getRsaModulus() {
-        return rsaModulus;
-    }
-
-    public void setRsaModulus(BigInteger rsaModulus) {
-        this.rsaModulus = rsaModulus;
     }
 
     public X509SignatureAlgorithm getDefaultSignatureAlgorithm() {
@@ -814,12 +883,12 @@ public class X509CertificateConfig {
         this.defaultSubjectEcPublicKey = defaultSubjectEcPublicKey;
     }
 
-    public Point getDefaultIssuerECPublicKey() {
-        return defaultIssuerECPublicKey;
+    public Point getDefaultIssuerEcPublicKey() {
+        return defaultIssuerEcPublicKey;
     }
 
-    public void setDefaultIssuerECPublicKey(Point defaultIssuerECPublicKey) {
-        this.defaultIssuerECPublicKey = defaultIssuerECPublicKey;
+    public void setDefaultIssuerEcPublicKey(Point defaultIssuerEcPublicKey) {
+        this.defaultIssuerEcPublicKey = defaultIssuerEcPublicKey;
     }
 
     public BigInteger getDefaultSubjectDhPublicKey() {
