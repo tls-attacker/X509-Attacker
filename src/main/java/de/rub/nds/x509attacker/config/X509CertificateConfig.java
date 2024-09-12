@@ -279,7 +279,7 @@ public class X509CertificateConfig {
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
     }
 
-    // TODO: change issuer or subject?
+    // TODO: change issuer or subject? probably remove again
     public void setSubjectKeys(KeyPair keyPair) {
         PublicKey publicKey = keyPair.getPublic();
         PrivateKey privateKey = keyPair.getPrivate();
