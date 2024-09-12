@@ -132,7 +132,7 @@ public class X509CertificateConfig {
     private BigInteger rsaPublicKey = new BigInteger("65537", 10);
 
     private byte[] rsaPssSalt =
-            ArrayConverter.hexStringToByteArray("000102030405060708090A0B0C0D0E0F");
+            ArrayConverter.hexStringToByteArray("000102030405060708090A0B0C0D0E0F10111213");
 
     private HashAlgorithm rsaPssHashAlgorithm = HashAlgorithm.SHA256;
 
