@@ -21,7 +21,8 @@ public class X509DhPublicKeyPreparator extends X509Asn1FieldPreparator<X509DhPub
 
     @Override
     protected byte[] encodeContent() {
-        Asn1PreparatorHelper.prepareField(field, chooser.getConfig().getDhPublicKey());
+        Asn1PreparatorHelper.prepareField(
+                field, chooser.getConfig().getDefaultSubjectDhPublicKey());
         return field.getContent()
                 .getOriginalValue(); // We return the original value here, otherwise we will modify
         // it twice

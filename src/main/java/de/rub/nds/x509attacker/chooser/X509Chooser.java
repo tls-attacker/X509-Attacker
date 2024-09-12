@@ -67,15 +67,23 @@ public class X509Chooser {
         if (context.getIssuerRsaModulus() != null) {
             return context.getIssuerRsaModulus();
         } else {
-            return config.getDefaultIssuerRsaModulus();
+            return config.getRsaModulus();
         }
     }
 
-    public BigInteger getIssuerDsaPrivateKey() {
-        if (context.getIssuerDsaPrivateKey() != null) {
-            return context.getIssuerDsaPrivateKey();
+    public BigInteger getIssuerDsaPrivateKeyX() {
+        if (context.getIssuerDsaPrivateKeyX() != null) {
+            return context.getIssuerDsaPrivateKeyX();
         } else {
-            return config.getDefaultIssuerDsaPrivateKey();
+            return config.getDefaultIssuerDsaPrivateKeyX();
+        }
+    }
+
+    public BigInteger getIssuerDsaPrivateK() {
+        if (context.getIssuerDsaPrivateK() != null) {
+            return context.getIssuerDsaPrivateK();
+        } else {
+            return config.getDefaultIssuerDsaPrivateK();
         }
     }
 
@@ -115,7 +123,7 @@ public class X509Chooser {
         if (context.getSubjectNamedCurve() != null) {
             return context.getSubjectNamedCurve();
         } else {
-            return config.getDefaultSubjectNamedCurve();
+            return config.getDefaultNamedCurve();
         }
     }
 
@@ -123,7 +131,7 @@ public class X509Chooser {
         if (context.getSubjectDhPrivateKey() != null) {
             return context.getSubjectDhPrivateKey();
         } else {
-            return config.getDhPrivateKey();
+            return config.getDefaultSubjectDhPrivateKey();
         }
     }
 
@@ -147,7 +155,7 @@ public class X509Chooser {
         if (context.getSubjectRsaPublicExponent() != null) {
             return context.getSubjectRsaPublicExponent();
         } else {
-            return config.getRsaPublicExponent();
+            return config.getDefaultSubjectRsaPublicExponent();
         }
     }
 
@@ -163,7 +171,7 @@ public class X509Chooser {
         if (context.getSubjectEcPrivateKey() != null) {
             return context.getSubjectEcPrivateKey();
         } else {
-            return config.getEcPrivateKey();
+            return config.getDefaultSubjectEcPrivateKey();
         }
     }
 
@@ -171,15 +179,23 @@ public class X509Chooser {
         if (context.getSubjectEcPublicKey() != null) {
             return context.getSubjectEcPublicKey();
         } else {
-            return config.getEcPublicKey();
+            return config.getDefaultSubjectEcPublicKey();
         }
     }
 
-    public BigInteger getSubjectDsaPrivateKey() {
-        if (context.getSubjectDsaPrivateKey() != null) {
-            return context.getSubjectDsaPrivateKey();
+    public BigInteger getSubjectDsaPrivateKeyX() {
+        if (context.getSubjectDsaPrivateKeyX() != null) {
+            return context.getSubjectDsaPrivateKeyX();
         } else {
-            return config.getDsaPrivateKey();
+            return config.getDefaultSubjectDsaPrivateKeyX();
+        }
+    }
+
+    public BigInteger getSubjectDsaPrivateKeyK() {
+        if (context.getSubjectDsaPrivateK() != null) {
+            return context.getSubjectDsaPrivateK();
+        } else {
+            return config.getDefaultSubjectDsaPrivateK();
         }
     }
 
@@ -187,7 +203,7 @@ public class X509Chooser {
         if (context.getSubjectRsaPrivateKey() != null) {
             return context.getSubjectRsaPrivateKey();
         } else {
-            return config.getRsaPrivateKey();
+            return config.getDefaultSubjectRsaPrivateKey();
         }
     }
 
@@ -195,7 +211,7 @@ public class X509Chooser {
         if (context.getSubjectDhPublicKey() != null) {
             return context.getSubjectDhPublicKey();
         } else {
-            return config.getDhPublicKey();
+            return config.getDefaultSubjectDhPublicKey();
         }
     }
 
@@ -236,6 +252,14 @@ public class X509Chooser {
             return context.getRsaPssHashAlgorithm();
         } else {
             return config.getRsaPssHashAlgorithm();
+        }
+    }
+
+    public BigInteger getEcdsaNonce() {
+        if (context.getEcdsaNonce() != null) {
+            return context.getEcdsaNonce();
+        } else {
+            return config.getDefaultEcPrivateKeyK();
         }
     }
 }

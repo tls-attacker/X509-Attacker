@@ -30,7 +30,9 @@ public class X509Context {
 
     private BigInteger issuerDsaPublicKeyY = null;
 
-    private BigInteger issuerDsaPrivateKey = null;
+    private BigInteger issuerDsaPrivateKeyX = null;
+
+    private BigInteger issuerDsaPrivateK = null;
 
     private BigInteger issuerEcPrivateKey = null;
 
@@ -60,7 +62,9 @@ public class X509Context {
 
     private BigInteger subjectDsaGeneratorG = null;
 
-    private BigInteger subjectDsaPrivateKey = null;
+    private BigInteger subjectDsaPrivateK = null;
+
+    private BigInteger subjectDsaPrivateKeyX = null;
 
     private BigInteger subjectEcPrivateKey = null;
 
@@ -95,6 +99,8 @@ public class X509Context {
     private byte[] rsaPssSalt = null;
 
     private HashAlgorithm rsaPssHashAlgorithm;
+
+    private BigInteger ecdsaNonce;
 
     private X509CertificateConfig config;
 
@@ -131,6 +137,14 @@ public class X509Context {
 
     public void setRsaPssHashAlgorithm(HashAlgorithm rsaPssHashAlgorithm) {
         this.rsaPssHashAlgorithm = rsaPssHashAlgorithm;
+    }
+
+    public BigInteger getEcdsaNonce() {
+        return ecdsaNonce;
+    }
+
+    public void setEcdsaNonce(BigInteger ecdsaNonce) {
+        this.ecdsaNonce = ecdsaNonce;
     }
 
     public DateTime getNotBefore() {
@@ -242,12 +256,20 @@ public class X509Context {
         this.subjectDsaPublicKeyY = subjectDsaPublicKeyY;
     }
 
-    public BigInteger getSubjectDsaPrivateKey() {
-        return subjectDsaPrivateKey;
+    public BigInteger getSubjectDsaPrivateKeyX() {
+        return subjectDsaPrivateKeyX;
     }
 
-    public void setSubjectDsaPrivateKey(BigInteger subjectDsaPrivateKey) {
-        this.subjectDsaPrivateKey = subjectDsaPrivateKey;
+    public void setSubjectDsaPrivateKeyX(BigInteger subjectDsaPrivateKeyX) {
+        this.subjectDsaPrivateKeyX = subjectDsaPrivateKeyX;
+    }
+
+    public BigInteger getSubjectDsaPrivateK() {
+        return subjectDsaPrivateK;
+    }
+
+    public void setSubjectDsaPrivateK(BigInteger subjectDsaPrivateK) {
+        this.subjectDsaPrivateK = subjectDsaPrivateK;
     }
 
     public BigInteger getSubjectEcPrivateKey() {
@@ -322,12 +344,20 @@ public class X509Context {
         this.issuerRsaModulus = issuerRsaModulus;
     }
 
-    public BigInteger getIssuerDsaPrivateKey() {
-        return issuerDsaPrivateKey;
+    public BigInteger getIssuerDsaPrivateKeyX() {
+        return issuerDsaPrivateKeyX;
     }
 
-    public void setIssuerDsaPrivateKey(BigInteger issuerDsaPrivateKey) {
-        this.issuerDsaPrivateKey = issuerDsaPrivateKey;
+    public void setIssuerDsaPrivateKeyX(BigInteger issuerDsaPrivateKeyX) {
+        this.issuerDsaPrivateKeyX = issuerDsaPrivateKeyX;
+    }
+
+    public BigInteger getIssuerDsaPrivateK() {
+        return issuerDsaPrivateK;
+    }
+
+    public void setIssuerDsaPrivateK(BigInteger issuerDsaPrivateK) {
+        this.issuerDsaPrivateK = issuerDsaPrivateK;
     }
 
     public BigInteger getIssuerEcPrivateKey() {

@@ -25,8 +25,8 @@ public class X509EcdhPublicKeyPreparator extends X509Asn1FieldPreparator<X509Ecd
         Asn1PreparatorHelper.prepareField(
                 field,
                 PointFormatter.formatToByteArray(
-                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
-                        chooser.getConfig().getEcPublicKey(),
+                        chooser.getConfig().getDefaultNamedCurve().getParameters(),
+                        chooser.getConfig().getDefaultSubjectEcPublicKey(),
                         chooser.getConfig().getDefaultEcPointFormat()));
         return field.getContent()
                 .getOriginalValue(); // We return the original value here, otherwise we will modify

@@ -76,16 +76,18 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
 
     @Override
     public void prepare(X509Chooser chooser) {
-        this.setxCoordinate(chooser.getConfig().getEcPublicKey().getFieldX().getData());
-        this.setyCoordinate(chooser.getConfig().getEcPublicKey().getFieldY().getData());
+        this.setxCoordinate(
+                chooser.getConfig().getDefaultSubjectEcPublicKey().getFieldX().getData());
+        this.setyCoordinate(
+                chooser.getConfig().getDefaultSubjectEcPublicKey().getFieldY().getData());
         EcdhPublicKey ecdhPublicKey =
                 new EcdhPublicKey(
                         this.getxCoordinate().getValue(),
                         this.getyCoordinate().getValue(),
-                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters());
+                        chooser.getConfig().getDefaultNamedCurve().getParameters());
         this.setEncodedPointBytes(
                 PointFormatter.formatToByteArray(
-                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
+                        chooser.getConfig().getDefaultNamedCurve().getParameters(),
                         ecdhPublicKey.getPublicPoint(),
                         chooser.getConfig().getDefaultEcPointFormat()));
     }
@@ -100,7 +102,7 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
         chooser.getContext()
                 .setSubjectEcPublicKey(
                         PointFormatter.formatFromByteArray(
-                                chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
+                                chooser.getConfig().getDefaultNamedCurve().getParameters(),
                                 getEncodedPointBytes().getValue()));
     }
 
@@ -109,8 +111,7 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
         this.setEncodedPointBytes(bytesToRead);
         Point publicKeyPoint =
                 PointFormatter.formatFromByteArray(
-                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
-                        bytesToRead);
+                        chooser.getConfig().getDefaultNamedCurve().getParameters(), bytesToRead);
         this.setxCoordinate(publicKeyPoint.getFieldX().getData());
         this.setyCoordinate(publicKeyPoint.getFieldY().getData());
     }
