@@ -111,7 +111,7 @@ public class X509CertificatePreparator extends Asn1FieldPreparator<X509Certifica
                 return new EcdsaPrivateKey(
                         chooser.getIssuerEcPrivateKey(),
                         chooser.getEcdsaNonce(),
-                        chooser.getDefaultIssuerEllipticCurve());
+                        chooser.getSubjectNamedCurve().getParameters());
             case RSA_PKCS1:
             case RSA_SSA_PSS:
                 return new RsaPrivateKey(

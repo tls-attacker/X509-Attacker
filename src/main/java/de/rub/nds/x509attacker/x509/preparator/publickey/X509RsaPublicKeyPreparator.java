@@ -21,7 +21,7 @@ public class X509RsaPublicKeyPreparator extends X509Asn1FieldPreparator<X509RsaP
 
     @Override
     protected byte[] encodeContent() {
-        Asn1PreparatorHelper.prepareField(field.getModulus(), chooser.getConfig().getRsaModulus());
+        Asn1PreparatorHelper.prepareField(field.getModulus(), chooser.getSubjectRsaModulus());
         Asn1PreparatorHelper.prepareField(
                 field.getPublicExponent(),
                 chooser.getConfig().getDefaultSubjectRsaPublicExponent());

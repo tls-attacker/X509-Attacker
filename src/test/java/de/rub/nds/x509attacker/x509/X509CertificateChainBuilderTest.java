@@ -43,7 +43,7 @@ public class X509CertificateChainBuilderTest {
         byte[] serialNumber =
                 ArrayConverter.hexStringToByteArray("FFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAA");
         rootConfig.setSerialNumber(new BigInteger(serialNumber));
-        rootConfig.setRsaModulus(new BigInteger("AABBCCAABBCCAABBCC", 16));
+        rootConfig.setDefaultSubjectRsaModulus(new BigInteger("AABBCCAABBCCAABBCC", 16));
         rootConfig.setDefaultSubjectRsaPublicKey(new BigInteger("03", 16));
 
         X509CertificateConfig intermediateConfig = new X509CertificateConfig();
@@ -57,7 +57,7 @@ public class X509CertificateChainBuilderTest {
         serialNumber =
                 ArrayConverter.hexStringToByteArray("2211221122112211221122112211221122112211");
         intermediateConfig.setSerialNumber(new BigInteger(serialNumber));
-        intermediateConfig.setRsaModulus(
+        intermediateConfig.setDefaultSubjectRsaModulus(
                 new BigInteger(
                         "123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456123456",
                         16));
@@ -73,7 +73,7 @@ public class X509CertificateChainBuilderTest {
         serialNumber =
                 ArrayConverter.hexStringToByteArray("FF11FF11FF11FF11FF11FF11FF11FF11FF11FF11");
         leafConfig.setSerialNumber(new BigInteger(serialNumber));
-        leafConfig.setRsaModulus(
+        leafConfig.setDefaultSubjectRsaModulus(
                 new BigInteger(
                         "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFF",
                         16));

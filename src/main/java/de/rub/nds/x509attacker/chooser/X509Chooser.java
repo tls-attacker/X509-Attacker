@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.chooser;
 
 import de.rub.nds.protocol.constants.HashAlgorithm;
-import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
@@ -272,22 +271,6 @@ public class X509Chooser {
         }
     }
 
-    public EllipticCurve getDefaultIssuerEllipticCurve() {
-        if (context.getIssuerEllipticCurve() != null) {
-            return context.getIssuerEllipticCurve();
-        } else {
-            return config.getDefaultIssuerEllipticCurve();
-        }
-    }
-
-    public EllipticCurve getDefaultSubjectEllipticCurve() {
-        if (context.getSubjectEllipticCurve() != null) {
-            return context.getSubjectEllipticCurve();
-        } else {
-            return config.getDefaultSubjectEllipticCurve();
-        }
-    }
-
     public byte[] getRsaPssSalt() {
         if (context.getRsaPssSalt() != null) {
             return context.getRsaPssSalt();
@@ -311,6 +294,4 @@ public class X509Chooser {
             return config.getDefaultEcPrivateKeyK();
         }
     }
-
-
 }

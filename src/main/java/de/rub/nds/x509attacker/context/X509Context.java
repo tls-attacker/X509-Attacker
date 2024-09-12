@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.context;
 
 import de.rub.nds.protocol.constants.HashAlgorithm;
-import de.rub.nds.protocol.crypto.ec.EllipticCurve;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -58,10 +57,6 @@ public class X509Context {
     private BigInteger subjectRsaPublicExponent = null;
 
     private BigInteger subjectDsaPublicKeyY = null;
-
-    private EllipticCurve issuerEllipticCurve = null;
-
-    private EllipticCurve subjectEllipticCurve = null;
 
     private BigInteger subjectDsaPrimeModulusP = null;
 
@@ -151,8 +146,6 @@ public class X509Context {
     public void setRsaPssHashAlgorithm(HashAlgorithm rsaPssHashAlgorithm) {
         this.rsaPssHashAlgorithm = rsaPssHashAlgorithm;
     }
-
-
 
     public DateTime getNotBefore() {
         return notBefore;
@@ -429,22 +422,6 @@ public class X509Context {
 
     public void setSubjectUniqueId(byte[] subjectUniqueId) {
         this.subjectUniqueId = subjectUniqueId;
-    }
-
-    public EllipticCurve getIssuerEllipticCurve() {
-        return issuerEllipticCurve;
-    }
-
-    public void setIssuerEllipticCurve(EllipticCurve issuerEllipticCurve) {
-        this.issuerEllipticCurve = issuerEllipticCurve;
-    }
-
-    public EllipticCurve getSubjectEllipticCurve() {
-        return subjectEllipticCurve;
-    }
-
-    public void setSubjectEllipticCurve(EllipticCurve subjectEllipticCurve) {
-        this.subjectEllipticCurve = subjectEllipticCurve;
     }
 
     public BigInteger getSubjectDsaPrimeModulusP() {

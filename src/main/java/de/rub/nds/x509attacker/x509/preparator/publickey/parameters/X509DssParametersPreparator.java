@@ -21,9 +21,9 @@ public class X509DssParametersPreparator extends X509ContainerPreparator<X509Dss
 
     @Override
     public void prepareSubComponents() {
-        Asn1PreparatorHelper.prepareField(field.getP(), chooser.getConfig().getDsaPrimeP());
-        Asn1PreparatorHelper.prepareField(field.getQ(), chooser.getConfig().getDsaPrimeQ());
-        Asn1PreparatorHelper.prepareField(field.getG(), chooser.getConfig().getDsaGenerator());
+        Asn1PreparatorHelper.prepareField(field.getP(), chooser.getSubjectDsaPrimeP());
+        Asn1PreparatorHelper.prepareField(field.getQ(), chooser.getSubjectDsaPrimeQ());
+        Asn1PreparatorHelper.prepareField(field.getG(), chooser.getSubjectDsaGenerator());
     }
 
     @Override

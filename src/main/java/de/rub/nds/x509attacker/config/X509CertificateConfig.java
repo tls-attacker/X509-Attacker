@@ -212,9 +212,7 @@ public class X509CertificateConfig {
 
     private PointFormat defaultEcPointFormat = PointFormat.UNCOMPRESSED;
 
-    private EllipticCurve defaultIssuerEllipticCurve = X509NamedCurve.SECP256R1.getParameters().getGroup();
-
-    private EllipticCurve defaultSubjectEllipticCurve = X509NamedCurve.SECP256R1.getParameters().getGroup();
+    private X509NamedCurve defaultNamedCurve = X509NamedCurve.SECP256R1;
 
     private BigInteger defaultEcPrivateKeyK = new BigInteger("FFFF", 16);
 
@@ -223,7 +221,9 @@ public class X509CertificateConfig {
     private BigInteger defaultSubjectEcPrivateKey = new BigInteger("03", 16);
 
     private Point defaultIssuerEcPublicKey =
-            defaultSubjectEllipticCurve
+            defaultNamedCurve
+                    .getParameters()
+                    .getGroup()
                     .getPoint(
                             new BigInteger(
                                     "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
@@ -231,7 +231,9 @@ public class X509CertificateConfig {
                                     "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
 
     private Point defaultSubjectEcPublicKey =
-            defaultSubjectEllipticCurve
+            defaultNamedCurve
+                    .getParameters()
+                    .getGroup()
                     .getPoint(
                             new BigInteger(
                                     "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
@@ -469,20 +471,8 @@ public class X509CertificateConfig {
         return defaultNamedCurve;
     }
 
-    public EllipticCurve getDefaultIssuerEllipticCurve() {
-        return defaultIssuerEllipticCurve;
-    }
-
-    public void setDefaultIssuerEllipticCurve(EllipticCurve defaultIssuerEllipticCurve) {
-        this.defaultIssuerEllipticCurve = defaultIssuerEllipticCurve;
-    }
-
-    public EllipticCurve getDefaultSubjectEllipticCurve() {
-        return defaultSubjectEllipticCurve;
-    }
-
-    public void setDefaultSubjectEllipticCurve(EllipticCurve defaultSubjectEllipticCurve) {
-        this.defaultSubjectEllipticCurve = defaultSubjectEllipticCurve;
+    public void setDefaultNamedCurve(X509NamedCurve defaultNamedCurve) {
+        this.defaultNamedCurve = defaultNamedCurve;
     }
 
     public X509PublicKeyType getDefaultIssuerPublicKeyType() {

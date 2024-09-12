@@ -28,10 +28,10 @@ public class X509DsaPublicKeyPreparator extends X509Asn1FieldPreparator<X509DsaP
     @Override
     protected byte[] encodeContent() {
         BigInteger publicKey =
-                chooser.getDsaGenerator()
+                chooser.getSubjectDsaGenerator()
                         .modPow(
                                 chooser.getConfig().getDefaultIssuerDsaPrivateKeyX(),
-                                chooser.getDsaPrimeP());
+                                chooser.getSubjectDsaPrimeP());
         LOGGER.debug("Computed dsa public key as: {}", publicKey);
         Asn1PreparatorHelper.prepareField(field, publicKey);
         return ArrayConverter.bigIntegerToByteArray(publicKey);
