@@ -14,9 +14,6 @@ import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
 import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
-import de.rub.nds.protocol.crypto.ec.EllipticCurve;
-import de.rub.nds.protocol.crypto.ec.EllipticCurveOverF2m;
-import de.rub.nds.protocol.crypto.ec.EllipticCurveOverFp;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
@@ -29,13 +26,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.math.BigInteger;
-import java.security.KeyPair;
-import java.security.PrivateKey;
-import java.security.PublicKey;
 import java.security.interfaces.*;
-import java.security.spec.ECField;
-import java.security.spec.ECFieldF2m;
-import java.security.spec.ECFieldFp;
 import java.util.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -277,78 +268,6 @@ public class X509CertificateConfig {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
-    }
-
-    // TODO: change issuer or subject? probably remove again
-    public void setSubjectKeys(KeyPair keyPair) {
-        PublicKey publicKey = keyPair.getPublic();
-        PrivateKey privateKey = keyPair.getPrivate();
-
-        // apply public key
-        if (publicKey instanceof RSAPublicKey) {
-            defaultSubjectRsaModulus = ((RSAPublicKey) publicKey).getModulus();
-            defaultSubjectRsaPublicKey = ((RSAPublicKey) publicKey).getPublicExponent();
-        } else if (publicKey instanceof DSAPublicKey) {
-            defaultSubjectDsaPublicKey = ((DSAPublicKey) publicKey).getY();
-            DSAParams params = ((DSAPublicKey) publicKey).getParams();
-            defaultSubjectDsaPrimeP = params.getP();
-            defaultSubjectDsaPrimeQ = params.getQ();
-            defaultSubjectDsaGenerator = params.getG();
-        } else if (publicKey instanceof ECPublicKey) {
-
-            // get curve parameters
-
-            BigInteger curveA = ((ECPublicKey) publicKey).getParams().getCurve().getA();
-            BigInteger curveB = ((ECPublicKey) publicKey).getParams().getCurve().getB();
-            BigInteger generatorX =
-                    ((ECPublicKey) publicKey).getParams().getGenerator().getAffineX();
-            BigInteger generatorY =
-                    ((ECPublicKey) publicKey).getParams().getGenerator().getAffineY();
-            BigInteger generatorOrder = ((ECPublicKey) publicKey).getParams().getOrder();
-            ECField field = ((ECPublicKey) publicKey).getParams().getCurve().getField();
-
-            // create curve based on parameters
-            EllipticCurve ellipticCurve;
-
-            if (field instanceof ECFieldFp) {
-                ellipticCurve =
-                        new EllipticCurveOverFp(
-                                curveA,
-                                curveB,
-                                ((ECFieldFp) field).getP(),
-                                generatorX,
-                                generatorY,
-                                generatorOrder);
-            } else if (field instanceof ECFieldF2m) {
-                ellipticCurve =
-                        new EllipticCurveOverF2m(
-                                curveA,
-                                curveB,
-                                ((ECFieldF2m) field).getReductionPolynomial(),
-                                generatorX,
-                                generatorY,
-                                generatorOrder);
-            } else {
-                throw new UnsupportedOperationException("Can only handle EC keys over Fp and F2m");
-            }
-
-            ((ECPublicKey) publicKey).getParams().getCurve().getA();
-            ((ECPublicKey) publicKey).getParams().getCurve().getB();
-
-            // extract curve point
-            BigInteger x = ((ECPublicKey) publicKey).getW().getAffineY();
-            BigInteger y = ((ECPublicKey) publicKey).getW().getAffineY();
-            defaultSubjectEcPublicKey = ellipticCurve.getPoint(x, y);
-        }
-
-        // apply private key
-        if (privateKey instanceof RSAPrivateKey) {
-            defaultSubjectRsaPrivateKey = ((RSAPrivateKey) privateKey).getPrivateExponent();
-        } else if (privateKey instanceof DSAPrivateKey) {
-            defaultSubjectDsaPrivateKeyX = ((DSAPrivateKey) privateKey).getX();
-        } else if (privateKey instanceof ECPrivateKey) {
-            defaultSubjectEcPrivateKey = ((ECPrivateKey) privateKey).getS();
-        }
     }
 
     public boolean isSelfSigned() {

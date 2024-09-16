@@ -9,12 +9,16 @@
 package de.rub.nds.x509attacker.x509.model.extensions;
 
 import de.rub.nds.asn1.model.Asn1BitString;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.extension.KeyUsageConfig;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
-import de.rub.nds.x509attacker.x509.model.X509Component;
+import de.rub.nds.x509attacker.x509.handler.extension.KeyUsageHandler;
+import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.parser.extension.KeyUsageParser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
+import de.rub.nds.x509attacker.x509.preparator.extension.KeyUsagePreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
@@ -26,7 +30,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
  */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class KeyUsage extends Asn1BitString implements X509Component {
+public class KeyUsage extends Extension<KeyUsageConfig> {
+
+    @HoldsModifiableVariable private Asn1BitString bitString;
 
     private KeyUsage() {
         super(null);
@@ -36,23 +42,26 @@ public class KeyUsage extends Asn1BitString implements X509Component {
         super(identifier);
     }
 
+    public Asn1BitString getBitString() {
+        return bitString;
+    }
+
+    public void setBitString(Asn1BitString bitString) {
+        this.bitString = bitString;
+    }
+
     @Override
     public X509Handler getHandler(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new KeyUsageHandler(chooser, this);
     }
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new KeyUsageParser(chooser, this);
     }
 
     @Override
-    public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
-    }
-
-    @Override
-    public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public X509Preparator getPreparator(X509Chooser chooser, KeyUsageConfig config) {
+        return new KeyUsagePreparator(chooser, this, config);
     }
 }
