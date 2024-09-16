@@ -22,10 +22,10 @@ public class KeyUsagePreparator extends ExtensionPreparator<KeyUsage, KeyUsageCo
 
     @Override
     public void extensionPrepareSubComponents() {
-        Asn1BitString bitString = field.getBitString();
-        if (bitString == null) {
-            bitString = new Asn1BitString("bitString");
+        if (field.getBitString() == null) {
+            field.setBitString(new Asn1BitString("bitString"));
         }
+        Asn1BitString bitString = field.getBitString();
         bitString.setUnusedBits((byte) 7);
         bitString.setUsedBits(computeBitString(config));
         bitString.setPadding((byte) 0);
@@ -39,34 +39,34 @@ public class KeyUsagePreparator extends ExtensionPreparator<KeyUsage, KeyUsageCo
 
     @Override
     public byte[] extensionEncodeChildrenContent() {
-        return new byte[0];
+        return encodeChildren(field.getBitString());
     }
 
     private byte[] computeBitString(KeyUsageConfig config) {
         int lowerByte = 0;
 
-        lowerByte |= (config.isEncipherOnly() ? 1 : 0);
-        lowerByte <<= 1;
-
-        lowerByte |= (config.iscRLSign() ? 1 : 0);
-        lowerByte <<= 1;
-
-        lowerByte |= (config.isKeyCertSign() ? 1 : 0);
-        lowerByte <<= 1;
-
-        lowerByte |= (config.isKeyAgreement() ? 1 : 0);
-        lowerByte <<= 1;
-
-        lowerByte |= (config.isDataEncipherment() ? 1 : 0);
-        lowerByte <<= 1;
-
-        lowerByte |= (config.isKeyEncipherment() ? 1 : 0);
+        lowerByte |= (config.isDigitalSignature() ? 1 : 0);
         lowerByte <<= 1;
 
         lowerByte |= (config.isNonRepudiation() ? 1 : 0);
         lowerByte <<= 1;
 
-        lowerByte |= (config.isDigitalSignature() ? 1 : 0);
+        lowerByte |= (config.isKeyEncipherment() ? 1 : 0);
+        lowerByte <<= 1;
+
+        lowerByte |= (config.isDataEncipherment() ? 1 : 0);
+        lowerByte <<= 1;
+
+        lowerByte |= (config.isKeyAgreement() ? 1 : 0);
+        lowerByte <<= 1;
+
+        lowerByte |= (config.isKeyCertSign() ? 1 : 0);
+        lowerByte <<= 1;
+
+        lowerByte |= (config.iscRLSign() ? 1 : 0);
+        lowerByte <<= 1;
+
+        lowerByte |= (config.isEncipherOnly() ? 1 : 0);
 
         byte higherByte = (byte) (config.isDecipherOnly() ? 1 : 0);
         return new byte[] {higherByte, (byte) lowerByte};
