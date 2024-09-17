@@ -45,9 +45,6 @@ public class KeyUsagePreparator extends ExtensionPreparator<KeyUsage, KeyUsageCo
     private byte[] computeBitString(KeyUsageConfig config) {
         int lowerByte = 0;
 
-        lowerByte |= (config.isDigitalSignature() ? 1 : 0);
-        lowerByte <<= 1;
-
         lowerByte |= (config.isNonRepudiation() ? 1 : 0);
         lowerByte <<= 1;
 
@@ -67,8 +64,11 @@ public class KeyUsagePreparator extends ExtensionPreparator<KeyUsage, KeyUsageCo
         lowerByte <<= 1;
 
         lowerByte |= (config.isEncipherOnly() ? 1 : 0);
+        lowerByte <<= 1;
 
-        byte higherByte = (byte) (config.isDecipherOnly() ? 1 : 0);
+        lowerByte |= (config.isDecipherOnly() ? 1 : 0);
+
+        byte higherByte = (byte) (config.isDigitalSignature() ? 1 : 0);
         return new byte[] {higherByte, (byte) lowerByte};
     }
 }
