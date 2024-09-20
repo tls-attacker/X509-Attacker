@@ -31,10 +31,12 @@ public class BasicConstraintsPreparator
         Asn1PreparatorHelper.prepareField(field.getCa(), config.isCa());
         Asn1PreparatorHelper.prepareField(
                 field.getPathLenConstraint(), BigInteger.valueOf(config.getPathLenConstraint()));
+
+        field.getWrappingSequence().setContent(encodeSequenceContent());
+        Asn1PreparatorHelper.prepareAfterContent(field.getWrappingSequence());
     }
 
-    @Override
-    public byte[] extensionEncodeChildrenContent() {
+    private byte[] encodeSequenceContent() {
         List<Asn1Encodable> children = new ArrayList<>();
         // per default only include if CA is true
         if (config.getIncludeCA() == DefaultEncodingRule.ENCODE
@@ -46,8 +48,13 @@ public class BasicConstraintsPreparator
         if (config.getIncludePathLenConstraint() == DefaultEncodingRule.ENCODE
                 || config.getIncludePathLenConstraint() == DefaultEncodingRule.FOLLOW_DEFAULT
                         && field.getCa().getValue().getValue()) {
-            children.add(field.getCritical());
+            children.add(field.getPathLenConstraint());
         }
         return encodeChildren(children);
+    }
+
+    @Override
+    public byte[] extensionEncodeChildrenContent() {
+        return encodeChildren(field.getWrappingSequence());
     }
 }

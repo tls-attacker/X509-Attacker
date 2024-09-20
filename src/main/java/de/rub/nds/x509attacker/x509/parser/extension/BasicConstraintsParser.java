@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.x509.parser.extension;
 
 import de.rub.nds.asn1.constants.TagClass;
-import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.extensions.BasicConstraints;
@@ -28,12 +27,11 @@ public class BasicConstraintsParser extends ExtensionParser<BasicConstraints> {
 
     @Override
     protected void parseExtensionContent(BufferedInputStream inputStream) {
-        // parse sequence
-        Asn1UnknownSequence unknownSequence = new Asn1UnknownSequence("unknownSequence");
-        ParserHelper.parseStructure(unknownSequence, inputStream);
+        parseSequence(inputStream);
         BufferedInputStream contentStream =
                 new BufferedInputStream(
-                        new ByteArrayInputStream(unknownSequence.getContent().getValue()));
+                        new ByteArrayInputStream(
+                                encodable.getWrappingSequence().getContent().getValue()));
         if (hasCAField(contentStream)) {
             parseCA(contentStream);
         }
@@ -43,6 +41,11 @@ public class BasicConstraintsParser extends ExtensionParser<BasicConstraints> {
                 LOGGER.debug("PathLenConstraint set on non-CA certificate!");
             }
         }
+    }
+
+    private void parseSequence(BufferedInputStream inputStream) {
+        ParserHelper.parseStructure(encodable.getWrappingSequence(), inputStream);
+        LOGGER.debug("Parsed Basic Constraint Sequence: {}", encodable.getWrappingSequence());
     }
 
     private void parseCA(BufferedInputStream inputStream) {

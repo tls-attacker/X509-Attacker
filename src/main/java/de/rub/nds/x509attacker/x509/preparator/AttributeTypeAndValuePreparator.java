@@ -8,11 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Ia5String;
-import de.rub.nds.asn1.model.Asn1PrintableString;
-import de.rub.nds.asn1.model.Asn1T61String;
-import de.rub.nds.asn1.model.Asn1Utf8String;
+import de.rub.nds.asn1.model.*;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -48,6 +44,8 @@ public class AttributeTypeAndValuePreparator
             Asn1PreparatorHelper.prepareField((Asn1Ia5String) valueField, value);
         } else if (valueField instanceof Asn1T61String) {
             Asn1PreparatorHelper.prepareField((Asn1T61String) valueField, value);
+        } else if (valueField instanceof Asn1UniversalString) {
+            Asn1PreparatorHelper.prepareField((Asn1UniversalString) valueField, value);
         } else if (valueField instanceof DirectoryString) {
             DirectoryStringPreparator directoryStringPreparator =
                     new DirectoryStringPreparator(chooser, (DirectoryString) valueField);

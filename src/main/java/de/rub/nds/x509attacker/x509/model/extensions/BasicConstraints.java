@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.model.extensions;
 
 import de.rub.nds.asn1.model.Asn1Boolean;
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.extension.BasicConstraintsConfig;
@@ -32,6 +33,9 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class BasicConstraints extends Extension<BasicConstraintsConfig> {
 
+    // holds ca and pathlenconstraint
+    @HoldsModifiableVariable private Asn1UnknownSequence wrappingSequence;
+
     @HoldsModifiableVariable private Asn1Boolean ca;
 
     @HoldsModifiableVariable private Asn1Integer pathLenConstraint;
@@ -44,6 +48,7 @@ public class BasicConstraints extends Extension<BasicConstraintsConfig> {
         super(identifier);
         ca = new Asn1Boolean("ca");
         pathLenConstraint = new Asn1Integer("pathLenConstraint");
+        wrappingSequence = new Asn1UnknownSequence("wrappingSequence");
     }
 
     public Asn1Boolean getCa() {
@@ -60,6 +65,14 @@ public class BasicConstraints extends Extension<BasicConstraintsConfig> {
 
     public void setPathLenConstraint(Asn1Integer pathLenConstraint) {
         this.pathLenConstraint = pathLenConstraint;
+    }
+
+    public Asn1UnknownSequence getWrappingSequence() {
+        return wrappingSequence;
+    }
+
+    public void setWrappingSequence(Asn1UnknownSequence wrappingSequence) {
+        this.wrappingSequence = wrappingSequence;
     }
 
     @Override
