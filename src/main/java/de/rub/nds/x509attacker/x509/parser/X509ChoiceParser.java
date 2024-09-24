@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 
 public class X509ChoiceParser implements X509Parser {
 
-    private final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     private final Asn1Choice choice;
     private final X509Chooser chooser;
