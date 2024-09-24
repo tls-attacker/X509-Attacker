@@ -41,6 +41,7 @@ public class X509EcNamedCurveParametersHandler
         if (namedCurve == null) {
             LOGGER.warn("X509NamedCurve with OID: {} not recognized.", component.getValueAsOid());
         }
+        LOGGER.debug("Parameters with named curve: {}", namedCurve);
         context.setSubjectNamedCurve(namedCurve);
     }
 }
