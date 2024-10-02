@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.publickey.parameters;
 
+import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
@@ -20,8 +21,8 @@ public class X509DhParameterPreparator extends X509ContainerPreparator<X509DhPar
 
     @Override
     public void prepareSubComponents() {
-        field.getG().setValue(chooser.getConfig().getDhGenerator());
-        field.getP().setValue(chooser.getConfig().getDhModulus());
+        Asn1PreparatorHelper.prepareField(field.getG(), chooser.getConfig().getDhGenerator());
+        Asn1PreparatorHelper.prepareField(field.getP(), chooser.getConfig().getDhModulus());
     }
 
     @Override
