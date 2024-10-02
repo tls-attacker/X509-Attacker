@@ -27,6 +27,6 @@ public class X509DhParameterPreparator extends X509ContainerPreparator<X509DhPar
 
     @Override
     public byte[] encodeChildrenContent() {
-        return encodeChildren(field.getG(), field.getP());
+        return encodeChildren(field.getP(), field.getG());
     }
 }
