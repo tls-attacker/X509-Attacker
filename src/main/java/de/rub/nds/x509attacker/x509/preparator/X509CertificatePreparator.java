@@ -8,12 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
@@ -25,6 +19,10 @@ import de.rub.nds.protocol.crypto.signature.SignatureCalculator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 
 public class X509CertificatePreparator extends X509ContainerPreparator<X509Certificate> {
 
@@ -74,15 +72,20 @@ public class X509CertificatePreparator extends X509ContainerPreparator<X509Certi
     private PrivateKeyContainer getPrivateKeyForAlgorithm(SignatureAlgorithm signatureAlgorithm) {
         switch (signatureAlgorithm) {
             case ECDSA:
-                return new EcdsaPrivateKey(chooser.getIssuerEcPrivateKey(), chooser.getConfig().getDefaultIssuerNonce(),
+                return new EcdsaPrivateKey(
+                        chooser.getIssuerEcPrivateKey(),
+                        chooser.getConfig().getDefaultIssuerNonce(),
                         chooser.getIssuerNamedCurve().getParameters());
             case RSA_PKCS1:
             case RSA_SSA_PSS:
                 return new RsaPrivateKey(
                         chooser.getIssuerRsaModulus(), chooser.getIssuerRsaPrivateKey());
             case DSA:
-                return new DsaPrivateKey(chooser.getDsaPrimeQ(), chooser.getIssuerDsaPrivateKey(),
-                        chooser.getConfig().getDefaultIssuerDsaNonce(), chooser.getDsaGenerator(),
+                return new DsaPrivateKey(
+                        chooser.getDsaPrimeQ(),
+                        chooser.getIssuerDsaPrivateKey(),
+                        chooser.getConfig().getDefaultIssuerDsaNonce(),
+                        chooser.getDsaGenerator(),
                         chooser.getDsaPrimeP());
             default:
                 throw new UnsupportedOperationException(

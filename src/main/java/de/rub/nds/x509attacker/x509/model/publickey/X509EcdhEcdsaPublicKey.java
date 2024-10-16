@@ -8,8 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.model.publickey;
 
-import java.math.BigInteger;
-
 import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
 import de.rub.nds.modifiablevariable.bytearray.ModifiableByteArray;
@@ -22,6 +20,7 @@ import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.math.BigInteger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -32,8 +31,7 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
 
     private ModifiableByteArray encodedPointBytes;
 
-    public X509EcdhEcdsaPublicKey() {
-    }
+    public X509EcdhEcdsaPublicKey() {}
 
     public ModifiableBigInteger getxCoordinate() {
         return xCoordinate;
@@ -68,7 +66,8 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
     }
 
     public void setEncodedPointBytes(byte[] encodedPointBytes) {
-        this.encodedPointBytes = ModifiableVariableFactory.safelySetValue(this.encodedPointBytes, encodedPointBytes);
+        this.encodedPointBytes =
+                ModifiableVariableFactory.safelySetValue(this.encodedPointBytes, encodedPointBytes);
     }
 
     @Override
@@ -79,14 +78,18 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
     @Override
     public void prepare(X509Chooser chooser) {
         X509NamedCurve namedCurve = chooser.getConfig().getDefaultSubjectNamedCurve();
-        Point publicKey = namedCurve.getParameters().getGroup()
-                .nTimesGroupOperationOnGenerator(chooser.getConfig().getEcPrivateKey());
+        Point publicKey =
+                namedCurve
+                        .getParameters()
+                        .getGroup()
+                        .nTimesGroupOperationOnGenerator(chooser.getConfig().getEcPrivateKey());
         this.setxCoordinate(publicKey.getFieldX().getData());
         this.setyCoordinate(publicKey.getFieldY().getData());
-        EcdhPublicKey ecdhPublicKey = new EcdhPublicKey(
-                this.getxCoordinate().getValue(),
-                this.getyCoordinate().getValue(),
-                chooser.getConfig().getDefaultSubjectNamedCurve().getParameters());
+        EcdhPublicKey ecdhPublicKey =
+                new EcdhPublicKey(
+                        this.getxCoordinate().getValue(),
+                        this.getyCoordinate().getValue(),
+                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters());
         this.setEncodedPointBytes(
                 PointFormatter.formatToByteArray(
                         chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
@@ -111,8 +114,9 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
     @Override
     public void readIn(X509Chooser chooser, byte[] bytesToRead) {
         this.setEncodedPointBytes(bytesToRead);
-        Point publicKeyPoint = PointFormatter.formatFromByteArray(
-                chooser.getSubjectNamedCurve().getParameters(), bytesToRead);
+        Point publicKeyPoint =
+                PointFormatter.formatFromByteArray(
+                        chooser.getSubjectNamedCurve().getParameters(), bytesToRead);
         this.setxCoordinate(publicKeyPoint.getFieldX().getData());
         this.setyCoordinate(publicKeyPoint.getFieldY().getData());
     }
