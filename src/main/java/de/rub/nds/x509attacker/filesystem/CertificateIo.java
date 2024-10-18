@@ -27,7 +27,8 @@ import java.util.Base64;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.function.Consumer;
-import org.bouncycastle.crypto.tls.Certificate;
+import org.bouncycastle.tls.Certificate;
+import org.bouncycastle.tls.crypto.TlsCertificate;
 
 public class CertificateIo {
 
@@ -147,10 +148,9 @@ public class CertificateIo {
         X509Chooser chooser = context.getChooser();
         try {
             X509CertificateChain chain = new X509CertificateChain();
-            for (org.bouncycastle.asn1.x509.Certificate certificate :
-                    certificateList.getCertificateList()) {
+            for (TlsCertificate certificate : certificateList.getCertificateList()) {
                 ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-                certificate.encodeTo(outputStream);
+                outputStream.write(certificate.getEncoded());
                 X509Certificate x509Certificate = new X509Certificate("certificate");
                 x509Certificate
                         .getParser(chooser)
