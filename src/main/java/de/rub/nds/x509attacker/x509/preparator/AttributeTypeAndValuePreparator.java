@@ -46,6 +46,8 @@ public class AttributeTypeAndValuePreparator
             Asn1PreparatorHelper.prepareField((Asn1T61String) valueField, value);
         } else if (valueField instanceof Asn1UniversalString) {
             Asn1PreparatorHelper.prepareField((Asn1UniversalString) valueField, value);
+        } else if (valueField instanceof Asn1BmpString) {
+            Asn1PreparatorHelper.prepareField((Asn1BmpString) valueField, value);
         } else if (valueField instanceof DirectoryString) {
             DirectoryStringPreparator directoryStringPreparator =
                     new DirectoryStringPreparator(chooser, (DirectoryString) valueField);
