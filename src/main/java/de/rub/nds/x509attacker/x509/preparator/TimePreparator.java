@@ -55,7 +55,10 @@ public class TimePreparator implements X509Preparator {
         switch (timeEncoding) {
             case GENERALIZED_TIME_DIFFERENTIAL:
                 Asn1PreparatorHelper.prepareFieldGeneralizedTimeUtcDifferential(
-                        (Asn1GeneralizedTime) timeField, dateTime, accurracy);
+                        (Asn1GeneralizedTime) timeField,
+                        dateTime,
+                        accurracy,
+                        chooser.getConfig().getTimezoneOffsetInMinutes());
             case GENERALIZED_TIME_LOCAL:
                 Asn1PreparatorHelper.prepareFieldGeneralizedTime(
                         (Asn1GeneralizedTime) timeField, dateTime, accurracy);
@@ -65,12 +68,15 @@ public class TimePreparator implements X509Preparator {
                         (Asn1GeneralizedTime) timeField, dateTime, accurracy);
                 break;
             case UTC:
-                Asn1PreparatorHelper.prepareField(
-                        (Asn1UtcTime) timeField, dateTime, accurracy, false);
+                Asn1PreparatorHelper.prepareFieldUtcTime(
+                        (Asn1UtcTime) timeField, dateTime, accurracy);
                 break;
             case UTC_DIFFERENTIAL:
-                Asn1PreparatorHelper.prepareField(
-                        (Asn1UtcTime) timeField, dateTime, accurracy, true);
+                Asn1PreparatorHelper.prepareFieldUtcTimeDifferential(
+                        (Asn1UtcTime) timeField,
+                        dateTime,
+                        accurracy,
+                        chooser.getConfig().getTimezoneOffsetInMinutes());
                 break;
             default:
                 throw new UnsupportedOperationException(
