@@ -46,21 +46,35 @@ public class TimePreparator implements X509Preparator {
         } else {
             throw new RuntimeException("Something went wrong. Unexpected TimeContextHint.");
         }
+        if (timeEncoding.isGeneralizedTime()) {
+            timeField = new Asn1GeneralizedTime("generalizedTime");
+        } else {
+            timeField = new Asn1UtcTime("utcTime");
+        }
+        time.makeSelection(timeField);
         switch (timeEncoding) {
             case GENERALIZED_TIME_DIFFERENTIAL:
+                Asn1PreparatorHelper.prepareFieldGeneralizedTimeUtcDifferential(
+                        (Asn1GeneralizedTime) timeField, dateTime, accurracy);
             case GENERALIZED_TIME_LOCAL:
+                Asn1PreparatorHelper.prepareFieldGeneralizedTime(
+                        (Asn1GeneralizedTime) timeField, dateTime, accurracy);
+                break;
             case GENERALIZED_TIME_UTC:
-                timeField = new Asn1GeneralizedTime("generalizedTime");
+                Asn1PreparatorHelper.prepareFieldGeneralizedTimeUtc(
+                        (Asn1GeneralizedTime) timeField, dateTime, accurracy);
                 break;
             case UTC:
+                Asn1PreparatorHelper.prepareField(
+                        (Asn1UtcTime) timeField, dateTime, accurracy, false);
+                break;
             case UTC_DIFFERENTIAL:
-                timeField = new Asn1UtcTime("utcTime");
+                Asn1PreparatorHelper.prepareField(
+                        (Asn1UtcTime) timeField, dateTime, accurracy, true);
                 break;
             default:
                 throw new UnsupportedOperationException(
                         "Unimplemented time encoding: " + timeEncoding);
         }
-        time.makeSelection(timeField);
-        Asn1PreparatorHelper.prepareField(timeField, dateTime, accurracy);
     }
 }
