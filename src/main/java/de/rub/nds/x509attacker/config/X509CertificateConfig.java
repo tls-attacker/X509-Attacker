@@ -62,14 +62,14 @@ public class X509CertificateConfig {
 
     private TimeAccurracy notBeforeAccurracy = TimeAccurracy.SECONDS;
 
-    private ValidityEncoding defaultNotBeforeEncoding = ValidityEncoding.GENERALIZED_TIME_UTC;
+    private ValidityEncoding defaultNotBeforeEncoding = ValidityEncoding.UTC;
 
     private DateTime notAfter =
             new DateTime(2024, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2024
 
     private TimeAccurracy notAfterAccurracy = TimeAccurracy.SECONDS;
 
-    private ValidityEncoding defaultNotAfterEncoding = ValidityEncoding.GENERALIZED_TIME_UTC;
+    private ValidityEncoding defaultNotAfterEncoding = ValidityEncoding.UTC;
 
     private int timezoneOffsetInMinutes = 0;
 
