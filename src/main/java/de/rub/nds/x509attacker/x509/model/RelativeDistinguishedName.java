@@ -63,6 +63,7 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
         }
     }
 
+    @SafeVarargs
     public RelativeDistinguishedName(
             String identifier, Pair<X500AttributeType, String>... attributes) {
         super(identifier);

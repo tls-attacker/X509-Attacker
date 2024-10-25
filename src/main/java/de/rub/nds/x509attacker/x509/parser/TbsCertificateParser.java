@@ -53,6 +53,7 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
 
     private void parseExtensions(BufferedInputStream inputStream) {
         LOGGER.debug("Parsing Extensions as Unknwon Asn1Field since we did not implement them yet");
+        @SuppressWarnings("unused")
         Asn1UnknownField extensions =
                 ParserHelper.parseUnknown(inputStream); // TODO not yet implemented
         LOGGER.debug("Extensions are not yet visible in the TbsCertificate");
