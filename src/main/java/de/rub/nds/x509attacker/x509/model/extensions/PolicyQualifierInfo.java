@@ -21,6 +21,7 @@ import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -35,7 +36,9 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
     private Asn1ObjectIdentifier
             policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
     // id-qt-unotice )
-    @HoldsModifiableVariable private Asn1Encodable qualifier;
+    @HoldsModifiableVariable
+    @XmlAnyElement(lax = true)
+    private Asn1Encodable qualifier;
 
     private PolicyQualifierInfo() {
         super(null);
