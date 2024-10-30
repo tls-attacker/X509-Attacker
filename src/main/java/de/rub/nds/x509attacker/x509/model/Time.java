@@ -28,6 +28,13 @@ public class Time extends Asn1Choice implements X509Component, TimeField {
 
     private final TimeContextHint timeContext;
 
+    /** Private no-arg constructor to please JAXB */
+    @SuppressWarnings("unused")
+    private Time() {
+        super("time", new Asn1GeneralizedTime("generalizedTime"), new Asn1UtcTime("utcTime"));
+        timeContext = null;
+    }
+
     public Time(String identifier, TimeContextHint timeContext) {
         super(identifier, new Asn1GeneralizedTime("generalizedTime"), new Asn1UtcTime("utcTime"));
         this.timeContext = timeContext;
