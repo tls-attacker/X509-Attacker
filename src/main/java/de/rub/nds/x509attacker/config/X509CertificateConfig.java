@@ -28,6 +28,7 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.util.Arrays;
 import java.util.Collections;
@@ -39,7 +40,7 @@ import org.joda.time.DateTimeZone;
 @XmlRootElement
 @XmlSeeAlso({X500AttributeType.class})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509CertificateConfig {
+public class X509CertificateConfig implements Serializable {
 
     private X509SignatureAlgorithm signatureAlgorithm =
             X509SignatureAlgorithm.SHA256_WITH_RSA_ENCRYPTION;
