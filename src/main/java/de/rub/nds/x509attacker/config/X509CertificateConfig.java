@@ -59,14 +59,14 @@ public class X509CertificateConfig implements Serializable {
     private List<Pair<X500AttributeType, String>> subject;
 
     private DateTime notBefore =
-            new DateTime(2022, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
+            new DateTime(2024, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
 
     private TimeAccurracy notBeforeAccurracy = TimeAccurracy.SECONDS;
 
     private ValidityEncoding defaultNotBeforeEncoding = ValidityEncoding.UTC;
 
     private DateTime notAfter =
-            new DateTime(2024, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2024
+            new DateTime(2026, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2024
 
     private TimeAccurracy notAfterAccurracy = TimeAccurracy.SECONDS;
 
