@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.signatureengine.keyparsers;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -18,17 +17,19 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.security.PrivateKey;
 import java.security.PublicKey;
+import java.security.SecureRandom;
 import java.security.cert.CertificateException;
 import java.security.cert.CertificateFactory;
 import java.util.Collection;
-import org.bouncycastle.asn1.ASN1Primitive;
 import org.bouncycastle.asn1.pkcs.PrivateKeyInfo;
 import org.bouncycastle.asn1.x509.SubjectPublicKeyInfo;
-import org.bouncycastle.crypto.tls.Certificate;
-import org.bouncycastle.crypto.tls.TlsUtils;
 import org.bouncycastle.openssl.PEMKeyPair;
 import org.bouncycastle.openssl.PEMParser;
 import org.bouncycastle.openssl.jcajce.JcaPEMKeyConverter;
+import org.bouncycastle.tls.Certificate;
+import org.bouncycastle.tls.crypto.TlsCertificate;
+import org.bouncycastle.tls.crypto.TlsCrypto;
+import org.bouncycastle.tls.crypto.impl.bc.BcTlsCrypto;
 import org.bouncycastle.util.io.pem.PemObject;
 import org.bouncycastle.util.io.pem.PemWriter;
 
@@ -60,7 +61,7 @@ public class PemUtil {
         PemWriter pemWriter = null;
         try {
             pemWriter = new PemWriter(new FileWriter(file));
-            for (org.bouncycastle.asn1.x509.Certificate tempCert : cert.getCertificateList()) {
+            for (TlsCertificate tempCert : cert.getCertificateList()) {
                 PemObject pemObject = new PemObject("CERTIFICATE", tempCert.getEncoded());
                 pemWriter.writeObject(pemObject);
             }
@@ -86,15 +87,9 @@ public class PemUtil {
         java.security.cert.Certificate sunCert =
                 (java.security.cert.Certificate) certs.toArray()[0];
         byte[] certBytes = sunCert.getEncoded();
-        ASN1Primitive asn1Cert = TlsUtils.readASN1Object(certBytes);
-        org.bouncycastle.asn1.x509.Certificate cert =
-                org.bouncycastle.asn1.x509.Certificate.getInstance(asn1Cert);
-        org.bouncycastle.asn1.x509.Certificate[] certs2 =
-                new org.bouncycastle.asn1.x509.Certificate[1];
-        certs2[0] = cert;
-        org.bouncycastle.crypto.tls.Certificate tlsCerts =
-                new org.bouncycastle.crypto.tls.Certificate(certs2);
-        return tlsCerts;
+        TlsCrypto crypto = new BcTlsCrypto(new SecureRandom());
+        TlsCertificate tlsCertificate = crypto.createCertificate(certBytes);
+        return new Certificate(new TlsCertificate[] {tlsCertificate});
     }
 
     public static Certificate readCertificate(File file)
@@ -176,16 +171,6 @@ public class PemUtil {
         try {
             return readPublicKey(new FileInputStream(file));
         } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
-        }
-    }
-
-    public static byte[] encodeCert(Certificate cert) {
-        try {
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
-            cert.encode(stream);
-            return stream.toByteArray();
-        } catch (IOException ex) {
             throw new RuntimeException(ex);
         }
     }

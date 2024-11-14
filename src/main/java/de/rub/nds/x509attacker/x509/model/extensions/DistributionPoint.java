@@ -18,6 +18,7 @@ import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
+import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 
 /**
@@ -32,7 +33,9 @@ public class DistributionPoint extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable private ReasonFlags reasons;
 
-    @HoldsModifiableVariable private GeneralNames crlIssuer;
+    @HoldsModifiableVariable
+    @XmlAnyElement(lax = true)
+    private GeneralNames crlIssuer;
 
     private DistributionPoint() {
         super(null);

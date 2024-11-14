@@ -13,5 +13,11 @@ public enum ValidityEncoding {
     UTC_DIFFERENTIAL,
     GENERALIZED_TIME_LOCAL,
     GENERALIZED_TIME_UTC,
-    GENERALIZED_TIME_DIFFERENTIAL
+    GENERALIZED_TIME_DIFFERENTIAL;
+
+    public boolean isGeneralizedTime() {
+        return this == GENERALIZED_TIME_LOCAL
+                || this == GENERALIZED_TIME_UTC
+                || this == GENERALIZED_TIME_DIFFERENTIAL;
+    }
 }

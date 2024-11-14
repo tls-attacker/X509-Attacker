@@ -71,6 +71,7 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
         }
     }
 
+    @SafeVarargs
     public RelativeDistinguishedName(
             String identifier,
             DirectoryStringChoiceType choiceType,

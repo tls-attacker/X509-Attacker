@@ -28,13 +28,16 @@ public class SubjectPublicKeyAlgorithmIdentifierPreparator
         Asn1PreparatorHelper.prepareField(
                 field.getAlgorithm(), chooser.getConfig().getPublicKeyType().getOid());
         PublicParameters publicKeyParameters = field.getParameters();
-        if (publicKeyParameters == null) {
+        if (publicKeyParameters == null
+                && chooser.getConfig().getPublicKeyType() != X509PublicKeyType.RSASSA_PSS) {
             publicKeyParameters = createPublicKeyParameters();
             field.setParameters(publicKeyParameters);
         }
-        publicKeyParameters.getPreparator(chooser).prepare();
-        publicKeyParameters.getHandler(chooser).adjustContextAfterPrepare();
-        field.setParameters(publicKeyParameters);
+        if (publicKeyParameters != null) {
+            publicKeyParameters.getPreparator(chooser).prepare();
+            publicKeyParameters.getHandler(chooser).adjustContextAfterPrepare();
+            field.setParameters(publicKeyParameters);
+        }
     }
 
     private PublicParameters createPublicKeyParameters() {

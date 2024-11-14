@@ -102,7 +102,8 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
         chooser.getContext()
                 .setSubjectEcPublicKey(
                         PointFormatter.formatFromByteArray(
-                                chooser.getConfig().getDefaultNamedCurve().getParameters(),
+                                chooser.getSubjectNamedCurve().getParameters(),
+                                TODO: chooser.getConfig().getDefaultNamedCurve().getParameters(),
                                 getEncodedPointBytes().getValue()));
     }
 
@@ -111,7 +112,8 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
         this.setEncodedPointBytes(bytesToRead);
         Point publicKeyPoint =
                 PointFormatter.formatFromByteArray(
-                        chooser.getConfig().getDefaultNamedCurve().getParameters(), bytesToRead);
+                        chooser.getSubjectNamedCurve().getParameters(), bytesToRead);
+                        TODO: chooser.getConfig().getDefaultNamedCurve().getParameters(), bytesToRead);
         this.setxCoordinate(publicKeyPoint.getFieldX().getData());
         this.setyCoordinate(publicKeyPoint.getFieldY().getData());
     }

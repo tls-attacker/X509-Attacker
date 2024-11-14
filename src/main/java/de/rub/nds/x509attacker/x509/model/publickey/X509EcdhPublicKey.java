@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.model.publickey;
 
 import de.rub.nds.asn1.model.Asn1OctetString;
+import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
 import de.rub.nds.modifiablevariable.biginteger.ModifiableBigInteger;
 import de.rub.nds.modifiablevariable.singlebyte.ModifiableByte;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -25,6 +26,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.io.BufferedInputStream;
 import java.io.ByteArrayInputStream;
+import java.math.BigInteger;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -47,8 +49,16 @@ public class X509EcdhPublicKey extends Asn1OctetString implements PublicKeyConte
         this.xCoordinate = xCoordinate;
     }
 
+    public void setxCoordinate(BigInteger xCoordinate) {
+        this.xCoordinate = ModifiableVariableFactory.safelySetValue(this.xCoordinate, xCoordinate);
+    }
+
     public ModifiableBigInteger getyCoordinate() {
         return yCoordinate;
+    }
+
+    public void setyCoordinate(BigInteger yCoordinate) {
+        this.yCoordinate = ModifiableVariableFactory.safelySetValue(this.yCoordinate, yCoordinate);
     }
 
     public void setyCoordinate(ModifiableBigInteger yCoordinate) {
