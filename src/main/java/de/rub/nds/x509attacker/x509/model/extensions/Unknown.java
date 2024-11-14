@@ -30,6 +30,10 @@ public class Unknown extends Extension<UnknownConfig> {
 
     @HoldsModifiableVariable private ModifiableByteArray content;
 
+    private Unknown() {
+        super(null);
+    }
+
     public Unknown(String identifier) {
         super(identifier);
     }
