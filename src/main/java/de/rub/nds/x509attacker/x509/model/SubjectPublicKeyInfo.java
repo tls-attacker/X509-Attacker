@@ -109,8 +109,10 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
             case ED448:
             case X25519:
             case X448:
-            case RSASSA_PSS:
                 publicParameters = new X509NullParameters("nullParameters");
+                break;
+            case RSASSA_PSS:
+                // leave as null TODO: implement RSASSA parameters
                 break;
             default:
                 throw new UnsupportedOperationException(
