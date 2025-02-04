@@ -89,7 +89,11 @@ public class AttributeTypeAndValuePreparator
         X500AttributeType attributeType = field.getAttributeTypeConfig();
         ObjectIdentifier oid;
         if (attributeType == null) {
-            oid = new ObjectIdentifier("1.1");
+            if (field.getType() != null) {
+                oid = new ObjectIdentifier(field.getType().getValue().getValue());
+            } else {
+                oid = new ObjectIdentifier("1.1");
+            }
         } else {
             oid = attributeType.getOid();
         }
