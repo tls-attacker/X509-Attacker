@@ -19,7 +19,7 @@ import org.apache.logging.log4j.Logger;
 
 public class NameParser extends X509ComponentContainerParser<Name> {
 
-    private final Logger LOGGER = LogManager.getLogger();
+    private static final Logger LOGGER = LogManager.getLogger();
 
     public NameParser(X509Chooser chooser, Name name) {
         super(chooser, name);

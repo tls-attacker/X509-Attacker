@@ -19,8 +19,7 @@ import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElementRef;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
+import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
@@ -30,7 +29,8 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GeneralNames extends Asn1Sequence implements X509Component {
 
-    @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
+    @HoldsModifiableVariable
+    @XmlAnyElement(lax = true)
     private List<GeneralName> generalName;
 
     private GeneralNames() {
