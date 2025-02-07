@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.rub.nds</groupId>
         <artifactId>protocol-toolkit-bom</artifactId>
-        <version>4.4.1</version>
+        <version>4.5.0</version>
     </parent>
 
     <artifactId>x509-attacker</artifactId>
@@ -89,15 +89,15 @@
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
+            <artifactId>bcpkix-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
+            <artifactId>bcprov-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bctls-jdk15on</artifactId>
+            <artifactId>bctls-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
