@@ -64,7 +64,7 @@ public class MimicryEngine {
             // The upper most certificate is selfsigned
             X509CertificateConfig signatureKeyConfig;
             boolean selfsigned = false;
-            if (i == originalChain.size() - 1) {
+            if (i == 0) {
                 signatureKeyConfig = privateKeyConfigs.get(i);
                 selfsigned = true;
             } else {
@@ -118,7 +118,7 @@ public class MimicryEngine {
             BigInteger publicExponent =
                     ((RsaPublicKey) certificate.getPublicKeyContainer()).getPublicExponent();
             Pair<RsaPublicKey, RsaPrivateKey> rsaKeys =
-                    KeyGenerator.generateRsaKeys(publicExponent, bitLength, new Random());
+                    KeyGenerator.generateRsaKeys(publicExponent, bitLength, new Random(0));
             publicKeyConfig.setRsaModulus(rsaKeys.getLeft().getModulus());
             publicKeyConfig.setRsaPublicKey(rsaKeys.getLeft().getPublicExponent());
             publicKeyConfig.setRsaPrivateKey(rsaKeys.getRight().getPrivateExponent());
