@@ -123,6 +123,8 @@ public class X509CertificateConfig implements Serializable {
 
     private BigInteger dsaPrivateKey = new BigInteger("FFFF", 16);
 
+    private BigInteger defaultIssuerDsaNonce = new BigInteger("FFFF", 16);
+
     private BigInteger ecPrivateKey = new BigInteger("03", 16);
 
     private Point ecPublicKey = null;
@@ -175,9 +177,13 @@ public class X509CertificateConfig implements Serializable {
 
     private BigInteger defaultIssuerEcPrivateKey = new BigInteger("03", 16);
 
+    private BigInteger defaultIssuerNonce = new BigInteger("ABCDEF", 16);
+
     private Boolean includeDhValidationParameters = false;
 
     private X509NamedCurve defaultSubjectNamedCurve = X509NamedCurve.SECP256R1;
+
+    private X509NamedCurve defaultIssuerNamedCurve = X509NamedCurve.SECP256R1;
 
     private BigInteger dhValidationParameterPgenCounter = new BigInteger("1");
 
@@ -203,6 +209,30 @@ public class X509CertificateConfig implements Serializable {
                                 "42877656971275811310262564894490210024759287182177196162425349131675946712428"),
                         new BigInteger(
                                 "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
+    }
+
+    public BigInteger getDefaultIssuerDsaNonce() {
+        return defaultIssuerDsaNonce;
+    }
+
+    public void setDefaultIssuerDsaNonce(BigInteger defaultIssuerDsaNonc) {
+        this.defaultIssuerDsaNonce = defaultIssuerDsaNonc;
+    }
+
+    public X509NamedCurve getDefaultIssuerNamedCurve() {
+        return defaultIssuerNamedCurve;
+    }
+
+    public void setDefaultIssuerNamedCurve(X509NamedCurve defaultIssuerNamedCurve) {
+        this.defaultIssuerNamedCurve = defaultIssuerNamedCurve;
+    }
+
+    public BigInteger getDefaultIssuerNonce() {
+        return defaultIssuerNonce;
+    }
+
+    public void setDefaultIssuerNonce(BigInteger defaultIssuerNonce) {
+        this.defaultIssuerNonce = defaultIssuerNonce;
     }
 
     public PointFormat getDefaultEcPointFormat() {
