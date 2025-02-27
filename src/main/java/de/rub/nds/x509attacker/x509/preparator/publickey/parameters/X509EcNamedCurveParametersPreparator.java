@@ -23,7 +23,8 @@ public class X509EcNamedCurveParametersPreparator
 
     @Override
     protected byte[] encodeContent() {
-        Asn1PreparatorHelper.prepareField(field, chooser.getSubjectNamedCurve().getOid());
+        Asn1PreparatorHelper.prepareField(
+                field, chooser.getConfig().getDefaultSubjectNamedCurve().getOid());
         return field.getContent().getValue();
     }
 }
