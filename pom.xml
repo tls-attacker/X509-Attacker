@@ -4,7 +4,7 @@
     <parent>
         <groupId>de.rub.nds</groupId>
         <artifactId>protocol-toolkit-bom</artifactId>
-        <version>4.2.7</version>
+        <version>5.0.0</version>
     </parent>
 
     <artifactId>x509-attacker</artifactId>
@@ -49,8 +49,8 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <maven.compiler.source>11</maven.compiler.source>
-        <maven.compiler.target>11</maven.compiler.target>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
         <!-- The following variables are required for Jenkins CI -->
         <skipTests>false</skipTests>
         <skip.surefire.tests>${skipTests}</skip.surefire.tests>
@@ -90,15 +90,15 @@
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcpkix-jdk15on</artifactId>
+            <artifactId>bcpkix-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bcprov-jdk15on</artifactId>
+            <artifactId>bcprov-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.bouncycastle</groupId>
-            <artifactId>bctls-jdk15on</artifactId>
+            <artifactId>bctls-jdk18on</artifactId>
         </dependency>
         <dependency>
             <groupId>org.glassfish.jaxb</groupId>
@@ -139,7 +139,7 @@
                             <spacesPerTab>4</spacesPerTab>
                         </indent>
                         <googleJavaFormat>
-                            <version>1.15.0</version>
+                            <version>1.25.2</version>
                             <style>AOSP</style>
                         </googleJavaFormat>
                         <licenseHeader>
