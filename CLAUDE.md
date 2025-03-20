@@ -1,6 +1,7 @@
 # X509-Attacker Development Guide
 
 ## Build/Test Commands
+
 ```bash
 # Build project
 mvn clean install
@@ -22,16 +23,18 @@ mvn spotless:apply
 ```
 
 ## Code Style
+
 - **Java Version**: JDK 21
 - **Formatting**: Google Java Format (AOSP style)
 - **Indentation**: 4 spaces
 - **Imports**: Organized and unused imports removed
 - **Error Handling**: Use specific exceptions with informative messages
-- **Naming**: 
+- **Naming**:
   - Classes: PascalCase (e.g., X509CertificateChain)
   - Methods/Variables: camelCase
   - Constants: UPPER_CASE
 - **Testing**: JUnit 5 with descriptive test names
 
 ## Project Structure
+
 X.509-Attacker is based on ASN.1-Attacker for creating certificates, including invalid/malformed ones.
