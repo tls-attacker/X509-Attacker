@@ -11,12 +11,6 @@ package de.rub.nds.x509attacker.util;
 import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-
-import org.junit.jupiter.api.Test;
-
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.modifiablevariable.bytearray.ByteArrayExplicitValueModification;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
@@ -26,6 +20,10 @@ import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.filesystem.CertificateIo;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
 import de.rub.nds.x509attacker.x509.preparator.X509CertificatePreparator;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.List;
+import org.junit.jupiter.api.Test;
 
 /**
  * Tests that verify modifications to certificate structures are reflected in the serialized output.
@@ -62,9 +60,21 @@ class ModificationVerificationTest {
 
         // Modify the signature content to empty array - using setOriginalValue
 
-        mimicryCertificateChain.getCertificate(0).getSignature().getContent().addModification(new ByteArrayExplicitValueModification(new byte[0]));
-        mimicryCertificateChain.getCertificate(0).getSignature().getTagOctets().addModification(new ByteArrayExplicitValueModification(new byte[0]));
-        mimicryCertificateChain.getCertificate(0).getSignature().getLengthOctets().addModification(new ByteArrayExplicitValueModification(new byte[0]));
+        mimicryCertificateChain
+                .getCertificate(0)
+                .getSignature()
+                .getContent()
+                .addModification(new ByteArrayExplicitValueModification(new byte[0]));
+        mimicryCertificateChain
+                .getCertificate(0)
+                .getSignature()
+                .getTagOctets()
+                .addModification(new ByteArrayExplicitValueModification(new byte[0]));
+        mimicryCertificateChain
+                .getCertificate(0)
+                .getSignature()
+                .getLengthOctets()
+                .addModification(new ByteArrayExplicitValueModification(new byte[0]));
         Asn1PreparatorHelper.prepareAfterContent(
                 mimicryCertificateChain.getCertificate(0).getSignature());
         X509CertificatePreparator preparator =
