@@ -64,9 +64,9 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         if (config.isIncludeSerialNumber()) {
             serialNumber = new Asn1Integer("serialNumber");
         }
-        if (config.isIncludeSignatureAlgorithm()) {
-            signature = new CertificateSignatureAlgorithmIdentifier("signature");
-        }
+
+        signature = new CertificateSignatureAlgorithmIdentifier("signature");
+
         issuer =
                 new Name(
                         "issuer",
