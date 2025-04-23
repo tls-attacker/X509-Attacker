@@ -15,7 +15,7 @@ running:
 $ sudo apt-get install maven
 ```
 
-X.509-Attacker currently needs Java JDK 11 to run. If you have the correct Java version you can install
+X.509-Attacker currently needs Java JDK 21 to run. If you have the correct Java version you can install
 X.509-Attacker as follows.
 
 ```bash
@@ -31,7 +31,7 @@ If you want to use this project as a dependency, you do not have to compile it y
 <dependency>
     <groupId>de.rub.nds</groupId>
     <artifactId>x509-attacker</artifactId>
-    <version>3.0.0</version>
+    <version>4.0.0</version>
 </dependency>
 ```
 

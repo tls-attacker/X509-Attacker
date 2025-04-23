@@ -76,16 +76,13 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         if (config.isIncludeValidity()) {
             validity = new Validity("validity", config);
         }
-        if (config.isSelfSigned()) {
-            subject = issuer;
-        } else {
-            subject =
-                    new Name(
-                            "subject",
-                            NameType.SUBJECT,
-                            config.getSubject(),
-                            config.getDefaultDirectoryStringType());
-        }
+
+        subject =
+                new Name(
+                        "subject",
+                        NameType.SUBJECT,
+                        config.getSubject(),
+                        config.getDefaultDirectoryStringType());
 
         if (config.isIncludeSubjectPublicKeyInfo()) {
             subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
@@ -134,7 +131,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
     // TODO: move functionality to ASN.1
     private void setContextSpecificTagNumber(Asn1Field field, int tagClass) {
         field.setTagNumber(ModifiableVariableFactory.safelySetValue(field.getTagClass(), 0));
-        field.getTagNumber().setModification(new IntegerExplicitValueModification(tagClass));
+        field.getTagNumber().setModifications(new IntegerExplicitValueModification(tagClass));
     }
 
     public Asn1Integer getSerialNumber() {

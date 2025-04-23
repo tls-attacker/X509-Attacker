@@ -88,7 +88,6 @@ public enum X509PublicKeyType {
                 throw new UnsupportedOperationException("Not implemented: " + this);
             case RSA:
                 return signatureAlgorithm == SignatureAlgorithm.RSA_PKCS1;
-
             case RSASSA_PSS:
                 return signatureAlgorithm == SignatureAlgorithm.RSA_SSA_PSS;
             case X25519:

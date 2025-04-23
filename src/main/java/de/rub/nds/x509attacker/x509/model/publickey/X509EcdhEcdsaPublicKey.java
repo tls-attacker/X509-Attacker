@@ -15,6 +15,7 @@ import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.crypto.ec.PointFormatter;
 import de.rub.nds.protocol.crypto.key.EcdhPublicKey;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509NamedCurve;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -76,18 +77,23 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
 
     @Override
     public void prepare(X509Chooser chooser) {
-        this.setxCoordinate(
-                chooser.getConfig().getDefaultSubjectEcPublicKey().getFieldX().getData());
-        this.setyCoordinate(
-                chooser.getConfig().getDefaultSubjectEcPublicKey().getFieldY().getData());
+        X509NamedCurve namedCurve = chooser.getConfig().getDefaultSubjectNamedCurve();
+        Point publicKey =
+                namedCurve
+                        .getParameters()
+                        .getGroup()
+                        .nTimesGroupOperationOnGenerator(
+                                chooser.getConfig().getDefaultSubjectEcPrivateKey());
+        this.setxCoordinate(publicKey.getFieldX().getData());
+        this.setyCoordinate(publicKey.getFieldY().getData());
         EcdhPublicKey ecdhPublicKey =
                 new EcdhPublicKey(
                         this.getxCoordinate().getValue(),
                         this.getyCoordinate().getValue(),
-                        chooser.getConfig().getDefaultNamedCurve().getParameters());
+                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters());
         this.setEncodedPointBytes(
                 PointFormatter.formatToByteArray(
-                        chooser.getConfig().getDefaultNamedCurve().getParameters(),
+                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
                         ecdhPublicKey.getPublicPoint(),
                         chooser.getConfig().getDefaultEcPointFormat()));
     }

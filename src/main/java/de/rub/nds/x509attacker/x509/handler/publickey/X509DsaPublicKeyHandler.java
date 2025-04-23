@@ -26,8 +26,8 @@ public class X509DsaPublicKeyHandler extends X509FieldHandler<X509DsaPublicKey> 
     @Override
     public void adjustContextAfterPrepare() {
         adjustContext();
-        context.setSubjectDsaPrivateKeyX(config.getDefaultIssuerDsaPrivateKeyX());
-        context.setSubjectDsaPrivateK(config.getDefaultIssuerDsaPrivateK());
+        context.setSubjectDsaPrivateKeyX(config.getDefaultIssuerDsaPrivateKey());
+        context.setSubjectDsaPrivateK(config.getDefaultIssuerDsaNonce());
     }
 
     public void adjustContext() {

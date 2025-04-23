@@ -29,6 +29,8 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
         if (hasVersionField(inputStream)) {
             LOGGER.debug("Assuming Certificate has a Version field");
             parseVersion(inputStream);
+        } else {
+            encodable.setVersion(null);
         }
         parseSerialNumber(inputStream);
         parseSignatureInformation(inputStream);
@@ -39,14 +41,20 @@ public class TbsCertificateParser extends X509ComponentContainerParser<TbsCertif
         if (hasIssuerUniqueId(inputStream)) {
             LOGGER.debug("Assuming Certificate has an IssuerUniqueID field");
             parseIssuerUniqueId(inputStream);
+        } else {
+            encodable.setIssuerUniqueId(null);
         }
         if (hasSubjectUniqueId(inputStream)) {
             LOGGER.debug("Assuming Certificate has a SubjectUniqueID field");
             parseSubjectUniqueId(inputStream);
+        } else {
+            encodable.setSubjectUniqueId(null);
         }
         if (hasExtensions(inputStream)) {
             LOGGER.debug("Assuming Certificate has an Extensions field");
             parseExtensions(inputStream);
+        } else {
+            encodable.setExplicitExtensions(null);
         }
     }
 

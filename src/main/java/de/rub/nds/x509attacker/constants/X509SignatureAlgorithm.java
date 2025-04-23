@@ -115,6 +115,7 @@ public enum X509SignatureAlgorithm {
     private final String humanReadableName;
     private final ObjectIdentifier oid;
     private final SignatureAlgorithm signatureAlgorithm;
+
     /**
      * Some signature algorithms do not explicitly specify a hash algorithm, so this value might be
      * null.
