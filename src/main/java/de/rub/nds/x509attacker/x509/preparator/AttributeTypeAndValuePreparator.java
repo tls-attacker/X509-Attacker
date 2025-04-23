@@ -16,7 +16,6 @@ import de.rub.nds.x509attacker.constants.DirectoryStringChoiceType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.DirectoryString;
-import de.rub.nds.x509attacker.x509.model.DirectoryString;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 

@@ -72,8 +72,10 @@ public class MimicryEngineTest {
                 if (rereadCertificiate.getCertificateKeyType() == X509PublicKeyType.RSA) {
                     RsaPublicKey publicKey =
                             (RsaPublicKey) rereadCertificiate.getPublicKeyContainer();
-                    assertEquals(finalConfig.getRsaModulus(), publicKey.getModulus());
-                    assertEquals(finalConfig.getRsaPublicExponent(), publicKey.getPublicExponent());
+                    assertEquals(finalConfig.getDefaultSubjectRsaModulus(), publicKey.getModulus());
+                    assertEquals(
+                            finalConfig.getDefaultSubjectRsaPublicExponent(),
+                            publicKey.getPublicExponent());
                 } else if (rereadCertificiate.getCertificateKeyType()
                         == X509PublicKeyType.ECDH_ECDSA) {
                     // Expected point:
@@ -81,7 +83,8 @@ public class MimicryEngineTest {
                             originalCertificate
                                     .getEllipticCurve()
                                     .getGroup()
-                                    .nTimesGroupOperationOnGenerator(finalConfig.getEcPrivateKey());
+                                    .nTimesGroupOperationOnGenerator(
+                                            finalConfig.getDefaultSubjectEcPrivateKey());
 
                     EcdsaPublicKey publicKey =
                             (EcdsaPublicKey) rereadCertificiate.getPublicKeyContainer();
@@ -104,7 +107,7 @@ public class MimicryEngineTest {
                             originialPublicKey
                                     .getGenerator()
                                     .modPow(
-                                            finalConfig.getDsaPrivateKey(),
+                                            finalConfig.getDefaultSubjectDsaPrivateKey(),
                                             originialPublicKey.getModulus());
                     assertEquals(expectedPublicKey, publicKey.getY());
                 } else {

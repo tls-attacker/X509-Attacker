@@ -83,7 +83,7 @@ public class X509Chooser {
         if (context.getIssuerDsaPrivateKeyX() != null) {
             return context.getIssuerDsaPrivateKeyX();
         } else {
-            return config.getDefaultIssuerDsaPrivateKeyX();
+            return config.getDefaultIssuerDsaPrivateKey();
         }
     }
 
@@ -91,7 +91,7 @@ public class X509Chooser {
         if (context.getIssuerDsaPrivateK() != null) {
             return context.getIssuerDsaPrivateK();
         } else {
-            return config.getDefaultIssuerDsaPrivateK();
+            return config.getDefaultIssuerDsaNonce();
         }
     }
 
@@ -139,7 +139,7 @@ public class X509Chooser {
         if (context.getSubjectNamedCurve() != null) {
             return context.getSubjectNamedCurve();
         } else {
-            return config.getDefaultNamedCurve();
+            return config.getDefaultSubjectNamedCurve();
         }
     }
 
@@ -203,7 +203,7 @@ public class X509Chooser {
         if (context.getSubjectDsaPrivateKeyX() != null) {
             return context.getSubjectDsaPrivateKeyX();
         } else {
-            return config.getDefaultSubjectDsaPrivateKeyX();
+            return config.getDefaultSubjectDsaPrivateKey();
         }
     }
 
@@ -211,7 +211,7 @@ public class X509Chooser {
         if (context.getSubjectDsaPrivateK() != null) {
             return context.getSubjectDsaPrivateK();
         } else {
-            return config.getDefaultSubjectDsaPrivateK();
+            return config.getDefaultSubjectDsaNonce();
         }
     }
 
@@ -292,14 +292,6 @@ public class X509Chooser {
             return context.getRsaPssHashAlgorithm();
         } else {
             return config.getRsaPssHashAlgorithm();
-        }
-    }
-
-    public BigInteger getEcdsaNonce() {
-        if (context.getEcdsaNonce() != null) {
-            return context.getEcdsaNonce();
-        } else {
-            return config.getDefaultEcPrivateKeyK();
         }
     }
 }

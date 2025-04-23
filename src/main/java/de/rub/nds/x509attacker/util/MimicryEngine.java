@@ -91,11 +91,12 @@ public class MimicryEngine {
                     X509NamedCurve.getX509NamedCurve(certificate.getEllipticCurve()));
 
             if (certificate.getCertificateKeyType() == X509PublicKeyType.RSA) {
-                signatureKeyConfig.setDefaultIssuerRsaModulus(signatureKeyConfig.getRsaModulus());
+                signatureKeyConfig.setDefaultIssuerRsaModulus(
+                        signatureKeyConfig.getDefaultSubjectRsaModulus());
                 signatureKeyConfig.setDefaultIssuerRsaPrivateKey(
-                        signatureKeyConfig.getRsaPrivateKey());
+                        signatureKeyConfig.getDefaultSubjectRsaPrivateKey());
                 signatureKeyConfig.setDefaultIssuerRsaPublicKey(
-                        signatureKeyConfig.getRsaPublicExponent());
+                        signatureKeyConfig.getDefaultSubjectRsaPublicExponent());
             }
         }
 
@@ -119,21 +120,21 @@ public class MimicryEngine {
                     ((RsaPublicKey) certificate.getPublicKeyContainer()).getPublicExponent();
             Pair<RsaPublicKey, RsaPrivateKey> rsaKeys =
                     KeyGenerator.generateRsaKeys(publicExponent, bitLength, new Random(0));
-            publicKeyConfig.setRsaModulus(rsaKeys.getLeft().getModulus());
-            publicKeyConfig.setRsaPublicKey(rsaKeys.getLeft().getPublicExponent());
-            publicKeyConfig.setRsaPrivateKey(rsaKeys.getRight().getPrivateExponent());
+            publicKeyConfig.setDefaultSubjectRsaModulus(rsaKeys.getLeft().getModulus());
+            publicKeyConfig.setDefaultSubjectRsaPublicKey(rsaKeys.getLeft().getPublicExponent());
+            publicKeyConfig.setDefaultSubjectRsaPrivateKey(rsaKeys.getRight().getPrivateExponent());
         }
         if (certificate.getCertificateKeyType() == X509PublicKeyType.DSA) {
             DsaPublicKey dsaPublicKey =
                     KeyGenerator.generateDsaPublicKey(
-                            publicKeyConfig.getDsaPrivateKey(),
+                            publicKeyConfig.getDefaultSubjectDsaPrivateKey(),
                             ((DsaPublicKey) certificate.getPublicKeyContainer()).getGenerator(),
                             ((DsaPublicKey) certificate.getPublicKeyContainer()).getModulus(),
                             ((DsaPublicKey) certificate.getPublicKeyContainer()).getQ());
-            publicKeyConfig.setDsaGenerator(dsaPublicKey.getGenerator());
-            publicKeyConfig.setDsaPrimeP(dsaPublicKey.getModulus());
-            publicKeyConfig.setDsaPrimeQ(dsaPublicKey.getQ());
-            publicKeyConfig.setDsaPublicKeyY(dsaPublicKey.getY());
+            publicKeyConfig.setDefaultSubjectDsaGenerator(dsaPublicKey.getGenerator());
+            publicKeyConfig.setDefaultSubjectDsaPrimeP(dsaPublicKey.getModulus());
+            publicKeyConfig.setDefaultSubjectDsaPrimeQ(dsaPublicKey.getQ());
+            publicKeyConfig.setDefaultSubjectDsaPublicKey(dsaPublicKey.getY());
         }
         PublicKeyBitString subjectPublicKeyBitString =
                 certificate

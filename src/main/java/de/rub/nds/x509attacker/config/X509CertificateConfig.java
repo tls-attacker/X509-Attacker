@@ -27,7 +27,6 @@ import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.math.BigInteger;
-import java.security.interfaces.*;
 import java.util.*;
 import org.joda.time.DateTime;
 import org.joda.time.DateTimeZone;
@@ -186,31 +185,28 @@ public class X509CertificateConfig implements Serializable {
                     ArrayConverter.hexStringToByteArray(
                             "65156617622800735332349507429442461145570633167425277151859628203447173398618841390144416538882229413333406975030689740527984321220945376604222789080468870842127963270966236996108050158986786669882626916391236405465892032876903142252476593858042910531673747767331334717213315269973266699566260155690447992911"));
 
-    private BigInteger defaultIssuerDsaPrivateKeyX = new BigInteger("FFFF", 16);
+    private BigInteger defaultIssuerDsaPrivateKey = new BigInteger("FFFF", 16);
 
-    private BigInteger defaultSubjectDsaPrivateKeyX = new BigInteger("FFFF", 16);
+    private BigInteger defaultSubjectDsaPrivateKey = new BigInteger("FFFF", 16);
 
-    private BigInteger defaultIssuerDsaPrivateK = new BigInteger("DDDD", 16);
+    private BigInteger defaultIssuerDsaNonce = new BigInteger("DDDD", 16);
 
-    private BigInteger defaultSubjectDsaPrivateK = new BigInteger("DDDD", 16);
+    private BigInteger defaultSubjectDsaNonce = new BigInteger("DDDD", 16);
 
     // ECDSA keys
 
     private PointFormat defaultEcPointFormat = PointFormat.UNCOMPRESSED;
 
-    private X509NamedCurve defaultNamedCurve = X509NamedCurve.SECP256R1;
+    private X509NamedCurve defaultSubjectNamedCurve = X509NamedCurve.SECP256R1;
 
-    private BigInteger defaultEcPrivateKeyK = new BigInteger("FFFF", 16);
+    private X509NamedCurve defaultIssuerNamedCurve = X509NamedCurve.SECP256R1;
 
-    private BigInteger defaultIssuerDsaNonce = new BigInteger("FFFF", 16);
-
-    private BigInteger ecPrivateKey = new BigInteger("03", 16);
     private BigInteger defaultIssuerEcPrivateKey = new BigInteger("03", 16);
 
     private BigInteger defaultSubjectEcPrivateKey = new BigInteger("03", 16);
 
     private Point defaultIssuerEcPublicKey =
-            defaultNamedCurve
+            defaultIssuerNamedCurve
                     .getParameters()
                     .getGroup()
                     .getPoint(
@@ -220,7 +216,7 @@ public class X509CertificateConfig implements Serializable {
                                     "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
 
     private Point defaultSubjectEcPublicKey =
-            defaultNamedCurve
+            defaultSubjectNamedCurve
                     .getParameters()
                     .getGroup()
                     .getPoint(
@@ -267,54 +263,6 @@ public class X509CertificateConfig implements Serializable {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
-    }
-
-    public boolean isSelfSigned() {
-        return selfSigned;
-    }
-
-    public void setSelfSigned(boolean selfSigned) {
-        this.selfSigned = selfSigned;
-    }
-
-    public CertificateChainPositionType getChainPosition() {
-        return chainPosition;
-    }
-
-    public void setChainPosition(CertificateChainPositionType chainPosition) {
-        this.chainPosition = chainPosition;
-    }
-
-    public boolean isEntity() {
-        return this.chainPosition == CertificateChainPositionType.ENTITY;
-    }
-
-    public boolean isIntermediate() {
-        return !isEntity();
-    }
-
-    public BigInteger getDefaultIssuerDsaNonce() {
-        return defaultIssuerDsaNonce;
-    }
-
-    public void setDefaultIssuerDsaNonce(BigInteger defaultIssuerDsaNonc) {
-        this.defaultIssuerDsaNonce = defaultIssuerDsaNonc;
-    }
-
-    public X509NamedCurve getDefaultIssuerNamedCurve() {
-        return defaultIssuerNamedCurve;
-    }
-
-    public void setDefaultIssuerNamedCurve(X509NamedCurve defaultIssuerNamedCurve) {
-        this.defaultIssuerNamedCurve = defaultIssuerNamedCurve;
-    }
-
-    public BigInteger getDefaultIssuerNonce() {
-        return defaultIssuerNonce;
-    }
-
-    public void setDefaultIssuerNonce(BigInteger defaultIssuerNonce) {
-        this.defaultIssuerNonce = defaultIssuerNonce;
     }
 
     public PointFormat getDefaultEcPointFormat() {
@@ -405,10 +353,6 @@ public class X509CertificateConfig implements Serializable {
         return defaultSubjectDsaGenerator;
     }
 
-    public void setDefaultIssuerDsaPublicKeyY(BigInteger defaultIssuerDsaPublicKeyY) {
-        this.defaultIssuerDsaPublicKeyY = defaultIssuerDsaPublicKeyY;
-    }
-
     public X509PublicKeyType getDefaultIssuerPublicKeyType() {
         return defaultIssuerPublicKeyType;
     }
@@ -441,20 +385,20 @@ public class X509CertificateConfig implements Serializable {
         this.defaultSubjectDsaPublicKey = defaultSubjectDsaPublicKey;
     }
 
-    public BigInteger getDefaultSubjectDsaPrivateKeyX() {
-        return defaultSubjectDsaPrivateKeyX;
+    public BigInteger getDefaultSubjectDsaPrivateKey() {
+        return defaultSubjectDsaPrivateKey;
     }
 
-    public void setDefaultSubjectDsaPrivateKeyX(BigInteger defaultSubjectDsaPrivateKeyX) {
-        this.defaultSubjectDsaPrivateKeyX = defaultSubjectDsaPrivateKeyX;
+    public void setDefaultSubjectDsaPrivateKey(BigInteger defaultSubjectDsaPrivateKey) {
+        this.defaultSubjectDsaPrivateKey = defaultSubjectDsaPrivateKey;
     }
 
-    public BigInteger getDefaultSubjectDsaPrivateK() {
-        return defaultSubjectDsaPrivateK;
+    public BigInteger getDefaultSubjectDsaNonce() {
+        return defaultSubjectDsaNonce;
     }
 
-    public void setDefaultSubjectDsaPrivateK(BigInteger defaultSubjectDsaPrivateK) {
-        this.defaultSubjectDsaPrivateK = defaultSubjectDsaPrivateK;
+    public void setDefaultSubjectDsaNonce(BigInteger defaultSubjectDsaNonce) {
+        this.defaultSubjectDsaNonce = defaultSubjectDsaNonce;
     }
 
     public BigInteger getDefaultIssuerRsaPrivateKey() {
@@ -473,12 +417,32 @@ public class X509CertificateConfig implements Serializable {
         this.defaultIssuerEcPrivateKey = defaultIssuerEcPrivateKey;
     }
 
-    public BigInteger getDefaultEcPrivateKeyK() {
-        return defaultEcPrivateKeyK;
+    public X509SignatureAlgorithm getSignatureAlgorithm() {
+        return signatureAlgorithm;
     }
 
-    public void setDefaultEcPrivateKeyK(BigInteger defaultEcPrivateKeyK) {
-        this.defaultEcPrivateKeyK = defaultEcPrivateKeyK;
+    public void setDefaultIssuer(List<Pair<X500AttributeType, String>> defaultIssuer) {
+        this.defaultIssuer = defaultIssuer;
+    }
+
+    public void setDefaultSubjectDsaGenerator(BigInteger defaultSubjectDsaGenerator) {
+        this.defaultSubjectDsaGenerator = defaultSubjectDsaGenerator;
+    }
+
+    public X509NamedCurve getDefaultSubjectNamedCurve() {
+        return defaultSubjectNamedCurve;
+    }
+
+    public void setDefaultSubjectNamedCurve(X509NamedCurve defaultSubjectNamedCurve) {
+        this.defaultSubjectNamedCurve = defaultSubjectNamedCurve;
+    }
+
+    public X509NamedCurve getDefaultIssuerNamedCurve() {
+        return defaultIssuerNamedCurve;
+    }
+
+    public void setDefaultIssuerNamedCurve(X509NamedCurve defaultIssuerNamedCurve) {
+        this.defaultIssuerNamedCurve = defaultIssuerNamedCurve;
     }
 
     public BigInteger getDefaultSubjectRsaPublicExponent() {
@@ -751,20 +715,20 @@ public class X509CertificateConfig implements Serializable {
         this.defaultSubjectRsaPrivateKey = defaultSubjectRsaPrivateKey;
     }
 
-    public BigInteger getDefaultIssuerDsaPrivateKeyX() {
-        return defaultIssuerDsaPrivateKeyX;
+    public BigInteger getDefaultIssuerDsaPrivateKey() {
+        return defaultIssuerDsaPrivateKey;
     }
 
-    public void setDefaultIssuerDsaPrivateKeyX(BigInteger defaultIssuerDsaPrivateKeyX) {
-        this.defaultIssuerDsaPrivateKeyX = defaultIssuerDsaPrivateKeyX;
+    public void setDefaultIssuerDsaPrivateKey(BigInteger defaultIssuerDsaPrivateKey) {
+        this.defaultIssuerDsaPrivateKey = defaultIssuerDsaPrivateKey;
     }
 
-    public BigInteger getDefaultIssuerDsaPrivateK() {
-        return defaultIssuerDsaPrivateK;
+    public BigInteger getDefaultIssuerDsaNonce() {
+        return defaultIssuerDsaNonce;
     }
 
-    public void setDefaultIssuerDsaPrivateK(BigInteger defaultIssuerDsaPrivateK) {
-        this.defaultIssuerDsaPrivateK = defaultIssuerDsaPrivateK;
+    public void setDefaultIssuerDsaNonce(BigInteger defaultIssuerDsaNonce) {
+        this.defaultIssuerDsaNonce = defaultIssuerDsaNonce;
     }
 
     public BigInteger getDefaultSubjectEcPrivateKey() {
