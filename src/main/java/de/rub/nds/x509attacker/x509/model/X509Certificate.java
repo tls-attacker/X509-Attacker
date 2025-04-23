@@ -213,7 +213,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
      * now
      */
     public Boolean isLeaf() {
-        String commonName = getCommonName();
+        String commonName = getSubjectCommonName();
         return commonName != null
                 && isIpOrDomain(commonName); // || hasSanExtension() == Boolean.TRUE; TODO
     }
@@ -249,7 +249,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
     }
 
     public boolean isCommonNameValidForUri(String uri) {
-        String commonName = getCommonName();
+        String commonName = getSubjectCommonName();
         if (commonName.startsWith("*.")) {
             // Handle wildcard certificates
             String suffix = commonName.substring(2);
@@ -279,9 +279,23 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
         return false;
     }
 
-    public String getCommonName() {
+    public String getSubjectCommonName() {
         for (RelativeDistinguishedName relativeDistinguishedName :
                 getTbsCertificate().getSubject().getRelativeDistinguishedNames()) {
+            for (AttributeTypeAndValue attributeTypeAndValue :
+                    relativeDistinguishedName.getAttributeTypeAndValueList()) {
+                if ((attributeTypeAndValue).getX500AttributeTypeFromValue()
+                        == X500AttributeType.COMMON_NAME) {
+                    return attributeTypeAndValue.getStringValueOfValue();
+                }
+            }
+        }
+        return null;
+    }
+
+    public String getIssuerCommonName() {
+        for (RelativeDistinguishedName relativeDistinguishedName :
+                getTbsCertificate().getIssuer().getRelativeDistinguishedNames()) {
             for (AttributeTypeAndValue attributeTypeAndValue :
                     relativeDistinguishedName.getAttributeTypeAndValueList()) {
                 if ((attributeTypeAndValue).getX500AttributeTypeFromValue()

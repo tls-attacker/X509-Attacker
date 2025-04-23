@@ -25,6 +25,7 @@ import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.XmlSeeAlso;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
 import java.math.BigInteger;
 import java.security.interfaces.*;
 import java.util.*;
@@ -34,13 +35,7 @@ import org.joda.time.DateTimeZone;
 @XmlRootElement
 @XmlSeeAlso({X500AttributeType.class})
 @XmlAccessorType(XmlAccessType.FIELD)
-public class X509CertificateConfig {
-
-    // TODO: maybe delete
-    private boolean selfSigned = true;
-
-    // TODO: maybe delete
-    private CertificateChainPositionType chainPosition = CertificateChainPositionType.ENTITY;
+public class X509CertificateConfig implements Serializable {
 
     private X509SignatureAlgorithm signatureAlgorithm =
             X509SignatureAlgorithm.SHA256_WITH_RSA_ENCRYPTION;
@@ -207,6 +202,9 @@ public class X509CertificateConfig {
 
     private BigInteger defaultEcPrivateKeyK = new BigInteger("FFFF", 16);
 
+    private BigInteger defaultIssuerDsaNonce = new BigInteger("FFFF", 16);
+
+    private BigInteger ecPrivateKey = new BigInteger("03", 16);
     private BigInteger defaultIssuerEcPrivateKey = new BigInteger("03", 16);
 
     private BigInteger defaultSubjectEcPrivateKey = new BigInteger("03", 16);
@@ -293,6 +291,30 @@ public class X509CertificateConfig {
 
     public boolean isIntermediate() {
         return !isEntity();
+    }
+
+    public BigInteger getDefaultIssuerDsaNonce() {
+        return defaultIssuerDsaNonce;
+    }
+
+    public void setDefaultIssuerDsaNonce(BigInteger defaultIssuerDsaNonc) {
+        this.defaultIssuerDsaNonce = defaultIssuerDsaNonc;
+    }
+
+    public X509NamedCurve getDefaultIssuerNamedCurve() {
+        return defaultIssuerNamedCurve;
+    }
+
+    public void setDefaultIssuerNamedCurve(X509NamedCurve defaultIssuerNamedCurve) {
+        this.defaultIssuerNamedCurve = defaultIssuerNamedCurve;
+    }
+
+    public BigInteger getDefaultIssuerNonce() {
+        return defaultIssuerNonce;
+    }
+
+    public void setDefaultIssuerNonce(BigInteger defaultIssuerNonce) {
+        this.defaultIssuerNonce = defaultIssuerNonce;
     }
 
     public PointFormat getDefaultEcPointFormat() {
@@ -383,16 +405,8 @@ public class X509CertificateConfig {
         return defaultSubjectDsaGenerator;
     }
 
-    public void setDefaultSubjectDsaGenerator(BigInteger defaultSubjectDsaGenerator) {
-        this.defaultSubjectDsaGenerator = defaultSubjectDsaGenerator;
-    }
-
-    public X509NamedCurve getDefaultNamedCurve() {
-        return defaultNamedCurve;
-    }
-
-    public void setDefaultNamedCurve(X509NamedCurve defaultNamedCurve) {
-        this.defaultNamedCurve = defaultNamedCurve;
+    public void setDefaultIssuerDsaPublicKeyY(BigInteger defaultIssuerDsaPublicKeyY) {
+        this.defaultIssuerDsaPublicKeyY = defaultIssuerDsaPublicKeyY;
     }
 
     public X509PublicKeyType getDefaultIssuerPublicKeyType() {

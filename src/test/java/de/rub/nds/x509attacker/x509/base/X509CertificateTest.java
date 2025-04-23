@@ -63,7 +63,7 @@ public class X509CertificateTest {
 
     @Test
     void testGetCommonName() {
-        String commonName = ecCertificate.getCommonName();
+        String commonName = ecCertificate.getSubjectCommonName();
         assertEquals("*.google.de", commonName);
     }
 

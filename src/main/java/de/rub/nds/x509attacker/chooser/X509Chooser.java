@@ -55,6 +55,14 @@ public class X509Chooser {
         }
     }
 
+    public X509NamedCurve getIssuerNamedCurve() {
+        if (context.getIssuerNamedCurve() != null) {
+            return context.getIssuerNamedCurve();
+        } else {
+            return config.getDefaultIssuerNamedCurve();
+        }
+    }
+
     public BigInteger getIssuerRsaPrivateKey() {
         if (context.getIssuerRsaPrivateKey() != null) {
             return context.getIssuerRsaPrivateKey();

@@ -13,11 +13,12 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.io.Serializable;
 
 /** Wrapper class for the Config such that byte arrays get properly serialized. */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CertificateBytes {
+public class CertificateBytes implements Serializable {
 
     @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
     private byte[] bytes;

@@ -35,6 +35,7 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
     @HoldsModifiableVariable
     private Asn1ObjectIdentifier
             policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
+
     // id-qt-unotice )
     @HoldsModifiableVariable
     @XmlAnyElement(lax = true)

@@ -117,6 +117,16 @@ public enum X509NamedCurve {
         return null;
     }
 
+    public static X509NamedCurve getX509NamedCurve(
+            NamedEllipticCurveParameters namedEllipticCurveParameters) {
+        for (X509NamedCurve curveConstant : values()) {
+            if (curveConstant.getParameters().equals(namedEllipticCurveParameters)) {
+                return curveConstant;
+            }
+        }
+        return null;
+    }
+
     public NamedEllipticCurveParameters getParameters() {
         return parameters;
     }
