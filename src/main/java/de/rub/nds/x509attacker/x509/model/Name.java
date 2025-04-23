@@ -69,7 +69,7 @@ public class Name extends Asn1Sequence implements X509Component {
         for (Pair<X500AttributeType, String> attributePair : attributeList) {
             RelativeDistinguishedName relativeDistinguishedName =
                     new RelativeDistinguishedName(
-                            "relativeDistinguishedName", attributeList, choiceType);
+                            "relativeDistinguishedName", List.of(attributePair), choiceType);
             relativeDistinguishedNames.add(relativeDistinguishedName);
         }
     }
