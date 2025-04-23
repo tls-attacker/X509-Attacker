@@ -567,7 +567,7 @@ public class X509CertificateConfig implements Serializable {
     }
 
     public List<Pair<X500AttributeType, String>> getDefaultIssuer() {
-        return Collections.unmodifiableList(defaultIssuer);
+        return defaultIssuer;
     }
 
     public void setIssuer(List<Pair<X500AttributeType, String>> defaultIssuer) {
