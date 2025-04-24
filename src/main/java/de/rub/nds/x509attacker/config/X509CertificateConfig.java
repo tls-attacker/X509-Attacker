@@ -36,6 +36,9 @@ import org.joda.time.DateTimeZone;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509CertificateConfig implements Serializable {
 
+    // TODO: implement correctly
+    private boolean selfSigned = true;
+
     private X509SignatureAlgorithm signatureAlgorithm =
             X509SignatureAlgorithm.SHA256_WITH_RSA_ENCRYPTION;
 
@@ -263,6 +266,14 @@ public class X509CertificateConfig implements Serializable {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
         subject.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
+    }
+
+    public boolean isSelfSigned() {
+        return selfSigned;
+    }
+
+    public void setSelfSigned(boolean selfSigned) {
+        this.selfSigned = selfSigned;
     }
 
     public PointFormat getDefaultEcPointFormat() {
