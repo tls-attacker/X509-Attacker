@@ -93,8 +93,8 @@ public class MimicryEngine {
             if (certificate.getCertificateKeyType() == X509PublicKeyType.RSA) {
                 signatureKeyConfig.setDefaultIssuerRsaModulus(
                         signatureKeyConfig.getDefaultSubjectRsaModulus());
-                signatureKeyConfig.setDefaultIssuerRsaPrivateKey(
-                        signatureKeyConfig.getDefaultSubjectRsaPrivateKey());
+                signatureKeyConfig.setDefaultIssuerRsaPrivateExponent(
+                        signatureKeyConfig.getDefaultSubjectRsaPrivateExponent());
                 signatureKeyConfig.setDefaultIssuerRsaPublicKey(
                         signatureKeyConfig.getDefaultSubjectRsaPublicExponent());
             }
@@ -122,7 +122,7 @@ public class MimicryEngine {
                     KeyGenerator.generateRsaKeys(publicExponent, bitLength, new Random(0));
             publicKeyConfig.setDefaultSubjectRsaModulus(rsaKeys.getLeft().getModulus());
             publicKeyConfig.setDefaultSubjectRsaPublicKey(rsaKeys.getLeft().getPublicExponent());
-            publicKeyConfig.setDefaultSubjectRsaPrivateKey(rsaKeys.getRight().getPrivateExponent());
+            publicKeyConfig.setDefaultSubjectRsaPrivateExponent(rsaKeys.getRight().getPrivateExponent());
         }
         if (certificate.getCertificateKeyType() == X509PublicKeyType.DSA) {
             DsaPublicKey dsaPublicKey =

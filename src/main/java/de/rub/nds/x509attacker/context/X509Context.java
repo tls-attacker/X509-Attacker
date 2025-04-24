@@ -24,7 +24,7 @@ import org.joda.time.DateTime;
 
 public class X509Context {
 
-    private BigInteger issuerRsaPrivateKey = null;
+    private BigInteger issuerRsaPrivateExponent = null;
 
     private BigInteger issuerRsaModulus = null;
 
@@ -50,7 +50,7 @@ public class X509Context {
 
     private List<Pair<X500AttributeType, String>> subject = null;
 
-    private BigInteger subjectRsaPrivateKey = null;
+    private BigInteger subjectRsaPrivateExponent = null;
 
     private BigInteger subjectRsaModulus = null;
 
@@ -232,12 +232,12 @@ public class X509Context {
         this.subject = subject;
     }
 
-    public BigInteger getSubjectRsaPrivateKey() {
-        return subjectRsaPrivateKey;
+    public BigInteger getSubjectRsaPrivateExponent() {
+        return subjectRsaPrivateExponent;
     }
 
-    public void setSubjectRsaPrivateKey(BigInteger subjectRsaPrivateKey) {
-        this.subjectRsaPrivateKey = subjectRsaPrivateKey;
+    public void setSubjectRsaPrivateExponent(BigInteger subjectRsaPrivateExponent) {
+        this.subjectRsaPrivateExponent = subjectRsaPrivateExponent;
     }
 
     public BigInteger getSubjectRsaModulus() {
@@ -328,12 +328,12 @@ public class X509Context {
         this.subjectSignatureAlgorithm = subjectSignatureAlgorithm;
     }
 
-    public BigInteger getIssuerRsaPrivateKey() {
-        return issuerRsaPrivateKey;
+    public BigInteger getIssuerRsaPrivateExponent() {
+        return issuerRsaPrivateExponent;
     }
 
-    public void setIssuerRsaPrivateKey(BigInteger issuerRsaPrivateKey) {
-        this.issuerRsaPrivateKey = issuerRsaPrivateKey;
+    public void setIssuerRsaPrivateExponent(BigInteger issuerRsaPrivateExponent) {
+        this.issuerRsaPrivateExponent = issuerRsaPrivateExponent;
     }
 
     public BigInteger getIssuerRsaModulus() {

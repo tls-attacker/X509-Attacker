@@ -37,7 +37,7 @@ public class X509CertificateChainBuilderTest {
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker CA"));
         rootConfig.setSubject(subject);
         rootConfig.setIssuer(subject);
-        rootConfig.setDefaultSubjectRsaPrivateKey(new BigInteger("12345"));
+        rootConfig.setDefaultSubjectRsaPrivateExponent(new BigInteger("12345"));
         rootConfig.setNotBefore(new DateTime(1990, 9, 14, 3, 24, DateTimeZone.UTC));
         rootConfig.setNotAfter(new DateTime(2040, 9, 14, 3, 24, DateTimeZone.UTC));
         byte[] serialNumber =
@@ -51,7 +51,7 @@ public class X509CertificateChainBuilderTest {
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "TLS-Attacker Inter. CA"));
         intermediateConfig.setSubject(subject);
 
-        intermediateConfig.setDefaultSubjectRsaPrivateKey(new BigInteger("54321"));
+        intermediateConfig.setDefaultSubjectRsaPrivateExponent(new BigInteger("54321"));
         intermediateConfig.setNotBefore(new DateTime(2022, 1, 1, 12, 13, DateTimeZone.UTC));
         intermediateConfig.setNotAfter(new DateTime(2030, 9, 4, 3, 13, DateTimeZone.UTC));
         serialNumber =
@@ -67,7 +67,7 @@ public class X509CertificateChainBuilderTest {
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "leaf-cert.ae"));
         leafConfig.setSubject(subject);
-        leafConfig.setDefaultSubjectRsaPrivateKey(new BigInteger("33333"));
+        leafConfig.setDefaultSubjectRsaPrivateExponent(new BigInteger("33333"));
         leafConfig.setNotBefore(new DateTime(2021, 7, 5, 22, 30, DateTimeZone.UTC));
         leafConfig.setNotAfter(new DateTime(2023, 7, 5, 22, 30, DateTimeZone.UTC));
         serialNumber =

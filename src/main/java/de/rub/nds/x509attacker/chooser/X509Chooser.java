@@ -63,11 +63,11 @@ public class X509Chooser {
         }
     }
 
-    public BigInteger getIssuerRsaPrivateKey() {
-        if (context.getIssuerRsaPrivateKey() != null) {
-            return context.getIssuerRsaPrivateKey();
+    public BigInteger getIssuerRsaPrivateExponent() {
+        if (context.getIssuerRsaPrivateExponent() != null) {
+            return context.getIssuerRsaPrivateExponent();
         } else {
-            return config.getDefaultIssuerRsaPrivateKey();
+            return config.getDefaultIssuerRsaPrivateExponent();
         }
     }
 
@@ -216,10 +216,10 @@ public class X509Chooser {
     }
 
     public BigInteger getSubjectRsaPrivateKey() {
-        if (context.getSubjectRsaPrivateKey() != null) {
-            return context.getSubjectRsaPrivateKey();
+        if (context.getSubjectRsaPrivateExponent() != null) {
+            return context.getSubjectRsaPrivateExponent();
         } else {
-            return config.getDefaultSubjectRsaPrivateKey();
+            return config.getDefaultSubjectRsaPrivateExponent();
         }
     }
 

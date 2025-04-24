@@ -27,7 +27,7 @@ public class X509RsaPublicKeyHandler extends X509FieldHandler<X509RsaPublicKey> 
     @Override
     public void adjustContextAfterPrepare() {
         adjustContext();
-        context.setSubjectRsaPrivateKey(config.getDefaultSubjectRsaPrivateKey());
+        context.setSubjectRsaPrivateExponent(config.getDefaultSubjectRsaPrivateExponent());
     }
 
     public void adjustContext() {
