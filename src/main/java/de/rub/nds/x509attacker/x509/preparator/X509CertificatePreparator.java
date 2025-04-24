@@ -85,20 +85,26 @@ public class X509CertificatePreparator extends X509ContainerPreparator<X509Certi
     private PrivateKeyContainer getPrivateKeyForAlgorithm(SignatureAlgorithm signatureAlgorithm) {
         // TODO: get correct values from config and implement ECDSA and DSA
         return switch (signatureAlgorithm) {
-            case ECDSA -> new EcdsaPrivateKey(
-                    chooser.getIssuerEcPrivateKey(),
-                    chooser.getConfig().getDefaultIssuerDsaNonce(),
-                    chooser.getSubjectNamedCurve().getParameters());
-            case RSA_PKCS1, RSA_SSA_PSS -> new RsaPrivateKey(
-                    chooser.getIssuerRsaPrivateExponent(), chooser.getIssuerRsaModulus());
-            case DSA -> new DsaPrivateKey(
-                    chooser.getIssuerDsaPrimeQ(),
-                    chooser.getIssuerDsaPrivateKeyX(),
-                    chooser.getIssuerDsaPrivateK(),
-                    chooser.getIssuerDsaGenerator(),
-                    chooser.getIssuerDsaPrimeP());
-            default -> throw new UnsupportedOperationException(
-                    "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");
+            case ECDSA ->
+                    new EcdsaPrivateKey(
+                            chooser.getIssuerEcPrivateKey(),
+                            chooser.getConfig().getDefaultIssuerDsaNonce(),
+                            chooser.getSubjectNamedCurve().getParameters());
+            case RSA_PKCS1, RSA_SSA_PSS ->
+                    new RsaPrivateKey(
+                            chooser.getIssuerRsaPrivateExponent(), chooser.getIssuerRsaModulus());
+            case DSA ->
+                    new DsaPrivateKey(
+                            chooser.getIssuerDsaPrimeQ(),
+                            chooser.getIssuerDsaPrivateKeyX(),
+                            chooser.getIssuerDsaPrivateK(),
+                            chooser.getIssuerDsaGenerator(),
+                            chooser.getIssuerDsaPrimeP());
+            default ->
+                    throw new UnsupportedOperationException(
+                            "The keytype \""
+                                    + signatureAlgorithm.name()
+                                    + "\" is not implemented yet");
         };
     }
 

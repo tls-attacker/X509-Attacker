@@ -122,7 +122,8 @@ public class MimicryEngine {
                     KeyGenerator.generateRsaKeys(publicExponent, bitLength, new Random(0));
             publicKeyConfig.setDefaultSubjectRsaModulus(rsaKeys.getLeft().getModulus());
             publicKeyConfig.setDefaultSubjectRsaPublicKey(rsaKeys.getLeft().getPublicExponent());
-            publicKeyConfig.setDefaultSubjectRsaPrivateExponent(rsaKeys.getRight().getPrivateExponent());
+            publicKeyConfig.setDefaultSubjectRsaPrivateExponent(
+                    rsaKeys.getRight().getPrivateExponent());
         }
         if (certificate.getCertificateKeyType() == X509PublicKeyType.DSA) {
             DsaPublicKey dsaPublicKey =
