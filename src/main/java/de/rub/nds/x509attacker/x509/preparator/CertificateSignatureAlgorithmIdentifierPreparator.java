@@ -43,18 +43,13 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
 
     private PublicParameters createSignatureParameters() {
         X509PublicKeyType publicKeyType = chooser.getIssuerPublicKeyType();
-        switch (publicKeyType) {
-            case DH:
-                return new X509DhParameters("dhParameters", chooser.getConfig());
-            case DSA:
-                return new X509DssParameters("dssParameters");
-            case ECDH_ECDSA:
-                return new X509EcNamedCurveParameters("ecNamedCurve");
-            case RSA:
-                return new X509NullParameters("nullParameters");
-            default:
-                throw new UnsupportedOperationException("Unnown PublicKeyType: " + publicKeyType);
-        }
+        return switch (publicKeyType) {
+            case DH -> new X509DhParameters("dhParameters", chooser.getConfig());
+            case DSA -> new X509DssParameters("dssParameters");
+            case ECDH_ECDSA -> new X509EcNamedCurveParameters("ecNamedCurve");
+            case RSA -> new X509NullParameters("nullParameters");
+            default -> throw new UnsupportedOperationException("Unknown PublicKeyType: " + publicKeyType);
+        };
     }
 
     @Override
