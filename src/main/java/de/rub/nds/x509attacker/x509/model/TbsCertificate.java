@@ -77,16 +77,12 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
             validity = new Validity("validity", config);
         }
 
-        if (config.isSelfSigned()) {
-            subject = issuer;
-        } else {
-            subject =
-                    new Name(
-                            "subject",
-                            NameType.SUBJECT,
-                            config.getSubject(),
-                            config.getDefaultDirectoryStringType());
-        }
+        subject =
+                new Name(
+                        "subject",
+                        NameType.SUBJECT,
+                        config.getSubject(),
+                        config.getDefaultDirectoryStringType());
 
         if (config.isIncludeSubjectPublicKeyInfo()) {
             subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
