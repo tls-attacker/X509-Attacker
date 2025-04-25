@@ -9,11 +9,10 @@
 package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
+import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
-import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
@@ -42,13 +41,14 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
     }
 
     private PublicParameters createSignatureParameters() {
-        X509PublicKeyType publicKeyType = chooser.getIssuerPublicKeyType();
+        SignatureAlgorithm publicKeyType = chooser.getSignatureAlgorithm().getSignatureAlgorithm();
         return switch (publicKeyType) {
-            case DH -> new X509DhParameters("dhParameters", chooser.getConfig());
             case DSA -> new X509DssParameters("dssParameters");
-            case ECDH_ECDSA -> new X509EcNamedCurveParameters("ecNamedCurve");
-            case RSA -> new X509NullParameters("nullParameters");
-            default -> throw new UnsupportedOperationException("Unknown PublicKeyType: " + publicKeyType);
+            case ECDSA -> new X509EcNamedCurveParameters("ecNamedCurve");
+            case RSA_PKCS1 -> new X509NullParameters("nullParameters");
+            default ->
+                    throw new UnsupportedOperationException(
+                            "Unknown PublicKeyType: " + publicKeyType);
         };
     }
 
