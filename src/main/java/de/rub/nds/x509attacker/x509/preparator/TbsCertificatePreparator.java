@@ -58,8 +58,10 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareIssuer() {
-        field.getIssuer().getPreparator(chooser).prepare();
-        field.getIssuer().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeIssuer()) {
+            field.getIssuer().getPreparator(chooser).prepare();
+            field.getIssuer().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareValidity() {
@@ -70,8 +72,10 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareSubject() {
-        field.getSubject().getPreparator(chooser).prepare();
-        field.getSubject().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeSubject()) {
+            field.getSubject().getPreparator(chooser).prepare();
+            field.getSubject().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareSubjectPublicKeyInfo() {
@@ -110,9 +114,13 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
         children.add(field.getVersion());
         children.add(field.getSerialNumber());
         children.add(field.getSignature());
-        children.add(field.getIssuer());
+        if (chooser.getConfig().isIncludeIssuer()) {
+            children.add(field.getIssuer());
+        }
         children.add(field.getValidity());
-        children.add(field.getSubject());
+        if (chooser.getConfig().isIncludeSubject()) {
+            children.add(field.getSubject());
+        }
         children.add(field.getSubjectPublicKeyInfo());
         children.add(field.getIssuerUniqueId());
         children.add(field.getSubjectUniqueId());

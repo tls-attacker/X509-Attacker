@@ -101,6 +101,10 @@ public class X509CertificateConfig implements Serializable {
 
     private boolean includeValidity = true;
 
+    private boolean includeIssuer = true;
+
+    private boolean includeSubject = true;
+
     private List<ExtensionConfig> extensions = new ArrayList<>();
 
     private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;
@@ -696,6 +700,22 @@ public class X509CertificateConfig implements Serializable {
 
     public void setIncludeValidity(boolean includeValidity) {
         this.includeValidity = includeValidity;
+    }
+
+    public boolean isIncludeIssuer() {
+        return includeIssuer;
+    }
+
+    public void setIncludeIssuer(boolean includeIssuer) {
+        this.includeIssuer = includeIssuer;
+    }
+
+    public boolean isIncludeSubject() {
+        return includeSubject;
+    }
+
+    public void setIncludeSubject(boolean includeSubject) {
+        this.includeSubject = includeSubject;
     }
 
     public List<ExtensionConfig> getExtensions() {
