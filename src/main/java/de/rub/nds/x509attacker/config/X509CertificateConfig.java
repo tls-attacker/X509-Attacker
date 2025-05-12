@@ -36,7 +36,6 @@ import org.joda.time.DateTimeZone;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class X509CertificateConfig implements Serializable {
 
-    // TODO: implement correctly
     private boolean selfSigned = true;
 
     private X509SignatureAlgorithm signatureAlgorithm =
@@ -104,6 +103,14 @@ public class X509CertificateConfig implements Serializable {
     private boolean includeIssuer = true;
 
     private boolean includeSubject = true;
+
+    private boolean shuffleIssuer = false;
+
+    private boolean removeFirstRdnIssuer = false;
+
+    private boolean duplicateFirstRdnIssuer = false;
+
+    private boolean subjectDomainComponentCaseInsensitive = false;
 
     private List<ExtensionConfig> extensions = new ArrayList<>();
 
@@ -716,6 +723,39 @@ public class X509CertificateConfig implements Serializable {
 
     public void setIncludeSubject(boolean includeSubject) {
         this.includeSubject = includeSubject;
+    }
+
+    public boolean isShuffleIssuer() {
+        return shuffleIssuer;
+    }
+
+    public void setShuffleIssuer(boolean shuffleIssuer) {
+        this.shuffleIssuer = shuffleIssuer;
+    }
+
+    public boolean isRemoveFirstRdnIssuer() {
+        return removeFirstRdnIssuer;
+    }
+
+    public void setRemoveFirstRdnIssuer(boolean removeFirstRdnIssuer) {
+        this.removeFirstRdnIssuer = removeFirstRdnIssuer;
+    }
+
+    public boolean isDuplicateFirstRdnIssuer() {
+        return duplicateFirstRdnIssuer;
+    }
+
+    public void setDuplicateFirstRdnIssuer(boolean duplicateFirstRdnIssuer) {
+        this.duplicateFirstRdnIssuer = duplicateFirstRdnIssuer;
+    }
+
+    public boolean isSubjectDomainComponentCaseInsensitive() {
+        return subjectDomainComponentCaseInsensitive;
+    }
+
+    public void setSubjectDomainComponentCaseInsensitive(
+            boolean subjectDomainComponentCaseInsensitive) {
+        this.subjectDomainComponentCaseInsensitive = subjectDomainComponentCaseInsensitive;
     }
 
     public List<ExtensionConfig> getExtensions() {
