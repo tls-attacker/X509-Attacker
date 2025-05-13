@@ -267,6 +267,10 @@ public class X509CertificateConfig implements Serializable {
 
     private byte[] dhValidationParameterSeed = new byte[32];
 
+    private boolean signatureInvalid = false;
+
+    private boolean signatureEmpty = false;
+
     public X509CertificateConfig() {
         defaultIssuer = new LinkedList<>();
         defaultIssuer.add(
@@ -886,5 +890,21 @@ public class X509CertificateConfig implements Serializable {
                                                 && x.getHashAlgorithm() == hashAlgorithm)
                         .findFirst()
                         .orElseThrow();
+    }
+
+    public boolean isSignatureInvalid() {
+        return this.signatureInvalid;
+    }
+
+    public void setSignatureInvalid(boolean signatureInvalid) {
+        this.signatureInvalid = signatureInvalid;
+    }
+
+    public boolean isSignatureEmpty() {
+        return this.signatureEmpty;
+    }
+
+    public void setSignatureEmpty(boolean signatureEmpty) {
+        this.signatureEmpty = signatureEmpty;
     }
 }

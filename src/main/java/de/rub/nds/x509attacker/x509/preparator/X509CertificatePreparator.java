@@ -10,6 +10,8 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
+import de.rub.nds.modifiablevariable.bytearray.ByteArrayExplicitValueModification;
+import de.rub.nds.modifiablevariable.bytearray.ByteArrayShuffleModification;
 import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.key.DsaPrivateKey;
@@ -76,6 +78,19 @@ public class X509CertificatePreparator extends X509ContainerPreparator<X509Certi
 
         LOGGER.debug(
                 "Signature: {}", field.getSignatureComputations().getSignatureBytes().getValue());
+
+        if (chooser.getConfig().isSignatureInvalid()) {
+            field.getSignatureComputations()
+                    .getSignatureBytes()
+                    .addModification(new ByteArrayShuffleModification(new int[] {0, 1, 2, 3}));
+        }
+
+        if (chooser.getConfig().isSignatureEmpty()) {
+            field.getSignatureComputations()
+                    .getSignatureBytes()
+                    .addModification(new ByteArrayExplicitValueModification(new byte[] {}));
+        }
+
         Asn1PreparatorHelper.prepareField(
                 field.getSignature(),
                 field.getSignatureComputations().getSignatureBytes().getValue(),
