@@ -30,6 +30,9 @@ public class KeyUsageConfig extends ExtensionConfig {
 
     private boolean decipherOnly = false;
 
+    private boolean overflowInvalidation = false;
+    private boolean overflowWithOne = false;
+
     public KeyUsageConfig() {
         super(X509ExtensionType.KEY_USAGE.getOid(), "keyUsage");
     }
@@ -109,5 +112,21 @@ public class KeyUsageConfig extends ExtensionConfig {
 
     public void setDecipherOnly(boolean decipherOnly) {
         this.decipherOnly = decipherOnly;
+    }
+
+    public boolean isOverflowInvalidation() {
+        return overflowInvalidation;
+    }
+
+    public void setOverflowInvalidation(boolean overflowInvalidation) {
+        this.overflowInvalidation = overflowInvalidation;
+    }
+
+    public boolean isOverflowWithOne() {
+        return overflowWithOne;
+    }
+
+    public void setOverflowWithOne(boolean overflowWithOne) {
+        this.overflowWithOne = overflowWithOne;
     }
 }

@@ -26,7 +26,11 @@ public class KeyUsagePreparator extends ExtensionPreparator<KeyUsage, KeyUsageCo
             field.setBitString(new Asn1BitString("bitString"));
         }
         Asn1BitString bitString = field.getBitString();
-        bitString.setUnusedBits((byte) 7);
+        byte unusedBits = (byte) 7;
+        if (config.isOverflowInvalidation()) {
+            unusedBits = (byte) 6;
+        }
+        bitString.setUnusedBits(unusedBits);
         bitString.setUsedBits(computeBitString(config));
         bitString.setPadding((byte) 0);
         bitString.setContent(
@@ -44,31 +48,62 @@ public class KeyUsagePreparator extends ExtensionPreparator<KeyUsage, KeyUsageCo
 
     private byte[] computeBitString(KeyUsageConfig config) {
         int lowerByte = 0;
+        byte higherByte;
 
-        lowerByte |= (config.isNonRepudiation() ? 1 : 0);
-        lowerByte <<= 1;
+        if (!config.isOverflowInvalidation()) {
+            lowerByte |= (config.isNonRepudiation() ? 1 : 0);
+            lowerByte <<= 1;
 
-        lowerByte |= (config.isKeyEncipherment() ? 1 : 0);
-        lowerByte <<= 1;
+            lowerByte |= (config.isKeyEncipherment() ? 1 : 0);
+            lowerByte <<= 1;
 
-        lowerByte |= (config.isDataEncipherment() ? 1 : 0);
-        lowerByte <<= 1;
+            lowerByte |= (config.isDataEncipherment() ? 1 : 0);
+            lowerByte <<= 1;
 
-        lowerByte |= (config.isKeyAgreement() ? 1 : 0);
-        lowerByte <<= 1;
+            lowerByte |= (config.isKeyAgreement() ? 1 : 0);
+            lowerByte <<= 1;
 
-        lowerByte |= (config.isKeyCertSign() ? 1 : 0);
-        lowerByte <<= 1;
+            lowerByte |= (config.isKeyCertSign() ? 1 : 0);
+            lowerByte <<= 1;
 
-        lowerByte |= (config.iscRLSign() ? 1 : 0);
-        lowerByte <<= 1;
+            lowerByte |= (config.iscRLSign() ? 1 : 0);
+            lowerByte <<= 1;
 
-        lowerByte |= (config.isEncipherOnly() ? 1 : 0);
-        lowerByte <<= 1;
+            lowerByte |= (config.isEncipherOnly() ? 1 : 0);
+            lowerByte <<= 1;
 
-        lowerByte |= (config.isDecipherOnly() ? 1 : 0);
+            lowerByte |= (config.isDecipherOnly() ? 1 : 0);
 
-        byte higherByte = (byte) (config.isDigitalSignature() ? 1 : 0);
+            higherByte = (byte) (config.isDigitalSignature() ? 1 : 0);
+        } else {
+            lowerByte |= (config.isKeyEncipherment() ? 1 : 0);
+            lowerByte <<= 1;
+
+            lowerByte |= (config.isDataEncipherment() ? 1 : 0);
+            lowerByte <<= 1;
+
+            lowerByte |= (config.isKeyAgreement() ? 1 : 0);
+            lowerByte <<= 1;
+
+            lowerByte |= (config.isKeyCertSign() ? 1 : 0);
+            lowerByte <<= 1;
+
+            lowerByte |= (config.iscRLSign() ? 1 : 0);
+            lowerByte <<= 1;
+
+            lowerByte |= (config.isEncipherOnly() ? 1 : 0);
+            lowerByte <<= 1;
+
+            lowerByte |= (config.isDecipherOnly() ? 1 : 0);
+            lowerByte <<= 1;
+
+            lowerByte |= (config.isOverflowWithOne() ? 1 : 0);
+
+            higherByte =
+                    (byte)
+                            ((config.isDigitalSignature() ? 1 : 0)
+                                    | (config.isNonRepudiation() ? 2 : 0));
+        }
         return new byte[] {higherByte, (byte) lowerByte};
     }
 }
