@@ -14,10 +14,11 @@ import de.rub.nds.x509attacker.x509.model.extensions.BasicConstraints;
 
 /** Configuration for the {@link BasicConstraints} extension. */
 public class BasicConstraintsConfig extends ExtensionConfig {
-    DefaultEncodingRule includeCA = DefaultEncodingRule.FOLLOW_DEFAULT;
-    boolean ca = false;
-    DefaultEncodingRule includePathLenConstraint = DefaultEncodingRule.FOLLOW_DEFAULT;
-    int pathLenConstraint = 0;
+    private DefaultEncodingRule includeCA = DefaultEncodingRule.FOLLOW_DEFAULT;
+    private boolean ca = false;
+    private DefaultEncodingRule includePathLenConstraint = DefaultEncodingRule.FOLLOW_DEFAULT;
+    private int pathLenConstraint = 0;
+    private boolean invalidCriticalEncoding = false;
 
     public BasicConstraintsConfig() {
         super(X509ExtensionType.BASIC_CONSTRAINTS.getOid(), "basicConstraints");
@@ -58,5 +59,13 @@ public class BasicConstraintsConfig extends ExtensionConfig {
     @Override
     public BasicConstraints getExtensionFromConfig() {
         return new BasicConstraints("basicConstraints");
+    }
+
+    public boolean isInvalidCriticalEncoding() {
+        return invalidCriticalEncoding;
+    }
+
+    public void setInvalidCriticalEncoding(boolean invalidCriticalEncoding) {
+        this.invalidCriticalEncoding = invalidCriticalEncoding;
     }
 }

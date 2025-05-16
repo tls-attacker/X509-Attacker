@@ -28,6 +28,9 @@ public class BasicConstraintsPreparator
 
     @Override
     public void extensionPrepareSubComponents() {
+        if (config.isInvalidCriticalEncoding()) {
+            field.getCritical().setContent(new byte[] {(byte) 1});
+        }
         Asn1PreparatorHelper.prepareField(field.getCa(), config.isCa());
         Asn1PreparatorHelper.prepareField(
                 field.getPathLenConstraint(), BigInteger.valueOf(config.getPathLenConstraint()));
