@@ -58,6 +58,9 @@ public class X509CertificateConfig implements Serializable {
     private DirectoryStringChoiceType defaultDirectoryStringType =
             DirectoryStringChoiceType.UTF8_STRING;
 
+    private List<Pair<X500AttributeType, DirectoryStringChoiceType>>
+            divergentIssuerDirectoryStringChoices = new ArrayList<>();
+
     private DateTime notBefore =
             new DateTime(2024, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
 
@@ -906,5 +909,16 @@ public class X509CertificateConfig implements Serializable {
 
     public void setSignatureEmpty(boolean signatureEmpty) {
         this.signatureEmpty = signatureEmpty;
+    }
+
+    public List<Pair<X500AttributeType, DirectoryStringChoiceType>>
+            getDivergentIssuerDirectoryStringChoices() {
+        return divergentIssuerDirectoryStringChoices;
+    }
+
+    public void setDivergentIssuerDirectoryStringChoices(
+            List<Pair<X500AttributeType, DirectoryStringChoiceType>>
+                    divergentIssuerDirectoryStringChoices) {
+        this.divergentIssuerDirectoryStringChoices = divergentIssuerDirectoryStringChoices;
     }
 }

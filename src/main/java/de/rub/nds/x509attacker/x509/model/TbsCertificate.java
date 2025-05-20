@@ -27,6 +27,7 @@ import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -72,7 +73,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
                         "issuer",
                         NameType.ISSUER,
                         config.getDefaultIssuer(),
-                        config.getDefaultDirectoryStringType());
+                        config.getDefaultDirectoryStringType(),
+                        config.getDivergentIssuerDirectoryStringChoices());
         if (config.isIncludeValidity()) {
             validity = new Validity("validity", config);
         }
@@ -82,7 +84,8 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
                         "subject",
                         NameType.SUBJECT,
                         config.getSubject(),
-                        config.getDefaultDirectoryStringType());
+                        config.getDefaultDirectoryStringType(),
+                        new ArrayList<>());
 
         if (config.isIncludeSubjectPublicKeyInfo()) {
             subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);

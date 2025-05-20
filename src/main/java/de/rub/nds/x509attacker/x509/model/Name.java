@@ -26,6 +26,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
@@ -62,14 +63,24 @@ public class Name extends Asn1Sequence implements X509Component {
             String identifier,
             NameType type,
             List<Pair<X500AttributeType, String>> attributeList,
-            DirectoryStringChoiceType choiceType) {
+            DirectoryStringChoiceType choiceType,
+            List<Pair<X500AttributeType, DirectoryStringChoiceType>> divergentTypes) {
         super(identifier);
         this.type = type;
         relativeDistinguishedNames = new LinkedList<>();
         for (Pair<X500AttributeType, String> attributePair : attributeList) {
+            AtomicReference<DirectoryStringChoiceType> choice = new AtomicReference<>(choiceType);
+            divergentTypes.stream()
+                    .filter(p -> p.getKey().equals(attributePair.getKey()))
+                    .findFirst()
+                    .ifPresent(
+                            matchingPair -> {
+                                choice.set(matchingPair.getRightElement());
+                            });
+
             RelativeDistinguishedName relativeDistinguishedName =
                     new RelativeDistinguishedName(
-                            "relativeDistinguishedName", List.of(attributePair), choiceType);
+                            "relativeDistinguishedName", List.of(attributePair), choice.get());
             relativeDistinguishedNames.add(relativeDistinguishedName);
         }
     }
