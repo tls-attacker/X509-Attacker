@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
@@ -125,6 +126,13 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
         children.add(field.getIssuerUniqueId());
         children.add(field.getSubjectUniqueId());
         children.add(field.getExplicitExtensions());
+        if (chooser.getConfig().isAppendUnexpectedCertificateField()) {
+            Asn1OctetString octetString = new Asn1OctetString("unexpectedField");
+            Asn1PreparatorHelper.prepareField(
+                    octetString, new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08});
+            children.add(octetString);
+        }
+
         // Filter null values
         children.removeIf(Objects::isNull);
         return encodeChildren(children);

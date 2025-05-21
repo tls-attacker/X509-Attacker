@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.config;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
+import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
 import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
 import de.rub.nds.protocol.constants.HashAlgorithm;
@@ -273,6 +274,12 @@ public class X509CertificateConfig implements Serializable {
     private boolean signatureInvalid = false;
 
     private boolean signatureEmpty = false;
+
+    private boolean signatureAlgorithmOidInvalid = false;
+
+    private ObjectIdentifier differentSignatureAlgorithmOid = null;
+
+    private boolean appendUnexpectedCertificateField = false;
 
     public X509CertificateConfig() {
         defaultIssuer = new LinkedList<>();
@@ -920,5 +927,29 @@ public class X509CertificateConfig implements Serializable {
             List<Pair<X500AttributeType, DirectoryStringChoiceType>>
                     divergentIssuerDirectoryStringChoices) {
         this.divergentIssuerDirectoryStringChoices = divergentIssuerDirectoryStringChoices;
+    }
+
+    public boolean isSignatureAlgorithmOidInvalid() {
+        return signatureAlgorithmOidInvalid;
+    }
+
+    public void setSignatureAlgorithmOidInvalid(boolean signatureAlgorithmOidInvalid) {
+        this.signatureAlgorithmOidInvalid = signatureAlgorithmOidInvalid;
+    }
+
+    public boolean isAppendUnexpectedCertificateField() {
+        return appendUnexpectedCertificateField;
+    }
+
+    public void setAppendUnexpectedCertificateField(boolean appendUnexpectedCertificateField) {
+        this.appendUnexpectedCertificateField = appendUnexpectedCertificateField;
+    }
+
+    public ObjectIdentifier getDifferentSignatureAlgorithmOid() {
+        return differentSignatureAlgorithmOid;
+    }
+
+    public void setDifferentSignatureAlgorithmOid(ObjectIdentifier differentSignatureAlgorithmOid) {
+        this.differentSignatureAlgorithmOid = differentSignatureAlgorithmOid;
     }
 }

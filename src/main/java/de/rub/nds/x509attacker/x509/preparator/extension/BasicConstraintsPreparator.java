@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.preparator.extension;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.extension.BasicConstraintsConfig;
@@ -52,6 +53,13 @@ public class BasicConstraintsPreparator
                 || config.getIncludePathLenConstraint() == DefaultEncodingRule.FOLLOW_DEFAULT
                         && field.getCa().getValue().getValue()) {
             children.add(field.getPathLenConstraint());
+        }
+
+        if (config.isInvalidExtensionContent()) {
+            Asn1OctetString octetString = new Asn1OctetString("unexpectedField");
+            Asn1PreparatorHelper.prepareField(
+                    octetString, new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08});
+            children.add(octetString);
         }
         return encodeChildren(children);
     }

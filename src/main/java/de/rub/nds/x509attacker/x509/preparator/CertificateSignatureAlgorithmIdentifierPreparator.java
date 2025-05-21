@@ -8,6 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -28,8 +29,19 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
 
     @Override
     public void prepareSubComponents() {
-        Asn1PreparatorHelper.prepareField(
-                field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
+        if (chooser.getConfig().isSignatureAlgorithmOidInvalid()) {
+            Asn1PreparatorHelper.prepareField(
+                    field.getAlgorithm(), new ObjectIdentifier("1.2.3.4.5.6.7.8"));
+        } else {
+            if (chooser.getConfig().getDifferentSignatureAlgorithmOid() != null) {
+                Asn1PreparatorHelper.prepareField(
+                        field.getAlgorithm(),
+                        chooser.getConfig().getDifferentSignatureAlgorithmOid());
+            } else {
+                Asn1PreparatorHelper.prepareField(
+                        field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
+            }
+        }
         PublicParameters signatureParameters = field.getParameters();
         if (signatureParameters == null) {
             signatureParameters = createSignatureParameters();

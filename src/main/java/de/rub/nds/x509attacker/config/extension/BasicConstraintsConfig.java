@@ -19,6 +19,7 @@ public class BasicConstraintsConfig extends ExtensionConfig {
     private DefaultEncodingRule includePathLenConstraint = DefaultEncodingRule.FOLLOW_DEFAULT;
     private int pathLenConstraint = 0;
     private boolean invalidCriticalEncoding = false;
+    private boolean invalidExtensionContent = false;
 
     public BasicConstraintsConfig() {
         super(X509ExtensionType.BASIC_CONSTRAINTS.getOid(), "basicConstraints");
@@ -67,5 +68,13 @@ public class BasicConstraintsConfig extends ExtensionConfig {
 
     public void setInvalidCriticalEncoding(boolean invalidCriticalEncoding) {
         this.invalidCriticalEncoding = invalidCriticalEncoding;
+    }
+
+    public boolean isInvalidExtensionContent() {
+        return invalidExtensionContent;
+    }
+
+    public void setInvalidExtensionContent(boolean invalidExtensionContent) {
+        this.invalidExtensionContent = invalidExtensionContent;
     }
 }
