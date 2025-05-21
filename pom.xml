@@ -4,11 +4,11 @@
     <parent>
         <groupId>de.rub.nds</groupId>
         <artifactId>protocol-toolkit-bom</artifactId>
-        <version>5.1.11</version>
+        <version>6.0.1</version>
     </parent>
 
     <artifactId>x509-attacker</artifactId>
-    <version>4.1.2-SNAPSHOT</version>
+    <version>4.2.2-SNAPSHOT</version>
 
     <name>X.509-Attacker</name>
     <description>X.509-Attacker is a tool based on ASN.1 Tool for creating arbitrary certificates; including especially
@@ -62,10 +62,12 @@
         <dependency>
             <groupId>de.rub.nds</groupId>
             <artifactId>asn1-attacker</artifactId>
+            <version>4.1.1</version>
         </dependency>
         <dependency>
             <groupId>de.rub.nds</groupId>
             <artifactId>modifiable-variable</artifactId>
+            <version>5.1.2</version>
         </dependency>
         <dependency>
             <groupId>de.rub.nds</groupId>
