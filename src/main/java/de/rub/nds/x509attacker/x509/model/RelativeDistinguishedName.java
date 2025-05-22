@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.model;
 import de.rub.nds.asn1.model.Asn1Set;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.DirectoryStringChoiceType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.handler.RelativeDistinguishedNameHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -47,10 +48,16 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
     }
 
     public RelativeDistinguishedName(
-            String identifier, List<Pair<X500AttributeType, String>> attributeList) {
+            String identifier,
+            List<Pair<X500AttributeType, String>> attributeList,
+            DirectoryStringChoiceType choiceType) {
         super(identifier);
         attributeTypeAndValueList = new LinkedList<>();
         for (Pair<X500AttributeType, String> pair : attributeList) {
+            // per default follow correct encoding for country name
+            if (pair.getKey() == X500AttributeType.COUNTRY_NAME) {
+                choiceType = DirectoryStringChoiceType.PRINTABLE_STRING;
+            }
             AttributeTypeAndValue attributeTypeAndValue =
                     new AttributeTypeAndValue(
                             pair.getKey()
@@ -58,14 +65,17 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
                                     .concat("=")
                                     .concat(pair.getValue()),
                             pair.getKey(),
-                            pair.getValue());
+                            pair.getValue(),
+                            choiceType);
             attributeTypeAndValueList.add(attributeTypeAndValue);
         }
     }
 
     @SafeVarargs
     public RelativeDistinguishedName(
-            String identifier, Pair<X500AttributeType, String>... attributes) {
+            String identifier,
+            DirectoryStringChoiceType choiceType,
+            Pair<X500AttributeType, String>... attributes) {
         super(identifier);
         attributeTypeAndValueList = new LinkedList<>();
         for (Pair<X500AttributeType, String> pair : attributes) {
@@ -76,7 +86,8 @@ public class RelativeDistinguishedName extends Asn1Set implements X509Component 
                                     .concat("=")
                                     .concat(pair.getValue()),
                             pair.getKey(),
-                            pair.getValue());
+                            pair.getValue(),
+                            choiceType);
             attributeTypeAndValueList.add(attributeTypeAndValue);
         }
     }

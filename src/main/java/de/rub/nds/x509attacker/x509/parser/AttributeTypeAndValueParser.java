@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1UnknownField;
 import de.rub.nds.asn1.parser.ParserHelper;
 import de.rub.nds.protocol.exception.ParserException;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.DirectoryStringChoiceType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.model.AttributeTypeAndValue;
 import de.rub.nds.x509attacker.x509.model.DirectoryString;
@@ -52,6 +53,7 @@ public class AttributeTypeAndValueParser
                 case ORGANISATION_NAME:
                 case ORGANISATION_UNIT_NAME:
                 case COUNTRY_NAME:
+                    encodable.setAttributeTypeConfig(attributeType);
                     // I think this is wrong according to the RFC but is seen in the wild
                     parseDirectoryString(inputStream, attributeType);
                     break;
@@ -68,6 +70,8 @@ public class AttributeTypeAndValueParser
         LOGGER.debug("Parsing: {} as DirectoryString", attributeType.toString());
         DirectoryString directoryString = new DirectoryString("string");
         directoryString.getParser(chooser).parse(inputStream);
+        directoryString.setDirectoryStringChoiceType(
+                DirectoryStringChoiceType.fromChoice(directoryString.getSelectedChoice()));
         directoryString.getHandler(chooser).adjustContextAfterParse();
         encodable.setValue(directoryString);
     }

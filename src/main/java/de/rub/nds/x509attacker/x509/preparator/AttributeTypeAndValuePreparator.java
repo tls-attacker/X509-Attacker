@@ -32,7 +32,7 @@ public class AttributeTypeAndValuePreparator
     public void prepareTypeValue() {
         Asn1Encodable valueField = field.getValue();
         String value = field.getValueConfig();
-        if (value == null) {
+        if (value == null && !(valueField instanceof DirectoryString)) {
             LOGGER.warn(
                     "AttributeTypeAndValue value config is not set - using an empty string \"\"");
             value = "";
@@ -45,6 +45,10 @@ public class AttributeTypeAndValuePreparator
             Asn1PreparatorHelper.prepareField((Asn1Ia5String) valueField, value);
         } else if (valueField instanceof Asn1T61String) {
             Asn1PreparatorHelper.prepareField((Asn1T61String) valueField, value);
+        } else if (valueField instanceof Asn1UniversalString) {
+            Asn1PreparatorHelper.prepareField((Asn1UniversalString) valueField, value);
+        } else if (valueField instanceof Asn1BmpString) {
+            Asn1PreparatorHelper.prepareField((Asn1BmpString) valueField, value);
         } else if (valueField instanceof DirectoryString) {
             prepareDirectoryString((DirectoryString) valueField);
         } else {

@@ -23,11 +23,11 @@ public class X509EcdhPublicKeyPreparator extends X509Asn1FieldPreparator<X509Ecd
 
     @Override
     protected byte[] encodeContent() {
-        Point publicKey = chooser.getConfig().getEcPublicKey();
+        Point publicKey = chooser.getConfig().getDefaultSubjectEcPublicKey();
         Asn1PreparatorHelper.prepareField(
                 field,
                 PointFormatter.formatToByteArray(
-                        chooser.getConfig().getDefaultSubjectNamedCurve().getParameters(),
+                        chooser.getSubjectNamedCurve().getParameters(),
                         publicKey,
                         chooser.getConfig().getDefaultEcPointFormat()));
         field.setxCoordinate(publicKey.getFieldX().getData());

@@ -8,16 +8,11 @@
  */
 package de.rub.nds.x509attacker.x509.model;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Ia5String;
-import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
-import de.rub.nds.asn1.model.Asn1PrintableString;
-import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.model.Asn1T61String;
-import de.rub.nds.asn1.model.Asn1Utf8String;
+import de.rub.nds.asn1.model.*;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.DirectoryStringChoiceType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.handler.EmptyHandler;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -56,18 +51,40 @@ public class AttributeTypeAndValue extends Asn1Sequence implements X509Component
     private String valueConfig;
 
     public AttributeTypeAndValue(
-            String identifier, X500AttributeType attributeTypeConfig, String valueConfig) {
+            String identifier,
+            X500AttributeType attributeTypeConfig,
+            String valueConfig,
+            DirectoryStringChoiceType choiceType) {
         super(identifier);
         this.attributeTypeConfig = attributeTypeConfig;
         this.valueConfig = valueConfig;
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1PrintableString("value"); // TODO make this configurable
+        setStringType(choiceType);
     }
 
-    public AttributeTypeAndValue(String identifier) {
+    public AttributeTypeAndValue(String identifier, DirectoryStringChoiceType choiceType) {
         super(identifier);
         type = new Asn1ObjectIdentifier("type");
-        value = new Asn1PrintableString("value"); // TODO make this configurable
+        setStringType(choiceType);
+    }
+
+    private void setStringType(DirectoryStringChoiceType choiceType) {
+        switch (choiceType) {
+            case UTF8_STRING:
+                value = new Asn1Utf8String("value");
+                break;
+            case PRINTABLE_STRING:
+                value = new Asn1PrintableString("value");
+                break;
+            case BMP_STRING:
+                value = new Asn1BmpString("value");
+                break;
+            case TELETEX_STRING:
+                value = new Asn1T61String("value");
+                break;
+            case UNIVERSAL_STRING:
+                value = new Asn1UniversalString("value");
+        }
     }
 
     private AttributeTypeAndValue() {

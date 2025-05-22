@@ -10,11 +10,13 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.TbsCertificate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -45,8 +47,10 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareSerialNumber() {
-        Asn1Integer serialNumber = field.getSerialNumber();
-        Asn1PreparatorHelper.prepareField(serialNumber, chooser.getConfig().getSerialNumber());
+        if (chooser.getConfig().isIncludeSerialNumber()) {
+            Asn1Integer serialNumber = field.getSerialNumber();
+            Asn1PreparatorHelper.prepareField(serialNumber, chooser.getConfig().getSerialNumber());
+        }
     }
 
     private void prepareSignature() {
@@ -55,23 +59,31 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareIssuer() {
-        field.getIssuer().getPreparator(chooser).prepare();
-        field.getIssuer().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeIssuer()) {
+            field.getIssuer().getPreparator(chooser).prepare();
+            field.getIssuer().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareValidity() {
-        field.getValidity().getPreparator(chooser).prepare();
-        field.getValidity().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeValidity()) {
+            field.getValidity().getPreparator(chooser).prepare();
+            field.getValidity().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareSubject() {
-        field.getSubject().getPreparator(chooser).prepare();
-        field.getSubject().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeSubject()) {
+            field.getSubject().getPreparator(chooser).prepare();
+            field.getSubject().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareSubjectPublicKeyInfo() {
-        field.getSubjectPublicKeyInfo().getPreparator(chooser).prepare();
-        field.getSubjectPublicKeyInfo().getHandler(chooser).adjustContextAfterPrepare();
+        if (chooser.getConfig().isIncludeSubjectPublicKeyInfo()) {
+            field.getSubjectPublicKeyInfo().getPreparator(chooser).prepare();
+            field.getSubjectPublicKeyInfo().getHandler(chooser).adjustContextAfterPrepare();
+        }
     }
 
     private void prepareIssuerUniqueId() {
@@ -92,7 +104,8 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
 
     private void prepareExtensions() {
         if (chooser.getConfig().isIncludeExtensions()) {
-            LOGGER.warn("Extensions not supported yet");
+            field.getExplicitExtensions().getPreparator(chooser).prepare();
+            field.getExplicitExtensions().getHandler(chooser).adjustContextAfterPrepare();
         }
     }
 
@@ -102,15 +115,26 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
         children.add(field.getVersion());
         children.add(field.getSerialNumber());
         children.add(field.getSignature());
-        children.add(field.getIssuer());
+        if (chooser.getConfig().isIncludeIssuer()) {
+            children.add(field.getIssuer());
+        }
         children.add(field.getValidity());
-        children.add(field.getSubject());
+        if (chooser.getConfig().isIncludeSubject()) {
+            children.add(field.getSubject());
+        }
         children.add(field.getSubjectPublicKeyInfo());
         children.add(field.getIssuerUniqueId());
         children.add(field.getSubjectUniqueId());
         children.add(field.getExplicitExtensions());
+        if (chooser.getConfig().isAppendUnexpectedCertificateField()) {
+            Asn1OctetString octetString = new Asn1OctetString("unexpectedField");
+            Asn1PreparatorHelper.prepareField(
+                    octetString, new byte[] {0x01, 0x02, 0x03, 0x04, 0x05, 0x06, 0x07, 0x08});
+            children.add(octetString);
+        }
+
         // Filter null values
-        children.removeIf(child -> child == null);
+        children.removeIf(Objects::isNull);
         return encodeChildren(children);
     }
 }

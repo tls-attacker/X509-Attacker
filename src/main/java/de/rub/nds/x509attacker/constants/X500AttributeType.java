@@ -16,11 +16,14 @@ public enum X500AttributeType {
 
     /** https://www.alvestrand.no/objectid/2.5.4.html */
     COMMON_NAME("commonName", "CN", "2.5.4.3"),
+    SERIAL_NUMBER("serialNumber", "S", "2.5.4.5"),
     COUNTRY_NAME("country", "C", "2.5.4.6"),
     LOCALITY("locality", "L", "2.5.4.7"),
     STATE_OR_PROVINCE_NAME("state", "S", "2.5.4.8"),
     ORGANISATION_NAME("organisation", "O", "2.5.4.10"),
-    ORGANISATION_UNIT_NAME("organisation unit", "OU", "2.5.4.11");
+    ORGANISATION_UNIT_NAME("organisation unit", "OU", "2.5.4.11"),
+    DN_QUALIFIER("dn_qualifier", "DN", "2.5.4.46"),
+    DOMAIN_COMPONENT("domain component", "DC", "0.9.2342.19200300.100.1.25");
 
     private static final Map<String, X500AttributeType> oidMap = new HashMap<>();
 

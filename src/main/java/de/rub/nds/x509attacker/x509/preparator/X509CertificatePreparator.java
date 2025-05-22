@@ -10,11 +10,15 @@ package de.rub.nds.x509attacker.x509.preparator;
 
 import de.rub.nds.asn1.model.Asn1Encodable;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
+import de.rub.nds.modifiablevariable.bytearray.ByteArrayExplicitValueModification;
+import de.rub.nds.modifiablevariable.bytearray.ByteArrayShuffleModification;
+import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.key.DsaPrivateKey;
 import de.rub.nds.protocol.crypto.key.EcdsaPrivateKey;
 import de.rub.nds.protocol.crypto.key.PrivateKeyContainer;
 import de.rub.nds.protocol.crypto.key.RsaPrivateKey;
+import de.rub.nds.protocol.crypto.signature.RsaSsaPssSignatureComputations;
 import de.rub.nds.protocol.crypto.signature.SignatureCalculator;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
@@ -50,19 +54,43 @@ public class X509CertificatePreparator extends X509ContainerPreparator<X509Certi
             field.setSignatureComputations(
                     signatureCalculator.createSignatureComputations(
                             signatureAlgorithm.getSignatureAlgorithm()));
+            if (signatureAlgorithm == X509SignatureAlgorithm.RSASSA_PSS) {
+                ((RsaSsaPssSignatureComputations) field.getSignatureComputations())
+                        .setSalt(chooser.getRsaPssSalt());
+            }
         }
 
         byte[] toBeSigned = this.field.getTbsCertificate().getSerializer(chooser).serialize();
         LOGGER.debug("To be signed: {}", toBeSigned);
+        HashAlgorithm hashAlgorithm;
+        if (signatureAlgorithm == X509SignatureAlgorithm.RSASSA_PSS) {
+            hashAlgorithm = chooser.getRsaPssHashAlgorithm();
+        } else {
+            hashAlgorithm = chooser.getSignatureAlgorithm().getHashAlgorithm();
+        }
+
         signatureCalculator.computeSignature(
                 field.getSignatureComputations(),
                 getPrivateKeyForAlgorithm(signatureAlgorithm.getSignatureAlgorithm()),
                 toBeSigned,
                 signatureAlgorithm.getSignatureAlgorithm(),
-                chooser.getSignatureAlgorithm().getHashAlgorithm());
+                hashAlgorithm);
 
         LOGGER.debug(
                 "Signature: {}", field.getSignatureComputations().getSignatureBytes().getValue());
+
+        if (chooser.getConfig().isSignatureInvalid()) {
+            field.getSignatureComputations()
+                    .getSignatureBytes()
+                    .addModification(new ByteArrayShuffleModification(new int[] {0, 1, 2, 3}));
+        }
+
+        if (chooser.getConfig().isSignatureEmpty()) {
+            field.getSignatureComputations()
+                    .getSignatureBytes()
+                    .addModification(new ByteArrayExplicitValueModification(new byte[] {}));
+        }
+
         Asn1PreparatorHelper.prepareField(
                 field.getSignature(),
                 field.getSignatureComputations().getSignatureBytes().getValue(),
@@ -70,27 +98,29 @@ public class X509CertificatePreparator extends X509ContainerPreparator<X509Certi
     }
 
     private PrivateKeyContainer getPrivateKeyForAlgorithm(SignatureAlgorithm signatureAlgorithm) {
-        switch (signatureAlgorithm) {
-            case ECDSA:
-                return new EcdsaPrivateKey(
-                        chooser.getIssuerEcPrivateKey(),
-                        chooser.getConfig().getDefaultIssuerNonce(),
-                        chooser.getIssuerNamedCurve().getParameters());
-            case RSA_PKCS1:
-            case RSA_SSA_PSS:
-                return new RsaPrivateKey(
-                        chooser.getIssuerRsaModulus(), chooser.getIssuerRsaPrivateKey());
-            case DSA:
-                return new DsaPrivateKey(
-                        chooser.getDsaPrimeQ(),
-                        chooser.getIssuerDsaPrivateKey(),
-                        chooser.getConfig().getDefaultIssuerDsaNonce(),
-                        chooser.getDsaGenerator(),
-                        chooser.getDsaPrimeP());
-            default:
-                throw new UnsupportedOperationException(
-                        "The keytype \"" + signatureAlgorithm.name() + "\" is not implemented yet");
-        }
+        // TODO: get correct values from config and implement ECDSA and DSA
+        return switch (signatureAlgorithm) {
+            case ECDSA ->
+                    new EcdsaPrivateKey(
+                            chooser.getIssuerEcPrivateKey(),
+                            chooser.getConfig().getDefaultIssuerDsaNonce(),
+                            chooser.getSubjectNamedCurve().getParameters());
+            case RSA_PKCS1, RSA_SSA_PSS ->
+                    new RsaPrivateKey(
+                            chooser.getIssuerRsaPrivateExponent(), chooser.getIssuerRsaModulus());
+            case DSA ->
+                    new DsaPrivateKey(
+                            chooser.getIssuerDsaPrimeQ(),
+                            chooser.getIssuerDsaPrivateKeyX(),
+                            chooser.getIssuerDsaPrivateK(),
+                            chooser.getIssuerDsaGenerator(),
+                            chooser.getIssuerDsaPrimeP());
+            default ->
+                    throw new UnsupportedOperationException(
+                            "The keytype \""
+                                    + signatureAlgorithm.name()
+                                    + "\" is not implemented yet");
+        };
     }
 
     @Override

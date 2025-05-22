@@ -20,7 +20,7 @@ public class VersionPreparator extends X509Asn1FieldPreparator<Version> {
 
     @Override
     protected byte[] encodeContent() {
-        Asn1PreparatorHelper.prepareField(field, chooser.getConfig().getVersion().getValue());
+        Asn1PreparatorHelper.prepareField(field, chooser.getConfig().getVersion());
         return field.getContent().getOriginalValue();
     }
 }

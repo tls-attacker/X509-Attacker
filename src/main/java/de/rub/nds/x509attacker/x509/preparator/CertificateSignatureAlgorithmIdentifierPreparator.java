@@ -8,12 +8,12 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
+import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
+import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
-import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameters;
@@ -29,8 +29,19 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
 
     @Override
     public void prepareSubComponents() {
-        Asn1PreparatorHelper.prepareField(
-                field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
+        if (chooser.getConfig().isSignatureAlgorithmOidInvalid()) {
+            Asn1PreparatorHelper.prepareField(
+                    field.getAlgorithm(), new ObjectIdentifier("1.2.3.4.5.6.7.8"));
+        } else {
+            if (chooser.getConfig().getDifferentSignatureAlgorithmOid() != null) {
+                Asn1PreparatorHelper.prepareField(
+                        field.getAlgorithm(),
+                        chooser.getConfig().getDifferentSignatureAlgorithmOid());
+            } else {
+                Asn1PreparatorHelper.prepareField(
+                        field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
+            }
+        }
         PublicParameters signatureParameters = field.getParameters();
         if (signatureParameters == null) {
             signatureParameters = createSignatureParameters();
@@ -42,27 +53,27 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
     }
 
     private PublicParameters createSignatureParameters() {
-        X509PublicKeyType publicKeyType = chooser.getIssuerPublicKeyType();
-        switch (publicKeyType) {
-            case DH:
-                return new X509DhParameters("dhParameters", chooser.getConfig());
-            case DSA:
-                return new X509DssParameters("dssParameters");
-            case ECDH_ECDSA:
-                return new X509EcNamedCurveParameters("ecNamedCurve");
-            case RSA:
-                return new X509NullParameters("nullParameters");
-            default:
-                throw new UnsupportedOperationException("Unnown PublicKeyType: " + publicKeyType);
-        }
+        SignatureAlgorithm publicKeyType = chooser.getSignatureAlgorithm().getSignatureAlgorithm();
+        return switch (publicKeyType) {
+            case DSA -> new X509DssParameters("dssParameters");
+            case ECDSA -> new X509EcNamedCurveParameters("ecNamedCurve");
+            case RSA_PKCS1 -> new X509NullParameters("nullParameters");
+            default ->
+                    throw new UnsupportedOperationException(
+                            "Unknown PublicKeyType: " + publicKeyType);
+        };
     }
 
     @Override
     public byte[] encodeChildrenContent() {
-        if (field.getParameters() != null) {
-            return encodeChildren(field.getAlgorithm(), field.getParameters());
+        if (chooser.getConfig().isIncludeSignatureAlgorithm()) {
+            if (field.getParameters() != null) {
+                return encodeChildren(field.getAlgorithm(), field.getParameters());
+            } else {
+                return encodeChildren(field.getAlgorithm());
+            }
         } else {
-            return encodeChildren(field.getAlgorithm());
+            return new byte[] {};
         }
     }
 }

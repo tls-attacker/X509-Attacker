@@ -9,9 +9,12 @@
 package de.rub.nds.x509attacker.x509.model;
 
 import de.rub.nds.asn1.model.Asn1BitString;
+import de.rub.nds.asn1.model.Asn1Field;
 import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
+import de.rub.nds.modifiablevariable.ModifiableVariableFactory;
+import de.rub.nds.modifiablevariable.integer.IntegerExplicitValueModification;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.NameType;
@@ -24,6 +27,7 @@ import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.ArrayList;
 
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -57,31 +61,58 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         super(identifier);
         version = new X509Explicit<Version>("versionExplicit", 0, new Version("version"));
         version.setOptional(true);
-        serialNumber = new Asn1Integer("serialNumber");
+        setContextSpecificTagNumber(version, 0);
+        if (config.isIncludeSerialNumber()) {
+            serialNumber = new Asn1Integer("serialNumber");
+        }
+
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
-        issuer = new Name("issuer", NameType.ISSUER, config.getDefaultIssuer());
-        validity = new Validity("validity");
-        subject = new Name("subject", NameType.SUBJECT, config.getSubject());
-        subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
+
+        issuer =
+                new Name(
+                        "issuer",
+                        NameType.ISSUER,
+                        config.getDefaultIssuer(),
+                        config.getDefaultDirectoryStringType(),
+                        config.getDivergentIssuerDirectoryStringChoices());
+        if (config.isIncludeValidity()) {
+            validity = new Validity("validity", config);
+        }
+
+        subject =
+                new Name(
+                        "subject",
+                        NameType.SUBJECT,
+                        config.getSubject(),
+                        config.getDefaultDirectoryStringType(),
+                        new ArrayList<>());
+
+        if (config.isIncludeSubjectPublicKeyInfo()) {
+            subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo", config);
+        }
         if (config.isIncludeIssuerUniqueId()) {
             issuerUniqueId = new Asn1BitString("issuerUniqueID", 1);
             issuerUniqueId.setOptional(true);
+            setContextSpecificTagNumber(issuerUniqueId, 1);
         }
         if (config.isIncludeSubjectUniqueId()) {
             subjectUniqueId = new Asn1BitString("subjectUniqueID", 2);
             subjectUniqueId.setOptional(true);
+            setContextSpecificTagNumber(subjectUniqueId, 2);
         }
         if (config.isIncludeExtensions()) {
             explicitExtensions =
-                    new X509Explicit<Extensions>(
-                            "extensionsExplicit", 3, new Extensions("extensions"));
+                    new X509Explicit<>("extensionsExplicit", 3, new Extensions("extensions"));
+            explicitExtensions.setOptional(true);
+            setContextSpecificTagNumber(explicitExtensions, 3);
         }
     }
 
     public TbsCertificate(String identifier) {
         super(identifier);
-        version = new X509Explicit<Version>("versionExplicit", 0, new Version("version"));
+        version = new X509Explicit<>("versionExplicit", 0, new Version("version"));
         version.setOptional(true);
+        setContextSpecificTagNumber(version, 0);
         serialNumber = new Asn1Integer("serialNumber");
         signature = new CertificateSignatureAlgorithmIdentifier("signature");
         issuer = new Name("issuer", NameType.ISSUER);
@@ -90,11 +121,20 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
         subjectPublicKeyInfo = new SubjectPublicKeyInfo("subjectPublicKeyInfo");
         issuerUniqueId = new Asn1BitString("issuerUniqueID", 1);
         issuerUniqueId.setOptional(true);
+        setContextSpecificTagNumber(issuerUniqueId, 1);
         subjectUniqueId = new Asn1BitString("subjectUniqueID", 2);
         subjectUniqueId.setOptional(true);
+        setContextSpecificTagNumber(subjectUniqueId, 2);
         explicitExtensions =
-                new X509Explicit<Extensions>("extensionsExplicit", 3, new Extensions("extensions"));
+                new X509Explicit<>("extensionsExplicit", 3, new Extensions("extensions"));
         explicitExtensions.setOptional(true);
+        setContextSpecificTagNumber(explicitExtensions, 3);
+    }
+
+    // TODO: move functionality to ASN.1
+    private void setContextSpecificTagNumber(Asn1Field field, int tagClass) {
+        field.setTagNumber(ModifiableVariableFactory.safelySetValue(field.getTagClass(), 0));
+        field.getTagNumber().setModifications(new IntegerExplicitValueModification(tagClass));
     }
 
     public Asn1Integer getSerialNumber() {

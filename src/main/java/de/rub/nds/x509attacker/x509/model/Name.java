@@ -12,6 +12,7 @@ import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.DirectoryStringChoiceType;
 import de.rub.nds.x509attacker.constants.NameType;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.x509.handler.NameHandler;
@@ -25,6 +26,7 @@ import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicReference;
 
 /**
  * Name ::= CHOICE { -- only one possibility for now -- rdnSequence RDNSequence }
@@ -58,13 +60,27 @@ public class Name extends Asn1Sequence implements X509Component {
     }
 
     public Name(
-            String identifier, NameType type, List<Pair<X500AttributeType, String>> attributeList) {
+            String identifier,
+            NameType type,
+            List<Pair<X500AttributeType, String>> attributeList,
+            DirectoryStringChoiceType choiceType,
+            List<Pair<X500AttributeType, DirectoryStringChoiceType>> divergentTypes) {
         super(identifier);
         this.type = type;
         relativeDistinguishedNames = new LinkedList<>();
         for (Pair<X500AttributeType, String> attributePair : attributeList) {
+            AtomicReference<DirectoryStringChoiceType> choice = new AtomicReference<>(choiceType);
+            divergentTypes.stream()
+                    .filter(p -> p.getKey().equals(attributePair.getKey()))
+                    .findFirst()
+                    .ifPresent(
+                            matchingPair -> {
+                                choice.set(matchingPair.getRightElement());
+                            });
+
             RelativeDistinguishedName relativeDistinguishedName =
-                    new RelativeDistinguishedName("relativeDistinguishedName", attributePair);
+                    new RelativeDistinguishedName(
+                            "relativeDistinguishedName", List.of(attributePair), choice.get());
             relativeDistinguishedNames.add(relativeDistinguishedName);
         }
     }

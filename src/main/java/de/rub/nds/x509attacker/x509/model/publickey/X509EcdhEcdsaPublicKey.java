@@ -82,7 +82,8 @@ public class X509EcdhEcdsaPublicKey implements PublicKeyContent {
                 namedCurve
                         .getParameters()
                         .getGroup()
-                        .nTimesGroupOperationOnGenerator(chooser.getConfig().getEcPrivateKey());
+                        .nTimesGroupOperationOnGenerator(
+                                chooser.getConfig().getDefaultSubjectEcPrivateKey());
         this.setxCoordinate(publicKey.getFieldX().getData());
         this.setyCoordinate(publicKey.getFieldY().getData());
         EcdhPublicKey ecdhPublicKey =

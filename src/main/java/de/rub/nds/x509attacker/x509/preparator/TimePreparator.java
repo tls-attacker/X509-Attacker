@@ -59,6 +59,7 @@ public class TimePreparator implements X509Preparator {
                         dateTime,
                         accurracy,
                         chooser.getConfig().getTimezoneOffsetInMinutes());
+                break;
             case GENERALIZED_TIME_LOCAL:
                 Asn1PreparatorHelper.prepareFieldGeneralizedTime(
                         (Asn1GeneralizedTime) timeField, dateTime, accurracy);
