@@ -80,9 +80,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
         tbsCertificate = new TbsCertificate("tbsCertificate", certificateConfig);
         signatureAlgorithmIdentifier =
                 new CertificateSignatureAlgorithmIdentifier("signatureAlgorithm");
-        if (certificateConfig.isIncludeTbsSignature()) {
-            signature = new Asn1BitString("signature");
-        }
+        signature = new Asn1BitString("signature");
     }
 
     public X509Certificate(String identifier) {
