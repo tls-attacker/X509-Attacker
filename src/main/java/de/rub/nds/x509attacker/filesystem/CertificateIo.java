@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.filesystem;
 
 import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.protocol.util.SilentByteArrayOutputStream;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.X509CertificateChain;
@@ -16,7 +17,6 @@ import de.rub.nds.x509attacker.x509.model.X509Certificate;
 import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.ByteArrayInputStream;
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -68,12 +68,12 @@ public class CertificateIo {
         reader.lines()
                 .forEach(
                         new Consumer<String>() {
-                            private ByteArrayOutputStream stream = null;
+                            private SilentByteArrayOutputStream stream = null;
 
                             @Override
                             public void accept(String line) {
                                 if (line.contains(CERTIFICATE_PEM_PREFIX)) {
-                                    stream = new ByteArrayOutputStream();
+                                    stream = new SilentByteArrayOutputStream();
                                 } else if (line.contains(CERTIFICATE_PEM_SUFFIX)) {
                                     if (stream == null) {
                                         throw new RuntimeException(
@@ -84,15 +84,11 @@ public class CertificateIo {
                                     byteList.add(new CertificateBytes(certificateBytes));
                                     stream = null;
                                 } else {
-                                    try {
-                                        if (stream == null) {
-                                            throw new RuntimeException(
-                                                    "Could not parse certificate chain");
-                                        }
-                                        stream.write(line.strip().getBytes());
-                                    } catch (IOException ex) {
-                                        throw new RuntimeException(ex);
+                                    if (stream == null) {
+                                        throw new RuntimeException(
+                                                "Could not parse certificate chain");
                                     }
+                                    stream.write(line.strip().getBytes());
                                 }
                             }
                         });
@@ -149,7 +145,7 @@ public class CertificateIo {
         try {
             X509CertificateChain chain = new X509CertificateChain();
             for (TlsCertificate certificate : certificateList.getCertificateList()) {
-                ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+                SilentByteArrayOutputStream outputStream = new SilentByteArrayOutputStream();
                 outputStream.write(certificate.getEncoded());
                 X509Certificate x509Certificate = new X509Certificate("certificate");
                 x509Certificate
