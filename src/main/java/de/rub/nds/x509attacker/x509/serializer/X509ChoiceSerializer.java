@@ -10,8 +10,7 @@ package de.rub.nds.x509attacker.x509.serializer;
 
 import de.rub.nds.asn1.model.Asn1Choice;
 import de.rub.nds.asn1.model.Asn1Encodable;
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
+import de.rub.nds.protocol.util.SilentByteArrayOutputStream;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 
@@ -28,15 +27,11 @@ public class X509ChoiceSerializer<Choice extends Asn1Choice> implements X509Seri
 
     @Override
     public byte[] serialize() {
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+        SilentByteArrayOutputStream outputStream = new SilentByteArrayOutputStream();
         Asn1Encodable selectedChoice = choice.getSelectedChoice();
-        try {
-            outputStream.write(selectedChoice.getTagOctets().getValue());
-            outputStream.write(selectedChoice.getLengthOctets().getValue());
-            outputStream.write(selectedChoice.getContent().getValue());
-        } catch (IOException e) {
-
-        }
+        outputStream.write(selectedChoice.getTagOctets().getValue());
+        outputStream.write(selectedChoice.getLengthOctets().getValue());
+        outputStream.write(selectedChoice.getContent().getValue());
         return outputStream.toByteArray();
     }
 }
