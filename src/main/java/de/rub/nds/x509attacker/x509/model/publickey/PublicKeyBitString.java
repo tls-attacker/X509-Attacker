@@ -106,9 +106,9 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
                 return new X509X448PublicKey();
             default:
                 throw new UnsupportedOperationException(
-                        "PublicKeyType: "
-                                + publicKeyType.getHumanReadableName()
-                                + " is not supported.");
+                        String.format(
+                                "PublicKeyType: %s is not supported.",
+                                publicKeyType.getHumanReadableName()));
         }
     }
 }
