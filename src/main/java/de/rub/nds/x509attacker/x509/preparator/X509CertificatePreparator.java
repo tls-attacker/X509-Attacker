@@ -135,7 +135,9 @@ public class X509CertificatePreparator extends X509ContainerPreparator<X509Certi
         List<Asn1Encodable> children = new ArrayList<>();
         children.add(field.getTbsCertificate());
         children.add(field.getSignatureAlgorithmIdentifier());
-        children.add(field.getSignature());
+        if (chooser.getConfig().isIncludeTbsSignature()) {
+            children.add(field.getSignature());
+        }
         return encodeChildren(children);
     }
 }
