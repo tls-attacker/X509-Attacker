@@ -30,7 +30,7 @@ public class CertificateIoTest {
     @ParameterizedTest
     @MethodSource("testCertsProvider")
     void testWithTestData(String resourcePath) throws IOException {
-        LOGGER.debug("Testing: " + resourcePath);
+        LOGGER.debug("Testing: {}", resourcePath);
         try {
             X509CertificateChain chain =
                     CertificateIo.readPemChain(getClass().getResourceAsStream(resourcePath));
