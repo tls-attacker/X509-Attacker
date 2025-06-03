@@ -63,7 +63,9 @@ public class X509ChoiceParser implements X509Parser {
             LOGGER.debug("Finished parsing of X509Choice");
         } catch (Exception E) {
             throw new ParserException(
-                    "Exception occured in X509ChoiceParser parsing for " + choice.getIdentifier(),
+                    String.format(
+                            "Exception occured in X509ChoiceParser parsing for %s",
+                            choice.getIdentifier()),
                     E);
         }
     }

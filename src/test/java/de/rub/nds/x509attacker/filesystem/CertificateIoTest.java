@@ -42,7 +42,9 @@ public class CertificateIoTest {
                             .getX509PublicKeyContent();
             Assertions.assertNotNull(
                     publicKey,
-                    "Each certificate has a public key that should be readable: " + resourcePath);
+                    String.format(
+                            "Each certificate has a public key that should be readable: %s",
+                            resourcePath));
         } catch (Exception E) {
             LOGGER.debug("Problem", E);
             fail(resourcePath, E);
