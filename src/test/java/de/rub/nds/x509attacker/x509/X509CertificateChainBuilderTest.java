@@ -87,7 +87,7 @@ public class X509CertificateChainBuilderTest {
         for (X509Certificate cert : chain.getCertificateList()) {
             LOGGER.info( // TODO not sure we can pass null here
                     "Cert: {}",
-                    ArrayConverter.bytesToHexString(cert.getSerializer(null).serialize()));
+                    cert.getSerializer(null).serialize());
         }
     }
 }
