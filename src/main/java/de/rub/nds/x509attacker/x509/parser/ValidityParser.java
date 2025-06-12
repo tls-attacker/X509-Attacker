@@ -33,14 +33,15 @@ public class ValidityParser extends X509ComponentContainerParser<Validity> {
         encodable.getNotBefore().getParser(chooser).parse(inputStream);
         encodable.getNotBefore().getHandler(chooser).adjustContextAfterParse();
         LOGGER.debug(
-                "Parsed NotBefore Date as:"
-                        + encodable.getNotBefore().getTimeValue().toLocalDate());
+                "Parsed NotBefore Date as: {}",
+                encodable.getNotBefore().getTimeValue().toLocalDate());
     }
 
     private void parseNotAfter(BufferedInputStream inputStream) {
         encodable.getNotAfter().getParser(chooser).parse(inputStream);
         encodable.getNotAfter().getHandler(chooser).adjustContextAfterParse();
         LOGGER.debug(
-                "Parsed NotAfter Date as:" + encodable.getNotAfter().getTimeValue().toLocalDate());
+                "Parsed NotAfter Date as: {}",
+                encodable.getNotAfter().getTimeValue().toLocalDate());
     }
 }

@@ -72,7 +72,7 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
     }
 
     public final PublicKeyContent createX509PublicKeyContent(X509PublicKeyType publicKeyType) {
-        LOGGER.debug("Creating X509PublicKeyContent for PublicKeyType: " + publicKeyType.name());
+        LOGGER.debug("Creating X509PublicKeyContent for PublicKeyType: {}", publicKeyType.name());
         switch (publicKeyType) {
             case DH:
                 return new X509DhPublicKey();
@@ -106,9 +106,9 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
                 return new X509X448PublicKey();
             default:
                 throw new UnsupportedOperationException(
-                        "PublicKeyType: "
-                                + publicKeyType.getHumanReadableName()
-                                + " is not supported.");
+                        String.format(
+                                "PublicKeyType: %s is not supported.",
+                                publicKeyType.getHumanReadableName()));
         }
     }
 }

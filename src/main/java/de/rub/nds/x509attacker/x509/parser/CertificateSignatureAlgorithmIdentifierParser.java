@@ -88,7 +88,9 @@ public class CertificateSignatureAlgorithmIdentifierParser
                 break;
             default:
                 throw new UnsupportedOperationException(
-                        "Encountered unknown signature algorithm: " + signatureAlgorithm.name());
+                        String.format(
+                                "Encountered unknown signature algorithm: %s",
+                                signatureAlgorithm.name()));
         }
     }
 }

@@ -53,8 +53,9 @@ public class AttributeTypeAndValuePreparator
             prepareDirectoryString((DirectoryString) valueField);
         } else {
             throw new UnsupportedOperationException(
-                    "AttributeTypeAndValue value type not supported yet: "
-                            + valueField.getClass().getSimpleName());
+                    String.format(
+                            "AttributeTypeAndValue value type not supported yet: %s",
+                            valueField.getClass().getSimpleName()));
         }
     }
 
