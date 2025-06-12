@@ -60,7 +60,9 @@ public class AttributeTypeAndValueParser
 
                 default:
                     throw new ParserException(
-                            "Did not anticipate X509AttributeType: " + attributeType.toString());
+                            String.format(
+                                    "Did not anticipate X509AttributeType: %s",
+                                    attributeType.toString()));
             }
         }
     }

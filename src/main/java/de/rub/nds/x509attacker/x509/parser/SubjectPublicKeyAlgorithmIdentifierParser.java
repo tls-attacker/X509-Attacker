@@ -62,7 +62,9 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
                 break;
             default:
                 throw new UnsupportedOperationException(
-                        "Unknown SubjectPublicKeyAlgorithmIdentifier: " + publicKeyType.name());
+                        String.format(
+                                "Unknown SubjectPublicKeyAlgorithmIdentifier: %s",
+                                publicKeyType.name()));
         }
         LOGGER.debug("Expecting {}", parameters.getClass().getSimpleName());
         parameters.getParser(chooser).parse(inputStream);

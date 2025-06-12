@@ -45,7 +45,7 @@ public class MimicryEngineTest {
     @ParameterizedTest
     @MethodSource("testCertsProvider")
     public void testCreateMimicryCertificate(String resourcePath) {
-        LOGGER.debug("Testing: " + resourcePath);
+        LOGGER.debug("Testing: {}", resourcePath);
         byte[] original = null;
         byte[] forged = null;
         try {
