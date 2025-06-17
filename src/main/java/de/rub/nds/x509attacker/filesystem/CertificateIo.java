@@ -22,6 +22,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
 import java.security.cert.CertificateEncodingException;
 import java.util.Base64;
 import java.util.LinkedList;
@@ -63,7 +64,8 @@ public class CertificateIo {
 
     public static List<CertificateBytes> readPemCertificateByteList(InputStream inputStream)
             throws IOException {
-        BufferedReader reader = new BufferedReader(new InputStreamReader(inputStream));
+        BufferedReader reader =
+                new BufferedReader(new InputStreamReader(inputStream, StandardCharsets.UTF_8));
         List<CertificateBytes> byteList = new LinkedList<>();
         reader.lines()
                 .forEach(
@@ -88,7 +90,7 @@ public class CertificateIo {
                                         throw new RuntimeException(
                                                 "Could not parse certificate chain");
                                     }
-                                    stream.write(line.strip().getBytes());
+                                    stream.write(line.strip().getBytes(StandardCharsets.UTF_8));
                                 }
                             }
                         });

@@ -11,10 +11,12 @@ package de.rub.nds.x509attacker.signatureengine.keyparsers;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.security.PrivateKey;
 import java.security.PublicKey;
 import java.security.SecureRandom;
@@ -41,7 +43,10 @@ public class PemUtil {
         PemObject pemObject = new PemObject("PublicKey", key.getEncoded());
         PemWriter pemWriter = null;
         try {
-            pemWriter = new PemWriter(new FileWriter(targetFile));
+            pemWriter =
+                    new PemWriter(
+                            new OutputStreamWriter(
+                                    new FileOutputStream(targetFile), StandardCharsets.UTF_8));
             pemWriter.writeObject(pemObject);
         } catch (IOException ex) {
             throw new RuntimeException(ex);
@@ -60,7 +65,10 @@ public class PemUtil {
 
         PemWriter pemWriter = null;
         try {
-            pemWriter = new PemWriter(new FileWriter(file));
+            pemWriter =
+                    new PemWriter(
+                            new OutputStreamWriter(
+                                    new FileOutputStream(file), StandardCharsets.UTF_8));
             for (TlsCertificate tempCert : cert.getCertificateList()) {
                 PemObject pemObject = new PemObject("CERTIFICATE", tempCert.getEncoded());
                 pemWriter.writeObject(pemObject);
@@ -101,7 +109,7 @@ public class PemUtil {
         PrivateKey privKey;
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
-        InputStreamReader reader = new InputStreamReader(stream);
+        InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
         try (PEMParser parser = new PEMParser(reader)) {
             Object obj = null;
             while ((obj = parser.readObject()) != null) {
@@ -140,7 +148,7 @@ public class PemUtil {
         PublicKey pubKey;
         JcaPEMKeyConverter converter = new JcaPEMKeyConverter();
 
-        InputStreamReader reader = new InputStreamReader(stream);
+        InputStreamReader reader = new InputStreamReader(stream, StandardCharsets.UTF_8);
         try (PEMParser parser = new PEMParser(reader)) {
             Object obj = null;
             while ((obj = parser.readObject()) != null) {
