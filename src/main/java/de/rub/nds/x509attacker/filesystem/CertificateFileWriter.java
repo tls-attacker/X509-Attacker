@@ -29,14 +29,15 @@ public class CertificateFileWriter {
     public void writeCertificate(final byte[] certificateBytes) throws IOException {
         this.writeCertificate(
                 new String(
-                        Base64.getMimeEncoder(64, "\r\n".getBytes()).encode(certificateBytes),
+                        Base64.getMimeEncoder(64, "\r\n".getBytes(StandardCharsets.UTF_8))
+                                .encode(certificateBytes),
                         StandardCharsets.UTF_8));
     }
 
     public void writeCertificate(final String certificateBase64String) throws IOException {
-        outputStream.write(CERTIFICATE_PEM_PREFIX.getBytes());
-        outputStream.write(certificateBase64String.getBytes());
-        outputStream.write(CERTIFICATE_PEM_SUFFIX.getBytes());
+        outputStream.write(CERTIFICATE_PEM_PREFIX.getBytes(StandardCharsets.UTF_8));
+        outputStream.write(certificateBase64String.getBytes(StandardCharsets.UTF_8));
+        outputStream.write(CERTIFICATE_PEM_SUFFIX.getBytes(StandardCharsets.UTF_8));
     }
 
     public void close() throws IOException {
