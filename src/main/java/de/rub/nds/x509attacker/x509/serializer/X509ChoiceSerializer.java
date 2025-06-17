@@ -27,11 +27,12 @@ public class X509ChoiceSerializer<Choice extends Asn1Choice> implements X509Seri
 
     @Override
     public byte[] serialize() {
-        SilentByteArrayOutputStream outputStream = new SilentByteArrayOutputStream();
-        Asn1Encodable selectedChoice = choice.getSelectedChoice();
-        outputStream.write(selectedChoice.getTagOctets().getValue());
-        outputStream.write(selectedChoice.getLengthOctets().getValue());
-        outputStream.write(selectedChoice.getContent().getValue());
-        return outputStream.toByteArray();
+        try (SilentByteArrayOutputStream outputStream = new SilentByteArrayOutputStream()) {
+            Asn1Encodable selectedChoice = choice.getSelectedChoice();
+            outputStream.write(selectedChoice.getTagOctets().getValue());
+            outputStream.write(selectedChoice.getLengthOctets().getValue());
+            outputStream.write(selectedChoice.getContent().getValue());
+            return outputStream.toByteArray();
+        }
     }
 }

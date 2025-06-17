@@ -64,9 +64,8 @@ public class GeneralNamePreparator implements X509Preparator {
                                 + generalName.getGeneralNameChoiceTypeConfig().name()
                                 + " not yet implemented.");
         }
-        if (generalName instanceof X509Component) {
-            ((X509Component) generalName).getPreparator(chooser).prepare();
-        } else if (generalName.getSelectedChoice() instanceof Asn1Field) {
+        ((X509Component) generalName).getPreparator(chooser).prepare();
+        if (generalName.getSelectedChoice() instanceof Asn1Field) {
             HelperPreparator<Asn1Field> preparator =
                     new HelperPreparator<>(
                             chooser,

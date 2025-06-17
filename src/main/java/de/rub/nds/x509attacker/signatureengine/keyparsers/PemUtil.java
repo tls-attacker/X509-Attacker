@@ -161,8 +161,11 @@ public class PemUtil {
                     return pubKey;
                 }
             }
-            SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
-            return converter.getPublicKey(publicKeyInfo);
+            if (obj instanceof SubjectPublicKeyInfo) {
+                SubjectPublicKeyInfo publicKeyInfo = (SubjectPublicKeyInfo) obj;
+                return converter.getPublicKey(publicKeyInfo);
+            }
+            throw new RuntimeException("No valid public key found in PEM data");
         } catch (Exception e) {
             throw new RuntimeException("Could not read public key", e);
         } finally {
