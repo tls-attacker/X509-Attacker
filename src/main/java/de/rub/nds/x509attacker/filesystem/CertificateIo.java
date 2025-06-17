@@ -102,7 +102,11 @@ public class CertificateIo {
 
         // Outer length field
         byte[] lengthField = new byte[LENGTH_FIELD_BYTE_LENGTH];
-        inputStream.read(lengthField);
+        int bytesRead = inputStream.read(lengthField);
+        if (bytesRead != LENGTH_FIELD_BYTE_LENGTH) {
+            throw new IOException(
+                    "Expected " + LENGTH_FIELD_BYTE_LENGTH + " bytes but read " + bytesRead);
+        }
         int outLength = ArrayConverter.bytesToInt(lengthField);
         ByteArrayInputStream subCertificateListStream =
                 new ByteArrayInputStream(inputStream.readNBytes(outLength));
@@ -117,7 +121,11 @@ public class CertificateIo {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
         byte[] lengthField = new byte[LENGTH_FIELD_BYTE_LENGTH];
-        inputStream.read(lengthField);
+        int bytesRead = inputStream.read(lengthField);
+        if (bytesRead != LENGTH_FIELD_BYTE_LENGTH) {
+            throw new IOException(
+                    "Expected " + LENGTH_FIELD_BYTE_LENGTH + " bytes but read " + bytesRead);
+        }
         int length = ArrayConverter.bytesToInt(lengthField);
         BufferedInputStream certificateInputStream =
                 new BufferedInputStream(new ByteArrayInputStream(inputStream.readNBytes(length)));
@@ -132,7 +140,11 @@ public class CertificateIo {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
         byte[] lengthField = new byte[LENGTH_FIELD_BYTE_LENGTH];
-        inputStream.read(lengthField);
+        int bytesRead = inputStream.read(lengthField);
+        if (bytesRead != LENGTH_FIELD_BYTE_LENGTH) {
+            throw new IOException(
+                    "Expected " + LENGTH_FIELD_BYTE_LENGTH + " bytes but read " + bytesRead);
+        }
         int length = ArrayConverter.bytesToInt(lengthField);
         BufferedInputStream certificateInputStream =
                 new BufferedInputStream(new ByteArrayInputStream(inputStream.readNBytes(length)));
