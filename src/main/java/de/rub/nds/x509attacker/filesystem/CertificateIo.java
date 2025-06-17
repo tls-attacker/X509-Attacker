@@ -147,15 +147,16 @@ public class CertificateIo {
         try {
             X509CertificateChain chain = new X509CertificateChain();
             for (TlsCertificate certificate : certificateList.getCertificateList()) {
-                SilentByteArrayOutputStream outputStream = new SilentByteArrayOutputStream();
-                outputStream.write(certificate.getEncoded());
-                X509Certificate x509Certificate = new X509Certificate("certificate");
-                x509Certificate
-                        .getParser(chooser)
-                        .parse(
-                                new BufferedInputStream(
-                                        new ByteArrayInputStream(outputStream.toByteArray())));
-                chain.addCertificate(x509Certificate);
+                try (SilentByteArrayOutputStream outputStream = new SilentByteArrayOutputStream()) {
+                    outputStream.write(certificate.getEncoded());
+                    X509Certificate x509Certificate = new X509Certificate("certificate");
+                    x509Certificate
+                            .getParser(chooser)
+                            .parse(
+                                    new BufferedInputStream(
+                                            new ByteArrayInputStream(outputStream.toByteArray())));
+                    chain.addCertificate(x509Certificate);
+                }
             }
             return chain;
         } catch (IOException ex) {

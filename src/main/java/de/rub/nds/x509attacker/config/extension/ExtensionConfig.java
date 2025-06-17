@@ -53,7 +53,7 @@ public abstract class ExtensionConfig {
         return includeCritical;
     }
 
-    public void DefaultEncodingRule(DefaultEncodingRule includeCritical) {
+    public void setIncludeCritical(DefaultEncodingRule includeCritical) {
         this.includeCritical = includeCritical;
     }
 
