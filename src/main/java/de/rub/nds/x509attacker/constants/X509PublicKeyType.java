@@ -42,7 +42,7 @@ public enum X509PublicKeyType {
     private final String humanReadableName;
     private final ObjectIdentifier oid;
 
-    private X509PublicKeyType(String humanReadableName, String oid) {
+    X509PublicKeyType(String humanReadableName, String oid) {
         this.humanReadableName = humanReadableName;
         this.oid = new ObjectIdentifier(oid);
     }
