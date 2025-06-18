@@ -17,7 +17,7 @@ public enum X509Version {
 
     private final BigInteger value;
 
-    private X509Version(BigInteger value) {
+    X509Version(BigInteger value) {
         this.value = value;
     }
 
