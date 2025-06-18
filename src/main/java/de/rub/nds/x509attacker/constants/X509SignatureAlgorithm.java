@@ -122,7 +122,7 @@ public enum X509SignatureAlgorithm {
      */
     private final HashAlgorithm hashAlgorithm;
 
-    private X509SignatureAlgorithm(
+    X509SignatureAlgorithm(
             String humanReadableName,
             String oid,
             SignatureAlgorithm signatureAlgorithm,
