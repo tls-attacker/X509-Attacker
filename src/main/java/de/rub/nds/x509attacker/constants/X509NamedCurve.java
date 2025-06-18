@@ -76,7 +76,7 @@ public enum X509NamedCurve {
 
     private NamedEllipticCurveParameters parameters;
 
-    private X509NamedCurve(String oid, NamedEllipticCurveParameters parameters) {
+    X509NamedCurve(String oid, NamedEllipticCurveParameters parameters) {
         this.oid = new ObjectIdentifier(oid);
         this.parameters = parameters;
     }
