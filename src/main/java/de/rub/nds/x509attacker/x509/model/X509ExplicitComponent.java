@@ -11,5 +11,5 @@ package de.rub.nds.x509attacker.x509.model;
 import de.rub.nds.asn1.model.Asn1Field;
 
 public interface X509ExplicitComponent extends X509Component {
-    public Asn1Field getInnerField();
+    Asn1Field getInnerField();
 }
