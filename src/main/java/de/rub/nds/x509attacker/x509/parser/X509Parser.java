@@ -11,5 +11,5 @@ package de.rub.nds.x509attacker.x509.parser;
 import java.io.BufferedInputStream;
 
 public interface X509Parser {
-    public abstract void parse(BufferedInputStream inputStream);
+    void parse(BufferedInputStream inputStream);
 }
