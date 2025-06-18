@@ -17,13 +17,13 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public interface PublicKeyContent {
-    public abstract X509PublicKeyType getX509PublicKeyType();
+    X509PublicKeyType getX509PublicKeyType();
 
-    public abstract void prepare(X509Chooser chooser);
+    void prepare(X509Chooser chooser);
 
-    public abstract byte[] getEncoded(X509Chooser chooser);
+    byte[] getEncoded(X509Chooser chooser);
 
-    public abstract void adjustInContext(X509Chooser chooser);
+    void adjustInContext(X509Chooser chooser);
 
-    public abstract void readIn(X509Chooser chooser, byte[] bytesToRead);
+    void readIn(X509Chooser chooser, byte[] bytesToRead);
 }
