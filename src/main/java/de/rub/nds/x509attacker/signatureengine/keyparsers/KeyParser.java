@@ -14,9 +14,9 @@ import java.security.PublicKey;
 
 public interface KeyParser {
 
-    public PrivateKey parsePrivateKey(final byte[] keyBytes, final KeyFormat keyFormat)
+    PrivateKey parsePrivateKey(final byte[] keyBytes, final KeyFormat keyFormat)
             throws KeyParserException;
 
-    public PublicKey parsePublicKey(final byte[] keyBytes, final KeyFormat keyFormat)
+    PublicKey parsePublicKey(final byte[] keyBytes, final KeyFormat keyFormat)
             throws KeyParserException;
 }
