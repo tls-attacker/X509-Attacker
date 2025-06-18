@@ -21,7 +21,7 @@ public enum KeyUsage {
 
     private int value;
 
-    private KeyUsage(int value) {
+    KeyUsage(int value) {
         this.value = value;
     }
 
