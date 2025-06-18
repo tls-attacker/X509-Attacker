@@ -17,7 +17,7 @@ import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 public interface PublicParameters extends X509Component {
 
     @Override
-    public default X509Serializer getSerializer(X509Chooser chooser) {
+    default X509Serializer getSerializer(X509Chooser chooser) {
         if (this instanceof Asn1Field) {
             return new X509Asn1FieldSerializer((Asn1Field) this);
         } else {
