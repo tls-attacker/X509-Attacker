@@ -64,7 +64,7 @@ public enum X509ExtensionType {
 
     private final ObjectIdentifier oid;
 
-    private X509ExtensionType(String oid) {
+    X509ExtensionType(String oid) {
         this.oid = new ObjectIdentifier(oid);
     }
 

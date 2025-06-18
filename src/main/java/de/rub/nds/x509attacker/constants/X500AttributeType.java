@@ -37,7 +37,7 @@ public enum X500AttributeType {
     private final String shortString;
     private final ObjectIdentifier oid;
 
-    private X500AttributeType(String humanReadableName, String shortString, String oid) {
+    X500AttributeType(String humanReadableName, String shortString, String oid) {
         this.humanReadableName = humanReadableName;
         this.shortString = shortString;
         this.oid = new ObjectIdentifier(oid);

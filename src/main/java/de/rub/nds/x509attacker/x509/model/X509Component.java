@@ -18,11 +18,11 @@ import de.rub.nds.x509attacker.x509.serializer.X509Asn1FieldSerializer;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 
 public interface X509Component extends Asn1Encodable {
-    public X509Handler getHandler(X509Chooser chooser);
+    X509Handler getHandler(X509Chooser chooser);
 
-    public X509Parser getParser(X509Chooser chooser);
+    X509Parser getParser(X509Chooser chooser);
 
-    public default X509Serializer getSerializer(X509Chooser chooser) {
+    default X509Serializer getSerializer(X509Chooser chooser) {
         if (this instanceof Asn1Field) {
             return new X509Asn1FieldSerializer((Asn1Field) this);
         } else {
@@ -30,5 +30,5 @@ public interface X509Component extends Asn1Encodable {
         }
     }
 
-    public X509Preparator getPreparator(X509Chooser chooser);
+    X509Preparator getPreparator(X509Chooser chooser);
 }

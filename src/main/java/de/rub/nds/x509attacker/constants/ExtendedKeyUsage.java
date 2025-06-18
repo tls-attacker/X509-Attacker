@@ -29,7 +29,7 @@ public enum ExtendedKeyUsage {
 
     private String oid;
 
-    private ExtendedKeyUsage(String oid) {
+    ExtendedKeyUsage(String oid) {
         this.oid = oid;
     }
 
