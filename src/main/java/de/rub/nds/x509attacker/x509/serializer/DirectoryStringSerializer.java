@@ -13,8 +13,15 @@ import de.rub.nds.x509attacker.x509.model.DirectoryString;
 
 public class DirectoryStringSerializer implements X509Serializer {
 
+    /**
+     * Constructs a new DirectoryStringSerializer with the given chooser and directory string.
+     *
+     * @param chooser the X509Chooser used for configuration decisions
+     * @param directoryString the DirectoryString to serialize
+     */
     public DirectoryStringSerializer(X509Chooser chooser, DirectoryString directoryString) {}
 
+    /** {@inheritDoc} */
     @Override
     public byte[] serialize() {
         throw new UnsupportedOperationException("Unimplemented method 'serialize'");
