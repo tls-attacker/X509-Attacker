@@ -21,10 +21,16 @@ public class X509ChoiceSerializer<Choice extends Asn1Choice> implements X509Seri
 
     private final Choice choice;
 
+    /**
+     * Constructs a new X509ChoiceSerializer for the given ASN.1 choice object.
+     *
+     * @param choice the ASN.1 choice object to serialize
+     */
     public X509ChoiceSerializer(Choice choice) {
         this.choice = choice;
     }
 
+    /** {@inheritDoc} */
     @Override
     public byte[] serialize() {
         try (SilentByteArrayOutputStream outputStream = new SilentByteArrayOutputStream()) {
