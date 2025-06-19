@@ -13,6 +13,11 @@ import de.rub.nds.asn1.serializer.Asn1FieldSerializer;
 
 public class X509Asn1FieldSerializer extends Asn1FieldSerializer implements X509Serializer {
 
+    /**
+     * Constructs a new X509Asn1FieldSerializer for the given ASN.1 field.
+     *
+     * @param field the ASN.1 field to serialize
+     */
     public X509Asn1FieldSerializer(Asn1Field field) {
         super(field);
     }
