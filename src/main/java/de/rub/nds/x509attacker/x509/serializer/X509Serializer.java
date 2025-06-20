@@ -9,5 +9,10 @@
 package de.rub.nds.x509attacker.x509.serializer;
 
 public interface X509Serializer {
+    /**
+     * Serializes the X.509 object into its byte array representation.
+     *
+     * @return the serialized byte array representation of the X.509 object
+     */
     byte[] serialize();
 }
