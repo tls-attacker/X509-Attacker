@@ -13,14 +13,14 @@ import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.context.X509Context;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 
-public abstract class X509FieldHandler<Component extends X509Component> implements X509Handler {
+public abstract class X509FieldHandler<ComponentT extends X509Component> implements X509Handler {
 
     protected final X509Chooser chooser;
-    protected final Component component;
+    protected final ComponentT component;
     protected final X509Context context;
     protected final X509CertificateConfig config;
 
-    public X509FieldHandler(X509Chooser chooser, Component component) {
+    public X509FieldHandler(X509Chooser chooser, ComponentT component) {
         this.chooser = chooser;
         this.component = component;
         this.context = chooser.getContext();

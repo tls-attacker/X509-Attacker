@@ -16,12 +16,12 @@ import de.rub.nds.x509attacker.x509.model.X509Component;
  * A parser for the X509 module that always parses the the structure of the asn1 field and then
  * passes the content of the field to the implementation
  */
-public abstract class X509ComponentParser<Encodable extends X509Component>
-        extends Asn1Parser<Encodable> implements X509Parser {
+public abstract class X509ComponentParser<EncodableT extends X509Component>
+        extends Asn1Parser<EncodableT> implements X509Parser {
 
     protected final X509Chooser chooser;
 
-    public X509ComponentParser(X509Chooser chooser, Encodable encodable) {
+    public X509ComponentParser(X509Chooser chooser, EncodableT encodable) {
         super(encodable);
         this.chooser = chooser;
     }
