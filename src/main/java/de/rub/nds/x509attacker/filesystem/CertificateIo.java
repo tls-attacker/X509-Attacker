@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.filesystem;
 
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.modifiablevariable.util.DataConverter;
 import de.rub.nds.protocol.util.SilentByteArrayOutputStream;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.context.X509Context;
@@ -107,7 +107,7 @@ public class CertificateIo {
             throw new IOException(
                     "Expected " + LENGTH_FIELD_BYTE_LENGTH + " bytes but read " + bytesRead);
         }
-        int outLength = ArrayConverter.bytesToInt(lengthField);
+        int outLength = DataConverter.bytesToInt(lengthField);
         ByteArrayInputStream subCertificateListStream =
                 new ByteArrayInputStream(inputStream.readNBytes(outLength));
         while (subCertificateListStream.available() > 0) {
@@ -126,7 +126,7 @@ public class CertificateIo {
             throw new IOException(
                     "Expected " + LENGTH_FIELD_BYTE_LENGTH + " bytes but read " + bytesRead);
         }
-        int length = ArrayConverter.bytesToInt(lengthField);
+        int length = DataConverter.bytesToInt(lengthField);
         BufferedInputStream certificateInputStream =
                 new BufferedInputStream(new ByteArrayInputStream(inputStream.readNBytes(length)));
         X509Certificate certificate = new X509Certificate("certificate");
@@ -145,7 +145,7 @@ public class CertificateIo {
             throw new IOException(
                     "Expected " + LENGTH_FIELD_BYTE_LENGTH + " bytes but read " + bytesRead);
         }
-        int length = ArrayConverter.bytesToInt(lengthField);
+        int length = DataConverter.bytesToInt(lengthField);
         BufferedInputStream certificateInputStream =
                 new BufferedInputStream(new ByteArrayInputStream(inputStream.readNBytes(length)));
         X509Certificate certificate = new X509Certificate("certificate");

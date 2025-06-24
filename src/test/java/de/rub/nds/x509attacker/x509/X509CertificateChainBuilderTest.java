@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509;
 
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.modifiablevariable.util.DataConverter;
 import de.rub.nds.protocol.xml.Pair;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
@@ -41,7 +41,7 @@ public class X509CertificateChainBuilderTest {
         rootConfig.setNotBefore(new DateTime(1990, 9, 14, 3, 24, DateTimeZone.UTC));
         rootConfig.setNotAfter(new DateTime(2040, 9, 14, 3, 24, DateTimeZone.UTC));
         byte[] serialNumber =
-                ArrayConverter.hexStringToByteArray("FFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAA");
+                DataConverter.hexStringToByteArray("FFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAAFFAA");
         rootConfig.setSerialNumber(new BigInteger(serialNumber));
         rootConfig.setDefaultSubjectRsaModulus(new BigInteger("AABBCCAABBCCAABBCC", 16));
         rootConfig.setDefaultSubjectRsaPublicKey(new BigInteger("03", 16));
@@ -55,7 +55,7 @@ public class X509CertificateChainBuilderTest {
         intermediateConfig.setNotBefore(new DateTime(2022, 1, 1, 12, 13, DateTimeZone.UTC));
         intermediateConfig.setNotAfter(new DateTime(2030, 9, 4, 3, 13, DateTimeZone.UTC));
         serialNumber =
-                ArrayConverter.hexStringToByteArray("2211221122112211221122112211221122112211");
+                DataConverter.hexStringToByteArray("2211221122112211221122112211221122112211");
         intermediateConfig.setSerialNumber(new BigInteger(serialNumber));
         intermediateConfig.setDefaultSubjectRsaModulus(
                 new BigInteger(
@@ -71,7 +71,7 @@ public class X509CertificateChainBuilderTest {
         leafConfig.setNotBefore(new DateTime(2021, 7, 5, 22, 30, DateTimeZone.UTC));
         leafConfig.setNotAfter(new DateTime(2023, 7, 5, 22, 30, DateTimeZone.UTC));
         serialNumber =
-                ArrayConverter.hexStringToByteArray("FF11FF11FF11FF11FF11FF11FF11FF11FF11FF11");
+                DataConverter.hexStringToByteArray("FF11FF11FF11FF11FF11FF11FF11FF11FF11FF11");
         leafConfig.setSerialNumber(new BigInteger(serialNumber));
         leafConfig.setDefaultSubjectRsaModulus(
                 new BigInteger(

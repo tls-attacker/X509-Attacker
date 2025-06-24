@@ -8,7 +8,7 @@
  */
 package de.rub.nds.x509attacker.x509.preparator;
 
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.modifiablevariable.util.DataConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.model.X509Explicit;
@@ -24,7 +24,7 @@ public class ExplicitPreparator<InnerField extends X509Component>
     protected byte[] encodeContent() {
         field.getInnerField().getPreparator(chooser).prepare();
         field.getInnerField().getHandler(chooser).adjustContextAfterPrepare();
-        return ArrayConverter.concatenate(
+        return DataConverter.concatenate(
                 field.getInnerField().getTagOctets().getValue(),
                 field.getInnerField().getLengthOctets().getValue(),
                 field.getInnerField().getContent().getValue());
