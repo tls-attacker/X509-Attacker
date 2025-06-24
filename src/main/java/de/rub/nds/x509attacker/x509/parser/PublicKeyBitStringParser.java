@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.x509.parser;
 
 import de.rub.nds.asn1.parser.Asn1Parser;
 import de.rub.nds.asn1.parser.ParserHelper;
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.modifiablevariable.util.DataConverter;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.publickey.PublicKeyBitString;
 import java.io.BufferedInputStream;
@@ -41,7 +41,7 @@ public class PublicKeyBitStringParser extends Asn1Parser<PublicKeyBitString> imp
          */
         LOGGER.debug(
                 "PublicKey content: {}",
-                ArrayConverter.bytesToHexString(publicKeyBitString.getUsedBits().getValue()));
+                DataConverter.bytesToHexString(publicKeyBitString.getUsedBits().getValue()));
         publicKeyBitString.setX509PublicKeyContent(
                 publicKeyBitString.createX509PublicKeyContent(chooser.getSubjectPublicKeyType()));
         publicKeyBitString

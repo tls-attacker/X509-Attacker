@@ -10,7 +10,7 @@ package de.rub.nds.x509attacker.config;
 
 import de.rub.nds.asn1.constants.TimeAccurracy;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
-import de.rub.nds.modifiablevariable.util.ArrayConverter;
+import de.rub.nds.modifiablevariable.util.DataConverter;
 import de.rub.nds.modifiablevariable.util.UnformattedByteArrayAdapter;
 import de.rub.nds.protocol.constants.HashAlgorithm;
 import de.rub.nds.protocol.constants.PointFormat;
@@ -125,7 +125,7 @@ public class X509CertificateConfig implements Serializable {
     // RSA keys
 
     private byte[] rsaPssSalt =
-            ArrayConverter.hexStringToByteArray("000102030405060708090A0B0C0D0E0F10111213");
+            DataConverter.hexStringToByteArray("000102030405060708090A0B0C0D0E0F10111213");
 
     private HashAlgorithm rsaPssHashAlgorithm = HashAlgorithm.SHA256;
 
@@ -158,49 +158,47 @@ public class X509CertificateConfig implements Serializable {
     private BigInteger defaultIssuerDsaPrimeP =
             new BigInteger(
                     1,
-                    ArrayConverter.hexStringToByteArray(
+                    DataConverter.hexStringToByteArray(
                             "E0A67598CD1B763BC98C8ABB333E5DDA0CD3AA0E5E1FB5BA8A7B4EABC10BA338FAE06DD4B90FDA70D7CF0CB0C638BE3341BEC0AF8A7330A3307DED2299A0EE606DF035177A239C34A912C202AA5F83B9C4A7CF0235B5316BFC6EFB9A248411258B30B839AF172440F32563056CB67A861158DDD90E6A894C72A5BBEF9E286C6B"));
 
     private BigInteger defaultSubjectDsaPrimeP =
             new BigInteger(
                     1,
-                    ArrayConverter.hexStringToByteArray(
+                    DataConverter.hexStringToByteArray(
                             "E0A67598CD1B763BC98C8ABB333E5DDA0CD3AA0E5E1FB5BA8A7B4EABC10BA338FAE06DD4B90FDA70D7CF0CB0C638BE3341BEC0AF8A7330A3307DED2299A0EE606DF035177A239C34A912C202AA5F83B9C4A7CF0235B5316BFC6EFB9A248411258B30B839AF172440F32563056CB67A861158DDD90E6A894C72A5BBEF9E286C6B"));
 
     private BigInteger defaultIssuerDsaPrimeQ =
             new BigInteger(
                     1,
-                    ArrayConverter.hexStringToByteArray(
-                            "E950511EAB424B9A19A2AEB4E159B7844C589C4F"));
+                    DataConverter.hexStringToByteArray("E950511EAB424B9A19A2AEB4E159B7844C589C4F"));
 
     private BigInteger defaultSubjectDsaPrimeQ =
             new BigInteger(
                     1,
-                    ArrayConverter.hexStringToByteArray(
-                            "E950511EAB424B9A19A2AEB4E159B7844C589C4F"));
+                    DataConverter.hexStringToByteArray("E950511EAB424B9A19A2AEB4E159B7844C589C4F"));
 
     private BigInteger defaultIssuerDsaGenerator =
             new BigInteger(
                     1,
-                    ArrayConverter.hexStringToByteArray(
+                    DataConverter.hexStringToByteArray(
                             "D29D5121B0423C2769AB21843E5A3240FF19CACC792264E3BB6BE4F78EDD1B15C4DFF7F1D905431F0AB16790E1F773B5CE01C804E509066A9919F5195F4ABC58189FD9FF987389CB5BEDF21B4DAB4F8B76A055FFE2770988FE2EC2DE11AD92219F0B351869AC24DA3D7BA87011A701CE8EE7BFE49486ED4527B7186CA4610A75"));
 
     private BigInteger defaultSubjectDsaGenerator =
             new BigInteger(
                     1,
-                    ArrayConverter.hexStringToByteArray(
+                    DataConverter.hexStringToByteArray(
                             "D29D5121B0423C2769AB21843E5A3240FF19CACC792264E3BB6BE4F78EDD1B15C4DFF7F1D905431F0AB16790E1F773B5CE01C804E509066A9919F5195F4ABC58189FD9FF987389CB5BEDF21B4DAB4F8B76A055FFE2770988FE2EC2DE11AD92219F0B351869AC24DA3D7BA87011A701CE8EE7BFE49486ED4527B7186CA4610A75"));
 
     private BigInteger defaultIssuerDsaPublicKey =
             new BigInteger(
                     1,
-                    ArrayConverter.hexStringToByteArray(
+                    DataConverter.hexStringToByteArray(
                             "65156617622800735332349507429442461145570633167425277151859628203447173398618841390144416538882229413333406975030689740527984321220945376604222789080468870842127963270966236996108050158986786669882626916391236405465892032876903142252476593858042910531673747767331334717213315269973266699566260155690447992911"));
 
     private BigInteger defaultSubjectDsaPublicKey =
             new BigInteger(
                     1,
-                    ArrayConverter.hexStringToByteArray(
+                    DataConverter.hexStringToByteArray(
                             "65156617622800735332349507429442461145570633167425277151859628203447173398618841390144416538882229413333406975030689740527984321220945376604222789080468870842127963270966236996108050158986786669882626916391236405465892032876903142252476593858042910531673747767331334717213315269973266699566260155690447992911"));
 
     private BigInteger defaultIssuerDsaPrivateKey = new BigInteger("FFFF", 16);
