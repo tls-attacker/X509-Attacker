@@ -243,6 +243,88 @@ public class X509CertificateConfig implements Serializable {
                             new BigInteger(
                                     "61154801112014214504178281461992570017247172004704277041681093927569603776562"));
 
+    // Edwards curve keys
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultSubjectEd25519PublicKey =
+            ArrayConverter.hexStringToByteArray(
+                    "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultIssuerEd25519PublicKey =
+            ArrayConverter.hexStringToByteArray(
+                    "d75a980182b10ab7d54bfed3c964073a0ee172f3daa62325af021a68f707511a");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultSubjectEd25519PrivateKey =
+            ArrayConverter.hexStringToByteArray(
+                    "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultIssuerEd25519PrivateKey =
+            ArrayConverter.hexStringToByteArray(
+                    "9d61b19deffd5a60ba844af492ec2cc44449c5697b326919703bac031cae7f60");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultSubjectEd448PublicKey =
+            ArrayConverter.hexStringToByteArray(
+                    "3ba16da0c6f2cc1f30187740756f5e798d6bc5fc015d7c63cc9510ee3fd44adc24d0bb2c4af79912a4a534c08dbaff6976ffcd39dc3a1180");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultIssuerEd448PublicKey =
+            ArrayConverter.hexStringToByteArray(
+                    "3ba16da0c6f2cc1f30187740756f5e798d6bc5fc015d7c63cc9510ee3fd44adc24d0bb2c4af79912a4a534c08dbaff6976ffcd39dc3a1180");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultSubjectEd448PrivateKey =
+            ArrayConverter.hexStringToByteArray(
+                    "c4eab05d357007c632f3dbb48489924d552b08fe0c353a0d4a1f00acda2c463afbea67c5e8d2877c5e3bc397a659949ef8021e954e0a12274e");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultIssuerEd448PrivateKey =
+            ArrayConverter.hexStringToByteArray(
+                    "c4eab05d357007c632f3dbb48489924d552b08fe0c353a0d4a1f00acda2c463afbea67c5e8d2877c5e3bc397a659949ef8021e954e0a12274e");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultSubjectX25519PublicKey =
+            ArrayConverter.hexStringToByteArray(
+                    "de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultIssuerX25519PublicKey =
+            ArrayConverter.hexStringToByteArray(
+                    "de9edb7d7b7dc1b4d35b61c2ece435373f8343c85b78674dadfc7e146f882b4f");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultSubjectX25519PrivateKey =
+            ArrayConverter.hexStringToByteArray(
+                    "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultIssuerX25519PrivateKey =
+            ArrayConverter.hexStringToByteArray(
+                    "77076d0a7318a57d3c16c17251b26645df4c2f87ebc0992ab177fba51db92c2a");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultSubjectX448PublicKey =
+            ArrayConverter.hexStringToByteArray(
+                    "9a8f4925d1519f5775cf46b04b5800d4ee9ee8bae8bc5565d498c28dd9c9baf574a9419744897391006382a6f127ab1d9ac2d8c0a598726b");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultIssuerX448PublicKey =
+            ArrayConverter.hexStringToByteArray(
+                    "9a8f4925d1519f5775cf46b04b5800d4ee9ee8bae8bc5565d498c28dd9c9baf574a9419744897391006382a6f127ab1d9ac2d8c0a598726b");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultSubjectX448PrivateKey =
+            ArrayConverter.hexStringToByteArray(
+                    "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb10201007223dc79af0cac9a99da1b8b25025d6ad1e569a74");
+
+    @XmlJavaTypeAdapter(UnformattedByteArrayAdapter.class)
+    private byte[] defaultIssuerX448PrivateKey =
+            ArrayConverter.hexStringToByteArray(
+                    "5dab087e624a8a4b79e17f8b83800ee66f3bb1292618b6fd1c2f8b27ff88e0eb10201007223dc79af0cac9a99da1b8b25025d6ad1e569a74");
+
     //  DH keys
 
     private BigInteger defaultSubjectDhPublicKey =
@@ -870,6 +952,136 @@ public class X509CertificateConfig implements Serializable {
 
     public void setDefaultSubjectDhPublicKey(BigInteger defaultSubjectDhPublicKey) {
         this.defaultSubjectDhPublicKey = defaultSubjectDhPublicKey;
+    }
+
+    // Edwards curve getters and setters
+
+    public byte[] getDefaultSubjectEd25519PublicKey() {
+        return defaultSubjectEd25519PublicKey;
+    }
+
+    public void setDefaultSubjectEd25519PublicKey(byte[] defaultSubjectEd25519PublicKey) {
+        this.defaultSubjectEd25519PublicKey = defaultSubjectEd25519PublicKey;
+    }
+
+    public byte[] getDefaultIssuerEd25519PublicKey() {
+        return defaultIssuerEd25519PublicKey;
+    }
+
+    public void setDefaultIssuerEd25519PublicKey(byte[] defaultIssuerEd25519PublicKey) {
+        this.defaultIssuerEd25519PublicKey = defaultIssuerEd25519PublicKey;
+    }
+
+    public byte[] getDefaultSubjectEd25519PrivateKey() {
+        return defaultSubjectEd25519PrivateKey;
+    }
+
+    public void setDefaultSubjectEd25519PrivateKey(byte[] defaultSubjectEd25519PrivateKey) {
+        this.defaultSubjectEd25519PrivateKey = defaultSubjectEd25519PrivateKey;
+    }
+
+    public byte[] getDefaultIssuerEd25519PrivateKey() {
+        return defaultIssuerEd25519PrivateKey;
+    }
+
+    public void setDefaultIssuerEd25519PrivateKey(byte[] defaultIssuerEd25519PrivateKey) {
+        this.defaultIssuerEd25519PrivateKey = defaultIssuerEd25519PrivateKey;
+    }
+
+    public byte[] getDefaultSubjectEd448PublicKey() {
+        return defaultSubjectEd448PublicKey;
+    }
+
+    public void setDefaultSubjectEd448PublicKey(byte[] defaultSubjectEd448PublicKey) {
+        this.defaultSubjectEd448PublicKey = defaultSubjectEd448PublicKey;
+    }
+
+    public byte[] getDefaultIssuerEd448PublicKey() {
+        return defaultIssuerEd448PublicKey;
+    }
+
+    public void setDefaultIssuerEd448PublicKey(byte[] defaultIssuerEd448PublicKey) {
+        this.defaultIssuerEd448PublicKey = defaultIssuerEd448PublicKey;
+    }
+
+    public byte[] getDefaultSubjectEd448PrivateKey() {
+        return defaultSubjectEd448PrivateKey;
+    }
+
+    public void setDefaultSubjectEd448PrivateKey(byte[] defaultSubjectEd448PrivateKey) {
+        this.defaultSubjectEd448PrivateKey = defaultSubjectEd448PrivateKey;
+    }
+
+    public byte[] getDefaultIssuerEd448PrivateKey() {
+        return defaultIssuerEd448PrivateKey;
+    }
+
+    public void setDefaultIssuerEd448PrivateKey(byte[] defaultIssuerEd448PrivateKey) {
+        this.defaultIssuerEd448PrivateKey = defaultIssuerEd448PrivateKey;
+    }
+
+    public byte[] getDefaultSubjectX25519PublicKey() {
+        return defaultSubjectX25519PublicKey;
+    }
+
+    public void setDefaultSubjectX25519PublicKey(byte[] defaultSubjectX25519PublicKey) {
+        this.defaultSubjectX25519PublicKey = defaultSubjectX25519PublicKey;
+    }
+
+    public byte[] getDefaultIssuerX25519PublicKey() {
+        return defaultIssuerX25519PublicKey;
+    }
+
+    public void setDefaultIssuerX25519PublicKey(byte[] defaultIssuerX25519PublicKey) {
+        this.defaultIssuerX25519PublicKey = defaultIssuerX25519PublicKey;
+    }
+
+    public byte[] getDefaultSubjectX25519PrivateKey() {
+        return defaultSubjectX25519PrivateKey;
+    }
+
+    public void setDefaultSubjectX25519PrivateKey(byte[] defaultSubjectX25519PrivateKey) {
+        this.defaultSubjectX25519PrivateKey = defaultSubjectX25519PrivateKey;
+    }
+
+    public byte[] getDefaultIssuerX25519PrivateKey() {
+        return defaultIssuerX25519PrivateKey;
+    }
+
+    public void setDefaultIssuerX25519PrivateKey(byte[] defaultIssuerX25519PrivateKey) {
+        this.defaultIssuerX25519PrivateKey = defaultIssuerX25519PrivateKey;
+    }
+
+    public byte[] getDefaultSubjectX448PublicKey() {
+        return defaultSubjectX448PublicKey;
+    }
+
+    public void setDefaultSubjectX448PublicKey(byte[] defaultSubjectX448PublicKey) {
+        this.defaultSubjectX448PublicKey = defaultSubjectX448PublicKey;
+    }
+
+    public byte[] getDefaultIssuerX448PublicKey() {
+        return defaultIssuerX448PublicKey;
+    }
+
+    public void setDefaultIssuerX448PublicKey(byte[] defaultIssuerX448PublicKey) {
+        this.defaultIssuerX448PublicKey = defaultIssuerX448PublicKey;
+    }
+
+    public byte[] getDefaultSubjectX448PrivateKey() {
+        return defaultSubjectX448PrivateKey;
+    }
+
+    public void setDefaultSubjectX448PrivateKey(byte[] defaultSubjectX448PrivateKey) {
+        this.defaultSubjectX448PrivateKey = defaultSubjectX448PrivateKey;
+    }
+
+    public byte[] getDefaultIssuerX448PrivateKey() {
+        return defaultIssuerX448PrivateKey;
+    }
+
+    public void setDefaultIssuerX448PrivateKey(byte[] defaultIssuerX448PrivateKey) {
+        this.defaultIssuerX448PrivateKey = defaultIssuerX448PrivateKey;
     }
 
     public void amendSignatureAlgorithm(SignatureAlgorithm signatureAlgorithm) {
