@@ -56,8 +56,7 @@ public class X509CertificateConfig implements Serializable {
     private List<Pair<X500AttributeType, String>> subject;
 
     @XmlElement(name = "attributeField")
-    private DirectoryStringChoiceType defaultDirectoryStringType =
-            DirectoryStringChoiceType.UTF8_STRING;
+    private DirectoryStringChoiceType defaultDirectoryStringType;
 
     private List<Pair<X500AttributeType, DirectoryStringChoiceType>>
             divergentIssuerDirectoryStringChoices = new ArrayList<>();
@@ -619,7 +618,9 @@ public class X509CertificateConfig implements Serializable {
     }
 
     public DirectoryStringChoiceType getDefaultDirectoryStringType() {
-        return defaultDirectoryStringType;
+        return defaultDirectoryStringType != null
+                ? defaultDirectoryStringType
+                : DirectoryStringChoiceType.UTF8_STRING;
     }
 
     public void setDefaultDirectoryStringType(
