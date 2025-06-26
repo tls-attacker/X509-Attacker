@@ -55,7 +55,6 @@ public class X509CertificateConfig implements Serializable {
     @XmlElementWrapper
     private List<Pair<X500AttributeType, String>> subject;
 
-    @XmlElement(name = "attributeField")
     private DirectoryStringChoiceType defaultDirectoryStringType =
             DirectoryStringChoiceType.UTF8_STRING;
 
