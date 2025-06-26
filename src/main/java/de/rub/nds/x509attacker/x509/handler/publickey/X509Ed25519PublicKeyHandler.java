@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.handler.publickey;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509FieldHandler;
 import de.rub.nds.x509attacker.x509.model.publickey.X509Ed25519PublicKey;
 
@@ -20,11 +21,17 @@ public class X509Ed25519PublicKeyHandler extends X509FieldHandler<X509Ed25519Pub
 
     @Override
     public void adjustContextAfterParse() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+        adjustContext();
     }
 
     @Override
     public void adjustContextAfterPrepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
+        adjustContext();
+        context.setSubjectEd25519PrivateKey(config.getDefaultSubjectEd25519PrivateKey());
+    }
+
+    public void adjustContext() {
+        context.setSubjectPublicKeyType(X509PublicKeyType.ED25519);
+        context.setSubjectEd25519PublicKey(component.getContent().getValue());
     }
 }
