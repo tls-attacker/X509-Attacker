@@ -42,7 +42,9 @@ public class CertificateIo {
     private CertificateIo() {}
 
     public static X509CertificateChain readPemChain(File file) throws IOException {
-        return readPemChain(new FileInputStream(file));
+        try (FileInputStream fileInputStream = new FileInputStream(file)) {
+            return readPemChain(fileInputStream);
+        }
     }
 
     public static X509CertificateChain readPemChain(InputStream inputStream) throws IOException {
