@@ -56,7 +56,7 @@ public class Time extends Asn1Choice implements X509Component, TimeField {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509ChoiceSerializer<Time>(this);
+        return new X509ChoiceSerializer<>(this);
     }
 
     @Override

@@ -39,22 +39,16 @@ public class EdiPartyName extends Asn1Sequence implements X509Component {
 
     public EdiPartyName(String identifier) {
         super(identifier);
-        nameAssigner =
-                new X509Explicit<DirectoryString>(
-                        "nameAssigner", 0, new DirectoryString("nameAssigner"));
+        nameAssigner = new X509Explicit<>("nameAssigner", 0, new DirectoryString("nameAssigner"));
         nameAssigner.setOptional(true);
-        partyName =
-                new X509Explicit<DirectoryString>("partyName", 1, new DirectoryString("partyName"));
+        partyName = new X509Explicit<>("partyName", 1, new DirectoryString("partyName"));
     }
 
     public EdiPartyName(String identifier, int implicitTagNumber) {
         super(identifier, implicitTagNumber);
-        nameAssigner =
-                new X509Explicit<DirectoryString>(
-                        "nameAssigner", 0, new DirectoryString("nameAssigner"));
+        nameAssigner = new X509Explicit<>("nameAssigner", 0, new DirectoryString("nameAssigner"));
         nameAssigner.setOptional(true);
-        partyName =
-                new X509Explicit<DirectoryString>("partyName", 1, new DirectoryString("partyName"));
+        partyName = new X509Explicit<>("partyName", 1, new DirectoryString("partyName"));
     }
 
     public X509Explicit<DirectoryString> getNameAssigner() {
