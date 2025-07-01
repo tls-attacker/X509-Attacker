@@ -29,8 +29,8 @@ public class X509Asn1NullParser extends Asn1Parser<Asn1Null> implements X509Pars
 
     @Override
     public final void parse(BufferedInputStream inputStream) {
-        LOGGER.debug("Parsing Asn1Null ({})", encodable.getIdentifier());
-        ParserHelper.parseAsn1Null(encodable, inputStream);
-        LOGGER.debug("Parsed Asn1Null ({})", encodable.getIdentifier());
+        LOGGER.debug("Parsing Asn1Null ({})", this.encodable.getIdentifier());
+        ParserHelper.parseAsn1Null(this.encodable, inputStream);
+        LOGGER.debug("Parsed Asn1Null ({})", this.encodable.getIdentifier());
     }
 }
