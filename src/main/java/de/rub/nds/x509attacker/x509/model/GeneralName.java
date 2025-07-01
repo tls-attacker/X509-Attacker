@@ -135,7 +135,7 @@ public class GeneralName extends Asn1Choice implements X509Component {
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
-        return new X509ChoiceSerializer<GeneralName>(this);
+        return new X509ChoiceSerializer<>(this);
     }
 
     @Override

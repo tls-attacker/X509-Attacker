@@ -39,11 +39,11 @@ public class X509Explicit<InnerField extends X509Component> extends Asn1Explicit
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        return new ExplicitParser<InnerField>(chooser, this);
+        return new ExplicitParser<>(chooser, this);
     }
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        return new ExplicitPreparator<InnerField>(chooser, this);
+        return new ExplicitPreparator<>(chooser, this);
     }
 }

@@ -59,7 +59,7 @@ public class TbsCertificate extends Asn1Sequence implements X509Component {
 
     public TbsCertificate(String identifier, X509CertificateConfig config) {
         super(identifier);
-        version = new X509Explicit<Version>("versionExplicit", 0, new Version("version"));
+        version = new X509Explicit<>("versionExplicit", 0, new Version("version"));
         version.setOptional(true);
         setContextSpecificTagNumber(version, 0);
         if (config.isIncludeSerialNumber()) {
