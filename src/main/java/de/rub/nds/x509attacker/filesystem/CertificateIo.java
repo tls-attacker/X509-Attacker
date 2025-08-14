@@ -118,8 +118,8 @@ public class CertificateIo {
         return chain;
     }
 
-    public static X509CertificateChain readRawCertificateWithoutLengthFieldAsChain(InputStream inputStream)
-            throws IOException {
+    public static X509CertificateChain readRawCertificateWithoutLengthFieldAsChain(
+            InputStream inputStream) throws IOException {
         X509Context context = new X509Context();
         X509Chooser chooser = context.getChooser();
 
