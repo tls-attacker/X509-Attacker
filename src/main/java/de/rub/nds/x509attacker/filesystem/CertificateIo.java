@@ -118,6 +118,20 @@ public class CertificateIo {
         return chain;
     }
 
+    public static X509CertificateChain readRawCertificateAsChainFromSsl2SH(InputStream inputStream)
+            throws IOException {
+        X509Context context = new X509Context();
+        X509Chooser chooser = context.getChooser();
+
+        BufferedInputStream certificateInputStream =
+                new BufferedInputStream(new ByteArrayInputStream(inputStream.readAllBytes()));
+        X509Certificate certificate = new X509Certificate("certificate");
+        certificate.getParser(chooser).parse(certificateInputStream);
+        X509CertificateChain chain = new X509CertificateChain();
+        chain.addCertificate(certificate);
+        return chain;
+    }
+
     public static X509CertificateChain readRawCertificateAsChain(InputStream inputStream)
             throws IOException {
         X509Context context = new X509Context();
