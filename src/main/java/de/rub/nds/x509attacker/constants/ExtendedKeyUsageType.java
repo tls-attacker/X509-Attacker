@@ -8,18 +8,18 @@
  */
 package de.rub.nds.x509attacker.constants;
 
-public enum ExtendedKeyUsage {
+public enum ExtendedKeyUsageType {
+    SERVER_AUTH("1.3.6.1.5.5.7.3.1"),
     CLIENT_AUTH("1.3.6.1.5.5.7.3.2"),
     CODE_SIGNING("1.3.6.1.5.5.7.3.3"),
     EMAIL_PROECTION("1.3.6.1.5.5.7.3.4"),
-    OCSP_SIGNING("1.3.6.1.5.5.7.3.9"),
-    SERVER_AUTH("1.3.6.1.5.5.7.3.1"),
+    IP_SECUREITY_USER("1.3.6.1.5.5.7.3.7"),
     TIME_STAMPING("1.3.6.1.5.5.7.3.8"),
+    OCSP_SIGNING("1.3.6.1.5.5.7.3.9"),
+    IPSEC_IKE("1.3.6.1.5.5.7.3.17"),
     SMART_CARD_LOGON("1.3.6.1.4.1.311.20.2.2"),
     IPSEC_IKE_INTERMEDIATE("1.3.6.1.5.5.8.2.2"),
-    IPSEC_IKE("1.3.6.1.5.5.7.3.17"),
     SIGNING_KDC_RESPONSES("1.3.6.1.5.2.3.5"),
-    IP_SECUREITY_USER("1.3.6.1.5.5.7.3.7"),
     ENCRYPTING_FILE_SYSTEM("1.3.6.1.4.1.311.10.3.4"),
     FILE_RECOVERY("1.3.6.1.4.1.311.10.3.4.1"),
     CERTIFICATE_TRUST_LIST_SIGNING("1.3.6.1.4.1.311.10.3.1"),
@@ -29,7 +29,7 @@ public enum ExtendedKeyUsage {
 
     private String oid;
 
-    ExtendedKeyUsage(String oid) {
+    ExtendedKeyUsageType(String oid) {
         this.oid = oid;
     }
 
