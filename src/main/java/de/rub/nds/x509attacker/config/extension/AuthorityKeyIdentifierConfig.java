@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.config.extension;
 
 import de.rub.nds.x509attacker.constants.GeneralNameChoiceType;
 import de.rub.nds.x509attacker.constants.X509ExtensionType;
+import de.rub.nds.x509attacker.x509.model.GeneralName;
 import de.rub.nds.x509attacker.x509.model.extensions.AuthorityKeyIdentifier;
 
 public class AuthorityKeyIdentifierConfig extends ExtensionConfig {
@@ -58,5 +59,12 @@ public class AuthorityKeyIdentifierConfig extends ExtensionConfig {
 
     public void setSerialNumber(int serialNumber) {
         this.serialNumber = serialNumber;
+    }
+
+    public GeneralName getAuthorityCertIssuer() {
+        GeneralName authorityCertIssuer = new GeneralName("authorityCertIssuer");
+        authorityCertIssuer.setGeneralNameChoiceTypeConfig(generalNameChoiceTypeConfig);
+        authorityCertIssuer.setGeneralNameConfigValue(generalNameConfigValue);
+        return authorityCertIssuer;
     }
 }

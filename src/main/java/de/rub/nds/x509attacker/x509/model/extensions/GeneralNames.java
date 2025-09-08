@@ -15,8 +15,8 @@ import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.GeneralName;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
+import de.rub.nds.x509attacker.x509.preparator.GeneralNamesPreparator;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
@@ -31,7 +31,7 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
 
     @HoldsModifiableVariable
     @XmlAnyElement(lax = true)
-    private List<GeneralName> generalName;
+    private List<GeneralName> generalNames;
 
     private GeneralNames() {
         super(null);
@@ -39,20 +39,20 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
 
     public GeneralNames(String identifier) {
         super(identifier);
-        generalName = new LinkedList<>();
+        generalNames = new LinkedList<>();
     }
 
     public GeneralNames(String identifier, int implicitTagNumber) {
         super(identifier, implicitTagNumber);
-        generalName = new LinkedList<>();
+        generalNames = new LinkedList<>();
     }
 
-    public List<GeneralName> getGeneralName() {
-        return generalName;
+    public List<GeneralName> getGeneralNames() {
+        return generalNames;
     }
 
-    public void setGeneralName(List<GeneralName> generalName) {
-        this.generalName = generalName;
+    public void setGeneralNames(List<GeneralName> generalNames) {
+        this.generalNames = generalNames;
     }
 
     @Override
@@ -67,11 +67,6 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
-    }
-
-    @Override
-    public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new GeneralNamesPreparator(chooser, this);
     }
 }

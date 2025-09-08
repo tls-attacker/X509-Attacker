@@ -16,7 +16,6 @@ import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.GeneralName;
-import de.rub.nds.x509attacker.x509.model.X509Component;
 
 public class GeneralNamePreparator implements X509Preparator {
 
@@ -64,7 +63,7 @@ public class GeneralNamePreparator implements X509Preparator {
                                 + generalName.getGeneralNameChoiceTypeConfig().name()
                                 + " not yet implemented.");
         }
-        ((X509Component) generalName).getPreparator(chooser).prepare();
+
         if (generalName.getSelectedChoice() instanceof Asn1Field) {
             HelperPreparator<Asn1Field> preparator =
                     new HelperPreparator<>(
