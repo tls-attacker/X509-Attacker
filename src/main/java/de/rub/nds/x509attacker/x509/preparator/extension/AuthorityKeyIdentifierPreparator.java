@@ -57,10 +57,9 @@ public class AuthorityKeyIdentifierPreparator
                             });
         }
 
-        if (config.getGeneralNameConfigValue() != null
+        if (config.getGeneralNameConfigValues() != null
                 && config.getGeneralNameChoiceTypeConfig() != null) {
-            field.getAuthorityCertIssuer()
-                    .setGeneralNames(List.of(config.getAuthorityCertIssuer()));
+            field.getAuthorityCertIssuer().setGeneralNames(config.getAuthorityCertIssuers());
             field.getAuthorityCertIssuer().getPreparator(chooser).prepare();
 
             // prepend original tag and length to content
@@ -140,7 +139,7 @@ public class AuthorityKeyIdentifierPreparator
             children.add(field.getKeyIdentifier());
         }
 
-        if (config.getGeneralNameConfigValue() != null
+        if (config.getGeneralNameConfigValues() != null
                 && config.getGeneralNameChoiceTypeConfig() != null) {
             children.add(field.getAuthorityCertIssuer());
         }

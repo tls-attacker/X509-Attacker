@@ -13,11 +13,10 @@ import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.extensions.GeneralSubtree;
 import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
-import org.apache.commons.lang3.ArrayUtils;
-
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.commons.lang3.ArrayUtils;
 
 public class GeneralSubtreePreparator extends X509ContainerPreparator<GeneralSubtree> {
 
@@ -33,6 +32,7 @@ public class GeneralSubtreePreparator extends X509ContainerPreparator<GeneralSub
     public void prepareSubComponents() {
         field.getBase().getPreparator(chooser).prepare();
 
+        // TODO: Probably refactor into Asn1 classes that hold context-specific tags
         if (field.isIncludeMinimum()) {
             Asn1PreparatorHelper.prepareField(
                     field.getMinimum(), BigInteger.valueOf(field.getMinimumValue()));
@@ -56,7 +56,7 @@ public class GeneralSubtreePreparator extends X509ContainerPreparator<GeneralSub
             field.getMinimum()
                     .setLengthOctets(
                             new byte[] {
-                                    (byte) (field.getMinimum().getContent().getValue().length)
+                                (byte) (field.getMinimum().getContent().getValue().length)
                             });
         }
 
@@ -83,7 +83,7 @@ public class GeneralSubtreePreparator extends X509ContainerPreparator<GeneralSub
             field.getMaximum()
                     .setLengthOctets(
                             new byte[] {
-                                    (byte) (field.getMaximum().getContent().getValue().length)
+                                (byte) (field.getMaximum().getContent().getValue().length)
                             });
         }
     }

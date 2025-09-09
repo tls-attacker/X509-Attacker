@@ -8,56 +8,39 @@
  */
 package de.rub.nds.x509attacker.x509.model.extensions;
 
-import de.rub.nds.asn1.model.Asn1Sequence;
 import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.extension.NameConstraintsConfig;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
-import de.rub.nds.x509attacker.x509.model.GeneralName;
-import de.rub.nds.x509attacker.x509.model.X509Component;
+import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.preparator.extension.GeneralNamesPreparator;
+import de.rub.nds.x509attacker.x509.preparator.extension.NameConstraintsPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.util.LinkedList;
-import java.util.List;
 
-/** GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class GeneralNames extends Asn1Sequence implements X509Component {
+public class NameConstraints extends Extension<NameConstraintsConfig> {
 
     // holds all subcomponents
     @HoldsModifiableVariable private Asn1UnknownSequence wrappingSequence;
 
-    @HoldsModifiableVariable
-    @XmlAnyElement(lax = true)
-    private List<GeneralName> generalNames;
+    @HoldsModifiableVariable private GeneralSubtrees permittedSubtrees;
+    @HoldsModifiableVariable private GeneralSubtrees excludedSubtrees;
 
-    private GeneralNames() {
+    private NameConstraints() {
         super(null);
     }
 
-    public GeneralNames(String identifier) {
+    public NameConstraints(String identifier) {
         super(identifier);
-        generalNames = new LinkedList<>();
+
+        permittedSubtrees = new GeneralSubtrees("permittedSubtrees");
+        excludedSubtrees = new GeneralSubtrees("excludedSubtrees");
         wrappingSequence = new Asn1UnknownSequence("wrappingSequence");
-    }
-
-    public GeneralNames(String identifier, int implicitTagNumber) {
-        super(identifier, implicitTagNumber);
-        generalNames = new LinkedList<>();
-    }
-
-    public List<GeneralName> getGeneralNames() {
-        return generalNames;
-    }
-
-    public void setGeneralNames(List<GeneralName> generalNames) {
-        this.generalNames = generalNames;
     }
 
     @Override
@@ -71,8 +54,8 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
     }
 
     @Override
-    public X509Preparator getPreparator(X509Chooser chooser) {
-        return new GeneralNamesPreparator(chooser, this);
+    public X509Preparator getPreparator(X509Chooser chooser, NameConstraintsConfig config) {
+        return new NameConstraintsPreparator(chooser, this, config);
     }
 
     public Asn1UnknownSequence getWrappingSequence() {
@@ -81,5 +64,21 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
 
     public void setWrappingSequence(Asn1UnknownSequence wrappingSequence) {
         this.wrappingSequence = wrappingSequence;
+    }
+
+    public GeneralSubtrees getPermittedSubtrees() {
+        return permittedSubtrees;
+    }
+
+    public void setPermittedSubtrees(GeneralSubtrees permittedSubtrees) {
+        this.permittedSubtrees = permittedSubtrees;
+    }
+
+    public GeneralSubtrees getExcludedSubtrees() {
+        return excludedSubtrees;
+    }
+
+    public void setExcludedSubtrees(GeneralSubtrees excludedSubtrees) {
+        this.excludedSubtrees = excludedSubtrees;
     }
 }

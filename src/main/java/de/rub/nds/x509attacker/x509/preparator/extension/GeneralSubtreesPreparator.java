@@ -10,28 +10,27 @@ package de.rub.nds.x509attacker.x509.preparator.extension;
 
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.x509.model.extensions.GeneralNames;
+import de.rub.nds.x509attacker.x509.model.extensions.GeneralSubtrees;
 import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
 import java.util.ArrayList;
 
-public class GeneralNamesPreparator extends X509ContainerPreparator<GeneralNames> {
+public class GeneralSubtreesPreparator extends X509ContainerPreparator<GeneralSubtrees> {
 
-    private final X509Chooser chooser;
-    private final GeneralNames generalNames;
+    private final GeneralSubtrees generalSubtrees;
 
-    public GeneralNamesPreparator(X509Chooser chooser, GeneralNames generalNames) {
-        super(chooser, generalNames);
-        this.chooser = chooser;
-        this.generalNames = generalNames;
+    public GeneralSubtreesPreparator(X509Chooser chooser, GeneralSubtrees generalSubtrees) {
+        super(chooser, generalSubtrees);
+
+        this.generalSubtrees = generalSubtrees;
     }
 
     @Override
     public void prepareSubComponents() {
-        generalNames
-                .getGeneralNames()
+        generalSubtrees
+                .getGeneralSubtrees()
                 .forEach(generalName -> generalName.getPreparator(chooser).prepare());
         field.getWrappingSequence()
-                .setContent(encodeChildren(new ArrayList<>(generalNames.getGeneralNames())));
+                .setContent(encodeChildren(new ArrayList<>(generalSubtrees.getGeneralSubtrees())));
         Asn1PreparatorHelper.prepareAfterContent(field.getWrappingSequence());
     }
 

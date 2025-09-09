@@ -12,12 +12,14 @@ import de.rub.nds.x509attacker.constants.GeneralNameChoiceType;
 import de.rub.nds.x509attacker.constants.X509ExtensionType;
 import de.rub.nds.x509attacker.x509.model.GeneralName;
 import de.rub.nds.x509attacker.x509.model.extensions.AuthorityKeyIdentifier;
+import java.util.ArrayList;
+import java.util.List;
 
 public class AuthorityKeyIdentifierConfig extends ExtensionConfig {
 
     private byte[] keyIdentifier;
-    private GeneralNameChoiceType generalNameChoiceTypeConfig;
-    private Object generalNameConfigValue;
+    private List<GeneralNameChoiceType> generalNameChoiceTypeConfigs;
+    private List<Object> generalNameConfigValues;
     private int serialNumber;
 
     public AuthorityKeyIdentifierConfig() {
@@ -37,20 +39,21 @@ public class AuthorityKeyIdentifierConfig extends ExtensionConfig {
         this.keyIdentifier = keyIdentifier;
     }
 
-    public GeneralNameChoiceType getGeneralNameChoiceTypeConfig() {
-        return generalNameChoiceTypeConfig;
+    public List<GeneralNameChoiceType> getGeneralNameChoiceTypeConfig() {
+        return generalNameChoiceTypeConfigs;
     }
 
-    public void setGeneralNameChoiceTypeConfig(GeneralNameChoiceType generalNameChoiceTypeConfig) {
-        this.generalNameChoiceTypeConfig = generalNameChoiceTypeConfig;
+    public void setGeneralNameChoiceTypeConfig(
+            List<GeneralNameChoiceType> generalNameChoiceTypeConfigs) {
+        this.generalNameChoiceTypeConfigs = generalNameChoiceTypeConfigs;
     }
 
-    public Object getGeneralNameConfigValue() {
-        return generalNameConfigValue;
+    public List<Object> getGeneralNameConfigValues() {
+        return generalNameConfigValues;
     }
 
-    public void setGeneralNameConfigValue(Object generalNameConfigValue) {
-        this.generalNameConfigValue = generalNameConfigValue;
+    public void setGeneralNameConfigValues(List<Object> generalNameConfigValues) {
+        this.generalNameConfigValues = generalNameConfigValues;
     }
 
     public int getSerialNumber() {
@@ -61,10 +64,15 @@ public class AuthorityKeyIdentifierConfig extends ExtensionConfig {
         this.serialNumber = serialNumber;
     }
 
-    public GeneralName getAuthorityCertIssuer() {
-        GeneralName authorityCertIssuer = new GeneralName("authorityCertIssuer");
-        authorityCertIssuer.setGeneralNameChoiceTypeConfig(generalNameChoiceTypeConfig);
-        authorityCertIssuer.setGeneralNameConfigValue(generalNameConfigValue);
-        return authorityCertIssuer;
+    public List<GeneralName> getAuthorityCertIssuers() {
+        List<GeneralName> authorityCertIssuers = new ArrayList<>();
+        for (int i = 0; i < generalNameConfigValues.size(); i++) {
+            GeneralName authorityCertIssuer = new GeneralName("authorityCertIssuer");
+            authorityCertIssuer.setGeneralNameChoiceTypeConfig(generalNameChoiceTypeConfigs.get(i));
+            authorityCertIssuer.setGeneralNameConfigValue(generalNameConfigValues.get(i));
+            authorityCertIssuers.add(authorityCertIssuer);
+        }
+
+        return authorityCertIssuers;
     }
 }
