@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.model.extensions;
 
 import de.rub.nds.asn1.model.Asn1Integer;
+import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.extension.InhibitAnyPolicyConfig;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -25,7 +26,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class InhibitAnyPolicy extends Extension<InhibitAnyPolicyConfig> {
 
-    private Asn1Integer skipCerts;
+    @HoldsModifiableVariable private Asn1Integer skipCerts;
 
     private InhibitAnyPolicy() {
         super(null);
