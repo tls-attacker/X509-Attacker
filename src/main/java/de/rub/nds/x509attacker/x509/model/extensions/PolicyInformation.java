@@ -16,6 +16,7 @@ import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.preparator.extension.PolicyInformationPreparator;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -31,10 +32,11 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PolicyInformation extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier policyIdentifier; // CertPolicyId ::= OBJECT IDENTIFIER
+    @HoldsModifiableVariable private Asn1ObjectIdentifier policyIdentifier;
+    private String policyIdentifierContent;
 
     @HoldsModifiableVariable private PolicyQualifiers policyQualifiers;
+    private Boolean includeQualifiers;
 
     private PolicyInformation() {
         super(null);
@@ -44,6 +46,7 @@ public class PolicyInformation extends Asn1Sequence implements X509Component {
         super(identifier);
         policyIdentifier = new Asn1ObjectIdentifier("policyIdentifier");
         policyQualifiers = new PolicyQualifiers("policyQualifiers");
+        includeQualifiers = false;
     }
 
     public Asn1ObjectIdentifier getPolicyIdentifier() {
@@ -74,11 +77,27 @@ public class PolicyInformation extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new PolicyInformationPreparator(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
         throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    public Boolean getIncludeQualifiers() {
+        return includeQualifiers;
+    }
+
+    public void setIncludeQualifiers(Boolean includeQualifiers) {
+        this.includeQualifiers = includeQualifiers;
+    }
+
+    public String getPolicyIdentifierContent() {
+        return policyIdentifierContent;
+    }
+
+    public void setPolicyIdentifierContent(String policyIdentifierContent) {
+        this.policyIdentifierContent = policyIdentifierContent;
     }
 }

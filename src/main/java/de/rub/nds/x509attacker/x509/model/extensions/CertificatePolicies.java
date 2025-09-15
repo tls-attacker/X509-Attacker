@@ -8,14 +8,15 @@
  */
 package de.rub.nds.x509attacker.x509.model.extensions;
 
-import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.config.extension.CertificatePoliciesConfig;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
-import de.rub.nds.x509attacker.x509.model.X509Component;
+import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
+import de.rub.nds.x509attacker.x509.preparator.extension.CertificatePoliciesPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlElementRef;
@@ -27,7 +28,10 @@ import java.util.List;
 /** certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CertificatePolicies extends Asn1Sequence implements X509Component {
+public class CertificatePolicies extends Extension<CertificatePoliciesConfig> {
+
+    // holds all subcomponents
+    @HoldsModifiableVariable private Asn1UnknownSequence wrappingSequence;
 
     @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
     private List<PolicyInformation> policyInformation;
@@ -39,6 +43,7 @@ public class CertificatePolicies extends Asn1Sequence implements X509Component {
     public CertificatePolicies(String identifier) {
         super(identifier);
         policyInformation = new LinkedList<>();
+        wrappingSequence = new Asn1UnknownSequence("wrappingSequence");
     }
 
     public List<PolicyInformation> getPolicyInformation() {
@@ -60,12 +65,15 @@ public class CertificatePolicies extends Asn1Sequence implements X509Component {
     }
 
     @Override
-    public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public X509Preparator getPreparator(X509Chooser chooser, CertificatePoliciesConfig config) {
+        return new CertificatePoliciesPreparator(chooser, this, config);
     }
 
-    @Override
-    public X509Serializer getSerializer(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+    public Asn1UnknownSequence getWrappingSequence() {
+        return wrappingSequence;
+    }
+
+    public void setWrappingSequence(Asn1UnknownSequence wrappingSequence) {
+        this.wrappingSequence = wrappingSequence;
     }
 }

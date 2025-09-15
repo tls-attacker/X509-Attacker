@@ -8,16 +8,15 @@
  */
 package de.rub.nds.x509attacker.x509.model.extensions;
 
-import de.rub.nds.asn1.model.Asn1Encodable;
-import de.rub.nds.asn1.model.Asn1Null;
-import de.rub.nds.asn1.model.Asn1ObjectIdentifier;
-import de.rub.nds.asn1.model.Asn1Sequence;
+import de.rub.nds.asn1.model.*;
+import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.preparator.extension.PolicyQualifierInfoPreparator;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -32,14 +31,14 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
 
-    @HoldsModifiableVariable
-    private Asn1ObjectIdentifier
-            policyQualifierId; // PolicyQualifierId ::= OBJECT IDENTIFIER ( id-qt-cps |
+    @HoldsModifiableVariable private Asn1ObjectIdentifier policyQualifierId;
+    private ObjectIdentifier policyObjectIdentifier;
 
-    // id-qt-unotice )
     @HoldsModifiableVariable
     @XmlAnyElement(lax = true)
     private Asn1Encodable qualifier;
+
+    private String qualifierString;
 
     private PolicyQualifierInfo() {
         super(null);
@@ -48,7 +47,9 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
     public PolicyQualifierInfo(String identifier) {
         super(identifier);
         policyQualifierId = new Asn1ObjectIdentifier("policyQualifiersId");
-        qualifier = new Asn1Null("qualifier");
+
+        // TODO: currently only Ia5 supported here, do we need more for tests?
+        qualifier = new Asn1Ia5String("qualifier");
     }
 
     public Asn1ObjectIdentifier getPolicyQualifierId() {
@@ -79,11 +80,27 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new PolicyQualifierInfoPreparator(chooser, this);
     }
 
     @Override
     public X509Serializer getSerializer(X509Chooser chooser) {
         throw new UnsupportedOperationException("not implemented yet");
+    }
+
+    public ObjectIdentifier getPolicyObjectIdentifier() {
+        return policyObjectIdentifier;
+    }
+
+    public void setPolicyObjectIdentifier(ObjectIdentifier policyObjectIdentifier) {
+        this.policyObjectIdentifier = policyObjectIdentifier;
+    }
+
+    public String getQualifierString() {
+        return qualifierString;
+    }
+
+    public void setQualifierString(String qualifierString) {
+        this.qualifierString = qualifierString;
     }
 }

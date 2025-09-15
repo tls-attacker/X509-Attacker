@@ -15,6 +15,7 @@ import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
+import de.rub.nds.x509attacker.x509.preparator.extension.PolicyQualifiersPreparator;
 import de.rub.nds.x509attacker.x509.serializer.X509Serializer;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
@@ -24,7 +25,7 @@ import jakarta.xml.bind.annotation.XmlRootElement;
 import java.util.LinkedList;
 import java.util.List;
 
-/** policyQualifiers SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo OPTIONAL */
+/** policyQualifiers SEQUENCE SIZE (1..MAX) OF PolicyQualifierInfo */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
 public class PolicyQualifiers extends Asn1Sequence implements X509Component {
@@ -61,7 +62,7 @@ public class PolicyQualifiers extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new PolicyQualifiersPreparator(chooser, this);
     }
 
     @Override
