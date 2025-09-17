@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.preparator.extension;
 
 import de.rub.nds.asn1.model.Asn1Ia5String;
+import de.rub.nds.asn1.model.Asn1OctetString;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.extensions.PolicyQualifierInfo;
@@ -24,12 +25,25 @@ public class PolicyQualifierInfoPreparator extends X509ContainerPreparator<Polic
         Asn1PreparatorHelper.prepareField(
                 field.getPolicyQualifierId(), field.getPolicyObjectIdentifier());
 
-        Asn1PreparatorHelper.prepareField(
-                (Asn1Ia5String) field.getQualifier(), field.getQualifierString());
+        if (field.getQualifierString() != null) {
+            Asn1Ia5String string = new Asn1Ia5String("qualifier");
+            string.setValue(field.getQualifierString());
+            field.setQualifier(string);
+
+            Asn1PreparatorHelper.prepareField(
+                    (Asn1Ia5String) field.getQualifier(), field.getQualifierString());
+        } else {
+            Asn1OctetString octetString = new Asn1OctetString("qualifier");
+            octetString.setValue(field.getQualifierOctetString());
+            field.setQualifier(octetString);
+
+            Asn1PreparatorHelper.prepareField(
+                    (Asn1OctetString) field.getQualifier(), field.getQualifierOctetString());
+        }
     }
 
     @Override
     public byte[] encodeChildrenContent() {
-        return encodeChildren(field.getPolicyQualifierId());
+        return encodeChildren(field.getPolicyQualifierId(), field.getQualifier());
     }
 }
