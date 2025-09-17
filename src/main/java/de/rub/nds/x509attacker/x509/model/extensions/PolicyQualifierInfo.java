@@ -38,7 +38,10 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
     @XmlAnyElement(lax = true)
     private Asn1Encodable qualifier;
 
+    // can prepare both string and octet string will, prefer string if non-null
     private String qualifierString;
+
+    private byte[] qualifierOctetString;
 
     private PolicyQualifierInfo() {
         super(null);
@@ -47,9 +50,6 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
     public PolicyQualifierInfo(String identifier) {
         super(identifier);
         policyQualifierId = new Asn1ObjectIdentifier("policyQualifiersId");
-
-        // TODO: currently only Ia5 supported here, do we need more for tests?
-        qualifier = new Asn1Ia5String("qualifier");
     }
 
     public Asn1ObjectIdentifier getPolicyQualifierId() {
@@ -102,5 +102,13 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
 
     public void setQualifierString(String qualifierString) {
         this.qualifierString = qualifierString;
+    }
+
+    public byte[] getQualifierOctetString() {
+        return qualifierOctetString;
+    }
+
+    public void setQualifierOctetString(byte[] qualifierOctetString) {
+        this.qualifierOctetString = qualifierOctetString;
     }
 }

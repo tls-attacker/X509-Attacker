@@ -55,6 +55,8 @@ public class X509CertificateConfig implements Serializable {
     @XmlElementWrapper
     private List<Pair<X500AttributeType, String>> subject;
 
+    private boolean fixIssuer = false;
+
     @XmlElement(name = "attributeField")
     private DirectoryStringChoiceType defaultDirectoryStringType =
             DirectoryStringChoiceType.UTF8_STRING;
@@ -614,6 +616,14 @@ public class X509CertificateConfig implements Serializable {
 
     public void setSubject(List<Pair<X500AttributeType, String>> subject) {
         this.subject = subject;
+    }
+
+    public boolean isFixIssuer() {
+        return fixIssuer;
+    }
+
+    public void setFixIssuer(boolean fixIssuer) {
+        this.fixIssuer = fixIssuer;
     }
 
     public DirectoryStringChoiceType getDefaultDirectoryStringType() {
