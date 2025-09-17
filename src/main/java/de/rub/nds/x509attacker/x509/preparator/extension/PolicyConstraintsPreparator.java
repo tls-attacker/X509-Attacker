@@ -16,7 +16,6 @@ import de.rub.nds.x509attacker.x509.model.extensions.PolicyConstraints;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class PolicyConstraintsPreparator
         extends ExtensionPreparator<PolicyConstraints, PolicyConstraintsConfig> {
@@ -34,18 +33,6 @@ public class PolicyConstraintsPreparator
             Asn1PreparatorHelper.prepareField(
                     field.getRequireExplicitPolicy(),
                     BigInteger.valueOf(config.getSkipCertsRequired()));
-
-            // prepend original tag and length to content
-            field.getRequireExplicitPolicy()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getRequireExplicitPolicy().getLengthOctets().getValue(),
-                                    field.getRequireExplicitPolicy().getContent().getValue()));
-            field.getRequireExplicitPolicy()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getRequireExplicitPolicy().getTagOctets().getValue(),
-                                    field.getRequireExplicitPolicy().getContent().getValue()));
 
             // set context-specific tag
             field.getRequireExplicitPolicy().setTagOctets(new byte[] {(byte) 0xa0});
@@ -66,18 +53,6 @@ public class PolicyConstraintsPreparator
             Asn1PreparatorHelper.prepareField(
                     field.getInhibitPolicyMapping(),
                     BigInteger.valueOf(config.getSkipCertsInhibit()));
-
-            // prepend original tag and length to content
-            field.getInhibitPolicyMapping()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getInhibitPolicyMapping().getLengthOctets().getValue(),
-                                    field.getInhibitPolicyMapping().getContent().getValue()));
-            field.getInhibitPolicyMapping()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getInhibitPolicyMapping().getTagOctets().getValue(),
-                                    field.getInhibitPolicyMapping().getContent().getValue()));
 
             // set context-specific tag
             field.getInhibitPolicyMapping().setTagOctets(new byte[] {(byte) 0xa1});
