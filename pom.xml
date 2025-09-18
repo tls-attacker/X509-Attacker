@@ -37,6 +37,17 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>FelixLange1998</id>
+            <name>Felix Lange</name>
+            <email>felix.lange@uni-paderborn.de</email>
+            <organization>UPB</organization>
+            <organizationUrl>https://www.uni-paderborn.de/</organizationUrl>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
     </developers>
 
     <scm>
