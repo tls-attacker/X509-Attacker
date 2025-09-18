@@ -61,68 +61,47 @@ public enum X509PublicKeyType {
     }
 
     public boolean canBeUsedWithSignatureAlgorithm(SignatureAlgorithm signatureAlgorithm) {
-        switch (this) {
-            case DH:
-                return false;
-            case DSA:
-                return signatureAlgorithm == SignatureAlgorithm.DSA;
-            case ECDH_ECDSA:
-                return signatureAlgorithm == SignatureAlgorithm.ECDSA;
-            case ECDH_ONLY:
-                return false;
-            case ECMQV:
-                throw new UnsupportedOperationException("Not implemented: " + this);
-            case ED25519:
-                return signatureAlgorithm == SignatureAlgorithm.ED25519;
-            case ED448:
-                return signatureAlgorithm == SignatureAlgorithm.ED448;
-            case GOST_R3411_2001:
-            case GOST_R3411_94:
-                // TODO not sure this is correct
-                return signatureAlgorithm == SignatureAlgorithm.GOSTR34102001;
-            case GOST_R3411_2012:
-                // TODO not sure this is correct
-                return signatureAlgorithm == SignatureAlgorithm.GOSTR34102012_256
-                        || signatureAlgorithm == SignatureAlgorithm.GOSTR34102012_512;
-            case KEA:
-                throw new UnsupportedOperationException("Not implemented: " + this);
-            case RSA:
-                return signatureAlgorithm == SignatureAlgorithm.RSA_PKCS1;
-            case RSASSA_PSS:
-                return signatureAlgorithm == SignatureAlgorithm.RSA_SSA_PSS;
-            case X25519:
-                return false;
-            case X448:
-                return false;
-            case RSAES_OAEP:
-                throw new UnsupportedOperationException("Not implemented: " + this);
-            default:
-                throw new UnsupportedOperationException("Not implemented: " + this);
-        }
+        return switch (this) {
+            case DH -> false;
+            case DSA -> signatureAlgorithm == SignatureAlgorithm.DSA;
+            case ECDH_ECDSA -> signatureAlgorithm == SignatureAlgorithm.ECDSA;
+            case ECDH_ONLY -> false;
+            case ECMQV -> throw new UnsupportedOperationException("Not implemented: " + this);
+            case ED25519 -> signatureAlgorithm == SignatureAlgorithm.ED25519;
+            case ED448 -> signatureAlgorithm == SignatureAlgorithm.ED448;
+            case GOST_R3411_2001, GOST_R3411_94 ->
+                    // TODO not sure this is correct
+                    signatureAlgorithm == SignatureAlgorithm.GOSTR34102001;
+            case GOST_R3411_2012 ->
+                    // TODO not sure this is correct
+                    signatureAlgorithm == SignatureAlgorithm.GOSTR34102012_256
+                            || signatureAlgorithm == SignatureAlgorithm.GOSTR34102012_512;
+            case KEA -> throw new UnsupportedOperationException("Not implemented: " + this);
+            case RSA -> signatureAlgorithm == SignatureAlgorithm.RSA_PKCS1;
+            case RSASSA_PSS -> signatureAlgorithm == SignatureAlgorithm.RSA_SSA_PSS;
+            case X25519 -> false;
+            case X448 -> false;
+            case RSAES_OAEP -> throw new UnsupportedOperationException("Not implemented: " + this);
+            default -> throw new UnsupportedOperationException("Not implemented: " + this);
+        };
     }
 
     public boolean isEc() {
-        switch (this) {
-            case ECDH_ECDSA:
-            case ECDH_ONLY:
-            case ECMQV:
-            case ED25519:
-            case ED448:
-            case GOST_R3411_2001:
-            case GOST_R3411_2012:
-            case GOST_R3411_94:
-            case X25519:
-            case X448:
-                return true;
-            case DH:
-            case DSA:
-            case KEA:
-            case RSA:
-            case RSAES_OAEP:
-            case RSASSA_PSS:
-                return false;
-            default:
-                throw new UnsupportedOperationException("Not yet implemented: " + this.name());
-        }
+        return switch (this) {
+            case ECDH_ECDSA,
+                    ECDH_ONLY,
+                    ECMQV,
+                    ED25519,
+                    ED448,
+                    GOST_R3411_2001,
+                    GOST_R3411_2012,
+                    GOST_R3411_94,
+                    X25519,
+                    X448 ->
+                    true;
+            case DH, DSA, KEA, RSA, RSAES_OAEP, RSASSA_PSS -> false;
+            default ->
+                    throw new UnsupportedOperationException("Not yet implemented: " + this.name());
+        };
     }
 }

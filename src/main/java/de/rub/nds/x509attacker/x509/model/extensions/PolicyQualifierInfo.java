@@ -12,6 +12,8 @@ import de.rub.nds.asn1.model.*;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.DisplayText;
+import de.rub.nds.x509attacker.constants.PolicyQualifierChoiceType;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
@@ -22,6 +24,7 @@ import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
 import jakarta.xml.bind.annotation.XmlAnyElement;
 import jakarta.xml.bind.annotation.XmlRootElement;
+import java.util.List;
 
 /**
  * PolicyQualifierInfo ::= SEQUENCE { policyQualifierId PolicyQualifierId, qualifier ANY DEFINED BY
@@ -38,10 +41,22 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
     @XmlAnyElement(lax = true)
     private Asn1Encodable qualifier;
 
+    // Qualifier choosing
+    private PolicyQualifierChoiceType qualifierChoiceType;
+
+    // CPSuri
     // can prepare both string and octet string will, prefer string if non-null
     private String qualifierString;
-
     private byte[] qualifierOctetString;
+
+    // UserNotice
+    private Boolean includeNoticeRef;
+    private String noticeRefOrganization;
+    private DisplayText noticeRefOrganizationType;
+    private List<Long> noticeRefNoticeNumbers;
+    private Boolean includeExplicitText;
+    private String explicitText;
+    private DisplayText explicitTextType;
 
     private PolicyQualifierInfo() {
         super(null);
@@ -50,6 +65,7 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
     public PolicyQualifierInfo(String identifier) {
         super(identifier);
         policyQualifierId = new Asn1ObjectIdentifier("policyQualifiersId");
+        qualifierChoiceType = PolicyQualifierChoiceType.CPSURI;
     }
 
     public Asn1ObjectIdentifier getPolicyQualifierId() {
@@ -110,5 +126,69 @@ public class PolicyQualifierInfo extends Asn1Sequence implements X509Component {
 
     public void setQualifierOctetString(byte[] qualifierOctetString) {
         this.qualifierOctetString = qualifierOctetString;
+    }
+
+    public PolicyQualifierChoiceType getQualifierChoiceType() {
+        return qualifierChoiceType;
+    }
+
+    public void setQualifierChoiceType(PolicyQualifierChoiceType qualifierChoiceType) {
+        this.qualifierChoiceType = qualifierChoiceType;
+    }
+
+    public Boolean getIncludeNoticeRef() {
+        return includeNoticeRef;
+    }
+
+    public void setIncludeNoticeRef(Boolean includeNoticeRef) {
+        this.includeNoticeRef = includeNoticeRef;
+    }
+
+    public String getNoticeRefOrganization() {
+        return noticeRefOrganization;
+    }
+
+    public void setNoticeRefOrganization(String noticeRefOrganization) {
+        this.noticeRefOrganization = noticeRefOrganization;
+    }
+
+    public List<Long> getNoticeRefNoticeNumbers() {
+        return noticeRefNoticeNumbers;
+    }
+
+    public void setNoticeRefNoticeNumbers(List<Long> noticeRefNoticeNumbers) {
+        this.noticeRefNoticeNumbers = noticeRefNoticeNumbers;
+    }
+
+    public Boolean getIncludeExplicitText() {
+        return includeExplicitText;
+    }
+
+    public void setIncludeExplicitText(Boolean includeExplicitText) {
+        this.includeExplicitText = includeExplicitText;
+    }
+
+    public String getExplicitText() {
+        return explicitText;
+    }
+
+    public void setExplicitText(String explicitText) {
+        this.explicitText = explicitText;
+    }
+
+    public DisplayText getNoticeRefOrganizationType() {
+        return noticeRefOrganizationType;
+    }
+
+    public void setNoticeRefOrganizationType(DisplayText noticeRefOrganizationType) {
+        this.noticeRefOrganizationType = noticeRefOrganizationType;
+    }
+
+    public DisplayText getExplicitTextType() {
+        return explicitTextType;
+    }
+
+    public void setExplicitTextType(DisplayText explicitTextType) {
+        this.explicitTextType = explicitTextType;
     }
 }
