@@ -48,6 +48,17 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>JonSnowWhite</id>
+            <name>Niklas Niere</name>
+            <email>niklas.niere@uni-paderborn.de</email>
+            <organization>UPB</organization>
+            <organizationUrl>https://www.uni-paderborn.de/</organizationUrl>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
     </developers>
 
     <scm>
