@@ -16,8 +16,7 @@ import java.util.List;
 
 public class ExtendedKeyUsageConfig extends ExtensionConfig {
 
-    private List<ExtendedKeyUsageType> extendedKeyUsages =
-            new ArrayList<>(List.of(ExtendedKeyUsageType.SERVER_AUTH));
+    private List<ExtendedKeyUsageType> extendedKeyUsages = new ArrayList<>();
 
     public ExtendedKeyUsageConfig() {
         super(X509ExtensionType.EXTENDED_KEY_USAGE.getOid(), "extendedKeyUsage");
