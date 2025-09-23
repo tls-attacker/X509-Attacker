@@ -57,7 +57,37 @@ public class AuthorityKeyIdentifierPreparator
                             });
         }
 
-        // TODO: Preparator for GeneralNames
+        if (config.getGeneralNameConfigValues() != null
+                && config.getGeneralNameChoiceTypeConfig() != null) {
+            field.getAuthorityCertIssuer().setGeneralNames(config.getAuthorityCertIssuers());
+            field.getAuthorityCertIssuer().getPreparator(chooser).prepare();
+
+            // prepend original tag and length to content
+            field.getAuthorityCertIssuer()
+                    .setContent(
+                            ArrayUtils.addAll(
+                                    field.getAuthorityCertIssuer().getLengthOctets().getValue(),
+                                    field.getAuthorityCertIssuer().getContent().getValue()));
+            field.getAuthorityCertIssuer()
+                    .setContent(
+                            ArrayUtils.addAll(
+                                    field.getAuthorityCertIssuer().getTagOctets().getValue(),
+                                    field.getAuthorityCertIssuer().getContent().getValue()));
+
+            // set context-specific tag
+            field.getAuthorityCertIssuer().setTagOctets(new byte[] {(byte) 0xa1});
+
+            // set outer length
+            field.getAuthorityCertIssuer()
+                    .setLengthOctets(
+                            new byte[] {
+                                (byte)
+                                        (field.getAuthorityCertIssuer()
+                                                .getContent()
+                                                .getValue()
+                                                .length)
+                            });
+        }
 
         if (config.getSerialNumber() != 0) {
             Asn1PreparatorHelper.prepareField(
@@ -109,7 +139,10 @@ public class AuthorityKeyIdentifierPreparator
             children.add(field.getKeyIdentifier());
         }
 
-        // TODO: General Names
+        if (config.getGeneralNameConfigValues() != null
+                && config.getGeneralNameChoiceTypeConfig() != null) {
+            children.add(field.getAuthorityCertIssuer());
+        }
 
         if (config.getSerialNumber() != 0) {
             children.add(field.getAuthorityCertSerialNumber());

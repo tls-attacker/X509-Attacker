@@ -23,7 +23,7 @@ import de.rub.nds.protocol.crypto.key.PublicKeyContainer;
 import de.rub.nds.protocol.crypto.signature.SignatureComputations;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
-import de.rub.nds.x509attacker.constants.ExtendedKeyUsage;
+import de.rub.nds.x509attacker.constants.ExtendedKeyUsageType;
 import de.rub.nds.x509attacker.constants.KeyUsage;
 import de.rub.nds.x509attacker.constants.X500AttributeType;
 import de.rub.nds.x509attacker.constants.X509PublicKeyType;
@@ -401,7 +401,7 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
         throw new UnsupportedOperationException("getKeyUsages not implemented yet");
     }
 
-    public List<ExtendedKeyUsage> getExtendedKeyUsages() {
+    public List<ExtendedKeyUsageType> getExtendedKeyUsages() {
         throw new UnsupportedOperationException("getExtendedKeyUsages not implemented yet");
     }
 

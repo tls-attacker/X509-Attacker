@@ -13,51 +13,30 @@ import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
-import de.rub.nds.x509attacker.x509.model.GeneralName;
 import de.rub.nds.x509attacker.x509.model.X509Component;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.preparator.extension.GeneralNamesPreparator;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
+import de.rub.nds.x509attacker.x509.preparator.extension.GeneralSubtreesPreparator;
 import jakarta.xml.bind.annotation.XmlAnyElement;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 
-/** GeneralNames ::= SEQUENCE SIZE (1..MAX) OF GeneralName */
-@XmlRootElement
-@XmlAccessorType(XmlAccessType.FIELD)
-public class GeneralNames extends Asn1Sequence implements X509Component {
-
+public class GeneralSubtrees extends Asn1Sequence implements X509Component {
     // holds all subcomponents
     @HoldsModifiableVariable private Asn1UnknownSequence wrappingSequence;
 
     @HoldsModifiableVariable
     @XmlAnyElement(lax = true)
-    private List<GeneralName> generalNames;
+    private List<GeneralSubtree> generalSubtrees;
 
-    private GeneralNames() {
+    public GeneralSubtrees() {
         super(null);
     }
 
-    public GeneralNames(String identifier) {
+    public GeneralSubtrees(String identifier) {
         super(identifier);
-        generalNames = new LinkedList<>();
-        wrappingSequence = new Asn1UnknownSequence("wrappingSequence");
-    }
-
-    public GeneralNames(String identifier, int implicitTagNumber) {
-        super(identifier, implicitTagNumber);
-        generalNames = new LinkedList<>();
-    }
-
-    public List<GeneralName> getGeneralNames() {
-        return generalNames;
-    }
-
-    public void setGeneralNames(List<GeneralName> generalNames) {
-        this.generalNames = generalNames;
+        generalSubtrees = new ArrayList<>();
+        wrappingSequence = new Asn1UnknownSequence("generalSubtrees");
     }
 
     @Override
@@ -72,7 +51,7 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        return new GeneralNamesPreparator(chooser, this);
+        return new GeneralSubtreesPreparator(chooser, this);
     }
 
     public Asn1UnknownSequence getWrappingSequence() {
@@ -81,5 +60,13 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
 
     public void setWrappingSequence(Asn1UnknownSequence wrappingSequence) {
         this.wrappingSequence = wrappingSequence;
+    }
+
+    public List<GeneralSubtree> getGeneralSubtrees() {
+        return generalSubtrees;
+    }
+
+    public void setGeneralSubtrees(List<GeneralSubtree> generalSubtrees) {
+        this.generalSubtrees = generalSubtrees;
     }
 }

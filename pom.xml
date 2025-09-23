@@ -37,6 +37,28 @@
                 <role>Developer</role>
             </roles>
         </developer>
+        <developer>
+            <id>FelixLange1998</id>
+            <name>Felix Lange</name>
+            <email>felix.lange@uni-paderborn.de</email>
+            <organization>UPB</organization>
+            <organizationUrl>https://www.uni-paderborn.de/</organizationUrl>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
+        <developer>
+            <id>JonSnowWhite</id>
+            <name>Niklas Niere</name>
+            <email>niklas.niere@uni-paderborn.de</email>
+            <organization>UPB</organization>
+            <organizationUrl>https://www.uni-paderborn.de/</organizationUrl>
+            <roles>
+                <role>Architect</role>
+                <role>Developer</role>
+            </roles>
+        </developer>
     </developers>
 
     <scm>
@@ -63,11 +85,6 @@
             <groupId>de.rub.nds</groupId>
             <artifactId>asn1-attacker</artifactId>
             <version>4.2.1</version>
-        </dependency>
-        <dependency>
-            <groupId>de.rub.nds</groupId>
-            <artifactId>modifiable-variable</artifactId>
-            <version>5.3.0</version>
         </dependency>
         <dependency>
             <groupId>de.rub.nds</groupId>

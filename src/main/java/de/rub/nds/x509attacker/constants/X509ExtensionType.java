@@ -79,13 +79,11 @@ public enum X509ExtensionType {
     }
 
     public Extension generateExtension() {
-        switch (this) {
-            case BASIC_CONSTRAINTS:
-                return new BasicConstraints("basicConstraints");
-            case UNKNOWN:
-            default:
-                // TODO: return explicit unknown extension?
-                return new Unknown("UnknownExtension");
-        }
+        return switch (this) {
+            case BASIC_CONSTRAINTS -> new BasicConstraints("basicConstraints");
+            default ->
+                    // TODO: return explicit unknown extension?
+                    new Unknown("UnknownExtension");
+        };
     }
 }

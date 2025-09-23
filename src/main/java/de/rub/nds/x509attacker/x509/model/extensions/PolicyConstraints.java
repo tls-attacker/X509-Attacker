@@ -8,50 +8,47 @@
  */
 package de.rub.nds.x509attacker.x509.model.extensions;
 
+import de.rub.nds.asn1.model.Asn1Integer;
 import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.extension.CertificatePoliciesConfig;
+import de.rub.nds.x509attacker.config.extension.PolicyConstraintsConfig;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.preparator.extension.CertificatePoliciesPreparator;
+import de.rub.nds.x509attacker.x509.preparator.extension.PolicyConstraintsPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElementRef;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.util.LinkedList;
-import java.util.List;
 
-/** certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation */
+/**
+ * PolicyConstraints ::= SEQUENCE { requireExplicitPolicy [0] SkipCerts OPTIONAL,
+ * inhibitPolicyMapping [1] SkipCerts OPTIONAL }
+ *
+ * <p>SkipCerts ::= INTEGER (0..MAX)
+ */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CertificatePolicies extends Extension<CertificatePoliciesConfig> {
+public class PolicyConstraints extends Extension<PolicyConstraintsConfig> {
 
     // holds all subcomponents
     @HoldsModifiableVariable private Asn1UnknownSequence wrappingSequence;
 
-    @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
-    private List<PolicyInformation> policyInformation;
+    @HoldsModifiableVariable private Asn1Integer requireExplicitPolicy;
+    @HoldsModifiableVariable private Asn1Integer inhibitPolicyMapping;
 
-    private CertificatePolicies() {
+    private PolicyConstraints() {
         super(null);
     }
 
-    public CertificatePolicies(String identifier) {
+    public PolicyConstraints(String identifier) {
         super(identifier);
-        policyInformation = new LinkedList<>();
+
+        requireExplicitPolicy = new Asn1Integer("requireExplicitPolicy");
+        inhibitPolicyMapping = new Asn1Integer("inhibitPolicyMapping");
+
         wrappingSequence = new Asn1UnknownSequence("wrappingSequence");
-    }
-
-    public List<PolicyInformation> getPolicyInformation() {
-        return policyInformation;
-    }
-
-    public void setPolicyInformation(List<PolicyInformation> policyInformation) {
-        this.policyInformation = policyInformation;
     }
 
     @Override
@@ -65,8 +62,24 @@ public class CertificatePolicies extends Extension<CertificatePoliciesConfig> {
     }
 
     @Override
-    public X509Preparator getPreparator(X509Chooser chooser, CertificatePoliciesConfig config) {
-        return new CertificatePoliciesPreparator(chooser, this, config);
+    public X509Preparator getPreparator(X509Chooser chooser, PolicyConstraintsConfig config) {
+        return new PolicyConstraintsPreparator(chooser, this, config);
+    }
+
+    public Asn1Integer getRequireExplicitPolicy() {
+        return requireExplicitPolicy;
+    }
+
+    public void setRequireExplicitPolicy(Asn1Integer requireExplicitPolicy) {
+        this.requireExplicitPolicy = requireExplicitPolicy;
+    }
+
+    public Asn1Integer getInhibitPolicyMapping() {
+        return inhibitPolicyMapping;
+    }
+
+    public void setInhibitPolicyMapping(Asn1Integer inhibitPolicyMapping) {
+        this.inhibitPolicyMapping = inhibitPolicyMapping;
     }
 
     public Asn1UnknownSequence getWrappingSequence() {

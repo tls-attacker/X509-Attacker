@@ -11,47 +11,36 @@ package de.rub.nds.x509attacker.x509.model.extensions;
 import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
-import de.rub.nds.x509attacker.config.extension.CertificatePoliciesConfig;
+import de.rub.nds.x509attacker.config.extension.NameConstraintsConfig;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
 import de.rub.nds.x509attacker.x509.model.Extension;
 import de.rub.nds.x509attacker.x509.parser.X509Parser;
 import de.rub.nds.x509attacker.x509.preparator.X509Preparator;
-import de.rub.nds.x509attacker.x509.preparator.extension.CertificatePoliciesPreparator;
+import de.rub.nds.x509attacker.x509.preparator.extension.NameConstraintsPreparator;
 import jakarta.xml.bind.annotation.XmlAccessType;
 import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElementRef;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
 import jakarta.xml.bind.annotation.XmlRootElement;
-import java.util.LinkedList;
-import java.util.List;
 
-/** certificatePolicies ::= SEQUENCE SIZE (1..MAX) OF PolicyInformation */
 @XmlRootElement
 @XmlAccessorType(XmlAccessType.FIELD)
-public class CertificatePolicies extends Extension<CertificatePoliciesConfig> {
+public class NameConstraints extends Extension<NameConstraintsConfig> {
 
     // holds all subcomponents
     @HoldsModifiableVariable private Asn1UnknownSequence wrappingSequence;
 
-    @XmlElementWrapper @XmlElementRef @HoldsModifiableVariable
-    private List<PolicyInformation> policyInformation;
+    @HoldsModifiableVariable private GeneralSubtrees permittedSubtrees;
+    @HoldsModifiableVariable private GeneralSubtrees excludedSubtrees;
 
-    private CertificatePolicies() {
+    private NameConstraints() {
         super(null);
     }
 
-    public CertificatePolicies(String identifier) {
+    public NameConstraints(String identifier) {
         super(identifier);
-        policyInformation = new LinkedList<>();
+
+        permittedSubtrees = new GeneralSubtrees("permittedSubtrees");
+        excludedSubtrees = new GeneralSubtrees("excludedSubtrees");
         wrappingSequence = new Asn1UnknownSequence("wrappingSequence");
-    }
-
-    public List<PolicyInformation> getPolicyInformation() {
-        return policyInformation;
-    }
-
-    public void setPolicyInformation(List<PolicyInformation> policyInformation) {
-        this.policyInformation = policyInformation;
     }
 
     @Override
@@ -65,8 +54,8 @@ public class CertificatePolicies extends Extension<CertificatePoliciesConfig> {
     }
 
     @Override
-    public X509Preparator getPreparator(X509Chooser chooser, CertificatePoliciesConfig config) {
-        return new CertificatePoliciesPreparator(chooser, this, config);
+    public X509Preparator getPreparator(X509Chooser chooser, NameConstraintsConfig config) {
+        return new NameConstraintsPreparator(chooser, this, config);
     }
 
     public Asn1UnknownSequence getWrappingSequence() {
@@ -75,5 +64,21 @@ public class CertificatePolicies extends Extension<CertificatePoliciesConfig> {
 
     public void setWrappingSequence(Asn1UnknownSequence wrappingSequence) {
         this.wrappingSequence = wrappingSequence;
+    }
+
+    public GeneralSubtrees getPermittedSubtrees() {
+        return permittedSubtrees;
+    }
+
+    public void setPermittedSubtrees(GeneralSubtrees permittedSubtrees) {
+        this.permittedSubtrees = permittedSubtrees;
+    }
+
+    public GeneralSubtrees getExcludedSubtrees() {
+        return excludedSubtrees;
+    }
+
+    public void setExcludedSubtrees(GeneralSubtrees excludedSubtrees) {
+        this.excludedSubtrees = excludedSubtrees;
     }
 }
