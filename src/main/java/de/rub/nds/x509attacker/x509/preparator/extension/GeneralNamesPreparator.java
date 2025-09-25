@@ -8,7 +8,6 @@
  */
 package de.rub.nds.x509attacker.x509.preparator.extension;
 
-import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.model.extensions.GeneralNames;
 import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
@@ -30,13 +29,10 @@ public class GeneralNamesPreparator extends X509ContainerPreparator<GeneralNames
         generalNames
                 .getGeneralNames()
                 .forEach(generalName -> generalName.getPreparator(chooser).prepare());
-        field.getWrappingSequence()
-                .setContent(encodeChildren(new ArrayList<>(generalNames.getGeneralNames())));
-        Asn1PreparatorHelper.prepareAfterContent(field.getWrappingSequence());
     }
 
     @Override
     public byte[] encodeChildrenContent() {
-        return encodeChildren(field.getWrappingSequence());
+        return encodeChildren(new ArrayList<>(field.getGeneralNames()));
     }
 }
