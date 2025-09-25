@@ -29,6 +29,7 @@ public class GeneralSubtreesPreparator extends X509ContainerPreparator<GeneralSu
         generalSubtrees
                 .getGeneralSubtrees()
                 .forEach(generalName -> generalName.getPreparator(chooser).prepare());
+        // TODO: get rid of wrapper?
         field.getWrappingSequence()
                 .setContent(encodeChildren(new ArrayList<>(generalSubtrees.getGeneralSubtrees())));
         Asn1PreparatorHelper.prepareAfterContent(field.getWrappingSequence());

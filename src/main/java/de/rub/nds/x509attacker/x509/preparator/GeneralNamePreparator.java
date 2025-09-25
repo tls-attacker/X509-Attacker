@@ -29,33 +29,45 @@ public class GeneralNamePreparator implements X509Preparator {
 
     @Override
     public void prepare() {
+
+        byte contextTag;
+
         switch (generalName.getGeneralNameChoiceTypeConfig()) {
             case DIRECTORY_NAME:
                 generalName.makeSelection(generalName.getDirectoryName());
+                contextTag = (byte) 0x84;
                 break;
             case DNS_NAME:
                 generalName.makeSelection(generalName.getDnsName());
+                contextTag = (byte) 0x82;
                 break;
             case EDI_PARTY_NAME:
                 generalName.makeSelection(generalName.getEdiPartyName());
+                contextTag = (byte) 0x85;
                 break;
             case IP_ADDRESS:
                 generalName.makeSelection(generalName.getIpAddress());
+                contextTag = (byte) 0x87;
                 break;
             case OTHER_NAME:
                 generalName.makeSelection(generalName.getOtherName());
+                contextTag = (byte) 0x80;
                 break;
             case REGISTERED_ID:
                 generalName.makeSelection(generalName.getRegisteredId());
+                contextTag = (byte) 0x88;
                 break;
             case RFC822_NAME:
                 generalName.makeSelection(generalName.getRfc822Name());
+                contextTag = (byte) 0x81;
                 break;
             case UNIFORM_RESOURCE_IDENTIFIER:
                 generalName.makeSelection(generalName.getUniformResourceIdentifier());
+                contextTag = (byte) 0x86;
                 break;
             case X400_ADDRESS:
                 generalName.makeSelection(generalName.getX400Address());
+                contextTag = (byte) 0x83;
                 break;
             default:
                 throw new UnsupportedOperationException(
@@ -69,9 +81,9 @@ public class GeneralNamePreparator implements X509Preparator {
                     new HelperPreparator<>(
                             chooser,
                             (Asn1Field) generalName.getSelectedChoice(),
-                            generalName.getGeneralNameConfigValue());
-            preparator.prepare();
-            // TODO we are not adjusting the context here
+                            generalName.getGeneralNameConfigValue(),
+                            contextTag);
+            preparator.prepareWithTag();
         } else {
             throw new UnsupportedOperationException(
                     "GeneralName only supports Asn1Field and X509 Components at the time");
@@ -81,27 +93,40 @@ public class GeneralNamePreparator implements X509Preparator {
     /** Small hack to get access to helper function */
     private class HelperPreparator<T extends Asn1Field> extends X509Asn1FieldPreparator<T> {
 
-        private Object value;
+        private final Object value;
+        private final byte contextTag;
 
-        public HelperPreparator(X509Chooser chooser, T type, Object value) {
+        public HelperPreparator(X509Chooser chooser, T type, Object value, byte contextTag) {
             super(chooser, type);
             this.value = value;
+            this.contextTag = contextTag;
         }
 
         @Override
         protected byte[] encodeContent() {
-            if (field instanceof Asn1Ia5String) {
-                Asn1PreparatorHelper.prepareField(((Asn1Ia5String) field), (String) value);
-            } else if (field instanceof Asn1ObjectIdentifier) {
-                Asn1PreparatorHelper.prepareField(
-                        ((Asn1ObjectIdentifier) field), new ObjectIdentifier((String) value));
-            } else if (field instanceof Asn1OctetString) {
-                Asn1PreparatorHelper.prepareField(((Asn1OctetString) field), (byte[]) value);
-            } else {
-                throw new UnsupportedOperationException(
-                        "Unimplemented Asn1Field: " + field.getClass().getName());
+            switch (field) {
+                case Asn1Ia5String asn1Ia5String ->
+                        Asn1PreparatorHelper.prepareField(asn1Ia5String, (String) value);
+                case Asn1ObjectIdentifier asn1ObjectIdentifier ->
+                        Asn1PreparatorHelper.prepareField(
+                                asn1ObjectIdentifier, new ObjectIdentifier((String) value));
+                case Asn1OctetString asn1OctetString ->
+                        Asn1PreparatorHelper.prepareField(asn1OctetString, (byte[]) value);
+                default ->
+                        throw new UnsupportedOperationException(
+                                "Unimplemented Asn1Field: " + field.getClass().getName());
             }
             return field.getContent().getOriginalValue();
+        }
+
+        public void prepareWithTag() {
+            super.prepare();
+
+            // set context-specific tag
+            this.field.setTagOctets(new byte[] {contextTag});
+
+            // set outer length
+            this.field.setLengthOctets(new byte[] {(byte) (field.getContent().getValue().length)});
         }
     }
 }

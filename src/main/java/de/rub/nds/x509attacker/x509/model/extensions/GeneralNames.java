@@ -9,7 +9,6 @@
 package de.rub.nds.x509attacker.x509.model.extensions;
 
 import de.rub.nds.asn1.model.Asn1Sequence;
-import de.rub.nds.asn1.model.Asn1UnknownSequence;
 import de.rub.nds.modifiablevariable.HoldsModifiableVariable;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.x509.handler.X509Handler;
@@ -30,9 +29,6 @@ import java.util.List;
 @XmlAccessorType(XmlAccessType.FIELD)
 public class GeneralNames extends Asn1Sequence implements X509Component {
 
-    // holds all subcomponents
-    @HoldsModifiableVariable private Asn1UnknownSequence wrappingSequence;
-
     @HoldsModifiableVariable
     @XmlAnyElement(lax = true)
     private List<GeneralName> generalNames;
@@ -44,7 +40,6 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
     public GeneralNames(String identifier) {
         super(identifier);
         generalNames = new LinkedList<>();
-        wrappingSequence = new Asn1UnknownSequence("wrappingSequence");
     }
 
     public GeneralNames(String identifier, int implicitTagNumber) {
@@ -73,13 +68,5 @@ public class GeneralNames extends Asn1Sequence implements X509Component {
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
         return new GeneralNamesPreparator(chooser, this);
-    }
-
-    public Asn1UnknownSequence getWrappingSequence() {
-        return wrappingSequence;
-    }
-
-    public void setWrappingSequence(Asn1UnknownSequence wrappingSequence) {
-        this.wrappingSequence = wrappingSequence;
     }
 }
