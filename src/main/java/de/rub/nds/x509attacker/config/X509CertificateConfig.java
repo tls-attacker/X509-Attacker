@@ -110,6 +110,8 @@ public class X509CertificateConfig implements Serializable {
 
     private boolean includeSubject = true;
 
+    private boolean includeVersion = true;
+
     private boolean shuffleIssuer = false;
 
     private boolean removeFirstRdnIssuer = false;
@@ -959,5 +961,13 @@ public class X509CertificateConfig implements Serializable {
 
     public void setDifferentSignatureAlgorithmOid(ObjectIdentifier differentSignatureAlgorithmOid) {
         this.differentSignatureAlgorithmOid = differentSignatureAlgorithmOid;
+    }
+
+    public boolean isIncludeVersion() {
+        return includeVersion;
+    }
+
+    public void setIncludeVersion(boolean includeVersion) {
+        this.includeVersion = includeVersion;
     }
 }

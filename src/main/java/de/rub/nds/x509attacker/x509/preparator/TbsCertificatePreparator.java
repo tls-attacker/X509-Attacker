@@ -112,7 +112,9 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     @Override
     public byte[] encodeChildrenContent() {
         List<Asn1Encodable> children = new ArrayList<>();
-        children.add(field.getVersion());
+        if (chooser.getConfig().isIncludeVersion()) {
+            children.add(field.getVersion());
+        }
         children.add(field.getSerialNumber());
         children.add(field.getSignature());
         if (chooser.getConfig().isIncludeIssuer()) {
