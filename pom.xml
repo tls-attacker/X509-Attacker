@@ -8,7 +8,7 @@
     </parent>
 
     <artifactId>x509-attacker</artifactId>
-    <version>4.3.4</version>
+    <version>4.3.4-SNAPSHOT</version>
 
     <name>X.509-Attacker</name>
     <description>X.509-Attacker is a tool based on ASN.1 Tool for creating arbitrary certificates; including especially
