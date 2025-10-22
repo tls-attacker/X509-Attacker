@@ -16,7 +16,6 @@ import de.rub.nds.x509attacker.x509.model.extensions.AuthorityKeyIdentifier;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class AuthorityKeyIdentifierPreparator
         extends ExtensionPreparator<AuthorityKeyIdentifier, AuthorityKeyIdentifierConfig> {
