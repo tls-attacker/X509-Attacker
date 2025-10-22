@@ -47,7 +47,7 @@ public class AuthorityKeyIdentifierPreparator
                                     field.getKeyIdentifier().getContent().getValue()));
 
             // set context-specific tag
-            field.getKeyIdentifier().setTagOctets(new byte[] {(byte) 0xa0});
+            field.getKeyIdentifier().setTagOctets(new byte[] {(byte) 0x80});
 
             // set outer length
             field.getKeyIdentifier()
@@ -109,7 +109,7 @@ public class AuthorityKeyIdentifierPreparator
                                     field.getAuthorityCertSerialNumber().getContent().getValue()));
 
             // set context-specific tag
-            field.getAuthorityCertSerialNumber().setTagOctets(new byte[] {(byte) 0xa2});
+            field.getAuthorityCertSerialNumber().setTagOctets(new byte[] {(byte) 0x82});
 
             // set outer length
             field.getAuthorityCertSerialNumber()
