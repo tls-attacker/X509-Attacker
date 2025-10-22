@@ -16,7 +16,6 @@ import de.rub.nds.x509attacker.x509.preparator.X509ContainerPreparator;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class GeneralSubtreePreparator extends X509ContainerPreparator<GeneralSubtree> {
 
@@ -37,20 +36,8 @@ public class GeneralSubtreePreparator extends X509ContainerPreparator<GeneralSub
             Asn1PreparatorHelper.prepareField(
                     field.getMinimum(), BigInteger.valueOf(field.getMinimumValue()));
 
-            // prepend original tag and length to content
-            field.getMinimum()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getMinimum().getLengthOctets().getValue(),
-                                    field.getMinimum().getContent().getValue()));
-            field.getMinimum()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getMinimum().getTagOctets().getValue(),
-                                    field.getMinimum().getContent().getValue()));
-
             // set context-specific tag
-            field.getMinimum().setTagOctets(new byte[] {(byte) 0xa0});
+            field.getMinimum().setTagOctets(new byte[] {(byte) 0x80});
 
             // set outer length
             field.getMinimum()
@@ -64,20 +51,8 @@ public class GeneralSubtreePreparator extends X509ContainerPreparator<GeneralSub
             Asn1PreparatorHelper.prepareField(
                     field.getMaximum(), BigInteger.valueOf(field.getMaximumValue()));
 
-            // prepend original tag and length to content
-            field.getMaximum()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getMaximum().getLengthOctets().getValue(),
-                                    field.getMaximum().getContent().getValue()));
-            field.getMaximum()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getMaximum().getTagOctets().getValue(),
-                                    field.getMaximum().getContent().getValue()));
-
             // set context-specific tag
-            field.getMaximum().setTagOctets(new byte[] {(byte) 0xa1});
+            field.getMaximum().setTagOctets(new byte[] {(byte) 0x81});
 
             // set outer length
             field.getMaximum()

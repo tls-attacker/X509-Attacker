@@ -15,7 +15,6 @@ import de.rub.nds.x509attacker.config.extension.NameConstraintsConfig;
 import de.rub.nds.x509attacker.x509.model.extensions.NameConstraints;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class NameConstraintsPreparator
         extends ExtensionPreparator<NameConstraints, NameConstraintsConfig> {
@@ -32,18 +31,6 @@ public class NameConstraintsPreparator
             field.setPermittedSubtrees(config.getPermittedSubtrees());
             field.getPermittedSubtrees().getPreparator(chooser).prepare();
 
-            // prepend original tag and length to content
-            field.getPermittedSubtrees()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getPermittedSubtrees().getLengthOctets().getValue(),
-                                    field.getPermittedSubtrees().getContent().getValue()));
-            field.getPermittedSubtrees()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getPermittedSubtrees().getTagOctets().getValue(),
-                                    field.getPermittedSubtrees().getContent().getValue()));
-
             // set context-specific tag
             field.getPermittedSubtrees().setTagOctets(new byte[] {(byte) 0xa0});
 
@@ -58,18 +45,6 @@ public class NameConstraintsPreparator
         if (config.getExcludedSubtrees() != null) {
             field.setExcludedSubtrees(config.getExcludedSubtrees());
             field.getExcludedSubtrees().getPreparator(chooser).prepare();
-
-            // prepend original tag and length to content
-            field.getExcludedSubtrees()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getExcludedSubtrees().getLengthOctets().getValue(),
-                                    field.getExcludedSubtrees().getContent().getValue()));
-            field.getExcludedSubtrees()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getExcludedSubtrees().getTagOctets().getValue(),
-                                    field.getExcludedSubtrees().getContent().getValue()));
 
             // set context-specific tag
             field.getExcludedSubtrees().setTagOctets(new byte[] {(byte) 0xa1});

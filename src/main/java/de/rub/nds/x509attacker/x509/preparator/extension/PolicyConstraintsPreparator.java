@@ -35,7 +35,7 @@ public class PolicyConstraintsPreparator
                     BigInteger.valueOf(config.getSkipCertsRequired()));
 
             // set context-specific tag
-            field.getRequireExplicitPolicy().setTagOctets(new byte[] {(byte) 0xa0});
+            field.getRequireExplicitPolicy().setTagOctets(new byte[] {(byte) 0x80});
 
             // set outer length
             field.getRequireExplicitPolicy()
@@ -55,7 +55,7 @@ public class PolicyConstraintsPreparator
                     BigInteger.valueOf(config.getSkipCertsInhibit()));
 
             // set context-specific tag
-            field.getInhibitPolicyMapping().setTagOctets(new byte[] {(byte) 0xa1});
+            field.getInhibitPolicyMapping().setTagOctets(new byte[] {(byte) 0x81});
 
             // set outer length
             field.getInhibitPolicyMapping()

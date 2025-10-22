@@ -16,7 +16,6 @@ import de.rub.nds.x509attacker.x509.model.extensions.AuthorityKeyIdentifier;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.commons.lang3.ArrayUtils;
 
 public class AuthorityKeyIdentifierPreparator
         extends ExtensionPreparator<AuthorityKeyIdentifier, AuthorityKeyIdentifierConfig> {
@@ -34,20 +33,8 @@ public class AuthorityKeyIdentifierPreparator
         if (config.getKeyIdentifier() != null) {
             Asn1PreparatorHelper.prepareField(field.getKeyIdentifier(), config.getKeyIdentifier());
 
-            // prepend original tag and length to content
-            field.getKeyIdentifier()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getKeyIdentifier().getLengthOctets().getValue(),
-                                    field.getKeyIdentifier().getContent().getValue()));
-            field.getKeyIdentifier()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getKeyIdentifier().getTagOctets().getValue(),
-                                    field.getKeyIdentifier().getContent().getValue()));
-
             // set context-specific tag
-            field.getKeyIdentifier().setTagOctets(new byte[] {(byte) 0xa0});
+            field.getKeyIdentifier().setTagOctets(new byte[] {(byte) 0x80});
 
             // set outer length
             field.getKeyIdentifier()
@@ -61,18 +48,6 @@ public class AuthorityKeyIdentifierPreparator
                 && config.getGeneralNameChoiceTypeConfig() != null) {
             field.getAuthorityCertIssuer().setGeneralNames(config.getAuthorityCertIssuers());
             field.getAuthorityCertIssuer().getPreparator(chooser).prepare();
-
-            // prepend original tag and length to content
-            field.getAuthorityCertIssuer()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getAuthorityCertIssuer().getLengthOctets().getValue(),
-                                    field.getAuthorityCertIssuer().getContent().getValue()));
-            field.getAuthorityCertIssuer()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getAuthorityCertIssuer().getTagOctets().getValue(),
-                                    field.getAuthorityCertIssuer().getContent().getValue()));
 
             // set context-specific tag
             field.getAuthorityCertIssuer().setTagOctets(new byte[] {(byte) 0xa1});
@@ -94,22 +69,8 @@ public class AuthorityKeyIdentifierPreparator
                     field.getAuthorityCertSerialNumber(),
                     BigInteger.valueOf(config.getSerialNumber()));
 
-            // prepend original tag and length to content
-            field.getAuthorityCertSerialNumber()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getAuthorityCertSerialNumber()
-                                            .getLengthOctets()
-                                            .getValue(),
-                                    field.getAuthorityCertSerialNumber().getContent().getValue()));
-            field.getAuthorityCertSerialNumber()
-                    .setContent(
-                            ArrayUtils.addAll(
-                                    field.getAuthorityCertSerialNumber().getTagOctets().getValue(),
-                                    field.getAuthorityCertSerialNumber().getContent().getValue()));
-
             // set context-specific tag
-            field.getAuthorityCertSerialNumber().setTagOctets(new byte[] {(byte) 0xa2});
+            field.getAuthorityCertSerialNumber().setTagOctets(new byte[] {(byte) 0x82});
 
             // set outer length
             field.getAuthorityCertSerialNumber()
