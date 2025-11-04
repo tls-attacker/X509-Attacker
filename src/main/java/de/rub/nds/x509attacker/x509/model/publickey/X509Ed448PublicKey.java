@@ -37,12 +37,14 @@ public class X509Ed448PublicKey extends Asn1OctetString implements PublicKeyCont
 
     @Override
     public X509Parser getParser(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new de.rub.nds.x509attacker.x509.parser.publickey.X509Ed448PublicKeyParser(
+                chooser, this);
     }
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        throw new UnsupportedOperationException("not implemented yet");
+        return new de.rub.nds.x509attacker.x509.preparator.publickey.Ed448PublicKeyPreparator(
+                chooser, this);
     }
 
     @Override

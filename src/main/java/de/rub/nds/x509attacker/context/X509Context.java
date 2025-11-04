@@ -110,6 +110,24 @@ public class X509Context {
 
     private BigInteger ecdsaNonce;
 
+    // Edwards curve keys
+    private byte[] subjectEd25519PublicKey = null;
+    private byte[] issuerEd25519PublicKey = null;
+    private byte[] subjectEd25519PrivateKey = null;
+    private byte[] issuerEd25519PrivateKey = null;
+    private byte[] subjectEd448PublicKey = null;
+    private byte[] issuerEd448PublicKey = null;
+    private byte[] subjectEd448PrivateKey = null;
+    private byte[] issuerEd448PrivateKey = null;
+    private byte[] subjectX25519PublicKey = null;
+    private byte[] issuerX25519PublicKey = null;
+    private byte[] subjectX25519PrivateKey = null;
+    private byte[] issuerX25519PrivateKey = null;
+    private byte[] subjectX448PublicKey = null;
+    private byte[] issuerX448PublicKey = null;
+    private byte[] subjectX448PrivateKey = null;
+    private byte[] issuerX448PrivateKey = null;
+
     private X509CertificateConfig config;
 
     private X509Chooser chooser;
@@ -478,5 +496,135 @@ public class X509Context {
 
     public void setEcdsaNonce(BigInteger ecdsaNonce) {
         this.ecdsaNonce = ecdsaNonce;
+    }
+
+    // Edwards curve getters and setters
+
+    public byte[] getSubjectEd25519PublicKey() {
+        return subjectEd25519PublicKey;
+    }
+
+    public void setSubjectEd25519PublicKey(byte[] subjectEd25519PublicKey) {
+        this.subjectEd25519PublicKey = subjectEd25519PublicKey;
+    }
+
+    public byte[] getIssuerEd25519PublicKey() {
+        return issuerEd25519PublicKey;
+    }
+
+    public void setIssuerEd25519PublicKey(byte[] issuerEd25519PublicKey) {
+        this.issuerEd25519PublicKey = issuerEd25519PublicKey;
+    }
+
+    public byte[] getSubjectEd25519PrivateKey() {
+        return subjectEd25519PrivateKey;
+    }
+
+    public void setSubjectEd25519PrivateKey(byte[] subjectEd25519PrivateKey) {
+        this.subjectEd25519PrivateKey = subjectEd25519PrivateKey;
+    }
+
+    public byte[] getIssuerEd25519PrivateKey() {
+        return issuerEd25519PrivateKey;
+    }
+
+    public void setIssuerEd25519PrivateKey(byte[] issuerEd25519PrivateKey) {
+        this.issuerEd25519PrivateKey = issuerEd25519PrivateKey;
+    }
+
+    public byte[] getSubjectEd448PublicKey() {
+        return subjectEd448PublicKey;
+    }
+
+    public void setSubjectEd448PublicKey(byte[] subjectEd448PublicKey) {
+        this.subjectEd448PublicKey = subjectEd448PublicKey;
+    }
+
+    public byte[] getIssuerEd448PublicKey() {
+        return issuerEd448PublicKey;
+    }
+
+    public void setIssuerEd448PublicKey(byte[] issuerEd448PublicKey) {
+        this.issuerEd448PublicKey = issuerEd448PublicKey;
+    }
+
+    public byte[] getSubjectEd448PrivateKey() {
+        return subjectEd448PrivateKey;
+    }
+
+    public void setSubjectEd448PrivateKey(byte[] subjectEd448PrivateKey) {
+        this.subjectEd448PrivateKey = subjectEd448PrivateKey;
+    }
+
+    public byte[] getIssuerEd448PrivateKey() {
+        return issuerEd448PrivateKey;
+    }
+
+    public void setIssuerEd448PrivateKey(byte[] issuerEd448PrivateKey) {
+        this.issuerEd448PrivateKey = issuerEd448PrivateKey;
+    }
+
+    public byte[] getSubjectX25519PublicKey() {
+        return subjectX25519PublicKey;
+    }
+
+    public void setSubjectX25519PublicKey(byte[] subjectX25519PublicKey) {
+        this.subjectX25519PublicKey = subjectX25519PublicKey;
+    }
+
+    public byte[] getIssuerX25519PublicKey() {
+        return issuerX25519PublicKey;
+    }
+
+    public void setIssuerX25519PublicKey(byte[] issuerX25519PublicKey) {
+        this.issuerX25519PublicKey = issuerX25519PublicKey;
+    }
+
+    public byte[] getSubjectX25519PrivateKey() {
+        return subjectX25519PrivateKey;
+    }
+
+    public void setSubjectX25519PrivateKey(byte[] subjectX25519PrivateKey) {
+        this.subjectX25519PrivateKey = subjectX25519PrivateKey;
+    }
+
+    public byte[] getIssuerX25519PrivateKey() {
+        return issuerX25519PrivateKey;
+    }
+
+    public void setIssuerX25519PrivateKey(byte[] issuerX25519PrivateKey) {
+        this.issuerX25519PrivateKey = issuerX25519PrivateKey;
+    }
+
+    public byte[] getSubjectX448PublicKey() {
+        return subjectX448PublicKey;
+    }
+
+    public void setSubjectX448PublicKey(byte[] subjectX448PublicKey) {
+        this.subjectX448PublicKey = subjectX448PublicKey;
+    }
+
+    public byte[] getIssuerX448PublicKey() {
+        return issuerX448PublicKey;
+    }
+
+    public void setIssuerX448PublicKey(byte[] issuerX448PublicKey) {
+        this.issuerX448PublicKey = issuerX448PublicKey;
+    }
+
+    public byte[] getSubjectX448PrivateKey() {
+        return subjectX448PrivateKey;
+    }
+
+    public void setSubjectX448PrivateKey(byte[] subjectX448PrivateKey) {
+        this.subjectX448PrivateKey = subjectX448PrivateKey;
+    }
+
+    public byte[] getIssuerX448PrivateKey() {
+        return issuerX448PrivateKey;
+    }
+
+    public void setIssuerX448PrivateKey(byte[] issuerX448PrivateKey) {
+        this.issuerX448PrivateKey = issuerX448PrivateKey;
     }
 }

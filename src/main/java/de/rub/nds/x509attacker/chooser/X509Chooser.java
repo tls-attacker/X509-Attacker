@@ -294,4 +294,134 @@ public class X509Chooser {
             return config.getRsaPssHashAlgorithm();
         }
     }
+
+    // Edwards curve methods
+
+    public byte[] getSubjectEd25519PublicKey() {
+        if (context.getSubjectEd25519PublicKey() != null) {
+            return context.getSubjectEd25519PublicKey();
+        } else {
+            return config.getDefaultSubjectEd25519PublicKey();
+        }
+    }
+
+    public byte[] getIssuerEd25519PublicKey() {
+        if (context.getIssuerEd25519PublicKey() != null) {
+            return context.getIssuerEd25519PublicKey();
+        } else {
+            return config.getDefaultIssuerEd25519PublicKey();
+        }
+    }
+
+    public byte[] getSubjectEd25519PrivateKey() {
+        if (context.getSubjectEd25519PrivateKey() != null) {
+            return context.getSubjectEd25519PrivateKey();
+        } else {
+            return config.getDefaultSubjectEd25519PrivateKey();
+        }
+    }
+
+    public byte[] getIssuerEd25519PrivateKey() {
+        if (context.getIssuerEd25519PrivateKey() != null) {
+            return context.getIssuerEd25519PrivateKey();
+        } else {
+            return config.getDefaultIssuerEd25519PrivateKey();
+        }
+    }
+
+    public byte[] getSubjectEd448PublicKey() {
+        if (context.getSubjectEd448PublicKey() != null) {
+            return context.getSubjectEd448PublicKey();
+        } else {
+            return config.getDefaultSubjectEd448PublicKey();
+        }
+    }
+
+    public byte[] getIssuerEd448PublicKey() {
+        if (context.getIssuerEd448PublicKey() != null) {
+            return context.getIssuerEd448PublicKey();
+        } else {
+            return config.getDefaultIssuerEd448PublicKey();
+        }
+    }
+
+    public byte[] getSubjectEd448PrivateKey() {
+        if (context.getSubjectEd448PrivateKey() != null) {
+            return context.getSubjectEd448PrivateKey();
+        } else {
+            return config.getDefaultSubjectEd448PrivateKey();
+        }
+    }
+
+    public byte[] getIssuerEd448PrivateKey() {
+        if (context.getIssuerEd448PrivateKey() != null) {
+            return context.getIssuerEd448PrivateKey();
+        } else {
+            return config.getDefaultIssuerEd448PrivateKey();
+        }
+    }
+
+    public byte[] getSubjectX25519PublicKey() {
+        if (context.getSubjectX25519PublicKey() != null) {
+            return context.getSubjectX25519PublicKey();
+        } else {
+            return config.getDefaultSubjectX25519PublicKey();
+        }
+    }
+
+    public byte[] getIssuerX25519PublicKey() {
+        if (context.getIssuerX25519PublicKey() != null) {
+            return context.getIssuerX25519PublicKey();
+        } else {
+            return config.getDefaultIssuerX25519PublicKey();
+        }
+    }
+
+    public byte[] getSubjectX25519PrivateKey() {
+        if (context.getSubjectX25519PrivateKey() != null) {
+            return context.getSubjectX25519PrivateKey();
+        } else {
+            return config.getDefaultSubjectX25519PrivateKey();
+        }
+    }
+
+    public byte[] getIssuerX25519PrivateKey() {
+        if (context.getIssuerX25519PrivateKey() != null) {
+            return context.getIssuerX25519PrivateKey();
+        } else {
+            return config.getDefaultIssuerX25519PrivateKey();
+        }
+    }
+
+    public byte[] getSubjectX448PublicKey() {
+        if (context.getSubjectX448PublicKey() != null) {
+            return context.getSubjectX448PublicKey();
+        } else {
+            return config.getDefaultSubjectX448PublicKey();
+        }
+    }
+
+    public byte[] getIssuerX448PublicKey() {
+        if (context.getIssuerX448PublicKey() != null) {
+            return context.getIssuerX448PublicKey();
+        } else {
+            return config.getDefaultIssuerX448PublicKey();
+        }
+    }
+
+    public byte[] getSubjectX448PrivateKey() {
+        if (context.getSubjectX448PrivateKey() != null) {
+            return context.getSubjectX448PrivateKey();
+        } else {
+            return config.getDefaultSubjectX448PrivateKey();
+        }
+    }
+
+    public byte[] getIssuerX448PrivateKey() {
+        if (context.getIssuerX448PrivateKey() != null) {
+            return context.getIssuerX448PrivateKey();
+        } else {
+            return config.getDefaultIssuerX448PrivateKey();
+        }
+    }
 }

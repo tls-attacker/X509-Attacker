@@ -20,6 +20,12 @@ public class Ed25519PublicKeyPreparator extends X509Asn1FieldPreparator<X509Ed25
 
     @Override
     protected byte[] encodeContent() {
-        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
+        // Ed25519 public keys are 32 bytes
+        byte[] publicKey = chooser.getSubjectEd25519PublicKey();
+        if (publicKey == null) {
+            publicKey = chooser.getConfig().getDefaultSubjectEd25519PublicKey();
+        }
+        field.setContent(publicKey);
+        return publicKey;
     }
 }
