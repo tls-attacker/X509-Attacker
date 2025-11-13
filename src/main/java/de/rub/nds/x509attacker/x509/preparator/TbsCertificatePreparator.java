@@ -54,7 +54,7 @@ public class TbsCertificatePreparator extends X509ContainerPreparator<TbsCertifi
     }
 
     private void prepareSignature() {
-        field.getSignature().getPreparator(chooser).prepare();
+        field.getSignature().getPreparatorTbsSignature(chooser).prepare();
         field.getSignature().getHandler(chooser).adjustContextAfterPrepare();
     }
 

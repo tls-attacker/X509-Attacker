@@ -279,6 +279,8 @@ public class X509CertificateConfig implements Serializable {
 
     private boolean signatureAlgorithmOidInvalid = false;
 
+    private boolean signatureTbsCertOidDifferent = false;
+
     private ObjectIdentifier differentSignatureAlgorithmOid = null;
 
     private boolean appendUnexpectedCertificateField = false;
@@ -969,5 +971,13 @@ public class X509CertificateConfig implements Serializable {
 
     public void setIncludeVersion(boolean includeVersion) {
         this.includeVersion = includeVersion;
+    }
+
+    public boolean isSignatureTbsCertOidDifferent() {
+        return signatureTbsCertOidDifferent;
+    }
+
+    public void setSignatureTbsCertOidDifferent(boolean signatureTbsCertOidDifferent) {
+        this.signatureTbsCertOidDifferent = signatureTbsCertOidDifferent;
     }
 }

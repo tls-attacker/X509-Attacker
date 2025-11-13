@@ -43,6 +43,10 @@ public class CertificateSignatureAlgorithmIdentifier extends AlgorithmIdentifier
 
     @Override
     public X509Preparator getPreparator(X509Chooser chooser) {
-        return new CertificateSignatureAlgorithmIdentifierPreparator(chooser, this);
+        return new CertificateSignatureAlgorithmIdentifierPreparator(chooser, this, false);
+    }
+
+    public X509Preparator getPreparatorTbsSignature(X509Chooser chooser) {
+        return new CertificateSignatureAlgorithmIdentifierPreparator(chooser, this, true);
     }
 }
