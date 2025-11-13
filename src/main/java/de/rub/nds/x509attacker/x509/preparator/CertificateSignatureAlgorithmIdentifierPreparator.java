@@ -21,10 +21,15 @@ import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509NullParameter
 public class CertificateSignatureAlgorithmIdentifierPreparator
         extends X509ContainerPreparator<CertificateSignatureAlgorithmIdentifier> {
 
+    private final boolean isTbsSignature;
+
     public CertificateSignatureAlgorithmIdentifierPreparator(
             X509Chooser chooser,
-            CertificateSignatureAlgorithmIdentifier certificateSignatureAlgorithmIdentifier) {
+            CertificateSignatureAlgorithmIdentifier certificateSignatureAlgorithmIdentifier,
+            boolean isTbsSignature) {
         super(chooser, certificateSignatureAlgorithmIdentifier);
+
+        this.isTbsSignature = isTbsSignature;
     }
 
     @Override
@@ -34,9 +39,20 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
                     field.getAlgorithm(), new ObjectIdentifier("1.2.3.4.5.6.7.8"));
         } else {
             if (chooser.getConfig().getDifferentSignatureAlgorithmOid() != null) {
-                Asn1PreparatorHelper.prepareField(
-                        field.getAlgorithm(),
-                        chooser.getConfig().getDifferentSignatureAlgorithmOid());
+                if (isTbsSignature) {
+                    if (chooser.getConfig().isSignatureTbsCertOidDifferent()) {
+                        Asn1PreparatorHelper.prepareField(
+                                field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
+                    } else {
+                        Asn1PreparatorHelper.prepareField(
+                                field.getAlgorithm(),
+                                chooser.getConfig().getDifferentSignatureAlgorithmOid());
+                    }
+                } else {
+                    Asn1PreparatorHelper.prepareField(
+                            field.getAlgorithm(),
+                            chooser.getConfig().getDifferentSignatureAlgorithmOid());
+                }
             } else {
                 Asn1PreparatorHelper.prepareField(
                         field.getAlgorithm(), chooser.getSignatureAlgorithm().getOid());
