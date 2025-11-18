@@ -28,7 +28,11 @@ public class CertificateSignatureAlgorithmIdentifierHandler
 
     @Override
     public void adjustContextAfterPrepare() {
-        adjustContext();
+        if (config.getDifferentSignatureAlgorithmOid() != null) {
+            adjustContextFromConfig();
+        } else {
+            adjustContext();
+        }
     }
 
     public void adjustContext() {
@@ -36,5 +40,9 @@ public class CertificateSignatureAlgorithmIdentifierHandler
                 X509SignatureAlgorithm.decodeFromOidBytes(
                         new ObjectIdentifier(component.getAlgorithm().getValue().getValue())
                                 .getEncoded()));
+    }
+
+    public void adjustContextFromConfig() {
+        context.setSubjectSignatureAlgorithm(config.getDefaultSignatureAlgorithm());
     }
 }
