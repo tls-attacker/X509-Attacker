@@ -17,8 +17,7 @@ import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
-import de.rub.nds.x509attacker.config.extension.BasicConstraintsConfig;
-import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
+import de.rub.nds.x509attacker.config.extension.*;
 import de.rub.nds.x509attacker.constants.*;
 import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
@@ -119,6 +118,20 @@ public class X509CertificateConfig implements Serializable {
     @XmlElementWrapper(name = "extensions")
     @XmlElements({
         @XmlElement(name = "basicConstraints", type = BasicConstraintsConfig.class),
+        @XmlElement(name = "authorityKeyIdentifier", type = AuthorityKeyIdentifierConfig.class),
+        @XmlElement(name = "certificatePolicies", type = CertificatePoliciesConfig.class),
+        @XmlElement(name = "extendedKeyUsage", type = ExtendedKeyUsageConfig.class),
+        @XmlElement(name = "inhibitAnyPolicy", type = InhibitAnyPolicyConfig.class),
+        @XmlElement(name = "keyUsage", type = KeyUsageConfig.class),
+        @XmlElement(name = "nameConstraints", type = NameConstraintsConfig.class),
+        @XmlElement(name = "policyConstraints", type = PolicyConstraintsConfig.class),
+        @XmlElement(name = "policyMappings", type = PolicyMappingsConfig.class),
+        @XmlElement(name = "subjectAlternativeName", type = SubjectAlternativeNameConfig.class),
+        @XmlElement(
+                name = "subjectDirectoryAttributes",
+                type = SubjectDirectoryAttributesConfig.class),
+        @XmlElement(name = "subjectKeyIdentifier", type = SubjectKeyIdentifierConfig.class),
+        @XmlElement(name = "unknown", type = UnknownConfig.class),
     })
     private List<ExtensionConfig> extensions = new ArrayList<>();
 
