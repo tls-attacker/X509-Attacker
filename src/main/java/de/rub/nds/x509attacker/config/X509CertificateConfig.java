@@ -17,14 +17,9 @@ import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
-import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
+import de.rub.nds.x509attacker.config.extension.*;
 import de.rub.nds.x509attacker.constants.*;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -120,6 +115,24 @@ public class X509CertificateConfig implements Serializable {
 
     private boolean subjectDomainComponentCaseInsensitive = false;
 
+    @XmlElementWrapper(name = "extensions")
+    @XmlElements({
+        @XmlElement(name = "basicConstraints", type = BasicConstraintsConfig.class),
+        @XmlElement(name = "authorityKeyIdentifier", type = AuthorityKeyIdentifierConfig.class),
+        @XmlElement(name = "certificatePolicies", type = CertificatePoliciesConfig.class),
+        @XmlElement(name = "extendedKeyUsage", type = ExtendedKeyUsageConfig.class),
+        @XmlElement(name = "inhibitAnyPolicy", type = InhibitAnyPolicyConfig.class),
+        @XmlElement(name = "keyUsage", type = KeyUsageConfig.class),
+        @XmlElement(name = "nameConstraints", type = NameConstraintsConfig.class),
+        @XmlElement(name = "policyConstraints", type = PolicyConstraintsConfig.class),
+        @XmlElement(name = "policyMappings", type = PolicyMappingsConfig.class),
+        @XmlElement(name = "subjectAlternativeName", type = SubjectAlternativeNameConfig.class),
+        @XmlElement(
+                name = "subjectDirectoryAttributes",
+                type = SubjectDirectoryAttributesConfig.class),
+        @XmlElement(name = "subjectKeyIdentifier", type = SubjectKeyIdentifierConfig.class),
+        @XmlElement(name = "unknown", type = UnknownConfig.class),
+    })
     private List<ExtensionConfig> extensions = new ArrayList<>();
 
     private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;

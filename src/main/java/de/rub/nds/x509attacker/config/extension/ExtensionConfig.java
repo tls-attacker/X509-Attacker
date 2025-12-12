@@ -24,6 +24,11 @@ public abstract class ExtensionConfig {
 
     private DefaultEncodingRule includeCritical = DefaultEncodingRule.FOLLOW_DEFAULT;
 
+    public ExtensionConfig() {
+        this.extensionId = null;
+        this.name = null;
+    }
+
     public ExtensionConfig(ObjectIdentifier extensionId, String name) {
         this.extensionId = extensionId;
         this.name = name;
