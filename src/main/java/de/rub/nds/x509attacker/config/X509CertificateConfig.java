@@ -17,14 +17,10 @@ import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
+import de.rub.nds.x509attacker.config.extension.BasicConstraintsConfig;
 import de.rub.nds.x509attacker.config.extension.ExtensionConfig;
 import de.rub.nds.x509attacker.constants.*;
-import jakarta.xml.bind.annotation.XmlAccessType;
-import jakarta.xml.bind.annotation.XmlAccessorType;
-import jakarta.xml.bind.annotation.XmlElement;
-import jakarta.xml.bind.annotation.XmlElementWrapper;
-import jakarta.xml.bind.annotation.XmlRootElement;
-import jakarta.xml.bind.annotation.XmlSeeAlso;
+import jakarta.xml.bind.annotation.*;
 import jakarta.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 import java.io.Serializable;
 import java.math.BigInteger;
@@ -120,6 +116,10 @@ public class X509CertificateConfig implements Serializable {
 
     private boolean subjectDomainComponentCaseInsensitive = false;
 
+    @XmlElementWrapper(name = "extensions")
+    @XmlElements({
+        @XmlElement(name = "basicConstraints", type = BasicConstraintsConfig.class),
+    })
     private List<ExtensionConfig> extensions = new ArrayList<>();
 
     private X509PublicKeyType publicKeyType = X509PublicKeyType.RSA;
