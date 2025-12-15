@@ -12,6 +12,7 @@ import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.asn1.preparator.Asn1PreparatorHelper;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
+import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
@@ -72,7 +73,19 @@ public class CertificateSignatureAlgorithmIdentifierPreparator
         SignatureAlgorithm publicKeyType = chooser.getSignatureAlgorithm().getSignatureAlgorithm();
         return switch (publicKeyType) {
             case DSA -> new X509DssParameters("dssParameters");
-            case ECDSA -> new X509EcNamedCurveParameters("ecNamedCurve");
+            case ECDSA -> {
+                if (chooser.getSignatureAlgorithm() == X509SignatureAlgorithm.ECDSA_WITH_SHA224
+                        || chooser.getSignatureAlgorithm()
+                                == X509SignatureAlgorithm.ECDSA_WITH_SHA256
+                        || chooser.getSignatureAlgorithm()
+                                == X509SignatureAlgorithm.ECDSA_WITH_SHA384
+                        || chooser.getSignatureAlgorithm()
+                                == X509SignatureAlgorithm.ECDSA_WITH_SHA512) {
+                    yield new X509NullParameters("ecNamedCurve");
+                } else {
+                    yield new X509EcNamedCurveParameters("ecNamedCurve");
+                }
+            }
             case RSA_PKCS1 -> new X509NullParameters("nullParameters");
             default ->
                     throw new UnsupportedOperationException(
