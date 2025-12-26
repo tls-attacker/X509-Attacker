@@ -45,7 +45,7 @@ public class X509CertificateChainBuilder {
             if (context.getSubject() != null) {
                 config.setIssuer(context.getSubject());
             }
-            X509Certificate certificate = new X509Certificate("certiciate_" + (i + 1), config);
+            X509Certificate certificate = new X509Certificate("certificate_" + (i + 1), config);
             context.setConfig(config);
             X509Chooser chooser = new X509Chooser(config, context);
             X509CertificatePreparator preparator =

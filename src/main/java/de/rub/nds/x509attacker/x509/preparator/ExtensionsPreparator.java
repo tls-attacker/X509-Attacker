@@ -29,6 +29,7 @@ public class ExtensionsPreparator extends X509ContainerPreparator<Extensions> {
 
     @Override
     public void prepareSubComponents() {
+        field.getExtensionList().clear();
         // prepare all present extensions
         for (ExtensionConfig config :
                 chooser.getConfig().getExtensions().stream()
