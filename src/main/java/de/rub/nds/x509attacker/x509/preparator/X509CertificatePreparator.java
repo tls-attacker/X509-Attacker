@@ -104,7 +104,7 @@ public class X509CertificatePreparator extends X509ContainerPreparator<X509Certi
                     new EcdsaPrivateKey(
                             chooser.getIssuerEcPrivateKey(),
                             chooser.getConfig().getDefaultIssuerDsaNonce(),
-                            chooser.getSubjectNamedCurve().getParameters());
+                            chooser.getIssuerNamedCurve().getParameters());
             case RSA_PKCS1, RSA_SSA_PSS ->
                     new RsaPrivateKey(
                             chooser.getIssuerRsaPrivateExponent(), chooser.getIssuerRsaModulus());
