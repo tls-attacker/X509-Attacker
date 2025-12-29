@@ -60,14 +60,14 @@ public class X509CertificateConfig implements Serializable {
             divergentIssuerDirectoryStringChoices = new ArrayList<>();
 
     private DateTime notBefore =
-            new DateTime(2024, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2022
+            new DateTime(2026, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2026
 
     private TimeAccurracy notBeforeAccurracy = TimeAccurracy.SECONDS;
 
     private ValidityEncoding defaultNotBeforeEncoding = ValidityEncoding.UTC;
 
     private DateTime notAfter =
-            new DateTime(2026, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2024
+            new DateTime(2028, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2028
 
     private TimeAccurracy notAfterAccurracy = TimeAccurracy.SECONDS;
 
@@ -303,7 +303,7 @@ public class X509CertificateConfig implements Serializable {
         defaultIssuer.add(
                 new Pair<>(
                         X500AttributeType.COMMON_NAME, "Attacker CA - Global Insecurity Provider"));
-        defaultIssuer.add(new Pair<>(X500AttributeType.COUNTRY_NAME, "Global"));
+        defaultIssuer.add(new Pair<>(X500AttributeType.COUNTRY_NAME, "DE"));
         defaultIssuer.add(new Pair<>(X500AttributeType.ORGANISATION_NAME, "TLS-Attacker"));
         subject = new LinkedList<>();
         subject.add(new Pair<>(X500AttributeType.COMMON_NAME, "tls-attacker.com"));
