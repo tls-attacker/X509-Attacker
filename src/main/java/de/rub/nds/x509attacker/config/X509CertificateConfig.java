@@ -17,6 +17,7 @@ import de.rub.nds.protocol.constants.PointFormat;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.protocol.crypto.ec.Point;
 import de.rub.nds.protocol.xml.Pair;
+import de.rub.nds.x509attacker.config.adapter.DateTimeAdapter;
 import de.rub.nds.x509attacker.config.extension.*;
 import de.rub.nds.x509attacker.constants.*;
 import jakarta.xml.bind.annotation.*;
@@ -59,6 +60,8 @@ public class X509CertificateConfig implements Serializable {
     private List<Pair<X500AttributeType, DirectoryStringChoiceType>>
             divergentIssuerDirectoryStringChoices = new ArrayList<>();
 
+    @XmlElement(name = "notBefore")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private DateTime notBefore =
             new DateTime(2026, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2026
 
@@ -66,6 +69,8 @@ public class X509CertificateConfig implements Serializable {
 
     private ValidityEncoding defaultNotBeforeEncoding = ValidityEncoding.UTC;
 
+    @XmlElement(name = "notAfter")
+    @XmlJavaTypeAdapter(DateTimeAdapter.class)
     private DateTime notAfter =
             new DateTime(2028, 1, 1, 0, 0, DateTimeZone.forID("UTC")); // 1.1.2028
 
