@@ -10,6 +10,7 @@ package de.rub.nds.x509attacker.x509.handler.publickey.parameters;
 
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
+import de.rub.nds.x509attacker.constants.X509PublicKeyType;
 import de.rub.nds.x509attacker.x509.handler.X509FieldHandler;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509EcNamedCurveParameters;
 import org.apache.logging.log4j.LogManager;
@@ -43,5 +44,6 @@ public class X509EcNamedCurveParametersHandler
         }
         LOGGER.debug("Parameters with named curve: {}", namedCurve);
         context.setSubjectNamedCurve(namedCurve);
+        context.setSubjectPublicKeyType(X509PublicKeyType.ECDH_ECDSA);
     }
 }
