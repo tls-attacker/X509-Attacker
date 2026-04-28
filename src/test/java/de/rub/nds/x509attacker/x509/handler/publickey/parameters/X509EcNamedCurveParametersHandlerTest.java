@@ -86,6 +86,7 @@ public class X509EcNamedCurveParametersHandlerTest {
         new X509EcNamedCurveParametersHandler(freshChooser, ecParams).adjustContext();
 
         assertEquals(X509PublicKeyType.ECDH_ECDSA, freshContext.getSubjectPublicKeyType());
+        assertEquals(X509PublicKeyType.ECDH_ECDSA, freshChooser.getSubjectPublicKeyType());
     }
 
     /** Verifies that adjustContext() also sets the named curve (pre-existing behaviour). */
