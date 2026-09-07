@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.x509.base;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import de.rub.nds.modifiablevariable.util.DataConverter;
@@ -192,7 +193,11 @@ public class X509CertificateTest {
     void testHasWeakBlacklistedDebianKey() {}
 
     @Test
-    void testIsCommonNameValidForUri() {}
+    void testIsCommonNameValidForUri() {
+        // Common name is "*.google.de"
+        assertTrue(ecCertificate.isCommonNameValidForUri("mail.google.de"));
+        assertFalse(ecCertificate.isCommonNameValidForUri("evil.example.com"));
+    }
 
     @Test
     void testIsEllipticCurveCertificate() {}
@@ -218,7 +223,8 @@ public class X509CertificateTest {
     @Test
     void testIsRevokedOcsp() {}
 
-    @Disabled
+    @Disabled // getSubjectAlternativeNames() is not implemented yet, throws
+    // UnsupportedOperationException
     @Test
     void testIsSanValidForUri() {}
 

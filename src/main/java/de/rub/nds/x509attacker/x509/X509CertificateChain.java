@@ -113,7 +113,7 @@ public class X509CertificateChain {
                 counter++;
             }
         }
-        return counter <= 1;
+        return counter > 1;
     }
 
     /**
