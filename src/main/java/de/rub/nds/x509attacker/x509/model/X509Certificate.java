@@ -248,6 +248,9 @@ public class X509Certificate extends Asn1Sequence implements X509Component {
 
     public boolean isCommonNameValidForUri(String uri) {
         String commonName = getSubjectCommonName();
+        if (commonName == null) {
+            return false;
+        }
         if (commonName.startsWith("*.")) {
             // Handle wildcard certificates
             String suffix = commonName.substring(2);
