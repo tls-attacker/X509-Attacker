@@ -93,6 +93,25 @@ public class CertificateIoTest {
                 Arguments.of("/testcerts/ec_secp224r1_cert.pem"),
                 Arguments.of("/testcerts/ec_secp256k1_cert.pem"),
                 Arguments.of("/testcerts/ec_secp384r1_cert.pem"),
-                Arguments.of("/testcerts/ec_secp521r1_cert.pem"));
+                Arguments.of("/testcerts/ec_secp521r1_cert.pem"),
+                Arguments.of("/testcerts/mldsa44_cert.pem"),
+                Arguments.of("/testcerts/mldsa65_cert.pem"),
+                Arguments.of("/testcerts/mldsa87_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_sha2_128s_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_sha2_128f_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_sha2_192s_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_sha2_192f_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_sha2_256s_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_sha2_256f_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_shake_128s_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_shake_128f_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_shake_192s_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_shake_192f_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_shake_256s_cert.pem"),
+                Arguments.of("/testcerts/slhdsa_shake_256f_cert.pem"),
+                Arguments.of("/testcerts/hashslhdsa_sha2_128s_sha256_cert.pem"),
+                Arguments.of("/testcerts/hashslhdsa_sha2_192s_sha512_cert.pem"),
+                Arguments.of("/testcerts/hashslhdsa_shake_128s_shake128_cert.pem"),
+                Arguments.of("/testcerts/hashslhdsa_shake_192s_shake256_cert.pem"));
     }
 }

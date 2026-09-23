@@ -88,6 +88,35 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
                 return new X509Ed25519PublicKey();
             case ED448:
                 return new X509Ed448PublicKey();
+            case ML_DSA_44:
+            case ML_DSA_65:
+            case ML_DSA_87:
+                return new X509MlDsaPublicKey(publicKeyType);
+            case SLH_DSA_SHA2_128S:
+            case SLH_DSA_SHA2_128F:
+            case SLH_DSA_SHA2_192S:
+            case SLH_DSA_SHA2_192F:
+            case SLH_DSA_SHA2_256S:
+            case SLH_DSA_SHA2_256F:
+            case SLH_DSA_SHAKE_128S:
+            case SLH_DSA_SHAKE_128F:
+            case SLH_DSA_SHAKE_192S:
+            case SLH_DSA_SHAKE_192F:
+            case SLH_DSA_SHAKE_256S:
+            case SLH_DSA_SHAKE_256F:
+            case HASH_SLH_DSA_SHA2_128S_WITH_SHA256:
+            case HASH_SLH_DSA_SHA2_128F_WITH_SHA256:
+            case HASH_SLH_DSA_SHA2_192S_WITH_SHA512:
+            case HASH_SLH_DSA_SHA2_192F_WITH_SHA512:
+            case HASH_SLH_DSA_SHA2_256S_WITH_SHA512:
+            case HASH_SLH_DSA_SHA2_256F_WITH_SHA512:
+            case HASH_SLH_DSA_SHAKE_128S_WITH_SHAKE128:
+            case HASH_SLH_DSA_SHAKE_128F_WITH_SHAKE128:
+            case HASH_SLH_DSA_SHAKE_192S_WITH_SHAKE256:
+            case HASH_SLH_DSA_SHAKE_192F_WITH_SHAKE256:
+            case HASH_SLH_DSA_SHAKE_256S_WITH_SHAKE256:
+            case HASH_SLH_DSA_SHAKE_256F_WITH_SHAKE256:
+                return new X509SlhDsaPublicKey(publicKeyType);
             case GOST_R3411_2001:
                 throw new UnsupportedOperationException("GOST_R3411_2001 not supported");
             case GOST_R3411_94:

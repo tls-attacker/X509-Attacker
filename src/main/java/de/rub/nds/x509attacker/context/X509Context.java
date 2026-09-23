@@ -84,6 +84,10 @@ public class X509Context {
 
     private X509NamedCurve subjectNamedCurve = null;
 
+    private byte[] subjectMlDsaVerificationKey = null;
+
+    private byte[] subjectSlhDsaPublicKey = null;
+
     private BigInteger subjectDhPrivateKey = null;
 
     private BigInteger subjectDhPublicKey = null;
@@ -294,6 +298,22 @@ public class X509Context {
 
     public void setIssuerNamedCurve(X509NamedCurve issuerNamedCurve) {
         this.issuerNamedCurve = issuerNamedCurve;
+    }
+
+    public byte[] getSubjectMlDsaVerificationKey() {
+        return subjectMlDsaVerificationKey;
+    }
+
+    public void setSubjectMlDsaVerificationKey(byte[] subjectMlDsaVerificationKey) {
+        this.subjectMlDsaVerificationKey = subjectMlDsaVerificationKey;
+    }
+
+    public byte[] getSubjectSlhDsaPublicKey() {
+        return subjectSlhDsaPublicKey;
+    }
+
+    public void setSubjectSlhDsaPublicKey(byte[] subjectSlhDsaPublicKey) {
+        this.subjectSlhDsaPublicKey = subjectSlhDsaPublicKey;
     }
 
     public X509NamedCurve getSubjectNamedCurve() {

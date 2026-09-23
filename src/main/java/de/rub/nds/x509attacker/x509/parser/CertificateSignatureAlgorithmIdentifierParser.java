@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.parser.ParserHelper;
+import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
@@ -44,6 +45,11 @@ public class CertificateSignatureAlgorithmIdentifierParser
             LOGGER.debug("Unkown signature algorithm. Not parsing anything");
             return;
         }
+        if (signatureAlgorithm.getSignatureAlgorithm() == SignatureAlgorithm.SLH_DSA) {
+            // RFC9909: the parameters field is absent, not even NULL
+            LOGGER.debug("{} has no parameters. Not parsing any.", signatureAlgorithm.name());
+            return;
+        }
 
         switch (signatureAlgorithm) {
             case DSA_WITH_SHA1:
@@ -52,6 +58,11 @@ public class CertificateSignatureAlgorithmIdentifierParser
             case DSA_WITH_SHA384:
             case DSA_WITH_SHA512:
                 // No parameters, not even null
+                LOGGER.debug("{} has no parameters. Not parsing any.", signatureAlgorithm.name());
+                break;
+            case ML_DSA_44:
+            case ML_DSA_65:
+            case ML_DSA_87:
                 LOGGER.debug("{} has no parameters. Not parsing any.", signatureAlgorithm.name());
                 break;
             case ECDSA_WITH_SHA1:
