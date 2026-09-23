@@ -242,6 +242,13 @@ public class X509CertificateConfig implements Serializable {
      */
     private byte[] defaultSubjectMlDsaVerificationKey = null;
 
+    /**
+     * The FIPS 205 encoding (PK.seed || PK.root) of the SLH-DSA public key to write into a
+     * certificate. There is no sensible default because X.509-Attacker cannot generate SLH-DSA keys
+     * yet, so this has to be set explicitly before an SLH-DSA certificate can be prepared.
+     */
+    private byte[] defaultSubjectSlhDsaPublicKey = null;
+
     private X509NamedCurve defaultSubjectNamedCurve = X509NamedCurve.SECP256R1;
 
     private X509NamedCurve defaultIssuerNamedCurve = X509NamedCurve.SECP256R1;
@@ -500,6 +507,14 @@ public class X509CertificateConfig implements Serializable {
 
     public void setDefaultSubjectMlDsaVerificationKey(byte[] defaultSubjectMlDsaVerificationKey) {
         this.defaultSubjectMlDsaVerificationKey = defaultSubjectMlDsaVerificationKey;
+    }
+
+    public byte[] getDefaultSubjectSlhDsaPublicKey() {
+        return defaultSubjectSlhDsaPublicKey;
+    }
+
+    public void setDefaultSubjectSlhDsaPublicKey(byte[] defaultSubjectSlhDsaPublicKey) {
+        this.defaultSubjectSlhDsaPublicKey = defaultSubjectSlhDsaPublicKey;
     }
 
     public X509NamedCurve getDefaultSubjectNamedCurve() {

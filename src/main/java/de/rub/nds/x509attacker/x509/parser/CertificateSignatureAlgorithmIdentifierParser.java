@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.x509.parser;
 import de.rub.nds.asn1.constants.TagClass;
 import de.rub.nds.asn1.constants.UniversalTagNumber;
 import de.rub.nds.asn1.parser.ParserHelper;
+import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.constants.X509SignatureAlgorithm;
 import de.rub.nds.x509attacker.x509.model.CertificateSignatureAlgorithmIdentifier;
@@ -42,6 +43,11 @@ public class CertificateSignatureAlgorithmIdentifierParser
                 signatureAlgorithm != null ? signatureAlgorithm.name() : "unknown");
         if (signatureAlgorithm == null) {
             LOGGER.debug("Unkown signature algorithm. Not parsing anything");
+            return;
+        }
+        if (signatureAlgorithm.getSignatureAlgorithm() == SignatureAlgorithm.SLH_DSA) {
+            // RFC9909: the parameters field is absent, not even NULL
+            LOGGER.debug("{} has no parameters. Not parsing any.", signatureAlgorithm.name());
             return;
         }
 

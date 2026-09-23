@@ -18,6 +18,7 @@ import de.rub.nds.protocol.crypto.key.EcdsaPublicKey;
 import de.rub.nds.protocol.crypto.key.MlDsaPublicKey;
 import de.rub.nds.protocol.crypto.key.PublicKeyContainer;
 import de.rub.nds.protocol.crypto.key.RsaPublicKey;
+import de.rub.nds.protocol.crypto.key.SlhDsaPublicKey;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
 import de.rub.nds.x509attacker.config.X509CertificateConfig;
 import de.rub.nds.x509attacker.constants.X509NamedCurve;
@@ -32,6 +33,7 @@ import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509MlDsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509SlhDsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DssParameters;
@@ -93,6 +95,11 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
 
     private void initPublicKeyParameters(X509CertificateConfig config) {
         PublicParameters publicParameters = null;
+        if (config.getPublicKeyType().isSlhDsa()) {
+            // RFC9909: the parameters field is absent, not even NULL
+            algorithm.setParameters(publicParameters);
+            return;
+        }
         switch (config.getPublicKeyType()) {
             case DH:
                 publicParameters = new X509DhParameters("dhParameters");
@@ -149,6 +156,11 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
         X509PublicKeyType certificateKeyType =
                 subjectPublicKeyBitString.getX509PublicKeyContent().getX509PublicKeyType();
         PublicKeyContent content = subjectPublicKeyBitString.getX509PublicKeyContent();
+        if (certificateKeyType.isSlhDsa()) {
+            return new SlhDsaPublicKey(
+                    certificateKeyType.getSlhDsaParameters(),
+                    ((X509SlhDsaPublicKey) content).getPublicKeyBytes().getValue());
+        }
         switch (certificateKeyType) {
             case DH:
                 BigInteger publicKey = ((X509DhPublicKey) content).getValue().getValue();

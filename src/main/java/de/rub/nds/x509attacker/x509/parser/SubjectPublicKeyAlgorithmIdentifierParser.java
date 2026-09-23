@@ -47,6 +47,11 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
             LOGGER.debug("Unknown public key type. Not parsing parameters");
             return;
         }
+        if (publicKeyType.isSlhDsa() || publicKeyType.isMlDsa()) {
+            // RFC9881 and RFC9909 define the field as absent, not even NULL
+            LOGGER.debug("{} has no parameters. Not parsing any.", publicKeyType);
+            return;
+        }
         switch (publicKeyType) {
             case ECDH_ECDSA:
                 parameters = new X509EcNamedCurveParameters("EcNamedCurveParameters");
@@ -60,12 +65,6 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
             case RSA:
                 parameters = new X509NullParameters("nullParameters");
                 break;
-            case ML_DSA_44:
-            case ML_DSA_65:
-            case ML_DSA_87:
-                // RFC9881: the parameters field is absent, not even NULL
-                LOGGER.debug("{} has no parameters. Not parsing any.", publicKeyType.name());
-                return;
             default:
                 throw new UnsupportedOperationException(
                         String.format(

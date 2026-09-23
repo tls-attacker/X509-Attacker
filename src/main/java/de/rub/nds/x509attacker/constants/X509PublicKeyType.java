@@ -11,6 +11,7 @@ package de.rub.nds.x509attacker.constants;
 import de.rub.nds.asn1.oid.ObjectIdentifier;
 import de.rub.nds.protocol.constants.MlDsaParameters;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
+import de.rub.nds.protocol.constants.SlhDsaParameters;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -33,7 +34,43 @@ public enum X509PublicKeyType {
     ED448("Ed448", "1.3.101.113"), // RFC8410
     ML_DSA_44("ML-DSA-44", "2.16.840.1.101.3.4.3.17"), // RFC9881
     ML_DSA_65("ML-DSA-65", "2.16.840.1.101.3.4.3.18"), // RFC9881
-    ML_DSA_87("ML-DSA-87", "2.16.840.1.101.3.4.3.19"); // RFC9881
+    ML_DSA_87("ML-DSA-87", "2.16.840.1.101.3.4.3.19"), // RFC9881
+    SLH_DSA_SHA2_128S("SLH-DSA-SHA2-128s", "2.16.840.1.101.3.4.3.20"), // RFC9909,
+    SLH_DSA_SHA2_128F("SLH-DSA-SHA2-128f", "2.16.840.1.101.3.4.3.21"), // RFC9909,
+    SLH_DSA_SHA2_192S("SLH-DSA-SHA2-192s", "2.16.840.1.101.3.4.3.22"), // RFC9909,
+    SLH_DSA_SHA2_192F("SLH-DSA-SHA2-192f", "2.16.840.1.101.3.4.3.23"), // RFC9909,
+    SLH_DSA_SHA2_256S("SLH-DSA-SHA2-256s", "2.16.840.1.101.3.4.3.24"), // RFC9909,
+    SLH_DSA_SHA2_256F("SLH-DSA-SHA2-256f", "2.16.840.1.101.3.4.3.25"), // RFC9909,
+    SLH_DSA_SHAKE_128S("SLH-DSA-SHAKE-128s", "2.16.840.1.101.3.4.3.26"), // RFC9909,
+    SLH_DSA_SHAKE_128F("SLH-DSA-SHAKE-128f", "2.16.840.1.101.3.4.3.27"), // RFC9909,
+    SLH_DSA_SHAKE_192S("SLH-DSA-SHAKE-192s", "2.16.840.1.101.3.4.3.28"), // RFC9909,
+    SLH_DSA_SHAKE_192F("SLH-DSA-SHAKE-192f", "2.16.840.1.101.3.4.3.29"), // RFC9909,
+    SLH_DSA_SHAKE_256S("SLH-DSA-SHAKE-256s", "2.16.840.1.101.3.4.3.30"), // RFC9909,
+    SLH_DSA_SHAKE_256F("SLH-DSA-SHAKE-256f", "2.16.840.1.101.3.4.3.31"), // RFC9909,
+    HASH_SLH_DSA_SHA2_128S_WITH_SHA256(
+            "HashSLH-DSA-SHA2-128s-with-SHA256", "2.16.840.1.101.3.4.3.35"), // RFC9909,
+    HASH_SLH_DSA_SHA2_128F_WITH_SHA256(
+            "HashSLH-DSA-SHA2-128f-with-SHA256", "2.16.840.1.101.3.4.3.36"), // RFC9909,
+    HASH_SLH_DSA_SHA2_192S_WITH_SHA512(
+            "HashSLH-DSA-SHA2-192s-with-SHA512", "2.16.840.1.101.3.4.3.37"), // RFC9909,
+    HASH_SLH_DSA_SHA2_192F_WITH_SHA512(
+            "HashSLH-DSA-SHA2-192f-with-SHA512", "2.16.840.1.101.3.4.3.38"), // RFC9909,
+    HASH_SLH_DSA_SHA2_256S_WITH_SHA512(
+            "HashSLH-DSA-SHA2-256s-with-SHA512", "2.16.840.1.101.3.4.3.39"), // RFC9909,
+    HASH_SLH_DSA_SHA2_256F_WITH_SHA512(
+            "HashSLH-DSA-SHA2-256f-with-SHA512", "2.16.840.1.101.3.4.3.40"), // RFC9909,
+    HASH_SLH_DSA_SHAKE_128S_WITH_SHAKE128(
+            "HashSLH-DSA-SHAKE-128s-with-SHAKE128", "2.16.840.1.101.3.4.3.41"), // RFC9909,
+    HASH_SLH_DSA_SHAKE_128F_WITH_SHAKE128(
+            "HashSLH-DSA-SHAKE-128f-with-SHAKE128", "2.16.840.1.101.3.4.3.42"), // RFC9909,
+    HASH_SLH_DSA_SHAKE_192S_WITH_SHAKE256(
+            "HashSLH-DSA-SHAKE-192s-with-SHAKE256", "2.16.840.1.101.3.4.3.43"), // RFC9909,
+    HASH_SLH_DSA_SHAKE_192F_WITH_SHAKE256(
+            "HashSLH-DSA-SHAKE-192f-with-SHAKE256", "2.16.840.1.101.3.4.3.44"), // RFC9909,
+    HASH_SLH_DSA_SHAKE_256S_WITH_SHAKE256(
+            "HashSLH-DSA-SHAKE-256s-with-SHAKE256", "2.16.840.1.101.3.4.3.45"), // RFC9909
+    HASH_SLH_DSA_SHAKE_256F_WITH_SHAKE256(
+            "HashSLH-DSA-SHAKE-256f-with-SHAKE256", "2.16.840.1.101.3.4.3.46"); // RFC9909
 
     private static final Map<String, X509PublicKeyType> oidMap = new HashMap<>();
 
@@ -65,6 +102,9 @@ public enum X509PublicKeyType {
     }
 
     public boolean canBeUsedWithSignatureAlgorithm(SignatureAlgorithm signatureAlgorithm) {
+        if (isSlhDsa()) {
+            return signatureAlgorithm == SignatureAlgorithm.SLH_DSA;
+        }
         return switch (this) {
             case DH -> false;
             case DSA -> signatureAlgorithm == SignatureAlgorithm.DSA;
@@ -108,7 +148,49 @@ public enum X509PublicKeyType {
         return getMlDsaParameters() != null;
     }
 
+    /**
+     * Returns the SLH-DSA parameter set this public key type refers to, or null if this is not an
+     * SLH-DSA public key type. The pure and the pre-hash (HashSLH-DSA) OIDs of a parameter set map
+     * to the same parameter set.
+     */
+    public SlhDsaParameters getSlhDsaParameters() {
+        return switch (this) {
+            case SLH_DSA_SHA2_128S, HASH_SLH_DSA_SHA2_128S_WITH_SHA256 ->
+                    SlhDsaParameters.SLH_DSA_SHA2_128S;
+            case SLH_DSA_SHA2_128F, HASH_SLH_DSA_SHA2_128F_WITH_SHA256 ->
+                    SlhDsaParameters.SLH_DSA_SHA2_128F;
+            case SLH_DSA_SHA2_192S, HASH_SLH_DSA_SHA2_192S_WITH_SHA512 ->
+                    SlhDsaParameters.SLH_DSA_SHA2_192S;
+            case SLH_DSA_SHA2_192F, HASH_SLH_DSA_SHA2_192F_WITH_SHA512 ->
+                    SlhDsaParameters.SLH_DSA_SHA2_192F;
+            case SLH_DSA_SHA2_256S, HASH_SLH_DSA_SHA2_256S_WITH_SHA512 ->
+                    SlhDsaParameters.SLH_DSA_SHA2_256S;
+            case SLH_DSA_SHA2_256F, HASH_SLH_DSA_SHA2_256F_WITH_SHA512 ->
+                    SlhDsaParameters.SLH_DSA_SHA2_256F;
+            case SLH_DSA_SHAKE_128S, HASH_SLH_DSA_SHAKE_128S_WITH_SHAKE128 ->
+                    SlhDsaParameters.SLH_DSA_SHAKE_128S;
+            case SLH_DSA_SHAKE_128F, HASH_SLH_DSA_SHAKE_128F_WITH_SHAKE128 ->
+                    SlhDsaParameters.SLH_DSA_SHAKE_128F;
+            case SLH_DSA_SHAKE_192S, HASH_SLH_DSA_SHAKE_192S_WITH_SHAKE256 ->
+                    SlhDsaParameters.SLH_DSA_SHAKE_192S;
+            case SLH_DSA_SHAKE_192F, HASH_SLH_DSA_SHAKE_192F_WITH_SHAKE256 ->
+                    SlhDsaParameters.SLH_DSA_SHAKE_192F;
+            case SLH_DSA_SHAKE_256S, HASH_SLH_DSA_SHAKE_256S_WITH_SHAKE256 ->
+                    SlhDsaParameters.SLH_DSA_SHAKE_256S;
+            case SLH_DSA_SHAKE_256F, HASH_SLH_DSA_SHAKE_256F_WITH_SHAKE256 ->
+                    SlhDsaParameters.SLH_DSA_SHAKE_256F;
+            default -> null;
+        };
+    }
+
+    public boolean isSlhDsa() {
+        return getSlhDsaParameters() != null;
+    }
+
     public boolean isEc() {
+        if (isSlhDsa()) {
+            return false;
+        }
         return switch (this) {
             case ECDH_ECDSA,
                     ECDH_ONLY,
