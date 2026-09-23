@@ -93,6 +93,9 @@ public class CertificateIoTest {
                 Arguments.of("/testcerts/ec_secp224r1_cert.pem"),
                 Arguments.of("/testcerts/ec_secp256k1_cert.pem"),
                 Arguments.of("/testcerts/ec_secp384r1_cert.pem"),
-                Arguments.of("/testcerts/ec_secp521r1_cert.pem"));
+                Arguments.of("/testcerts/ec_secp521r1_cert.pem"),
+                Arguments.of("/testcerts/mldsa44_cert.pem"),
+                Arguments.of("/testcerts/mldsa65_cert.pem"),
+                Arguments.of("/testcerts/mldsa87_cert.pem"));
     }
 }

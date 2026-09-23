@@ -135,6 +135,14 @@ public class X509Chooser {
         }
     }
 
+    public byte[] getSubjectMlDsaVerificationKey() {
+        if (context.getSubjectMlDsaVerificationKey() != null) {
+            return context.getSubjectMlDsaVerificationKey();
+        } else {
+            return config.getDefaultSubjectMlDsaVerificationKey();
+        }
+    }
+
     public X509NamedCurve getSubjectNamedCurve() {
         if (context.getSubjectNamedCurve() != null) {
             return context.getSubjectNamedCurve();

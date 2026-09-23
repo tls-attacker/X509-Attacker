@@ -88,6 +88,10 @@ public class PublicKeyBitString extends Asn1BitString implements X509Component {
                 return new X509Ed25519PublicKey();
             case ED448:
                 return new X509Ed448PublicKey();
+            case ML_DSA_44:
+            case ML_DSA_65:
+            case ML_DSA_87:
+                return new X509MlDsaPublicKey(publicKeyType);
             case GOST_R3411_2001:
                 throw new UnsupportedOperationException("GOST_R3411_2001 not supported");
             case GOST_R3411_94:

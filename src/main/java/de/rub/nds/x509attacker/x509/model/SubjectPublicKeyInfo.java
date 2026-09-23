@@ -15,6 +15,7 @@ import de.rub.nds.protocol.crypto.key.DhPublicKey;
 import de.rub.nds.protocol.crypto.key.DsaPublicKey;
 import de.rub.nds.protocol.crypto.key.EcdhPublicKey;
 import de.rub.nds.protocol.crypto.key.EcdsaPublicKey;
+import de.rub.nds.protocol.crypto.key.MlDsaPublicKey;
 import de.rub.nds.protocol.crypto.key.PublicKeyContainer;
 import de.rub.nds.protocol.crypto.key.RsaPublicKey;
 import de.rub.nds.x509attacker.chooser.X509Chooser;
@@ -29,6 +30,7 @@ import de.rub.nds.x509attacker.x509.model.publickey.X509DhPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509DsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhEcdsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509EcdhPublicKey;
+import de.rub.nds.x509attacker.x509.model.publickey.X509MlDsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.X509RsaPublicKey;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.PublicParameters;
 import de.rub.nds.x509attacker.x509.model.publickey.parameters.X509DhParameters;
@@ -114,6 +116,11 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
             case RSASSA_PSS:
                 // leave as null TODO: implement RSASSA parameters
                 break;
+            case ML_DSA_44:
+            case ML_DSA_65:
+            case ML_DSA_87:
+                // RFC9881: the parameters field is absent, not even NULL
+                break;
             default:
                 throw new UnsupportedOperationException(
                         "PublicKeyType: "
@@ -192,6 +199,12 @@ public class SubjectPublicKeyInfo extends Asn1Sequence implements X509Component 
                                 .getParameters();
                 return new EcdhPublicKey(
                         parameters.getGroup().getPoint(xCoordinate, yCoordinate), parameters);
+            case ML_DSA_44:
+            case ML_DSA_65:
+            case ML_DSA_87:
+                return new MlDsaPublicKey(
+                        certificateKeyType.getMlDsaParameters(),
+                        ((X509MlDsaPublicKey) content).getVerificationKeyBytes().getValue());
             case RSA:
                 modulus = ((X509RsaPublicKey) content).getModulus().getValue().getValue();
                 BigInteger publicExponent =

@@ -9,6 +9,7 @@
 package de.rub.nds.x509attacker.constants;
 
 import de.rub.nds.asn1.oid.ObjectIdentifier;
+import de.rub.nds.protocol.constants.MlDsaParameters;
 import de.rub.nds.protocol.constants.SignatureAlgorithm;
 import java.util.HashMap;
 import java.util.Map;
@@ -29,7 +30,10 @@ public enum X509PublicKeyType {
     X25519("X25519", "1.3.101.110"), // RFC8410
     X448("X448", "1.3.101.111"), // RFC8410
     ED25519("Ed25519", "1.3.101.112"), // RFC8410
-    ED448("Ed448", "1.3.101.113"); // RFC8410
+    ED448("Ed448", "1.3.101.113"), // RFC8410
+    ML_DSA_44("ML-DSA-44", "2.16.840.1.101.3.4.3.17"), // RFC9881
+    ML_DSA_65("ML-DSA-65", "2.16.840.1.101.3.4.3.18"), // RFC9881
+    ML_DSA_87("ML-DSA-87", "2.16.840.1.101.3.4.3.19"); // RFC9881
 
     private static final Map<String, X509PublicKeyType> oidMap = new HashMap<>();
 
@@ -81,9 +85,27 @@ public enum X509PublicKeyType {
             case RSASSA_PSS -> signatureAlgorithm == SignatureAlgorithm.RSA_SSA_PSS;
             case X25519 -> false;
             case X448 -> false;
+            case ML_DSA_44, ML_DSA_65, ML_DSA_87 -> signatureAlgorithm == SignatureAlgorithm.ML_DSA;
             case RSAES_OAEP -> throw new UnsupportedOperationException("Not implemented: " + this);
             default -> throw new UnsupportedOperationException("Not implemented: " + this);
         };
+    }
+
+    /**
+     * Returns the ML-DSA parameter set this public key type refers to, or null if this is not an
+     * ML-DSA public key type.
+     */
+    public MlDsaParameters getMlDsaParameters() {
+        return switch (this) {
+            case ML_DSA_44 -> MlDsaParameters.ML_DSA_44;
+            case ML_DSA_65 -> MlDsaParameters.ML_DSA_65;
+            case ML_DSA_87 -> MlDsaParameters.ML_DSA_87;
+            default -> null;
+        };
+    }
+
+    public boolean isMlDsa() {
+        return getMlDsaParameters() != null;
     }
 
     public boolean isEc() {
@@ -99,7 +121,8 @@ public enum X509PublicKeyType {
                     X25519,
                     X448 ->
                     true;
-            case DH, DSA, KEA, RSA, RSAES_OAEP, RSASSA_PSS -> false;
+            case DH, DSA, KEA, ML_DSA_44, ML_DSA_65, ML_DSA_87, RSA, RSAES_OAEP, RSASSA_PSS ->
+                    false;
             default ->
                     throw new UnsupportedOperationException("Not yet implemented: " + this.name());
         };

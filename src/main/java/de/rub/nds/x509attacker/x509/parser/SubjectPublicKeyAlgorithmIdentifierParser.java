@@ -60,6 +60,12 @@ public class SubjectPublicKeyAlgorithmIdentifierParser
             case RSA:
                 parameters = new X509NullParameters("nullParameters");
                 break;
+            case ML_DSA_44:
+            case ML_DSA_65:
+            case ML_DSA_87:
+                // RFC9881: the parameters field is absent, not even NULL
+                LOGGER.debug("{} has no parameters. Not parsing any.", publicKeyType.name());
+                return;
             default:
                 throw new UnsupportedOperationException(
                         String.format(

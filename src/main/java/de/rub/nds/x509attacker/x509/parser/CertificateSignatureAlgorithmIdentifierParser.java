@@ -54,6 +54,11 @@ public class CertificateSignatureAlgorithmIdentifierParser
                 // No parameters, not even null
                 LOGGER.debug("{} has no parameters. Not parsing any.", signatureAlgorithm.name());
                 break;
+            case ML_DSA_44:
+            case ML_DSA_65:
+            case ML_DSA_87:
+                LOGGER.debug("{} has no parameters. Not parsing any.", signatureAlgorithm.name());
+                break;
             case ECDSA_WITH_SHA1:
             case ECDSA_WITH_SHA224:
             case ECDSA_WITH_SHA256:

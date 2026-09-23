@@ -102,7 +102,14 @@ public enum X509SignatureAlgorithm {
             "ecdsa-with-SHA512",
             "1.2.840.10045.4.3.4",
             SignatureAlgorithm.ECDSA,
-            HashAlgorithm.SHA512);
+            HashAlgorithm.SHA512),
+    ML_DSA_44(
+            "ML-DSA-44",
+            "2.16.840.1.101.3.4.3.17",
+            SignatureAlgorithm.ML_DSA,
+            null), // RFC9881, pure ML-DSA hashes internally
+    ML_DSA_65("ML-DSA-65", "2.16.840.1.101.3.4.3.18", SignatureAlgorithm.ML_DSA, null), // RFC9881
+    ML_DSA_87("ML-DSA-87", "2.16.840.1.101.3.4.3.19", SignatureAlgorithm.ML_DSA, null); // RFC9881
 
     private static final Map<String, X509SignatureAlgorithm> oidMap = new HashMap<>();
 

@@ -235,6 +235,13 @@ public class X509CertificateConfig implements Serializable {
 
     private PointFormat defaultEcPointFormat = PointFormat.UNCOMPRESSED;
 
+    /**
+     * The FIPS 204 encoding of the ML-DSA verification key to write into a certificate. There is no
+     * sensible default because X.509-Attacker cannot generate ML-DSA keys yet, so this has to be
+     * set explicitly before an ML-DSA certificate can be prepared.
+     */
+    private byte[] defaultSubjectMlDsaVerificationKey = null;
+
     private X509NamedCurve defaultSubjectNamedCurve = X509NamedCurve.SECP256R1;
 
     private X509NamedCurve defaultIssuerNamedCurve = X509NamedCurve.SECP256R1;
@@ -485,6 +492,14 @@ public class X509CertificateConfig implements Serializable {
 
     public void setDefaultSubjectDsaGenerator(BigInteger defaultSubjectDsaGenerator) {
         this.defaultSubjectDsaGenerator = defaultSubjectDsaGenerator;
+    }
+
+    public byte[] getDefaultSubjectMlDsaVerificationKey() {
+        return defaultSubjectMlDsaVerificationKey;
+    }
+
+    public void setDefaultSubjectMlDsaVerificationKey(byte[] defaultSubjectMlDsaVerificationKey) {
+        this.defaultSubjectMlDsaVerificationKey = defaultSubjectMlDsaVerificationKey;
     }
 
     public X509NamedCurve getDefaultSubjectNamedCurve() {
