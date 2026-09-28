@@ -20,11 +20,17 @@ public class X509Ed448PublicKeyHandler extends X509FieldHandler<X509Ed448PublicK
 
     @Override
     public void adjustContextAfterParse() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterParse'");
+        adjustContext();
     }
 
     @Override
     public void adjustContextAfterPrepare() {
-        throw new UnsupportedOperationException("Unimplemented method 'adjustContextAfterPrepare'");
+        adjustContext();
+        context.setSubjectEd448PrivateKey(config.getDefaultSubjectEd448PrivateKey());
+    }
+
+    public void adjustContext() {
+        context.setSubjectPublicKeyType(de.rub.nds.x509attacker.constants.X509PublicKeyType.ED448);
+        context.setSubjectEd448PublicKey(component.getContent().getValue());
     }
 }

@@ -20,6 +20,12 @@ public class X448PublicKeyPreparator extends X509Asn1FieldPreparator<X509X448Pub
 
     @Override
     protected byte[] encodeContent() {
-        throw new UnsupportedOperationException("Unimplemented method 'encodeContent'");
+        // X448 public keys are 56 bytes
+        byte[] publicKey = chooser.getSubjectX448PublicKey();
+        if (publicKey == null) {
+            publicKey = chooser.getConfig().getDefaultSubjectX448PublicKey();
+        }
+        field.setContent(publicKey);
+        return publicKey;
     }
 }
